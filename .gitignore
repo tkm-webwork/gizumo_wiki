@@ -1,0 +1,12 @@
+node_modules/
+
+public/js/
+public/css/
+
+
+.Trash-*
+.DS_Store
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

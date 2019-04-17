@@ -1,0 +1,20 @@
+@mixin pcContent {
+  margin: 0 auto;
+  padding: 0 20px;
+  max-width: $pcContentWidth;
+  box-sizing: content-box;
+}
+
+@mixin mobileContent {
+  margin: 0 auto;
+  padding: 0 2.5%;
+  width: $mobileContentWidth;
+  box-sizing: content-box;
+}
+
+@mixin hoverOpacity {
+  transition: opacity .5s;
+  &:hover {
+    opacity: .7;
+  }
+}
