@@ -2,7 +2,7 @@
   <div class="wrapper">
     <app-header />
     <div class="content">
-      <app-sidebar v-if="isSignedin" />
+      <app-sidebar v-if="signedIn" />
       <main class="content-main">
         <div class="content-inner">
           <router-view />
@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie';
 import Header from '@Components/globals/Header';
 import Sidebar from '@Components/globals/Sidebar';
 
@@ -22,9 +23,15 @@ export default {
     appSidebar: Sidebar,
   },
   computed: {
-    isSignedin() {
-      return this.$store.state.auth.isSignedin;
+    signedIn() {
+      return this.$store.state.auth.signedIn;
     },
+  },
+  created() {
+    const token = Cookies.get('user-token');
+    if (token) {
+      this.$store.dispatch('checkAuth', { token });
+    }
   },
 };
 </script>

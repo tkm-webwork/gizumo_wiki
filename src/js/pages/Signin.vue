@@ -7,7 +7,7 @@
         name="username"
         input-type="text"
         input-required="true"
-        :input-value="usernameValue"
+        :input-value="username"
         @update:username="updateValue"
       />
     </div>
@@ -17,8 +17,8 @@
         label="パスワード"
         name="password"
         input-type="password"
-        input-require="true"
-        :input-value="passwordValue"
+        input-required="true"
+        :input-value="password"
         @update:password="updateValue"
       />
     </div>
@@ -31,17 +31,17 @@
 
     <div class="login-button">
       <app-button
-        text="サインイン"
+        :text="loading ? 'サインイン中です...' : 'サインイン'"
         class-name="login-button"
         button-type="button"
-        @submitSignin="submitSignin"
+        @submitSignin="signIn"
       />
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import Cookies from 'js-cookie';
 import InputText from '@Components/atoms/InputText';
 import Button from '@Components/atoms/Button';
 import Text from '@Components/atoms/Text';
@@ -52,26 +52,39 @@ export default {
     appButton: Button,
     appText: Text,
   },
-  computed: mapState({
-    usernameValue: state => state.auth.username,
-    passwordValue: state => state.auth.password,
-    errorMessage: state => state.auth.errorMessage,
-  }),
+  data() {
+    return {
+      username: '',
+      password: '',
+    };
+  },
+  computed: {
+    loading() {
+      return this.$store.state.auth.loading;
+    },
+    errorMessage() {
+      return this.$store.state.auth.errorMessage;
+    },
+  },
+  created() {
+    const token = Cookies.get('user-token');
+    if (token) {
+      this.$router.push(this.$route.query.redirect || '/');
+    } else {
+      this.$store.dispatch('signOut');
+    }
+  },
   methods: {
     updateValue($event) {
-      this.$store.dispatch({
-        type: 'updateValue',
-        name: $event.target.name,
-        value: $event.target.value,
-      });
+      this[$event.target.name] = $event.target.value;
     },
-    submitSignin() {
+    signIn() {
       this.$store.dispatch({
-        type: 'submitSignin',
-        username: this.$store.state.auth.username,
-        password: this.$store.state.auth.password,
+        type: 'signIn',
+        username: this.username,
+        password: this.password,
       }).then(() => {
-        this.$router.push(this.$route.query.redirect);
+        this.$router.push(this.$route.query.redirect || '/');
       });
     },
   },
