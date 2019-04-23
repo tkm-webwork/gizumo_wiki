@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="login">
     <div class="login-form">
-      <app-input-text
+      <app-input
         class-name="login-input"
         label="ユーザー名"
         name="username"
@@ -13,7 +13,7 @@
       />
     </div>
     <div class="login-form">
-      <app-input-text
+      <app-input
         class-name="login-input"
         label="パスワード"
         name="password"
@@ -44,13 +44,11 @@
 
 <script>
 import Cookies from 'js-cookie';
-import InputText from '@Components/atoms/InputText';
-import Button from '@Components/atoms/Button';
-import Text from '@Components/atoms/Text';
+import { Input, Button, Text } from '@Components/atoms';
 
 export default {
   components: {
-    appInputText: InputText,
+    appInput: Input,
     appButton: Button,
     appText: Text,
   },

@@ -14,8 +14,7 @@
 
 <script>
 import Cookies from 'js-cookie';
-import Header from '@Components/globals/Header';
-import Sidebar from '@Components/globals/Sidebar';
+import { Header, Sidebar } from '@Components/globals';
 
 export default {
   components: {

@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import ListItem from '@Components/atoms/ListItem';
+import { ListItem } from '@Components/atoms';
 
 export default {
   components: {

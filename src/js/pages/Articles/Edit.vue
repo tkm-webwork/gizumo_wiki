@@ -3,9 +3,8 @@
     <section class="article-edit-editor">
       <app-heading text="記事更新・追加" :level="1" />
       <div class="article-edit-form">
-        <app-input-text
+        <app-input
           class-name="article-edit-title"
-          label="タイトル"
           name="title"
           type="text"
           placeholder="記事のタイトルを入力してください。"
@@ -18,7 +17,6 @@
       <div class="article-edit-form">
         <app-textarea
           class-name="article-edit-content"
-          label="本文"
           name="content"
           placeholder="記事の本文をマークダウン記法で入力してください。"
           :required="true"
@@ -37,15 +35,13 @@
 </template>
 
 <script>
-import Heading from '@Components/atoms/Heading';
-import InputText from '@Components/atoms/InputText';
-import Textarea from '@Components/atoms/Textarea';
-import MarkdownView from '@Components/molecules/MarkdownView';
+import { Heading, Input, Textarea } from '@Components/atoms';
+import { MarkdownView } from '@Components/molecules';
 
 export default {
   components: {
     appHeading: Heading,
-    appInputText: InputText,
+    appInput: Input,
     appTextarea: Textarea,
     appMarkdownView: MarkdownView,
   },

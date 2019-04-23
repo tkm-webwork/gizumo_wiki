@@ -1,12 +1,14 @@
 <template lang="html">
-  <p>
-    {{ text }}
-  </p>
+  <p :class="className">{{ text }}</p>
 </template>
 
 <script>
 export default {
   props: {
+    className: {
+      type: String,
+      default: 'text',
+    },
     text: {
       type: String,
       default: '',

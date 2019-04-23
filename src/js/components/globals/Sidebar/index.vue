@@ -1,6 +1,6 @@
 <template lang="html">
   <aside class="sidebar">
-    <app-list
+    <app-sidebar-list
       class-name="sidebar-list"
       :target-array="routeLinksArray"
     />
@@ -9,11 +9,11 @@
 
 <script>
 import routeLinksArray from '@Helpers/routeLinksArray';
-import List from '@Components/molecules/ListSidebar';
+import { SidebarList } from '@Components/molecules';
 
 export default {
   components: {
-    appList: List,
+    appSidebarList: SidebarList,
   },
   computed: {
     routeLinksArray() {
