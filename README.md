@@ -46,10 +46,11 @@
 | トップ | `/` |
 | ログイン（ログイン不要） | `/signin` |
 | カテゴリー一覧  | `/category` |
-| 記事一覧（すべて && カテゴリー） | `/:category/articles` |
-| 記事詳細 | `/:category/articles/:id` |
-| 更新 | `/:category/articles/:id/edit` |
-| 投稿 | `/:category/articles/post` |
+| 記事一覧（すべて） | `/articles` |
+| 記事一覧（カテゴリー） | `/articles?=:category` |
+| 記事詳細 | `/articles/:id` |
+| 更新 | `/articles/:id/edit` |
+| 投稿 | `/articles/post` |
 | ユーザー一覧 | `/users` |
 | ユーザー個別 | `/users/:id` |
 | ユーザー作成 | `/users/create` |

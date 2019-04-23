@@ -1,15 +1,14 @@
 <template lang="html">
-  <div class="inputText">
-    <p class="inputText-label">{{ label }}</p>
-    <input
-      :class="['inputText-input', className]"
+  <div class="textarea">
+    <p class="textarea-label">{{ label }}</p>
+    <textarea
+      :class="['textarea-content', className]"
       :name="name"
-      :type="type"
-      :placeholder="placeholder"
+      rows="8"
       :required="required"
-      :value="value"
+      :placeholder="placeholder"
       @input="$emit('updateValue', $event)"
-    >
+    />
   </div>
 </template>
 
@@ -28,10 +27,6 @@ export default {
       type: String,
       default: 'inputName',
     },
-    type: {
-      type: String,
-      default: 'text',
-    },
     placeholder: {
       type: String,
       default: '入力してください',
@@ -49,25 +44,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.inputText {
+.textarea {
   &-label {
     font-weight: bold;
     font-size: 18px;
   }
-  &-input {
+  &-content {
+    display: block;
     margin-top: 5px;
     padding: 10px;
     width: 100%;
     font-size: 16px;
-    &.login-input,
-    &.article-edit-title {
-      border-bottom: 1px solid #ccc;
-      transition: all .5s;
-      &:focus {
-        border-bottom-color: $keycolor;
-      }
+    border: 1px solid #ccc;
+    transition: all .5s;
+    &:focus {
+      border-color: $keycolor;
     }
-    &.article-edit-title {
+    &.article-edit-content {
+      height: 500px;
       background-color: #fff;
     }
   }

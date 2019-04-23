@@ -5,10 +5,11 @@
         class-name="login-input"
         label="ユーザー名"
         name="username"
-        input-type="text"
-        input-required="true"
-        :input-value="username"
-        @update:username="updateValue"
+        type="text"
+        placeholder="user name"
+        :required="true"
+        :value="username"
+        @updateValue="updateValue"
       />
     </div>
     <div class="login-form">
@@ -16,10 +17,11 @@
         class-name="login-input"
         label="パスワード"
         name="password"
-        input-type="password"
-        input-required="true"
-        :input-value="password"
-        @update:password="updateValue"
+        type="password"
+        placeholder="password"
+        :required="true"
+        :value="password"
+        @updateValue="updateValue"
       />
     </div>
 
@@ -34,7 +36,7 @@
         :text="loading ? 'サインイン中です...' : 'サインイン'"
         class-name="login-button"
         button-type="button"
-        @submitSignin="signIn"
+        @click="signIn"
       />
     </div>
   </div>

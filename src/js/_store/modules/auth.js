@@ -17,16 +17,19 @@ export default {
       state.errorMessage = '';
     },
     signInSuccess(state, { username, token }) {
+      Cookies.set('user-token', token, { expires: 10 });
       state.loading = false;
       state.signedIn = true;
       state.user.name = username;
       state.token = token;
     },
     signInFailure(state, payload) {
+      Cookies.remove('user-token');
       state.loading = false;
       state.errorMessage = payload.errorMessage;
     },
     signOut(state) {
+      Cookies.remove('user-token');
       state.loading = false;
       state.signedIn = false;
       state.user.name = '';
@@ -54,11 +57,9 @@ export default {
         return setTimeout(() => {
           if (username === 'user' && password === 'test') {
             const token = 'tokenString';
-            Cookies.set('user-token', token, { expires: 10 });
             commit('signInSuccess', { username, token });
             return resolve();
           }
-          Cookies.remove('user-token');
           commit('signinFailure', {
             errorMessage: 'ユーザーが存在しません。ユーザー名とパスワードをご確認ください。',
           });

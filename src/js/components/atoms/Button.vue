@@ -2,7 +2,7 @@
   <button
     :class="['button', className]"
     :type="buttonType"
-    @click="$emit('submitSignin')"
+    @click="$emit('click')"
   >
     {{ text }}
   </button>

@@ -25,8 +25,12 @@ export default {
 
 <style lang="scss" scoped>
 .sidebar {
+  position: fixed;
+  top: $headerHight;
+  left: 0;
   padding: 10px;
-  min-width: 200px;
+  width: $sidebarWidth;
+  height: 100%;
   color: #fff;
   text-align: center;
   background-color: $darkerColor;

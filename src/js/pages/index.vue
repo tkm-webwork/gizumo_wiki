@@ -39,15 +39,15 @@ export default {
 <style lang="scss" scoped>
 .content {
   display: flex;
-  margin-top: $headerHight;
-  height: calc(100vh - #{$headerHight});
+  padding-top: $headerHight;
+  height: 100vh;
   &-main {
+    padding-left: $sidebarWidth;
     width: 100%;
   }
   &-inner {
-    margin: 0 auto;
-    padding: 20px 0;
-    width: 95%;
+    padding: 20px;
+    height: 100%;
   }
 }
 </style>
