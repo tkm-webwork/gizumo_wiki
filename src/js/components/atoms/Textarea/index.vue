@@ -1,6 +1,6 @@
 <template lang="html">
   <textarea
-    :class="['textarea', className]"
+    :class="classes"
     :name="name"
     rows="8"
     :required="required"
@@ -12,10 +12,6 @@
 <script>
 export default {
   props: {
-    className: {
-      type: String,
-      default: '',
-    },
     name: {
       type: String,
       default: 'inputName',
@@ -32,25 +28,39 @@ export default {
       type: String,
       default: '',
     },
+    whiteBg: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    classes() {
+      return {
+        textarea: true,
+        'textarea--white-bg': this.whiteBg,
+      };
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+// Defaultスタイル
 .textarea {
   display: block;
   margin-top: 5px;
   padding: 10px;
   width: 100%;
+  height: 500px;
   font-size: 16px;
   border: 1px solid #ccc;
   transition: all .5s;
   &:focus {
     border-color: $keycolor;
   }
-  &.article-edit-content {
-    height: 500px;
-    background-color: #fff;
-  }
+}
+
+.textarea--white-bg {
+  background-color: #fff;
 }
 </style>

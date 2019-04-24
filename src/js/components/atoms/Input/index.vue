@@ -1,6 +1,6 @@
 <template lang="html">
   <input
-    :class="['input', className]"
+    :class="classes"
     :name="name"
     :type="type"
     :placeholder="placeholder"
@@ -13,10 +13,6 @@
 <script>
 export default {
   props: {
-    className: {
-      type: String,
-      default: '',
-    },
     name: {
       type: String,
       default: 'inputName',
@@ -37,26 +33,37 @@ export default {
       type: String,
       default: '',
     },
+    whiteBg: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    classes() {
+      return {
+        input: true,
+        'input--white-bg': this.whiteBg,
+      };
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+// Defaultスタイル
 .input {
   margin-top: 5px;
   padding: 10px;
   width: 100%;
   font-size: 16px;
-  &.login-input,
-  &.article-edit-title {
-    border-bottom: 1px solid #ccc;
-    transition: all .5s;
-    &:focus {
-      border-bottom-color: $keycolor;
-    }
+  border-bottom: 1px solid #ccc;
+  transition: all .5s;
+  &:focus {
+    border-bottom-color: $keycolor;
   }
-  &.article-edit-title {
-    background-color: #fff;
-  }
+}
+
+.input--white-bg {
+  background-color: #fff;
 }
 </style>

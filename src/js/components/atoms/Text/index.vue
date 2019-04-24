@@ -1,24 +1,31 @@
 <template lang="html">
-  <p :class="className">{{ text }}</p>
+  <p :class="classes"><slot /></p>
 </template>
 
 <script>
 export default {
   props: {
-    className: {
-      type: String,
-      default: 'text',
+    error: {
+      type: Boolean,
+      default: false,
     },
-    text: {
-      type: String,
-      default: '',
+  },
+  computed: {
+    classes() {
+      return {
+        text: true,
+        'text--error': this.error,
+      };
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-p {
+// Defaultスタイル
+.text {
   font-size: 16px;
 }
+
+// Unique（For Props）スタイル
 </style>

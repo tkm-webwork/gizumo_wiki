@@ -1,24 +1,22 @@
 <template lang="html">
-  <div>
-    <component
-      :is="tag"
-      :class="defaultClass"
-    >
-      {{ text }}
-    </component>
-  </div>
+  <component
+    :is="tag"
+    :class="[className || defaultClass]"
+  >
+    <slot />
+  </component>
 </template>
 
 <script>
 export default {
   props: {
-    text: {
-      type: String,
-      default: 'タイトル',
-    },
     level: {
       type: Number,
       default: 1,
+    },
+    className: {
+      type: String,
+      default: '',
     },
   },
   computed: {
@@ -28,19 +26,19 @@ export default {
     defaultClass() {
       switch (this.level) {
         case 1:
-          return 'heading-primary';
+          return 'heading--primary';
         case 2:
-          return 'heading-secondary';
+          return 'heading--secondary';
         case 3:
-          return 'heading-tertiary';
+          return 'heading--tertiary';
         case 4:
-          return 'heading-quaternary';
+          return 'heading--quaternary';
         case 5:
-          return 'heading-quinary';
+          return 'heading--quinary';
         case 6:
-          return 'heading-senary';
+          return 'heading--senary';
         default:
-          return 'invalid-level';
+          return '';
       }
     },
   },
@@ -48,17 +46,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.heading-primary {
+// Defaultスタイル
+.heading--primary {
+  padding: 5px;
   padding-left: 15px;
-  padding-top: 5px;
-  padding-bottom: 5px;
   font-size: 24px;
   border-left: 5px solid $keycolor;
   background-color: #fff;
 }
-.heading-secondary {}
-.heading-tertiary {}
-.heading-quaternary {}
-.heading-quinary {}
-.heading-senary {}
+.heading--secondary {}
+.heading--tertiary {}
+.heading--quaternary {}
+.heading--quinary {}
+.heading--senary {}
+
+// Unique（For Props）スタイル
+.header__title {
+  font-size: 20px;
+  color: #fff;
+}
 </style>

@@ -1,42 +1,77 @@
 <template lang="html">
   <button
-    :class="['button', className]"
+    :class="classes"
     :type="buttonType"
     @click="$emit('click')"
   >
-    {{ text }}
+    <slot />
   </button>
 </template>
 
 <script>
 export default {
   props: {
-    text: {
-      type: String,
-      default: 'ボタン',
-    },
-    className: {
-      type: String,
-      default: '',
-    },
     buttonType: {
       type: String,
       default: 'button',
+    },
+    desplay: {
+      type: Boolean,
+      default: false,
+    },
+    large: {
+      type: Boolean,
+      default: false,
+    },
+    small: {
+      type: Boolean,
+      default: false,
+    },
+    round: {
+      type: Boolean,
+      default: false,
+    },
+    error: {
+      type: Boolean,
+      default: false,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+    caution: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    classes() {
+      return {
+        button: true,
+        'button--block': this.block,
+        'button--large': this.large,
+        'button--small': this.small,
+        'button--round': this.round,
+        'button--error': this.error,
+        'button--disabled': this.disabled,
+        'button--caution': this.caution,
+      };
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+// Defaultスタイル
 .button {
-  padding: 10px 15px;
-  width: 100%;
-  font-weight: bold;
+  padding: 10px 20px;
+  display: inline-block;
   font-size: 16px;
   color: #fff;
   background-color: $keycolor;
-  &.login-button {
-    @include hoverOpacity;
-  }
+  @include hoverOpacity;
+}
+.button--disabled {
+  background-color: $disabledColor;
 }
 </style>

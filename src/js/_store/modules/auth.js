@@ -60,7 +60,7 @@ export default {
             commit('signInSuccess', { username, token });
             return resolve();
           }
-          commit('signinFailure', {
+          commit('signInFailure', {
             errorMessage: 'ユーザーが存在しません。ユーザー名とパスワードをご確認ください。',
           });
           return reject(new Error('エラーですよ'));

@@ -29,6 +29,7 @@
       "code": 90,
       "ignoreComments": true,
       "ignoreTrailingComments": true,
+      "ignoreTemplateLiterals": true,
       "ignoreUrls": true
     }],
     "no-irregular-whitespace": [

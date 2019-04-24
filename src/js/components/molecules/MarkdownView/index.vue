@@ -1,6 +1,6 @@
 <template lang="html">
   <div
-    class="markdown-view"
+    :class="classes"
     v-html="marked"
   />
 </template>
@@ -14,8 +14,18 @@ export default {
       type: String,
       default: '',
     },
+    whiteBg: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
+    classes() {
+      return {
+        'markdown-view': true,
+        'markdown-view--white-bg': this.whiteBg,
+      };
+    },
     marked() {
       marked.setOptions({
         renderer: new marked.Renderer(),
@@ -37,4 +47,10 @@ export default {
 .markdown-view {
   padding: 10px;
 }
+.markdown-view--white-bg {
+  background-color: #fff;
+}
+
+// マークダウンの中身のスタイル
+
 </style>

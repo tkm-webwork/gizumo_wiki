@@ -4,23 +4,27 @@
       v-for="item in targetArray"
       :key="item.id"
     >
-      <router-link
+      <app-router-link
         :to="item.path"
-        class="sidebar-list-link"
         exact-active-class="is-active"
+        block
+        large
+        white
+        round
       >
         {{ item.name }}
-      </router-link>
+      </app-router-link>
     </app-list-item>
   </ul>
 </template>
 
 <script>
-import { ListItem } from '@Components/atoms';
+import { ListItem, RouterLink } from '@Components/atoms';
 
 export default {
   components: {
     appListItem: ListItem,
+    appRouterLink: RouterLink,
   },
   props: {
     className: {
@@ -36,20 +40,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.sidebar-list {
-  & > li {
-  }
-  &-link {
-    padding: 7px;
-    width: 100%;
-    color: #fff;
-    border-radius: 5px;
-    transition: all .5s;
-    &.is-active {
-      color: $darkerColor;
-      font-weight: bold;
-      background-color: #fff;
-    }
-  }
-}
 </style>

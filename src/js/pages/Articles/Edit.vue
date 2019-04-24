@@ -1,14 +1,14 @@
 <template lang="html">
   <div class="article-edit">
     <section class="article-edit-editor">
-      <app-heading text="記事更新・追加" :level="1" />
+      <app-heading :level="1">記事更新・追加</app-heading>
       <div class="article-edit-form">
         <app-input
-          class-name="article-edit-title"
           name="title"
           type="text"
           placeholder="記事のタイトルを入力してください。"
-          :required="true"
+          required
+          white-bg
           :value="title"
           @updateValue="updateValue"
         />
@@ -16,21 +16,21 @@
 
       <div class="article-edit-form">
         <app-textarea
-          class-name="article-edit-content"
           name="content"
           placeholder="記事の本文をマークダウン記法で入力してください。"
-          :required="true"
+          required
+          white-bg
           :value="content"
           @updateValue="updateValue"
         />
       </div>
     </section>
 
-    <section class="article-edit-preview">
+    <article class="article-edit-preview">
       <app-markdown-view
         :markdown-content="markdownContent"
       />
-    </section>
+    </article>
   </div>
 </template>
 

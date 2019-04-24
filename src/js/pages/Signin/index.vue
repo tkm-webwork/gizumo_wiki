@@ -2,24 +2,20 @@
   <div class="login">
     <div class="login-form">
       <app-input
-        class-name="login-input"
-        label="ユーザー名"
         name="username"
         type="text"
         placeholder="user name"
-        :required="true"
+        required
         :value="username"
         @updateValue="updateValue"
       />
     </div>
     <div class="login-form">
       <app-input
-        class-name="login-input"
-        label="パスワード"
         name="password"
         type="password"
         placeholder="password"
-        :required="true"
+        required
         :value="password"
         @updateValue="updateValue"
       />
@@ -27,17 +23,24 @@
 
     <template v-if="errorMessage">
       <div class="login-error">
-        <app-text :text="errorMessage" />
+        <app-text>{{ errorMessage }}</app-text>
       </div>
     </template>
 
     <div class="login-button">
       <app-button
-        :text="loading ? 'サインイン中です...' : 'サインイン'"
         class-name="login-button"
         button-type="button"
+        :disabled="loading ? true : false"
         @click="signIn"
-      />
+      >
+        <template v-if="loading">
+          <span>サインイン中です...</span>
+        </template>
+        <template v-else>
+          <span>サインイン</span>
+        </template>
+      </app-button>
     </div>
   </div>
 </template>

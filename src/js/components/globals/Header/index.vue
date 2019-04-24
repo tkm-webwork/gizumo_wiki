@@ -1,12 +1,20 @@
 <template lang="html">
   <header class="header">
-    <p>MENUを開く</p>
-    <h1>Gizumo Wiki</h1>
+    <app-router-link>MENUを開く</app-router-link>
+    <app-heading class-name="header__title">
+      Gizumo Wiki
+    </app-heading>
   </header>
 </template>
 
 <script>
+import { Heading, RouterLink } from '@Components/atoms';
+
 export default {
+  components: {
+    appHeading: Heading,
+    appRouterLink: RouterLink,
+  },
 };
 </script>
 
@@ -20,7 +28,6 @@ export default {
   align-items: center;
   padding: 10px 20px;
   width: 100%;
-  color: #fff;
   background-color: $keycolor;
 }
 </style>
