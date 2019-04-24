@@ -11,7 +11,7 @@
     "delete": "pm2 delete dev_Gizumo_wiki",
     "show": "pm2 show dev_Gizumo_wiki",
     "list": "pm2 list",
-    "dev:storybook": "start-storybook -c ./tools/storybook/config/ -p 6006"
+    "dev:storybook": "start-storybook -c ./tools/.storybook/config/ -p 6006"
   },
   "browserslist": [
     "last 2 version",
@@ -38,6 +38,9 @@
   },
   "devDependencies": {
     "@storybook/addon-actions": "^5.0.10",
+    "@storybook/addon-backgrounds": "^5.0.10",
+    "@storybook/addon-knobs": "^5.0.10",
+    "@storybook/addon-notes": "^5.0.10",
     "@storybook/vue": "^5.0.10",
     "autoprefixer": "^9.4.7",
     "babel-eslint": "^10.0.1",
