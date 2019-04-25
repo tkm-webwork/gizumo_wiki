@@ -16,15 +16,19 @@
 │   │   ├── components/
 │   │   │   ├── atoms/
 │   │   │   │   ├── ...
-│   │   │   │   └── Button.vue
+│   │   │   │   ├── Button/
+│   │   │   │   └── index.vue
 │   │   │   ├── globals/
 │   │   │   │   ├── ...
-│   │   │   │   └── Header.vue
+│   │   │   │   ├── Header/
+│   │   │   │   └── index.vue
 │   │   │   └── molecules/
 │   │   │       ├── ...
-│   │   │       └── ListSidebar.vue
+│   │   │       ├── MarkdownView/
+│   │   │       └── index.vue
 │   │   └── pages/
 │   │       ├── ...
+│   │       ├── Signin/
 │   │       └── index.vue
 │   └── scss/
 └── webpack.config.babel.js
@@ -83,7 +87,7 @@ npm run publish
 - Vue Router: <a href="https://router.vuejs.org/ja/" target="_blank">https://router.vuejs.org/ja/</a>
 - Vuex: <a href="https://vuex.vuejs.org/ja/" target="_blank">https://vuex.vuejs.org/ja/</a>
 - Express (v4.16.4): <a href="https://expressjs.com/ja/" target="_blank">https://expressjs.com/ja/</a>
-- PM2 (v3.5.0): <a href="http://pm2.keymetrics.io/" target="_blank">http://pm2.keymetrics.io/</a>
+- PM2 (v3.5.0): <a href="https://nodemon.io/" target="_blank">http://pm2.keymetrics.io/</a>（本番のNode起動）
 - コンポーネントガイド
 - テスト
 

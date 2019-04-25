@@ -1,6 +1,8 @@
 import { VueLoaderPlugin } from 'vue-loader';
 import path from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import WebpackNotifierPlugin from 'webpack-notifier';
+const CopyPlugin = require('copy-webpack-plugin');
 
 const nodeEnv = process.env.NODE_ENV || 'development';
 const isDev = nodeEnv === 'development';
@@ -24,7 +26,14 @@ const config = {
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
       filename: 'css/[name].css'
-    })
+    }),
+    new WebpackNotifierPlugin({
+      excludeWarnings: true,
+      title: 'Gizumo Wiki'
+    }),
+    new CopyPlugin([
+      { from: 'src/fonts', to: 'public/fonts' },
+    ]),
   ],
   devServer: {
     open: true,

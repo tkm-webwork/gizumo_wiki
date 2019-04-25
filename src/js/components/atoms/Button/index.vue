@@ -15,7 +15,7 @@ export default {
       type: String,
       default: 'button',
     },
-    desplay: {
+    block: {
       type: Boolean,
       default: false,
     },
@@ -70,6 +70,10 @@ export default {
   color: #fff;
   background-color: $keycolor;
   @include hoverOpacity;
+}
+.button--block {
+  display: block;
+  width: 100%;
 }
 .button--disabled {
   background-color: $disabledColor;

@@ -34,5 +34,6 @@ export default {
   color: #fff;
   text-align: center;
   background-color: $darkerColor;
+  z-index: index($z, 'sidebar');
 }
 </style>
