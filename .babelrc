@@ -1,12 +1,17 @@
 {
   "presets": [
-    [
-      "@babel/preset-env",
-      {
-        "useBuiltIns": "usage",
-        "corejs": 3
-      }
-    ]
+    ["@babel/env", {
+      "targets": {
+        "node": "current",
+        "browsers": [
+          "last 2 chrome versions",
+          "last 2 Firefox versions",
+          "> 1%"
+        ]
+      },
+      "useBuiltIns": "usage",
+      "corejs": 3
+    }],
   ],
   "plugins": [
     [
@@ -19,5 +24,11 @@
         }
       }
     ]
-  ]
+  ],
+  "env": {
+    "test": {
+      "presets": ["power-assert"],
+      "plugins": ["babel-plugin-espower"]
+    }
+  }
 }
