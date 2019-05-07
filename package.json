@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "test": "jest",
+    "test:watch": "jest --watchAll",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --color",
     "build": "cross-env rimraf ./public/css ./public/js && NODE_ENV=production webpack --progress",
     "publish": "pm2 start --image-name dev_Gizumo_wiki",
