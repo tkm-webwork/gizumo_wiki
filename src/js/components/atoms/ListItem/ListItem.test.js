@@ -24,7 +24,7 @@ describe('List Item', () => {
   });
 
   it('is a input tag', () => {
-    assert.equal(wrapper.contains('li'), true);
+    assert.equal(wrapper.is('li'), true);
   });
 
   it('has a only "list-item" class', () => {

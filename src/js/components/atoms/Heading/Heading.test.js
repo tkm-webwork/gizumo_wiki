@@ -26,7 +26,7 @@ describe('Heading', () => {
   });
 
   it('is a h1 tag', () => {
-    assert.equal(wrapper.contains('h1'), true);
+    assert.equal(wrapper.is('h1'), true);
   });
 
   it('has text in slot', () => {
@@ -45,7 +45,7 @@ describe('Heading with props', () => {
   });
 
   it('is a h2 tag', () => {
-    assert.equal(wrapper.contains('h2'), true);
+    assert.equal(wrapper.is('h2'), true);
   });
 
   it('has a class of className props', () => {

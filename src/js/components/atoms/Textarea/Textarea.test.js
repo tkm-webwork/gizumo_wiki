@@ -1,16 +1,16 @@
 import assert from 'assert';
 import { shallowMount } from '@vue/test-utils';
-import { Input } from '@Components/atoms';
+import { Textarea } from '@Components/atoms';
 
 const factory = (propsData) => {
-  return shallowMount(Input, {
+  return shallowMount(Textarea, {
     propsData: {
       ...propsData
     },
   });
 };
 
-describe('Input', () => {
+describe('Textarea', () => {
   let wrapper;
   beforeEach(() => {
     wrapper = factory();
@@ -20,23 +20,22 @@ describe('Input', () => {
     assert.equal(wrapper.isVueInstance(), true);
   });
 
-  it('is a input tag', () => {
-    assert.equal(wrapper.is('input'), true);
+  it('is a textarea tag', () => {
+    assert.equal(wrapper.is('textarea'), true);
   });
 
   it('has a default value', () => {
     assert.equal(wrapper.element.value, '');
   });
 
-  it('has default attributes', () => {
-    assert.equal(wrapper.attributes('type'), 'text');
+  it('has a default attributes', () => {
     assert.equal(wrapper.attributes('name'), 'inputName');
     assert.equal(wrapper.attributes('placeholder'), '入力してください');
     assert.equal(wrapper.attributes('required'), 'required');
   });
 
   it('has only "input" class', () => {
-    assert.equal(wrapper.classes(), 'input');
+    assert.equal(wrapper.classes(), 'textarea');
   });
 });
 
@@ -44,8 +43,7 @@ describe('Input with props', () => {
   let wrapper;
   beforeEach(() => {
     wrapper = factory({
-      name: 'testInput',
-      type: 'email',
+      name: 'testTextarea',
       placeholder: 'テスト',
       required: false,
       value: 'テスト',
@@ -58,20 +56,19 @@ describe('Input with props', () => {
   });
 
   it('has props attributes', () => {
-    assert.equal(wrapper.attributes('type'), 'email');
-    assert.equal(wrapper.attributes('name'), 'testInput');
+    assert.equal(wrapper.attributes('name'), 'testTextarea');
     assert.equal(wrapper.attributes('placeholder'), 'テスト');
     assert.equal(wrapper.attributes('required'), undefined);
   });
 
   it('has props classes', () => {
     assert.deepEqual(wrapper.classes(), [
-      'input',
-      'input--white-bg',
+      'textarea',
+      'textarea--white-bg',
     ]);
   });
 
-  it('has emitted "input" event when input value was changed', () => {
+  it('has emitted "input" event when textarea value was changed', () => {
     wrapper.trigger('input');
     assert.ok(wrapper.emitted().updateValue);
   });

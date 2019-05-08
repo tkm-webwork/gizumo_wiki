@@ -26,10 +26,10 @@ describe('Button', () => {
   });
 
   it('is a button tag', () => {
-    assert.equal(wrapper.contains('button'), true);
+    assert.equal(wrapper.is('button'), true);
   });
 
-  it('has a default type attribute', () => {
+  it('has a default attribute', () => {
     assert.equal(wrapper.attributes('type'), 'button');
   });
 
@@ -58,7 +58,7 @@ describe('Button with props', () => {
     });
   });
 
-  it('has type attributes of props handed', () => {
+  it('has a props attribute', () => {
     assert.equal(wrapper.attributes('type'), 'submit');
   });
 
