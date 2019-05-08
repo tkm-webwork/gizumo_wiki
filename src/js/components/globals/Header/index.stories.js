@@ -1,12 +1,12 @@
 import { storiesOf } from '@storybook/vue';
-import { withNotes } from '@storybook/addon-notes';
+import storyRouter from 'storybook-vue-router';
 
 import note from './README.md';
 
 storiesOf('GLOBALS|Header', module)
-  .addDecorator(withNotes)
+  .addDecorator(storyRouter())
   .add('default', () => {
     return {
-      template: '<app-header />'
+      template: `<app-header></app-header>`,
     }
   }, { notes: note });

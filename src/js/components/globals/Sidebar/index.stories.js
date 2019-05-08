@@ -1,5 +1,4 @@
 import { storiesOf } from '@storybook/vue';
-import { withNotes } from '@storybook/addon-notes';
 import storyRouter from 'storybook-vue-router';
 
 import note from './README.md';
@@ -29,7 +28,6 @@ const routeLinksArray = [
 
 storiesOf('GLOBALS|Sidebar', module)
   .addDecorator(storyRouter())
-  .addDecorator(withNotes)
   .add('default', () => {
     return {
       template: `<app-sidebar 

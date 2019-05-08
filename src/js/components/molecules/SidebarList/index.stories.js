@@ -1,9 +1,13 @@
 import { storiesOf } from '@storybook/vue';
 import { withKnobs, text, select } from '@storybook/addon-knobs';
-import { withNotes } from '@storybook/addon-notes';
 import storyRouter from 'storybook-vue-router';
-
 import note from './README.md';
+
+const classNameDefaultValue = 'none';
+
+const classNameOptions = {
+  'none': '',
+}
 
 const targetArray = [
   {
@@ -28,22 +32,16 @@ const targetArray = [
   },
 ]
 
-const classNameDefaultValue = 'none';
-
-const classNameOptions = {
-  'none': '',
-};
-
-storiesOf('MOLECULES|ListSidebar', module)
+storiesOf('MOLECULES|SidebarList', module)
   .addDecorator(storyRouter())
   .addDecorator(withKnobs)
   .add('default', () => {
     return {
-      render: h => h('list-sidebar', {
+      render: h => h('app-sidebar-list', {
         props: {
           targetArray: targetArray,
-          className: select('className', classNameOptions, classNameDefaultValue),
-        }
+          className: 'sidebar-list',
+        },
       }),
     }
   }, { notes: note });
