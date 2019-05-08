@@ -19,14 +19,16 @@ const factory = (propsData, slots) => {
 describe('Router Link', () => {
   let wrapper;
   beforeEach(() => {
-    wrapper = factory();
+    wrapper = factory(null, {
+      default: '<span>router link</span>',
+    });
   });
 
   it('is a Vue instance', () => {
     assert.equal(wrapper.isVueInstance(), true);
   });
 
-  it('is a a tag', () => {
+  it('is a anchor tag', () => {
     assert.equal(wrapper.contains(RouterLinkStub), true);
   });
 
@@ -39,18 +41,44 @@ describe('Router Link', () => {
     assert.equal(wrapper.props().activeClass, '');
     assert.equal(wrapper.props().exactActiveClass, '');
   });
-});
-
-describe('Router Link with slot', () => {
-  let wrapper;
-  beforeEach(() => {
-    wrapper = factory(null, {
-      default: '<span>router link</span>',
-    });
-  });
 
   it('has text as slot', () => {
     assert.equal(wrapper.contains('span'), true);
     assert.equal(wrapper.find('span').text(), 'router link');
+  });
+});
+
+describe('Router Link with props', () => {
+  let wrapper;
+  beforeEach(() => {
+    wrapper = factory({
+      to: '/path',
+      activeClass: 'active',
+      exactActiveClass: 'exact-active',
+      block: true,
+      large: true,
+      small: true,
+      underline: true,
+      white: true,
+      round: true,
+    });
+  });
+
+  it('has props attributes', () => {
+    assert.equal(wrapper.props().to, '/path');
+    assert.equal(wrapper.props().activeClass, 'active');
+    assert.equal(wrapper.props().exactActiveClass, 'exact-active');
+  });
+
+  it('has a "router-link" class & props classes', () => {
+    assert.deepEqual(wrapper.classes(), [
+      'router-link',
+      'router-link--block',
+      'router-link--large',
+      'router-link--small',
+      'router-link--underline',
+      'router-link--white',
+      'router-link--round',
+    ]);
   });
 });
