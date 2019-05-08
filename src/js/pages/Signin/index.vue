@@ -32,6 +32,7 @@
         class-name="login-button"
         button-type="button"
         :disabled="loading ? true : false"
+        block
         @click="signIn"
       >
         <template v-if="loading">

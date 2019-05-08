@@ -15,31 +15,11 @@ export default {
       type: String,
       default: 'button',
     },
-    desplay: {
-      type: Boolean,
-      default: false,
-    },
-    large: {
-      type: Boolean,
-      default: false,
-    },
-    small: {
-      type: Boolean,
-      default: false,
-    },
-    round: {
-      type: Boolean,
-      default: false,
-    },
-    error: {
+    block: {
       type: Boolean,
       default: false,
     },
     disabled: {
-      type: Boolean,
-      default: false,
-    },
-    caution: {
       type: Boolean,
       default: false,
     },
@@ -49,12 +29,7 @@ export default {
       return {
         button: true,
         'button--block': this.block,
-        'button--large': this.large,
-        'button--small': this.small,
-        'button--round': this.round,
-        'button--error': this.error,
         'button--disabled': this.disabled,
-        'button--caution': this.caution,
       };
     },
   },
@@ -70,6 +45,10 @@ export default {
   color: #fff;
   background-color: $keycolor;
   @include hoverOpacity;
+}
+.button--block {
+  display: block;
+  width: 100%;
 }
 .button--disabled {
   background-color: $disabledColor;

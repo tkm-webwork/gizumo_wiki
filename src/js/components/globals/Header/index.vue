@@ -29,5 +29,6 @@ export default {
   padding: 10px 20px;
   width: 100%;
   background-color: $keycolor;
+  z-index: index($z, 'header');
 }
 </style>

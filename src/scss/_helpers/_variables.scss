@@ -1,3 +1,7 @@
+// --- z-index --- ※ コンポーネント内でのみの重なりはVueファイルに記述
+$z: '', '', '', '', '', '', 'content', '', '', '', '', '', 'sidebar', 'header';
+
+
 // --- 色 ---
 $keycolor: #0a9dd5;
 $textLinkColor: #0068b7; // 404の「TOPに戻る」のテキストの色
@@ -5,6 +9,7 @@ $errorColor: #ff0a0a; // エラー
 $cautionColor: #ffdb4f; // 注意
 $disabledColor: #c0c6c9; // 無効
 $darkerColor: #2c4f54; // サイドバーの背景に使っている色
+$exThinGray: #efefef;
 
 // --- 幅 ---
 $pcContentWidth: 1100px; // PCのコンテンツ幅
@@ -13,3 +18,9 @@ $sidebarWidth: 200px; // sidebarの幅。変わったらこの値も変更
 
 // --- 高さ ---
 $headerHight: 54px; // headerの高さ。変わったらこの値も変更
+
+
+// --- フォントの大きさ ---
+$normal: 400;
+$bold: 700;
+$black: 900;

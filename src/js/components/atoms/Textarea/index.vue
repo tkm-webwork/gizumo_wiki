@@ -5,6 +5,7 @@
     rows="8"
     :required="required"
     :placeholder="placeholder"
+    :value="value"
     @input="$emit('updateValue', $event)"
   />
 </template>

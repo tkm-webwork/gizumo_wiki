@@ -1,7 +1,7 @@
 <template lang="html">
   <component
     :is="tag"
-    :class="[className || defaultClass]"
+    :class="className || defaultClass"
   >
     <slot />
   </component>
@@ -21,7 +21,7 @@ export default {
   },
   computed: {
     tag() {
-      return `h${this.level}`;
+      return this.level >= 7 ? 'h1' : `h${this.level}`;
     },
     defaultClass() {
       switch (this.level) {
@@ -38,7 +38,7 @@ export default {
         case 6:
           return 'heading--senary';
         default:
-          return '';
+          return 'heading--primary';
       }
     },
   },

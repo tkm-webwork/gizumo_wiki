@@ -36,7 +36,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    underLine: {
+    underline: {
       type: Boolean,
       default: false,
     },
@@ -56,7 +56,7 @@ export default {
         'router-link--block': this.block,
         'router-link--large': this.large,
         'router-link--small': this.small,
-        'router-link--under-line': this.underLine,
+        'router-link--underline': this.underline,
         'router-link--white': this.white,
         'router-link--round': this.round,
       };
@@ -84,7 +84,7 @@ export default {
 .router-link--small {
   padding: 5px;
 }
-.router-link--under-line {
+.router-link--underline {
   text-decoration: underline;
 }
 .router-link--white {

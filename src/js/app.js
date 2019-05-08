@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Cookies from 'js-cookie';
 
 import '../scss/global';
+import 'highlight.js/styles/gruvbox-dark.css';
 
 import App from '@Pages';
 import router from './_router';

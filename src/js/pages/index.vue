@@ -1,9 +1,9 @@
 <template lang="html">
   <div class="wrapper">
     <app-header />
-    <div class="content">
+    <div :class="contentClasses">
       <app-sidebar v-if="signedIn" />
-      <main class="content-main">
+      <main :class="contentMainClasses">
         <div class="content-inner">
           <router-view />
         </div>
@@ -25,6 +25,18 @@ export default {
     signedIn() {
       return this.$store.state.auth.signedIn;
     },
+    contentClasses() {
+      return [
+        'content',
+        this.$route.name,
+      ];
+    },
+    contentMainClasses() {
+      return [
+        'content-main',
+        this.$route.name,
+      ];
+    },
   },
   created() {
     const token = Cookies.get('user-token');
@@ -39,10 +51,17 @@ export default {
 .content {
   display: flex;
   padding-top: $headerHight;
-  height: 100vh;
+  z-index: index($z, 'content');
+  &.articlePost,
+  &.articleEdit {
+    height: 100vh;
+  }
   &-main {
     padding-left: $sidebarWidth;
     width: 100%;
+    &.signin {
+      padding-left: 0;
+    }
   }
   &-inner {
     padding: 20px;
