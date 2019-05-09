@@ -5,6 +5,10 @@
 <script>
 export default {
   props: {
+    exLarge: {
+      type: Boolean,
+      default: false,
+    },
     error: {
       type: Boolean,
       default: false,
@@ -15,6 +19,7 @@ export default {
       return {
         text: true,
         'text--error': this.error,
+        'text--ex-large': this.exLarge,
       };
     },
   },
@@ -25,6 +30,9 @@ export default {
 // Defaultスタイル
 .text {
   font-size: 16px;
+  &--ex-large {
+    font-size: 24px;
+  }
 }
 
 // Unique（For Props）スタイル

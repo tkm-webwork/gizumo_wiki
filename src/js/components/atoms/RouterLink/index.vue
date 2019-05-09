@@ -40,6 +40,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    keyColor: {
+      type: Boolean,
+      default: false,
+    },
     white: {
       type: Boolean,
       default: false,
@@ -57,6 +61,7 @@ export default {
         'router-link--large': this.large,
         'router-link--small': this.small,
         'router-link--underline': this.underline,
+        'router-link--key-color': this.keyColor,
         'router-link--white': this.white,
         'router-link--round': this.round,
       };
@@ -86,6 +91,9 @@ export default {
 }
 .router-link--underline {
   text-decoration: underline;
+}
+.router-link--key-color {
+  color: $keycolor;
 }
 .router-link--white {
   color: #fff;

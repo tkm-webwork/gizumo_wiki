@@ -20,6 +20,11 @@ const config = {
   devtool: isDev ? 'source-map' : 'eval',
   resolve: {
     extensions: ['.vue', '.js', '.json', '.scss'],
+    alias: {
+      '@Components': path.resolve(__dirname, './src/js/components'),
+      '@Helpers': path.resolve(__dirname, './src/js/_helpers'),
+      '@Pages': path.resolve(__dirname, './src/js/pages'),
+    }
   },
   plugins: [
     new VueLoaderPlugin(),

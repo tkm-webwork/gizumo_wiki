@@ -53,19 +53,42 @@ describe('Heading with props', () => {
   });
 });
 
-describe('Heading with level prop over 6', () => {
+describe('Heading with level prop 1 to 7', () => {
   let wrapper;
+  let index = 0;
   beforeEach(() => {
     wrapper = factory({
-      level: 7,
+      level: index += 1,
     });
   });
 
   it('is a h1 tag', () => {
     assert.equal(wrapper.contains('h1'), true);
+    assert.equal(wrapper.classes(), 'heading--primary');
+  });
+  it('is a h2 tag', () => {
+    assert.equal(wrapper.is('h2'), true);
+    assert.equal(wrapper.classes(), 'heading--secondary');
+  });
+  it('is a h3 tag', () => {
+    assert.equal(wrapper.is('h3'), true);
+    assert.equal(wrapper.classes(), 'heading--tertiary');
+  });
+  it('is a h4 tag', () => {
+    assert.equal(wrapper.is('h4'), true);
+    assert.equal(wrapper.classes(), 'heading--quaternary');
+  });
+  it('is a h5 tag', () => {
+    assert.equal(wrapper.is('h5'), true);
+    assert.equal(wrapper.classes(), 'heading--quinary');
+  });
+  it('is a h6 tag', () => {
+    assert.equal(wrapper.is('h6'), true);
+    assert.equal(wrapper.classes(), 'heading--senary');
   });
 
-  it('has a "heading--primary" class', () => {
+  it('is a h1 tag when level is more then 6', () => {
+    assert.equal(wrapper.is('h1'), true);
     assert.equal(wrapper.classes(), 'heading--primary');
   });
 });

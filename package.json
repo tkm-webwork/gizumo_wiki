@@ -4,8 +4,7 @@
   "main": "app.js",
   "license": "MIT",
   "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watchAll",
+    "test:watch": "NODE_ENV=test jest --watchAll --coverage",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --color",
     "build": "cross-env rimraf ./public/css ./public/js && NODE_ENV=production webpack --progress",
     "publish": "pm2 start --image-name dev_Gizumo_wiki",
@@ -47,7 +46,6 @@
     "babel-jest": "^24.7.1",
     "babel-loader": "^8.0.5",
     "babel-plugin-espower": "^3.0.1",
-    "babel-plugin-module-resolver": "^3.2.0",
     "babel-preset-power-assert": "^3.0.0",
     "copy-webpack-plugin": "^5.0.2",
     "cross-env": "^5.2.0",

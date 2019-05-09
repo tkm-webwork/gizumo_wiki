@@ -2,6 +2,12 @@
 // https://jestjs.io/docs/en/configuration.html
 module.exports = {
   verbose: true,
+  // modulePaths: ['<rootDir>'],
+  moduleNameMapper: {
+    '^@Components(.*)$': '<rootDir>/src/js/components$1',
+    '^@Helpers(.*)$': "<rootDir>/src/js/_helpers$1",
+    '^@Pages(.*)$': "<rootDir>/src/js/pages$1",
+  },
   // テストの対象ファイルの拡張子の指定
   moduleFileExtensions: ['js', 'json', 'vue'],
   // テストの対象から外す指定
@@ -12,7 +18,9 @@ module.exports = {
     // vue-jest で *.vue ファイルを処理する
     '.*\\.(vue)$': 'vue-jest'
   },
-  snapshotSerializers: ['jest-serializer-vue']
+  snapshotSerializers: ['jest-serializer-vue'],
+  collectCoverage: true,
+  collectCoverageFrom: ['src/js/**/*.{js,vue}']
 };
 
 // module.exports = {

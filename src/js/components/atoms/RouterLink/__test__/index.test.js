@@ -59,6 +59,7 @@ describe('Router Link with props', () => {
       large: true,
       small: true,
       underline: true,
+      keyColor: true,
       white: true,
       round: true,
     });
@@ -77,6 +78,7 @@ describe('Router Link with props', () => {
       'router-link--large',
       'router-link--small',
       'router-link--underline',
+      'router-link--key-color',
       'router-link--white',
       'router-link--round',
     ]);
