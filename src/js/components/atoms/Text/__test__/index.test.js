@@ -44,6 +44,7 @@ describe('Text with props', () => {
   beforeEach(() => {
     wrapper = factory({
       error: true,
+      exLarge: true,
     });
   });
 
@@ -51,6 +52,7 @@ describe('Text with props', () => {
     assert.deepEqual(wrapper.classes(), [
       'text',
       'text--error',
+      'text--ex-large',
     ]);
   });
 });

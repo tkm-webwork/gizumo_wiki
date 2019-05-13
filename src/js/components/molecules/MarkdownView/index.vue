@@ -167,7 +167,8 @@ export default {
     & + p,
     & + ul,
     & + ol,
-    & + table {
+    & + table,
+    & + img {
       margin-top: 15px;
     }
     & > code {
@@ -188,6 +189,16 @@ export default {
       &:hover {
         text-decoration: none;
       }
+    }
+  }
+
+  img {
+    & + p,
+    & + ul,
+    & + ol,
+    & + table,
+    & + img {
+      margin-top: 15px;
     }
   }
 
@@ -215,7 +226,8 @@ export default {
     & + p,
     & + ul,
     & + ol,
-    & + table {
+    & + table,
+    & + img {
       margin-top: 15px;
     }
   }
@@ -230,7 +242,8 @@ export default {
     }
     & + p,
     & + ul,
-    & + ol {
+    & + ol,
+    & + img {
       margin-top: 15px;
     }
   }
