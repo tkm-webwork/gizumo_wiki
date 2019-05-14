@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="login">
+  <form class="login" @submit.prevent="signIn">
     <div class="login-form">
       <app-input
         name="username"
@@ -30,10 +30,9 @@
     <div class="login-button">
       <app-button
         class-name="login-button"
-        button-type="button"
+        button-type="submit"
         :disabled="loading ? true : false"
         block
-        @click="signIn"
       >
         <template v-if="loading">
           <span>サインイン中です...</span>
@@ -43,7 +42,7 @@
         </template>
       </app-button>
     </div>
-  </div>
+  </form>
 </template>
 
 <script>

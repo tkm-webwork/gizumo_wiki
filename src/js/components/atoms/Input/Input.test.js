@@ -32,7 +32,7 @@ describe('Input', () => {
     assert.equal(wrapper.attributes('type'), 'text');
     assert.equal(wrapper.attributes('name'), 'inputName');
     assert.equal(wrapper.attributes('placeholder'), '入力してください');
-    assert.equal(wrapper.attributes('required'), 'required');
+    assert.equal(wrapper.attributes('required'), null);
   });
 
   it('has only "input" class', () => {
@@ -47,7 +47,7 @@ describe('Input with props', () => {
       name: 'testInput',
       type: 'email',
       placeholder: 'テスト',
-      required: false,
+      required: true,
       value: 'テスト',
       whiteBg: true,
     });
@@ -61,7 +61,7 @@ describe('Input with props', () => {
     assert.equal(wrapper.attributes('type'), 'email');
     assert.equal(wrapper.attributes('name'), 'testInput');
     assert.equal(wrapper.attributes('placeholder'), 'テスト');
-    assert.equal(wrapper.attributes('required'), undefined);
+    assert.equal(wrapper.attributes('required'), 'required');
   });
 
   it('has props classes', () => {

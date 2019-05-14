@@ -4,8 +4,8 @@
     :name="name"
     :type="type"
     :placeholder="placeholder"
-    :required="required"
     :value="value"
+    :required="required ? { required: required } : false"
     @input="$emit('updateValue', $event)"
   >
 </template>
@@ -27,7 +27,7 @@ export default {
     },
     required: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     value: {
       type: String,
