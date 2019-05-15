@@ -16,11 +16,6 @@
 
 <script>
 export default {
-  $_veeValidate: {
-    name() {
-      return this.name;
-    },
-  },
   props: {
     name: {
       type: String,
