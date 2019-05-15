@@ -1,17 +1,26 @@
 <template lang="html">
-  <input
-    :class="classes"
-    :name="name"
-    :type="type"
-    :placeholder="placeholder"
-    :required="required"
-    :value="value"
-    @input="$emit('updateValue', $event)"
-  >
+  <div>
+    <input
+      v-validate="required ? 'required' : false"
+      :data-vv-as="displayFields"
+      :class="classes"
+      :name="name"
+      :type="type"
+      :placeholder="placeholder"
+      :value="value"
+      @input="$emit('updateValue', $event)"
+    >
+    <span class="error">{{ errors.first(name) }}</span>
+  </div>
 </template>
 
 <script>
 export default {
+  $_veeValidate: {
+    name() {
+      return this.name;
+    },
+  },
   props: {
     name: {
       type: String,
@@ -27,7 +36,7 @@ export default {
     },
     required: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     value: {
       type: String,
@@ -37,6 +46,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    vvas: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     classes() {
@@ -44,6 +57,10 @@ export default {
         input: true,
         'input--white-bg': this.whiteBg,
       };
+    },
+    displayFields() {
+      if (this.vvas === '') return this.name;
+      return this.vvas;
     },
   },
 };
@@ -61,6 +78,12 @@ export default {
   &:focus {
     border-bottom-color: $keycolor;
   }
+}
+
+.error {
+  color: red;
+  display: inline-block;
+  margin-top: 10px;
 }
 
 .input--white-bg {
