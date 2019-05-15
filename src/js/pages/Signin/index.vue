@@ -1,11 +1,12 @@
 <template lang="html">
-  <div class="login">
+  <form class="login" @submit.prevent="signIn">
     <div class="login-form">
       <app-input
         name="username"
         type="text"
         placeholder="user name"
         required
+        vvas="ユーザーネーム"
         :value="username"
         @updateValue="updateValue"
       />
@@ -16,6 +17,7 @@
         type="password"
         placeholder="password"
         required
+        vvas="パスワード"
         :value="password"
         @updateValue="updateValue"
       />
@@ -30,10 +32,9 @@
     <div class="login-button">
       <app-button
         class-name="login-button"
-        button-type="button"
-        :disabled="loading ? true : false"
+        button-type="submit"
+        :disabled="disabled ? true : false"
         block
-        @click="signIn"
       >
         <template v-if="loading">
           <span>サインイン中です...</span>
@@ -43,7 +44,7 @@
         </template>
       </app-button>
     </div>
-  </div>
+  </form>
 </template>
 
 <script>
@@ -66,6 +67,10 @@ export default {
     loading() {
       return this.$store.state.auth.loading;
     },
+    disabled() {
+      const isValied = this.errors.items.length > 0;
+      return this.loading || isValied;
+    },
     errorMessage() {
       return this.$store.state.auth.errorMessage;
     },
@@ -83,6 +88,7 @@ export default {
       this[$event.target.name] = $event.target.value;
     },
     signIn() {
+      if (this.disabled) return;
       this.$store.dispatch({
         type: 'signIn',
         username: this.username,

@@ -9,6 +9,7 @@
           placeholder="記事のタイトルを入力してください。"
           required
           white-bg
+          vvas="記事のタイトル"
           :value="title"
           @updateValue="updateValue"
         />
