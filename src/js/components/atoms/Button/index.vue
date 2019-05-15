@@ -52,5 +52,9 @@ export default {
 }
 .button--disabled {
   background-color: $disabledColor;
+  cursor: default;
+  &:hover {
+    opacity: 1;
+  }
 }
 </style>

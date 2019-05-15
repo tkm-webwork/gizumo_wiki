@@ -6,6 +6,7 @@
         type="text"
         placeholder="user name"
         required
+        vvas="ユーザーネーム"
         :value="username"
         @updateValue="updateValue"
       />
@@ -16,6 +17,7 @@
         type="password"
         placeholder="password"
         required
+        vvas="パスワード"
         :value="password"
         @updateValue="updateValue"
       />
@@ -31,7 +33,7 @@
       <app-button
         class-name="login-button"
         button-type="submit"
-        :disabled="loading ? true : false"
+        :disabled="disabled ? true : false"
         block
       >
         <template v-if="loading">
@@ -65,6 +67,10 @@ export default {
     loading() {
       return this.$store.state.auth.loading;
     },
+    disabled() {
+      const isValied = this.errors.items.length > 0;
+      return this.loading || isValied;
+    },
     errorMessage() {
       return this.$store.state.auth.errorMessage;
     },
@@ -82,6 +88,7 @@ export default {
       this[$event.target.name] = $event.target.value;
     },
     signIn() {
+      if (this.disabled) return;
       this.$store.dispatch({
         type: 'signIn',
         username: this.username,
