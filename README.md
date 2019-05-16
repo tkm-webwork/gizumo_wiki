@@ -86,10 +86,14 @@ npm run publish
 - Vue.js (v2.6.6): <a href="https://jp.vuejs.org/index.html" target="_blank">https://jp.vuejs.org/index.html</a>
 - Vue Router: <a href="https://router.vuejs.org/ja/" target="_blank">https://router.vuejs.org/ja/</a>
 - Vuex: <a href="https://vuex.vuejs.org/ja/" target="_blank">https://vuex.vuejs.org/ja/</a>
+- vee-validate: <a href="https://baianat.github.io/vee-validate/" target="_blank">https://baianat.github.io/vee-validate/</a>
 - Express (v4.16.4): <a href="https://expressjs.com/ja/" target="_blank">https://expressjs.com/ja/</a>
 - PM2 (v3.5.0): <a href="https://nodemon.io/" target="_blank">http://pm2.keymetrics.io/</a>（本番のNode起動）
-- コンポーネントガイド
-- テスト
+- Storybook (5.0.10): <a href="https://storybook.js.org/" target="_blank">https://storybook.js.org/</a>
+- Jest (24.7.1): <a href="https://jestjs.io/en/" target="_blank">https://jestjs.io/en/</a>
+- power-assert (1.6.1): <a href="https://github.com/power-assert-js/power-assert" target="_blank">https://github.com/power-assert-js/power-assert</a>
+- axios (0.18.0): <a href="https://github.com/axios/axios" target="_blank">https://github.com/axios/axios</a>
+- Sass: <a href="https://sass-lang.com/documentation" target="_blank">https://sass-lang.com/documentation</a>
 
 ## 画面
 
