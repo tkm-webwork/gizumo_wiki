@@ -3,6 +3,8 @@
 ## 使用方法
 
 - フォーム実装時に使用するコンポーネントです
+- フロント側のバリデーションにvee-validateプラグインを使用しています。(<span style="color: red">Storybook上だとプラグインがうまく動作しない模様</span>)  
+  [vee-validateについて](https://baianat.github.io/vee-validate/)
 
 ## props
 
@@ -25,7 +27,6 @@
 
 |props|type|デフォルト|指定できる値|説明|
 |---|---|---|---|
+|name|String|inputName|任意の文字列|inputタグに適用したいname属性の値を指定します|
 |value|String|''|任意の文字列|inputタグのvalueをバインディングしているpropsです|
-
-
-
+|vvas|String|''|任意の文字列|`vee-validate`プライグインのバリデーションエラー時に表示される文言のフィールド名を指定します。|
