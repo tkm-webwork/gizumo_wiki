@@ -11,7 +11,8 @@
     "stop": "pm2 stop dev_Gizumo_wiki",
     "delete": "pm2 delete dev_Gizumo_wiki",
     "show": "pm2 show dev_Gizumo_wiki",
-    "list": "pm2 list"
+    "list": "pm2 list",
+    "dev:storybook": "start-storybook -c ./tools/.storybook/config/ -p 6006"
   },
   "browserslist": [
     "last 2 version",
@@ -23,6 +24,7 @@
     "@babel/polyfill": "^7.2.5",
     "@babel/preset-env": "^7.3.1",
     "@babel/register": "^7.0.0",
+    "@storybook/addon-storysource": "^5.0.10",
     "axios": "^0.18.0",
     "cookie-parser": "^1.4.4",
     "core-js": "^3.0.1",
@@ -34,11 +36,17 @@
     "marked": "^0.6.2",
     "morgan": "^1.9.1",
     "pm2": "^3.5.0",
+    "vee-validate": "^2.2.7",
     "vue": "^2.6.6",
     "vue-router": "^3.0.3",
     "vuex": "^3.1.0"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^5.0.10",
+    "@storybook/addon-backgrounds": "^5.0.10",
+    "@storybook/addon-knobs": "^5.0.10",
+    "@storybook/addon-notes": "^5.0.10",
+    "@storybook/vue": "^5.0.10",
     "@vue/test-utils": "^1.0.0-beta.29",
     "autoprefixer": "^9.4.7",
     "babel-core": "^7.0.0-bridge.0",
@@ -46,6 +54,8 @@
     "babel-jest": "^24.7.1",
     "babel-loader": "^8.0.5",
     "babel-plugin-espower": "^3.0.1",
+    "babel-plugin-module-resolver": "^3.2.0",
+    "babel-preset-vue": "^2.0.2",
     "babel-preset-power-assert": "^3.0.0",
     "copy-webpack-plugin": "^5.0.2",
     "cross-env": "^5.2.0",
@@ -64,6 +74,7 @@
     "power-assert": "^1.6.1",
     "rimraf": "^2.6.3",
     "sass-loader": "^7.1.0",
+    "storybook-vue-router": "^1.0.3",
     "style-loader": "^0.23.1",
     "vue-jest": "^3.0.4",
     "vue-loader": "^15.6.2",

@@ -101,13 +101,16 @@ npm run publish
 | 記事一覧（すべて） | `/articles` |
 | 記事一覧（カテゴリー） | `/articles?=:category` |
 | 記事詳細 | `/articles/:id` |
-| 更新 | `/articles/:id/edit` |
-| 投稿 | `/articles/post` |
-| ユーザー一覧 | `/users` |
-| ユーザー個別 | `/users/:id` |
-| ユーザー作成 | `/users/create` |
-| グループ・グループメンバー追加 | `/group` |
+| 更新* | `/articles/:id/edit` |
+| 投稿* | `/articles/post` |
+| マイページ | `/profile/:username` |
+| ユーザー一覧* | `/users` |
+| ユーザー個別* | `/users/:id` |
+| ユーザー作成* | `/users/create` |
+| グループ・グループメンバー追加* | `/group` |
 | 404 | `/*` |
+
+`*`は管理権限
 
 ## サインアップ・ログイン
 - 管理者が追加（名前・メールアドレス）
@@ -120,7 +123,7 @@ npm run publish
 
 | グループ | 権限範囲 |
 |---|---|
-| 管理者 | 閲覧（全ページ）、更新・削除 |
+| 管理者 | 閲覧（全ページ）、更新・削除 / ユーザー追加 |
 | 閲覧者 | 閲覧（更新系のページを除く） |
 
 ## 閲覧グループ
