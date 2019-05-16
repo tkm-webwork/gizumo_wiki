@@ -32,11 +32,50 @@ storiesOf('ATOMS|Input', module)
     return {
       template: `<app-input
                   :name="name"
-                  :class="classes"
+                  :type="type"
+                  required
+                  :placeholder="placeholder"
+                  :value="value"
+                  :vvas="vvas"
+                />`,
+      props: {
+        name: {
+          type: String,
+          default: text('name', 'inputName'),
+        },
+        type: {
+          type: String,
+          default: select('type', inputTypeOptions, inputTypeDefaultValue),
+        },
+        required: {
+          type: Boolean,
+          default: boolean('required', false),
+        },
+        placeholder: {
+          type: String,
+          default: text('placeholder', '入力してください')
+        },
+        value: {
+          type: String,
+          default: text('value', ''),
+        },
+        vvas: {
+          type: String,
+          default: text('vvas', 'inputName'),
+        }
+      },
+    }
+  },{ notes: note })
+  .add('whiteBg', () => {
+    return {
+      template: `<app-input
+                  :name="name"
                   :type="type"
                   :placeholder="placeholder"
                   :required="required"
                   :value="value"
+                  :vvas="vvas"
+                  whiteBg
                 />`,
       props: {
         name: {
@@ -61,63 +100,12 @@ storiesOf('ATOMS|Input', module)
         },
         whiteBg: {
           type: Boolean,
-          default: false,
-        }
-      },
-      computed: {
-        classes() {
-          return {
-            input: true,
-            'input--white-bg': this.whiteBg,
-          };
+          default: true,
+        },
+        vvas: {
+          type: String,
+          default: text('vvas', 'inputName'),
         }
       }
     }
-  },{ notes: note })
-.add('whiteBg', () => {
-  return {
-    template: `<app-input
-                :name="name"
-                :class="classes"
-                :type="type"
-                :placeholder="placeholder"
-                :required="required"
-                :value="value"
-                :whiteBg="whiteBg"
-              />`,
-    props: {
-      name: {
-        type: String,
-        default: 'inputName',
-      },
-      type: {
-        type: String,
-        default: select('type', inputTypeOptions, inputTypeDefaultValue),
-      },
-      required: {
-        type: Boolean,
-        default: boolean('required', false),
-      },
-      placeholder: {
-        type: String,
-        default: text('placeholder', '入力してください')
-      },
-      value: {
-        type: String,
-        default: text('value', ''),
-      },
-      whiteBg: {
-        type: Boolean,
-        default: true,
-      }
-    },
-    computed: {
-      classes() {
-        return {
-          input: true,
-          'input--white-bg': this.whiteBg,
-        };
-      }
-    }
-  }
-},{ notes: note });
+  },{ notes: note });
