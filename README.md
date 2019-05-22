@@ -100,7 +100,8 @@ npm run publish
 |  | URL |
 |---|---|
 | トップ | `/` |
-| ログイン（ログイン不要） | `/signin` |
+| ログイン（初回） | `/init` |
+| ログイン | `/signin` |
 | カテゴリー一覧  | `/category` |
 | 記事一覧（すべて） | `/articles` |
 | 記事一覧（カテゴリー） | `/articles?=:category` |
