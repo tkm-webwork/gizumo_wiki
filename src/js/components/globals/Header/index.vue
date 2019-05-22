@@ -1,6 +1,6 @@
 <template lang="html">
   <header class="header">
-    <app-router-link>MENUを開く</app-router-link>
+    <app-router-link v-if="signedIn">MENUを開く</app-router-link>
     <app-heading class-name="header__title">
       Gizumo Wiki
     </app-heading>
@@ -14,6 +14,11 @@ export default {
   components: {
     appHeading: Heading,
     appRouterLink: RouterLink,
+  },
+  computed: {
+    signedIn() {
+      return this.$store.state.auth.signedIn;
+    },
   },
 };
 </script>
