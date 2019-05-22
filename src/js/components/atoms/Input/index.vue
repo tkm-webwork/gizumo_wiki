@@ -61,8 +61,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-// Defaultスタイル
+<style lang="css" scoped>
+/* Defaultスタイル */
 .input {
   margin-top: 5px;
   padding: 10px;
@@ -71,7 +71,7 @@ export default {
   border-bottom: 1px solid #ccc;
   transition: all .5s;
   &:focus {
-    border-bottom-color: $keycolor;
+    border-bottom-color: var(--keycolor);
   }
 }
 

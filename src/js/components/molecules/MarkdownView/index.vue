@@ -72,13 +72,13 @@ export default {
 };
 </script>
 
-<style lang="scss">
-// markdown-view
+<style lang="css">
+/* markdown-view */
 .markdown-view--flex {
   display: flex;
   align-items: flex-start;
 }
-// markdown-view__body
+/* markdown-view__body */
 .markdown-view__body {
   padding: 10px;
   width: 100%;
@@ -90,21 +90,21 @@ export default {
 .markdown-view__body--white-bg {
   background-color: #fff;
 }
-// markdown-view__index
+/* markdown-view__index */
 .markdown-view__index {
   margin-left: 5%;
   width: 30%;
 }
 
-// ---------------------------------------------------
-// マークダウンの中身のスタイル
+/* --------------------------------------------------- */
+/* マークダウンの中身のスタイル */
 .markdown-view {
   * + pre {
     margin-top: 20px;
   }
   .attention {
     font-weight: $black;
-    color: $errorColor;
+    color: var(--errorColor);
   }
   pre {
     margin-left: -30px;
@@ -126,7 +126,7 @@ export default {
     padding: 10px 15px;
     font-size: 34px;
     line-height: 1.4;
-    border-bottom: 1px solid $keycolor;
+    border-bottom: 1px solid var(--keycolor);
     & + h2 {
       margin-top: 0;
     }
@@ -175,13 +175,13 @@ export default {
       padding: 3px 5px;
       color: #ebdbb2;
       font-family: SourceCodePro;
-      font-weight: $normal;
+      font-weight: var(--normal);
       font-size: 15px;
       background-color: #282828;
       border-radius: 3px;
     }
     strong {
-      font-weight: $black;
+      font-weight: var(--black);
     }
     a {
       text-decoration: underline;
@@ -214,8 +214,8 @@ export default {
     border-radius: 5px;
     background-color: #fcfcfc;
     li {
-      // display: inline-block;
-      // border-bottom: 1px solid #efefef;
+      /* display: inline-block; */
+      /* border-bottom: 1px solid #efefef; */
       padding: 3px 0;
       line-height: 1.2;
       text-decoration: underline;

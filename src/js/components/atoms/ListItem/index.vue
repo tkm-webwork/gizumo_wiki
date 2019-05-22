@@ -16,12 +16,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-// Defaultスタイル
+<style lang="css" scoped>
+/* Defaultスタイル */
 .list-item {
   font-size: 14px;
   text-align: left;
 }
-
-// Unique（For Props）スタイル
 </style>

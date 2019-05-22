@@ -26,14 +26,12 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-// Defaultスタイル
+<style lang="css" scoped>
+/* Defaultスタイル */
 .text {
   font-size: 16px;
   &--ex-large {
     font-size: 24px;
   }
 }
-
-// Unique（For Props）スタイル
 </style>

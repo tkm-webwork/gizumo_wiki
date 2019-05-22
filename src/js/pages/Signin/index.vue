@@ -101,7 +101,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="css" scoped>
 .login {
   margin: 100px auto 0;
   padding: 40px;
@@ -115,7 +115,7 @@ export default {
   }
   &-error {
     margin-top: 20px;
-    color: $errorColor;
+    color: var(--errorColor);
   }
   &-button {
     margin-top: 20px;

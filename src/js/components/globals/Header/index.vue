@@ -23,7 +23,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="css" scoped>
 .header {
   position: fixed;
   top: 0;
@@ -33,7 +33,7 @@ export default {
   align-items: center;
   padding: 10px 20px;
   width: 100%;
-  background-color: $keycolor;
-  z-index: index($z, 'header');
+  background-color: var(--keycolor);
+  z-index: var(--z-header);
 }
 </style>
