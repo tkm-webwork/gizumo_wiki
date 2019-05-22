@@ -13,6 +13,7 @@ import Articles from '@Pages/Articles';
 import ArticleList from '@Pages/Articles/List';
 import ArticleDetail from '@Pages/Articles/Detail';
 import ArticleEdit from '@Pages/Articles/Edit';
+import ArticlePost from '@Pages/Articles/Post';
 
 // ユーザー
 import Users from '@Pages/Users';
@@ -51,7 +52,7 @@ export default new VueRouter({
         {
           name: 'articlePost',
           path: 'post',
-          component: ArticleEdit,
+          component: ArticlePost,
         },
         {
           name: 'articleDetail',

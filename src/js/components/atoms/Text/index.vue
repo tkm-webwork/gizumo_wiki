@@ -13,6 +13,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    inlineBlock: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     classes() {
@@ -20,6 +24,7 @@ export default {
         text: true,
         'text--error': this.error,
         'text--ex-large': this.exLarge,
+        'text--inline-block': this.inlineBlock,
       };
     },
   },
@@ -33,6 +38,10 @@ export default {
   &--ex-large {
     font-size: 24px;
   }
+}
+
+.text--inline-block {
+  display: inline-block;
 }
 
 // Unique（For Props）スタイル

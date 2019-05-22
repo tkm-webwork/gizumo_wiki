@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="article-edit">
     <section class="article-edit-editor">
-      <app-heading :level="1">記事の更新</app-heading>
+      <app-heading :level="1">記事の新規作成</app-heading>
       <div class="article-edit-form">
         <app-input
           name="title"
@@ -66,12 +66,7 @@ export default {
     },
   },
   created() {
-    //console.log(this.$route.params);
-    const { id } = this.$route.params;
-    this.$store.dispatch('getArticle', parseInt(id, 10));
-    if (this.$store.state.targetArticle.id === null) {
-      // this.$router.push({ path: '/notfound' });
-    }
+    this.$store.dispatch('initPostArticle');
   },
   methods: {
     editedTitle($event) {

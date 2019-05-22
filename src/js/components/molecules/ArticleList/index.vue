@@ -1,21 +1,42 @@
 <template lang="html">
-  <ul :class="className">
+  <ul :class="classes">
     <app-list-item
       v-for="item in targetArray"
       :key="item.id"
+      flex
+      beetween
+      align-items
+      bg-white
+      large
     >
-      <app-text>{{ item.title }}</app-text>
-      <app-router-link
-        :to="`articles/${item.id}`"
+      <app-text
+        inline-block
       >
-        詳細
-      </app-router-link>
-      <app-router-link
-        :to="`articles/${item.id}/edit`"
-      >
-        更新
-      </app-router-link>
-      <app-button>削除</app-button>
+        {{ item.title }}
+      </app-text>
+      <div class="article-list-links">
+        <app-router-link
+          :to="`articles/${item.id}`"
+          bg-keycolor
+          large
+          white
+        >
+          詳細
+        </app-router-link>
+        <app-router-link
+          :to="`articles/${item.id}/edit`"
+          white
+          bg-lightgreen
+          large
+        >
+          更新
+        </app-router-link>
+        <app-button
+          bg-danger
+        >
+          削除
+        </app-button>
+      </div>
     </app-list-item>
   </ul>
 </template>
@@ -44,15 +65,29 @@ export default {
       type: Array,
       default: () => [],
     },
-  },
-  /* computed: {
-    articlesArray() {
-      console.log(this.$store.getters.transformedArticles);
-      return this.$store.getters.transformedArticles;
+    borderGray: {
+      type: Boolean,
+      default: false,
     },
-  }, */
+  },
+  computed: {
+    classes() {
+      return {
+        'article-list--bordergray': this.borderGray,
+      };
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+  .article-list-links *:not(first-child) {
+    margin-left: 16px;
+  }
+  .article-list--bordergray li {
+    border-bottom: 1px solid $lightGray;
+  }
+  .article-list--bordergray li:first-child {
+    border-top: 1px solid $lightGray;
+  }
 </style>
