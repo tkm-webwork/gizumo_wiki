@@ -80,13 +80,13 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="css" scoped>
 .router-link {
   font-size: 16px;
   transition: all .5s;
-  @include hoverOpacity();
+  @mixin hoverOpacity;
   &.is-active {
-    color: $darkerColor;
+    color: var(--darkerColor);
     font-weight: bold;
     background-color: #fff;
   }
@@ -104,13 +104,13 @@ export default {
   text-decoration: underline;
 }
 .router-link--key-color {
-  color: $keycolor;
+  color: var(--keycolor);
 }
 .router-link--bg-key-color {
-  background-color: $keycolor;
+  background-color: var(--keycolor);
 }
 .router-link--bg-lightgreen {
-  background-color: $lightGreen;
+  background-color: var(--lightGreen);
 }
 .router-link--white {
   color: #fff;

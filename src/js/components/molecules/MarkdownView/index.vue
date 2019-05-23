@@ -5,10 +5,33 @@
       v-html="marked"
     />
     <template v-if="flex">
-      <div
-        class="markdown-view__index"
-        v-html="markedIndex"
-      />
+      <template v-if="markdownIndexes">
+        <div class="markdown-view__index">
+          <p class="markdown-view__index-title">目次</p>
+          <template
+            v-for="index in markdownIndexes.h1Elements"
+          >
+            <a
+              :href="`#${index.val}`"
+              :key="index.val"
+              class="markdown-view__index__anchor is-article-title"
+            >
+              {{ index.title }}
+            </a>
+          </template>
+          <template
+            v-for="index in markdownIndexes.h2Elements"
+          >
+            <a
+              :href="`#${index.val}`"
+              :key="index.val"
+              class="markdown-view__index__anchor is-article-subtitle"
+            >
+              {{ index.title }}
+            </a>
+          </template>
+        </div>
+      </template>
     </template>
   </div>
 </template>
@@ -34,6 +57,10 @@ export default {
     wide: {
       type: Boolean,
       default: false,
+    },
+    markdownIndexes: {
+      type: Object,
+      default: () => {},
     },
   },
   computed: {
@@ -72,13 +99,13 @@ export default {
 };
 </script>
 
-<style lang="scss">
-// markdown-view
+<style lang="css">
+/* markdown-view */
 .markdown-view--flex {
   display: flex;
   align-items: flex-start;
 }
-// markdown-view__body
+/* markdown-view__body */
 .markdown-view__body {
   padding: 10px;
   width: 100%;
@@ -88,23 +115,56 @@ export default {
   padding: 10px 30px 50px;
 }
 .markdown-view__body--white-bg {
-  background-color: #fff;
+  background-color: var(--white);
 }
-// markdown-view__index
+/* markdown-view__index */
 .markdown-view__index {
   margin-left: 5%;
   width: 30%;
+  background: var(--white);
+  padding: 16px;
 }
 
-// ---------------------------------------------------
-// マークダウンの中身のスタイル
+.markdown-view__index-title {
+  font-size: 16px;
+  color: var(--keycolor);
+  font-weight: bold;
+}
+
+.markdown-view__index__anchor {
+  display: block;
+  @mixin hoverOpacity;
+  &.is-article-title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  &.is-article-subtitle {
+    font-size: 14px;
+    position: relative;
+    padding-left: 16px;
+    margin-left: 16px;
+    &:after {
+      content: '';
+      position: absolute;
+      display: block;
+      width: 10px;
+      height: 2px;
+      background-color: var(--keycolor);
+      top: calc(50% - 2px);
+      left: 0;
+    }
+  }
+}
+
+/* --------------------------------------------------- */
+/* マークダウンの中身のスタイル */
 .markdown-view {
   * + pre {
     margin-top: 20px;
   }
   .attention {
     font-weight: $black;
-    color: $errorColor;
+    color: var(--errorColor);
   }
   pre {
     margin-left: -30px;
@@ -126,7 +186,7 @@ export default {
     padding: 10px 15px;
     font-size: 34px;
     line-height: 1.4;
-    border-bottom: 1px solid $keycolor;
+    border-bottom: 1px solid var(--keycolor);
     & + h2 {
       margin-top: 0;
     }
@@ -175,13 +235,13 @@ export default {
       padding: 3px 5px;
       color: #ebdbb2;
       font-family: SourceCodePro;
-      font-weight: $normal;
+      font-weight: var(--normal);
       font-size: 15px;
       background-color: #282828;
       border-radius: 3px;
     }
     strong {
-      font-weight: $black;
+      font-weight: var(--black);
     }
     a {
       text-decoration: underline;
@@ -214,8 +274,8 @@ export default {
     border-radius: 5px;
     background-color: #fcfcfc;
     li {
-      // display: inline-block;
-      // border-bottom: 1px solid #efefef;
+      /* display: inline-block; */
+      /* border-bottom: 1px solid #efefef; */
       padding: 3px 0;
       line-height: 1.2;
       text-decoration: underline;

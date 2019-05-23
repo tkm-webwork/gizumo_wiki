@@ -45,8 +45,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-// Defaultスタイル
+<style lang="css" scoped>
+/* Defaultスタイル */
 .textarea {
   display: block;
   margin-top: 5px;
@@ -57,7 +57,7 @@ export default {
   border: 1px solid #ccc;
   transition: all .5s;
   &:focus {
-    border-color: $keycolor;
+    border-color: var(--keycolor);
   }
 }
 

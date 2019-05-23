@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Cookies from 'js-cookie';
 
-import '../scss/global';
+import '../css/global';
 import 'highlight.js/styles/gruvbox-dark.css';
 import VeeValidate, { Validator } from 'vee-validate';
 import ja from 'vee-validate/dist/locale/ja';

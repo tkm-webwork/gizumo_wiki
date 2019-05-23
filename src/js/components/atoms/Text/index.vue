@@ -31,8 +31,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-// Defaultスタイル
+<style lang="css" scoped>
+/* Defaultスタイル */
 .text {
   font-size: 16px;
   &--ex-large {
@@ -44,5 +44,6 @@ export default {
   display: inline-block;
 }
 
-// Unique（For Props）スタイル
+/* Unique（For Props）スタイル */
+
 </style>

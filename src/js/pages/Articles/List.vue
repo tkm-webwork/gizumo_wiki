@@ -38,7 +38,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="css" scoped>
   .articles-create-link {
     margin-top: 16px;
   }

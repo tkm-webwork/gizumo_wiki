@@ -19,6 +19,7 @@
     <article class="article-detail__markdown">
       <app-markdown-view
         :markdown-content="markdownContent"
+        :markdown-indexes="markdownIndexes"
         wide
         white-bg
         flex
@@ -38,6 +39,14 @@ export default {
     appButton: Button,
     appRouterLink: RouterLink,
   },
+  data() {
+    return {
+      markdownIndexes: {
+        h1Elements: [],
+        h2Elements: [],
+      },
+    };
+  },
   computed: {
     articleId() {
       const { id } = this.$route.params;
@@ -51,10 +60,44 @@ export default {
   created() {
     this.$store.dispatch('getArticle', parseInt(this.$route.params.id, 10));
   },
+  mounted() {
+    const markdownIndexes = {
+      h1Elements: [],
+      h2Elements: [],
+    };
+    const markdowonHtml = document.querySelector('.article-detail__markdown');
+    const h1Elements = markdowonHtml.getElementsByTagName('h1');
+    const h2Elements = markdowonHtml.getElementsByTagName('h2');
+    h1Elements.forEach((element, index) => {
+      element.setAttribute('id', `h1-${index}`);
+      const idVal = element.getAttribute('id');
+      const height = element.clientHeight;
+      const title = element.textContent;
+      markdownIndexes.h1Elements.push({
+        val: idVal,
+        height,
+        title,
+      });
+    });
+    h2Elements.forEach((element, index) => {
+      element.setAttribute('id', `h2-${index}`);
+      const idVal = element.getAttribute('id');
+      const height = element.clientHeight;
+      const title = element.textContent;
+      markdownIndexes.h2Elements.push({
+        val: idVal,
+        height,
+        title,
+      });
+    });
+    this.markdownIndexes = Object.assign({}, { ...this.markdownIndexes }, {
+      ...markdownIndexes,
+    });
+  },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="css" scoped>
 .article-detail {
   &__markdown {
     display: flex;

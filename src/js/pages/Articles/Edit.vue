@@ -52,6 +52,9 @@ export default {
       content: '',
     };
   },
+  beforeRouteEnter(route, redirect, next) {
+    next(vm => vm.getArticle(route.params.id));
+  },
   computed: {
     articleTitle() {
       const { title } = this.$store.state.articles.targetArticle;
@@ -65,15 +68,13 @@ export default {
       return `# ${this.articleTitle}\n${this.articleContent}`;
     },
   },
-  created() {
-    //console.log(this.$route.params);
-    const { id } = this.$route.params;
-    this.$store.dispatch('getArticle', parseInt(id, 10));
-    if (this.$store.state.targetArticle.id === null) {
-      // this.$router.push({ path: '/notfound' });
-    }
-  },
   methods: {
+    getArticle(id) {
+      this.$store.dispatch('getArticle', parseInt(id, 10));
+      if (this.$store.state.targetArticle.id === null) {
+        this.$router.push({ path: '/notfound' });
+      }
+    },
     editedTitle($event) {
       this.$store.dispatch('editedTitle', $event.target.value);
     },
@@ -84,7 +85,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="css" scoped>
 .article-edit {
   display: flex;
   height: 100%;
