@@ -47,10 +47,10 @@ export default {
   methods: {
     createMarkdownIndexesAnchorInfo() {
       const markdownIndexes = [];
-      const markdowonHtml = document.querySelector('.article-detail__markdown');
+      const markdownHtml = document.querySelector('.article-detail__markdown');
       const header = document.querySelector('header');
       const headerHeight = header.clientHeight;
-      const hElements = markdowonHtml.querySelectorAll('h1, h2');
+      const hElements = markdownHtml.querySelectorAll('h1, h2');
       hElements.forEach((element, index) => {
         const tagName = element.tagName.toLowerCase();
         element.setAttribute('id', `${tagName}-${index}`);
