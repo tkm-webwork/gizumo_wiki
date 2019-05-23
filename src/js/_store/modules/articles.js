@@ -284,17 +284,49 @@ for (var i = 0; i < 10; i++ ) {
     },
   },
   mutations: {
+    initPostArticle(state) {
+      state.targetArticle = Object.assign({}, {
+        id: null,
+        title: '',
+        content: '',
+      });
+    },
     getArticle(state, payload) {
       state.targetArticle = Object.assign(
         state.articleList.find(article => article.id === payload.id),
       );
     },
+    editedTitle(state, payload) {
+      state.targetArticle = Object.assign({}, { ...state.targetArticle }, {
+        title: payload.title,
+      });
+    },
+    editedContent(state, payload) {
+      state.targetArticle = Object.assign({}, { ...state.targetArticle }, {
+        content: payload.content,
+      });
+    },
   },
   actions: {
+    initPostArticle({ commit }) {
+      commit('initPostArticle');
+    },
     getArticle({ commit }, articleId) {
       commit({
         type: 'getArticle',
         id: articleId,
+      });
+    },
+    editedTitle({ commit }, title) {
+      commit({
+        type: 'editedTitle',
+        title,
+      });
+    },
+    editedContent({ commit }, content) {
+      commit({
+        type: 'editedContent',
+        content,
       });
     },
   },

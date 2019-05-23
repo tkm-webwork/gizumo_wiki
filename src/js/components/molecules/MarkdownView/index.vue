@@ -5,10 +5,22 @@
       v-html="marked"
     />
     <template v-if="flex">
-      <div
-        class="markdown-view__index"
-        v-html="markedIndex"
-      />
+      <template v-if="markdownIndexes">
+        <div class="markdown-view__index">
+          <p class="markdown-view__index-title">目次</p>
+          <template
+            v-for="index in markdownIndexes"
+          >
+            <a
+              :key="index.val"
+              :class="`markdown-view__index__anchor is-article-title-${index.tagName}`"
+              @click.prevent="handleScroll(index.scrollToY)"
+            >
+              {{ index.title }}
+            </a>
+          </template>
+        </div>
+      </template>
     </template>
   </div>
 </template>
@@ -34,6 +46,15 @@ export default {
     wide: {
       type: Boolean,
       default: false,
+    },
+    markdownIndexes: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  methods: {
+    handleScroll(scrollToY, duration = 500) {
+      this.$SmoothScroll(scrollToY, duration);
     },
   },
   computed: {
@@ -88,12 +109,49 @@ export default {
   padding: 10px 30px 50px;
 }
 .markdown-view__body--white-bg {
-  background-color: #fff;
+  background-color: var(--white);
 }
 /* markdown-view__index */
 .markdown-view__index {
   margin-left: 5%;
   width: 30%;
+  background: var(--white);
+  padding: 16px;
+}
+
+.markdown-view__index-title {
+  font-size: 16px;
+  color: var(--keycolor);
+  font-weight: bold;
+  border-bottom: 1px solid var(--keycolor);
+  padding-left: 16px;
+  margin-bottom: 16px;
+}
+
+.markdown-view__index__anchor {
+  display: block;
+  cursor: pointer;
+  @mixin hoverOpacity;
+  &.is-article-title-h1 {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  &.is-article-title-h2 {
+    font-size: 14px;
+    position: relative;
+    padding-left: 16px;
+    margin-left: 16px;
+    &:after {
+      content: '';
+      position: absolute;
+      display: block;
+      width: 10px;
+      height: 2px;
+      background-color: var(--keycolor);
+      top: calc(50% - 2px);
+      left: 0;
+    }
+  }
 }
 
 /* --------------------------------------------------- */
