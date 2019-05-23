@@ -41,11 +41,43 @@ export default {
   },
   data() {
     return {
-      markdownIndexes: {
-        h1Elements: [],
-        h2Elements: [],
-      },
+      markdownIndexes: [],
     };
+  },
+  methods: {
+    createMarkdownIndexesAnchorInfo() {
+      const markdownIndexes = [];
+      const markdowonHtml = document.querySelector('.article-detail__markdown');
+      const header = document.querySelector('header');
+      const headerHeight = header.clientHeight;
+      const hElements = markdowonHtml.querySelectorAll('h1, h2');
+      hElements.forEach((element, index) => {
+        const tagName = element.tagName.toLowerCase();
+        element.setAttribute('id', `${tagName}-${index}`);
+        const idVal = element.getAttribute('id');
+        const title = element.textContent;
+        const { offsetTop } = element;
+        const scrollToY = offsetTop - headerHeight;
+        markdownIndexes.push({
+          tagName,
+          val: idVal,
+          title,
+          scrollToY,
+        });
+      });
+      this.markdownIndexes = [...markdownIndexes];
+      if (this.$route.hash) {
+        this.smoothScroll();
+      }
+    },
+    smoothScroll() {
+      const { hash } = this.$route;
+      const anchorVal = hash.replace('#', '');
+      const target = this.markdownIndexes.find(obj => anchorVal === obj.val);
+      if (target) {
+        this.$SmoothScroll(target.scrollToY);
+      }
+    },
   },
   computed: {
     articleId() {
@@ -61,38 +93,7 @@ export default {
     this.$store.dispatch('getArticle', parseInt(this.$route.params.id, 10));
   },
   mounted() {
-    const markdownIndexes = {
-      h1Elements: [],
-      h2Elements: [],
-    };
-    const markdowonHtml = document.querySelector('.article-detail__markdown');
-    const h1Elements = markdowonHtml.getElementsByTagName('h1');
-    const h2Elements = markdowonHtml.getElementsByTagName('h2');
-    h1Elements.forEach((element, index) => {
-      element.setAttribute('id', `h1-${index}`);
-      const idVal = element.getAttribute('id');
-      const height = element.clientHeight;
-      const title = element.textContent;
-      markdownIndexes.h1Elements.push({
-        val: idVal,
-        height,
-        title,
-      });
-    });
-    h2Elements.forEach((element, index) => {
-      element.setAttribute('id', `h2-${index}`);
-      const idVal = element.getAttribute('id');
-      const height = element.clientHeight;
-      const title = element.textContent;
-      markdownIndexes.h2Elements.push({
-        val: idVal,
-        height,
-        title,
-      });
-    });
-    this.markdownIndexes = Object.assign({}, { ...this.markdownIndexes }, {
-      ...markdownIndexes,
-    });
+    this.createMarkdownIndexesAnchorInfo();
   },
 };
 </script>

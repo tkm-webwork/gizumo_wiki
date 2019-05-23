@@ -9,23 +9,12 @@
         <div class="markdown-view__index">
           <p class="markdown-view__index-title">目次</p>
           <template
-            v-for="index in markdownIndexes.h1Elements"
+            v-for="index in markdownIndexes"
           >
             <a
-              :href="`#${index.val}`"
               :key="index.val"
-              class="markdown-view__index__anchor is-article-title"
-            >
-              {{ index.title }}
-            </a>
-          </template>
-          <template
-            v-for="index in markdownIndexes.h2Elements"
-          >
-            <a
-              :href="`#${index.val}`"
-              :key="index.val"
-              class="markdown-view__index__anchor is-article-subtitle"
+              :class="`markdown-view__index__anchor is-article-title-${index.tagName}`"
+              @click.prevent="handleScroll(index.scrollToY)"
             >
               {{ index.title }}
             </a>
@@ -59,8 +48,13 @@ export default {
       default: false,
     },
     markdownIndexes: {
-      type: Object,
-      default: () => {},
+      type: Array,
+      default: () => [],
+    },
+  },
+  methods: {
+    handleScroll(scrollToY, duration = 500) {
+      this.$SmoothScroll(scrollToY, duration);
     },
   },
   computed: {
@@ -129,16 +123,20 @@ export default {
   font-size: 16px;
   color: var(--keycolor);
   font-weight: bold;
+  border-bottom: 1px solid var(--keycolor);
+  padding-left: 16px;
+  margin-bottom: 16px;
 }
 
 .markdown-view__index__anchor {
   display: block;
+  cursor: pointer;
   @mixin hoverOpacity;
-  &.is-article-title {
+  &.is-article-title-h1 {
     font-size: 20px;
     font-weight: bold;
   }
-  &.is-article-subtitle {
+  &.is-article-title-h2 {
     font-size: 14px;
     position: relative;
     padding-left: 16px;

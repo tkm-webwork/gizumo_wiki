@@ -16,7 +16,7 @@
       </app-text>
       <div class="article-list-links">
         <app-router-link
-          :to="`articles/${item.id}`"
+          :to="`/articles/${item.id}`"
           bg-keycolor
           large
           white
@@ -24,7 +24,7 @@
           詳細
         </app-router-link>
         <app-router-link
-          :to="`articles/${item.id}/edit`"
+          :to="`/articles/${item.id}/edit`"
           white
           bg-lightgreen
           large
