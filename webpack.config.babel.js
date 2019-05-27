@@ -19,7 +19,7 @@ const config = {
   mode: nodeEnv,
   devtool: isDev ? 'source-map' : 'eval',
   resolve: {
-    extensions: ['.vue', '.js', '.json', '.scss'],
+    extensions: ['.vue', '.js', '.json', '.css'],
     alias: {
       '@Components': path.resolve(__dirname, './src/js/components'),
       '@Helpers': path.resolve(__dirname, './src/js/_helpers'),
@@ -74,7 +74,7 @@ const config = {
         loader: 'vue-loader',
       },
       {
-        test: /\.(css|sass|scss)$/,
+        test: /\.((post)?css)$/,
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
@@ -82,29 +82,35 @@ const config = {
           },
           {
             loader: 'css-loader',
-            options: { sourceMap: true }
+            options: { sourceMap: true, importLoaders: 1 },
           },
           {
             loader: 'postcss-loader',
             options: {
-              plugins: [
+              sourceMap: true,
+              plugins: () => [
+                require('postcss-import')(),
+                require('postcss-mixins')({
+                  mixinsFiles: 'src/css/_helpers/_mixins.css'
+                }),
+                require('postcss-custom-media')({
+                  importFrom: 'src/css/_helpers/_media.css'
+                }),
+                require('postcss-custom-properties')({
+                  preserve: false,
+                  importFrom: 'src/css/_helpers/_variables.css'
+                }),
+                require('postcss-color-function')(),
+                require('postcss-nested')(),
                 require('autoprefixer')({
-                  grid: true,
                   browsers: [
-                    'IE >= 9',
+                    'IE >= 11',
                     'last 2 versions'
                   ]
-                })
-              ]
-            }
+                }),
+              ],
+            },
           },
-          {
-            loader: 'sass-loader',
-            options: {
-              // outputStyle: 'expanded',
-              data: `@import './src/scss/_helpers/index.scss';`
-            }
-          }
         ]
       }
     ]

@@ -47,11 +47,11 @@ module.exports = async({config, mode}) => {
     ]
   });
 
-
   const alias = {
-    '@Components': '../../../../src/js/components',
-    '@Pages': '../../../../src/js/pages',
-    '@Scss': '../../../src/scss',
+    '@Components': path.resolve(__dirname, '../../../src/js/components'),
+    '@Helpers': path.resolve(__dirname, '../../../src/js/_helpers'),
+    '@Pages': path.resolve(__dirname, '../../../../src/js/pages'),
+    '@Scss': path.resolve(__dirname, '../../../src/scss'),
   }
 
   config.resolve.alias = {...config.resolve.alias, ...alias};

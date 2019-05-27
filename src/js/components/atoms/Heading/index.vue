@@ -45,13 +45,13 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-// Defaultスタイル
+<style lang="css" scoped>
+/* Defaultスタイル */
 .heading--primary {
   padding: 5px;
   padding-left: 15px;
   font-size: 24px;
-  border-left: 5px solid $keycolor;
+  border-left: 5px solid var(--keycolor);
   background-color: #fff;
 }
 .heading--secondary {}
@@ -60,9 +60,9 @@ export default {
 .heading--quinary {}
 .heading--senary {}
 
-// Unique（For Props）スタイル
 .header__title {
   font-size: 20px;
   color: #fff;
+  font-weight: var(--bold);
 }
 </style>

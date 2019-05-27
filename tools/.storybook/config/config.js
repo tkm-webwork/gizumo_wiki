@@ -3,6 +3,11 @@ import { configure } from '@storybook/vue'
 import Vue from 'vue';
 import Vuex from 'vuex';
 import { addParameters } from '@storybook/vue/dist/client/preview';
+import VeeValidate, { Validator } from 'vee-validate';
+import ja from 'vee-validate/dist/locale/ja';
+
+//plugins
+import { ValidationProvider } from 'vee-validate';
 
 //atoms
 import AppButton from '@Components/atoms/Button/index.vue';
@@ -22,7 +27,12 @@ import AppMarkdownView from '@Components/molecules/MarkdownView/index.vue';
 import AppHeader from '@Components/globals/Header/index.vue';
 import Sidebar from '@Components/globals/Sidebar/index.vue';
 
+Validator.localize('ja', ja);
+Vue.use(VeeValidate, { locale: ja });
 Vue.use(Vuex);
+
+//plugins
+Vue.component('validation-provider', ValidationProvider);
 
 //atoms
 Vue.component('app-button', AppButton);

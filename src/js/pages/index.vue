@@ -47,17 +47,17 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="css" scoped>
 .content {
   display: flex;
-  padding-top: $headerHight;
-  z-index: index($z, 'content');
+  padding-top: var(--headerHight);
+  z-index: var(--z-content);
   &.articlePost,
   &.articleEdit {
     height: 100vh;
   }
   &-main {
-    padding-left: $sidebarWidth;
+    padding-left: var(--sidebarWidth);
     width: 100%;
     &.signin {
       padding-left: 0;
