@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="articles">
-    <app-heading :level="1">すべての一覧・カテゴリーごとの一覧</app-heading>
+    <app-heading :level="1">{{ articleTitle }}</app-heading>
     <app-router-link
       to="articles/post"
       key-color
@@ -30,10 +30,30 @@ export default {
     appArticleList: ArticleList,
     appRouterLink: RouterLink,
   },
+  data() {
+    return {
+      title: 'すべて',
+    };
+  },
   computed: {
+    articleTitle() {
+      return `${this.title}の一覧`;
+    },
     articlesList() {
       return this.$store.state.articles.articleList;
     },
+  },
+  created() {
+    if (this.$route.query.category) {
+      const { category } = this.$route.query;
+      this.title = category;
+      this.$store.dispatch('filteredArticles', category);
+      if (this.$store.state.articles.articleList.length === 0) {
+        this.$router.push({ path: '/notfound' });
+      }
+    } else {
+      this.$store.dispatch('showAllArticles');
+    }
   },
 };
 </script>

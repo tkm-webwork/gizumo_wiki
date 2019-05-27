@@ -44,6 +44,22 @@ export default {
       markdownIndexes: [],
     };
   },
+  computed: {
+    articleId() {
+      const { id } = this.$route.params;
+      return id;
+    },
+    markdownContent() {
+      const { title, content } = this.$store.state.articles.targetArticle;
+      return `# ${title}\n${content}`;
+    },
+  },
+  created() {
+    this.$store.dispatch('getArticle', parseInt(this.$route.params.id, 10));
+  },
+  mounted() {
+    this.createMarkdownIndexesAnchorInfo();
+  },
   methods: {
     createMarkdownIndexesAnchorInfo() {
       const markdownIndexes = [];
@@ -78,22 +94,6 @@ export default {
         this.$SmoothScroll(target.scrollToY);
       }
     },
-  },
-  computed: {
-    articleId() {
-      const { id } = this.$route.params;
-      return id;
-    },
-    markdownContent() {
-      const { title, content } = this.$store.state.articles.targetArticle;
-      return `# ${title}\n${content}`;
-    },
-  },
-  created() {
-    this.$store.dispatch('getArticle', parseInt(this.$route.params.id, 10));
-  },
-  mounted() {
-    this.createMarkdownIndexesAnchorInfo();
   },
 };
 </script>

@@ -45,7 +45,7 @@ export default new VueRouter({
       component: Articles,
       children: [
         {
-          name: 'allArticles',
+          name: 'articleList',
           path: '',
           component: ArticleList,
         },
