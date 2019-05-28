@@ -2,9 +2,11 @@ import { VueLoaderPlugin } from 'vue-loader';
 import path from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import WebpackNotifierPlugin from 'webpack-notifier';
+import webpack from 'webpack';
 
 const nodeEnv = process.env.NODE_ENV || 'development';
 const isDev = nodeEnv === 'development';
+const isProd = nodeEnv === 'production';
 
 console.log('==================================================');
 console.log('== nodeEnv ==> ', nodeEnv);
@@ -115,6 +117,20 @@ const config = {
       }
     ]
   }
+}
+
+if (isDev) {
+  config.plugins.push(
+    new webpack.DefinePlugin({
+      'API_BASE_URL': JSON.stringify('http://api.wiki.gizumo-inc.work/api'),
+    })
+  );
+} else if (isProd) {
+  config.plugins.push(
+    new webpack.DefinePlugin({
+      'API_BASE_URL': JSON.stringify(''),
+    })
+  );
 }
 
 export default config;

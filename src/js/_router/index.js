@@ -18,8 +18,10 @@ import ArticlePost from '@Pages/Articles/Post';
 // ユーザー
 import Users from '@Pages/Users';
 
+import Store from '../_store';
+
 Vue.use(VueRouter);
-export default new VueRouter({
+const router = new VueRouter({
   mode: 'history',
   routes: [
     {
@@ -78,3 +80,13 @@ export default new VueRouter({
     },
   ],
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(page => !page.meta.isPublic) && !Store.state.auth.signedIn) {
+    next('/signin');
+  } else {
+    next();
+  }
+});
+
+export default router;
