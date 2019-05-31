@@ -19,6 +19,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    small: {
+      type: Boolean,
+      default: false,
+    },
+    round: {
+      type: Boolean,
+      default: false,
+    },
     disabled: {
       type: Boolean,
       default: false,
@@ -33,6 +41,8 @@ export default {
       return {
         button: true,
         'button--block': this.block,
+        'button--small': this.small,
+        'button--round': this.round,
         'button--disabled': this.disabled,
         'button--danger': this.bgDanger,
       };
@@ -55,6 +65,12 @@ export default {
 .button--block {
   display: block;
   width: 100%;
+}
+.button--small {
+  padding: 5px 15px;
+}
+.button--round {
+  border-radius: 5px;
 }
 .button--disabled {
   background-color: var(--disabledColor);

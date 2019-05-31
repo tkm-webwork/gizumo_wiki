@@ -106,7 +106,7 @@ export default {
   padding: 10px 20px;
 }
 .router-link--small {
-  padding: 5px;
+  padding: 5px 15px;
 }
 .router-link--underline {
   text-decoration: underline;

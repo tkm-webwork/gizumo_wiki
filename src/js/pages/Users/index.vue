@@ -4,8 +4,10 @@
 
 <script>
 export default {
+  watch: {
+    $route() {
+      this.$store.dispatch('clearMessage');
+    },
+  },
 };
 </script>
-
-<style lang="css" scoped>
-</style>
