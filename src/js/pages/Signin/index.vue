@@ -2,12 +2,12 @@
   <form class="login" @submit.prevent="signIn">
     <div class="login-form">
       <app-input
-        name="username"
+        name="email"
         type="text"
-        placeholder="ユーザー名"
+        placeholder="メールアドレス"
         required
-        vvas="ユーザーネーム"
-        :value="username"
+        vvas="メールアドレス"
+        :value="email"
         @updateValue="updateValue"
       />
     </div>
@@ -48,7 +48,6 @@
 </template>
 
 <script>
-import Cookies from 'js-cookie';
 import { Input, Button, Text } from '@Components/atoms';
 
 export default {
@@ -59,7 +58,7 @@ export default {
   },
   data() {
     return {
-      username: '',
+      email: '',
       password: '',
     };
   },
@@ -75,14 +74,6 @@ export default {
       return this.$store.state.auth.errorMessage;
     },
   },
-  created() {
-    const token = Cookies.get('user-token');
-    if (token) {
-      this.$router.push(this.$route.query.redirect || '/');
-    } else {
-      this.$store.dispatch('signOut');
-    }
-  },
   methods: {
     updateValue($event) {
       this[$event.target.name] = $event.target.value;
@@ -91,10 +82,8 @@ export default {
       if (this.disabled) return;
       this.$store.dispatch({
         type: 'signIn',
-        username: this.username,
+        email: this.email,
         password: this.password,
-      }).then(() => {
-        this.$router.push(this.$route.query.redirect || '/');
       });
     },
   },

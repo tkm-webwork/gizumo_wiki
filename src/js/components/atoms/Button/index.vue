@@ -23,6 +23,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    bgDanger: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     classes() {
@@ -30,6 +34,7 @@ export default {
         button: true,
         'button--block': this.block,
         'button--disabled': this.disabled,
+        'button--danger': this.bgDanger,
       };
     },
   },
@@ -57,5 +62,8 @@ export default {
   &:hover {
     opacity: 1;
   }
+}
+.button--danger {
+  background-color: var(--errorColor);
 }
 </style>

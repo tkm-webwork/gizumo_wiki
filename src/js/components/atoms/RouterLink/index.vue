@@ -52,6 +52,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    bgKeycolor: {
+      type: Boolean,
+      default: false,
+    },
+    bgLightgreen: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     classes() {
@@ -64,6 +72,8 @@ export default {
         'router-link--key-color': this.keyColor,
         'router-link--white': this.white,
         'router-link--round': this.round,
+        'router-link--bg-key-color': this.bgKeycolor,
+        'router-link--bg-lightgreen': this.bgLightgreen,
       };
     },
   },
@@ -74,6 +84,7 @@ export default {
 .router-link {
   font-size: 16px;
   transition: all .5s;
+  @mixin hoverOpacity;
   &.is-active {
     color: var(--darkerColor);
     font-weight: bold;
@@ -84,7 +95,7 @@ export default {
   display: block;
 }
 .router-link--large {
-  padding: 7px 10px;
+  padding: 10px 20px;
 }
 .router-link--small {
   padding: 5px;
@@ -94,6 +105,12 @@ export default {
 }
 .router-link--key-color {
   color: var(--keycolor);
+}
+.router-link--bg-key-color {
+  background-color: var(--keycolor);
+}
+.router-link--bg-lightgreen {
+  background-color: var(--lightGreen);
 }
 .router-link--white {
   color: #fff;

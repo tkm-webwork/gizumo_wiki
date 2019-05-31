@@ -1,13 +1,20 @@
 <template lang="html">
   <div class="articles">
     <app-heading :level="1">すべての一覧・カテゴリーごとの一覧</app-heading>
-    <app-router-link to="articles/post">
+    <app-router-link
+      to="articles/post"
+      key-color
+      white
+      bg-lightgreen
+      large
+      class="articles-create-link"
+    >
       新しいドキュメントを作る
     </app-router-link>
     <div class="articles-content">
       <app-article-list
-        class-name="articles-list"
         :target-array="articlesList"
+        border-gray
       />
     </div>
   </div>
@@ -32,4 +39,10 @@ export default {
 </script>
 
 <style lang="css" scoped>
+  .articles-create-link {
+    margin-top: 16px;
+  }
+  .articles-content {
+    margin-top: 16px;
+  }
 </style>

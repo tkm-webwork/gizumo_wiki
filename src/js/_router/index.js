@@ -13,6 +13,7 @@ import Articles from '@Pages/Articles';
 import ArticleList from '@Pages/Articles/List';
 import ArticleDetail from '@Pages/Articles/Detail';
 import ArticleEdit from '@Pages/Articles/Edit';
+import ArticlePost from '@Pages/Articles/Post';
 
 // ユーザー
 import Users from '@Pages/Users';
@@ -20,8 +21,10 @@ import UserList from '@Pages/Users/List';
 import UserDetail from '@Pages/Users/Detail';
 import UserCreate from '@Pages/Users/Create';
 
+import Store from '../_store';
+
 Vue.use(VueRouter);
-export default new VueRouter({
+const router = new VueRouter({
   mode: 'history',
   routes: [
     {
@@ -54,7 +57,7 @@ export default new VueRouter({
         {
           name: 'articlePost',
           path: 'post',
-          component: ArticleEdit,
+          component: ArticlePost,
         },
         {
           name: 'articleDetail',
@@ -97,3 +100,13 @@ export default new VueRouter({
     },
   ],
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(page => !page.meta.isPublic) && !Store.state.auth.signedIn) {
+    next('/signin');
+  } else {
+    next();
+  }
+});
+
+export default router;
