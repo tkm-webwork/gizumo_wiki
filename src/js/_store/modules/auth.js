@@ -6,13 +6,16 @@ export default {
   state: {
     loading: false,
     signedIn: false,
+    initSignIn: false,
     token: '',
     errorMessage: '',
     user: {
       name: '',
     },
   },
-  getters: {},
+  getters: {
+    token: state => state.token,
+  },
   mutations: {
     signInRequest(state) {
       state.loading = true;

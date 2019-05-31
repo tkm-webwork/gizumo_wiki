@@ -1,5 +1,5 @@
 <template lang="html">
-  <h1>User</h1>
+  <router-view />
 </template>
 
 <script>
