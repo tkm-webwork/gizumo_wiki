@@ -60,6 +60,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    hoverOpacity: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     classes() {
@@ -74,6 +78,7 @@ export default {
         'router-link--round': this.round,
         'router-link--bg-key-color': this.bgKeycolor,
         'router-link--bg-lightgreen': this.bgLightgreen,
+        'router-link--hover-opacity': this.hoverOpacity,
       };
     },
   },
@@ -84,12 +89,15 @@ export default {
 .router-link {
   font-size: 16px;
   transition: all .5s;
-  @mixin hoverOpacity;
   &.is-active {
     color: var(--darkerColor);
     font-weight: bold;
     background-color: #fff;
+    pointer-events: none;
   }
+}
+.router-link--hover-opacity {
+  @mixin hoverOpacity;
 }
 .router-link--block {
   display: block;

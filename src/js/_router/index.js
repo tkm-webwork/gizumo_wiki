@@ -72,7 +72,6 @@ const router = new VueRouter({
       ],
     },
     {
-      name: 'users',
       path: '/users',
       component: Users,
       children: [
@@ -82,14 +81,14 @@ const router = new VueRouter({
           component: UserList,
         },
         {
-          name: 'userDetail',
-          path: ':id',
-          component: UserDetail,
-        },
-        {
           name: 'userCreate',
           path: 'create',
           component: UserCreate,
+        },
+        {
+          name: 'userDetail',
+          path: ':id',
+          component: UserDetail,
         },
       ],
     },

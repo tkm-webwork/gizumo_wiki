@@ -15,7 +15,9 @@ export default {
       name: '',
     },
   },
-  getters: {},
+  getters: {
+    token: state => state.token,
+  },
   mutations: {
     signInRequest(state) {
       state.loading = true;

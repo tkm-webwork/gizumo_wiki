@@ -7,6 +7,7 @@
       <app-router-link
         :to="item.path"
         exact-active-class="is-active"
+        hover-opacity
         block
         large
         white
