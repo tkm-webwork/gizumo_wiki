@@ -1,10 +1,10 @@
 <template lang="html">
-  <router-view />
+  <p>create</p>
 </template>
 
 <script>
 export default {
-};
+}
 </script>
 
 <style lang="css" scoped>

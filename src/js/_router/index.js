@@ -16,6 +16,9 @@ import ArticleEdit from '@Pages/Articles/Edit';
 
 // ユーザー
 import Users from '@Pages/Users';
+import UserList from '@Pages/Users/List';
+import UserDetail from '@Pages/Users/Detail';
+import UserCreate from '@Pages/Users/Create';
 
 Vue.use(VueRouter);
 export default new VueRouter({
@@ -69,6 +72,23 @@ export default new VueRouter({
       name: 'users',
       path: '/users',
       component: Users,
+      children: [
+        {
+          name: 'allUsers',
+          path: '',
+          component: UserList,
+        },
+        {
+          name: 'userDetail',
+          path: ':id',
+          component: UserDetail,
+        },
+        {
+          name: 'userCreate',
+          path: 'create',
+          component: UserCreate,
+        },
+      ],
     },
     {
       name: 'notfound',

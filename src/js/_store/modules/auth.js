@@ -4,6 +4,7 @@ export default {
   state: {
     loading: false,
     signedIn: false,
+    initSignIn: false,
     token: '',
     errorMessage: '',
     user: {
