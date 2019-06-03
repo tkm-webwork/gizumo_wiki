@@ -1,73 +1,53 @@
 <template lang="html">
   <section class="users-list">
     <app-heading :level="1">ユーザー一覧</app-heading>
-    <app-router-link
-      to="/users/create"
-      hover-opacity
-      block
-      large
-      white
-      round
-    >
-      新規ユーザーの作成
-    </app-router-link>
-    <p v-if="errorMessage">{{ errorMessage }}</p>
-    <ul>
-      <app-list-item
-        v-for="user in usersList"
-        :key="user.id"
-        flex
-        beetween
-        align-items
-        bg-white
-        large
+
+    <div class="users-list__create">
+      <app-router-link
+        to="/users/create"
+        hover-opacity
+        small
+        white
+        round
+        bg-keycolor
       >
-        <app-text inline-block>{{ user.username }}</app-text>
-        <app-text inline-block>{{ user.accountname }}</app-text>
-        <app-text inline-block>{{ user.role }}</app-text>
-        <div class="article-list-links">
-          <app-router-link
-            :to="`/users/${user.id}`"
-            bg-keycolor
-            large
-            white
-          >
-            詳細
-          </app-router-link>
-          <app-button
-            bg-danger
-          >
-            削除
-          </app-button>
-        </div>
-      </app-list-item>
-    </ul>
+        新規ユーザーの作成
+      </app-router-link>
+    </div>
+
+    <p v-if="errorMessage">{{ errorMessage }}</p>
+
+    <div class="users-list__table">
+      <app-user-table :target-array="userList" :theads="theads" />
+    </div>
   </section>
 </template>
 
 <script>
-import {
-  RouterLink,
-  ListItem,
-  Button,
-  Heading,
-  Text,
-} from '@Components/atoms';
+import { RouterLink, Heading } from '@Components/atoms';
+import { UserTable } from '@Components/molecules';
 
 export default {
   components: {
+    appUserTable: UserTable,
     appRouterLink: RouterLink,
-    appListItem: ListItem,
-    appButton: Button,
-    appText: Text,
     appHeading: Heading,
   },
   computed: {
     errorMessage() {
       return this.$store.state.users.errorMessage;
     },
-    usersList() {
-      return this.$store.state.users.usersList;
+    userList() {
+      return this.$store.state.users.userList;
+    },
+    theads() {
+      return [
+        'アカウント名',
+        'ユーザー名',
+        '権限',
+        '詳細',
+        '削除',
+      ];
     },
   },
   created() {
@@ -77,4 +57,12 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.users-list {
+  &__create {
+    margin-top: 20px;
+  }
+  &__table {
+    margin-top: 20px;
+  }
+}
 </style>
