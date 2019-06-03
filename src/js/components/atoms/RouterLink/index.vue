@@ -90,7 +90,7 @@ export default {
   font-size: 16px;
   transition: all .5s;
   &.is-active {
-    color: var(--darkerColor);
+    color: var(--subthemeColor);
     font-weight: bold;
     background-color: #fff;
     pointer-events: none;
@@ -112,13 +112,13 @@ export default {
   text-decoration: underline;
 }
 .router-link--key-color {
-  color: var(--keycolor);
+  color: var(--themeColor);
 }
 .router-link--bg-key-color {
-  background-color: var(--keycolor);
+  background-color: var(--themeColor);
 }
 .router-link--bg-lightgreen {
-  background-color: var(--lightGreen);
+  background-color: var(--createColor);
 }
 .router-link--white {
   color: #fff;

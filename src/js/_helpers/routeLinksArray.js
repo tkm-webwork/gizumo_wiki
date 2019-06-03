@@ -19,4 +19,9 @@ export default [
     name: 'ユーザー',
     path: '/users',
   },
+  {
+    id: 5,
+    name: 'チェック',
+    path: '/color-check',
+  },
 ];

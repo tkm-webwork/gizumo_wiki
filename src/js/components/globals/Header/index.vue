@@ -33,7 +33,7 @@ export default {
   align-items: center;
   padding: 10px 20px;
   width: 100%;
-  background-color: var(--keycolor);
+  background-color: var(--themeColor);
   z-index: var(--z-header);
 }
 </style>
