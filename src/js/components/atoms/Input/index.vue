@@ -88,7 +88,7 @@ export default {
   border-bottom: 1px solid #ccc;
   transition: all .5s;
   &:focus {
-    border-bottom-color: var(--keycolor);
+    border-bottom-color: var(--themeColor);
   }
 }
 

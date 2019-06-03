@@ -85,10 +85,10 @@ export default {
     margin-left: 16px;
   }
   .article-list--bordergray li {
-    border-bottom: 1px solid var(--lightGray);
+    border-bottom: 1px solid var(--separatorColor);
   }
   .article-list--bordergray li:first-child {
-    border-top: 1px solid var(--lightGray);
+    border-top: 1px solid var(--separatorColor);
   }
 
 </style>

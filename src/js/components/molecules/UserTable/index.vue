@@ -63,10 +63,10 @@ export default {
   width: 100%;
   background-color: #fff;
   th, td {
-    border: 1px solid var(--lightGray);
+    border: 1px solid var(--separatorColor);
   }
   &__head {
-    background-color: var(--lightGray);
+    background-color: var(--separatorColor);
   }
 }
 </style>

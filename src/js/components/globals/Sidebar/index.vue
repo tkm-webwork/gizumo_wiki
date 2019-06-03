@@ -33,7 +33,7 @@ export default {
   height: 100%;
   color: #fff;
   text-align: center;
-  background-color: var(--darkerColor);
+  background-color: var(--subthemeColor);
   z-index: var(--z-sidebar);
 }
 </style>

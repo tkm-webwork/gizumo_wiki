@@ -5,16 +5,15 @@
   --z-header: 3;
 
   /* --- 色 --- */
-  --keycolor: #0a9dd5;
-  --textLinkColor: #0068b7; /* 404の「TOPに戻る」のテキストの色 */
-  --errorColor: #ff0a0a; /* エラー */
-  --cautionColor: #ffdb4f; /* 注意 */
-  --disabledColor: #c0c6c9; /* 無効 */
-  --darkerColor: #2c4f54; /* サイドバーの背景に使っている色 */
-  --exThinGray: #efefef;
-  --lightGreen: #30d50a; /* 新規作成系に使用 */
+  --themeColor: #17abe6; /* テーマカラー（ヘッダー） */
+  --subthemeColor: #337480; /* サブテーマカラー（サイドバー） */
+  --textLinkColor: #36f; /* テキストリンクに使う */
+  --createColor: #59994d; /* 新規系に使う（作成） */
+  --errorColor: #e61717; /* エラー系に使う（削除） */
+  --cautionColor: #e6c72e; /* 注意系に使う（編集） */
+  --disabledColor: #c0c6c9; /* ボタンの無効時に使ってる */
+  --separatorColor: #eaeaea; /* ボーダーや区切り線に使う */
   --white: #fff; /* 白に使用 */
-  --lightGray: #eaeaea;
 
   /* --- 幅 --- */
   --pcContentWidth: 1100px; /* PCのコンテンツ幅 */

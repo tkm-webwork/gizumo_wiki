@@ -58,7 +58,7 @@ export default {
   display: inline-block;
   font-size: 16px;
   color: #fff;
-  background-color: var(--keycolor);
+  background-color: var(--themeColor);
   @mixin hoverOpacity;
 }
 
