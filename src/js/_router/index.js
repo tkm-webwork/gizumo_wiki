@@ -21,20 +21,12 @@ import UserList from '@Pages/Users/List';
 import UserDetail from '@Pages/Users/Detail';
 import UserCreate from '@Pages/Users/Create';
 
-// 色の確認用
-import Check from '@Pages/Check';
-
 import Store from '../_store';
 
 Vue.use(VueRouter);
 const router = new VueRouter({
   mode: 'history',
   routes: [
-    {
-      name: 'check',
-      path: '/color-check',
-      component: Check,
-    },
     {
       name: 'signin',
       path: '/signin',
