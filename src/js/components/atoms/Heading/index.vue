@@ -52,7 +52,7 @@ export default {
   padding-left: 15px;
   font-size: 24px;
   border-left: 5px solid var(--keycolor);
-  background-color: #fff;
+  border-bottom: 1px solid var(--lightGray);
 }
 .heading--secondary {}
 .heading--tertiary {}

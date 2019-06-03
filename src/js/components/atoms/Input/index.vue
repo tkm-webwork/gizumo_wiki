@@ -10,13 +10,30 @@
       :value="value"
       @input="$emit('updateValue', $event)"
     >
-    <span class="error">{{ errors.first(name) }}</span>
+    <!-- <span class="error">{{ errors.first(name) }}</span> -->
+
+    <!-- エラーの表示、下で対応できればしてほしい -->
+    <template v-if="errorMessages">
+      <ul>
+        <li
+          v-for="(error, index) in errorMessages"
+          :key="index"
+           class="error"
+        >
+          {{ error }}
+        </li>
+      </ul>
+    </template>
   </div>
 </template>
 
 <script>
 export default {
   props: {
+    errorMessages: {
+      type: [String, Array],
+      default: () => [],
+    },
     name: {
       type: String,
       default: 'inputName',

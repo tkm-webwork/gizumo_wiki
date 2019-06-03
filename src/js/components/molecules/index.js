@@ -1,11 +1,11 @@
 import MarkdownView from './MarkdownView';
 import SidebarList from './SidebarList';
 import ArticleList from './ArticleList';
-import UserList from './UserList';
+import UserTable from './UserTable';
 
 export {
   MarkdownView,
   SidebarList,
   ArticleList,
-  UserList,
+  UserTable,
 };

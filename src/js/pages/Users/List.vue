@@ -1,30 +1,35 @@
 <template lang="html">
   <section class="users-list">
     <app-heading :level="1">ユーザー一覧</app-heading>
-    <app-router-link
-      to="/users/create"
-      hover-opacity
-      small
-      white
-      round
-      bg-keycolor
-    >
-      新規ユーザーの作成
-    </app-router-link>
+
+    <div class="users-list__create">
+      <app-router-link
+        to="/users/create"
+        hover-opacity
+        small
+        white
+        round
+        bg-keycolor
+      >
+        新規ユーザーの作成
+      </app-router-link>
+    </div>
 
     <p v-if="errorMessage">{{ errorMessage }}</p>
 
-    <app-user-list :target-array="userList" />
+    <div class="users-list__table">
+      <app-user-table :target-array="userList" :theads="theads" />
+    </div>
   </section>
 </template>
 
 <script>
 import { RouterLink, Heading } from '@Components/atoms';
-import { UserList } from '@Components/molecules';
+import { UserTable } from '@Components/molecules';
 
 export default {
   components: {
-    appUserList: UserList,
+    appUserTable: UserTable,
     appRouterLink: RouterLink,
     appHeading: Heading,
   },
@@ -35,6 +40,15 @@ export default {
     userList() {
       return this.$store.state.users.userList;
     },
+    theads() {
+      return [
+        'アカウント名',
+        'ユーザー名',
+        '権限',
+        '詳細',
+        '削除',
+      ];
+    },
   },
   created() {
     this.$store.dispatch('getAllUsers');
@@ -43,4 +57,12 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.users-list {
+  &__create {
+    margin-top: 20px;
+  }
+  &__table {
+    margin-top: 20px;
+  }
+}
 </style>

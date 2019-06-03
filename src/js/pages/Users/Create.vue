@@ -11,10 +11,10 @@
           type="text"
           placeholder="ユーザー名"
           data-vv-as="ユーザー名"
+          :error-messages="errors.collect('name')"
           :value="name"
           @updateValue="updateValue"
         />
-        <app-text tag="span" error ex-small>{{ errors.first('name') }}</app-text>
       </div>
       <div>
         <app-input
@@ -23,10 +23,10 @@
           type="text"
           placeholder="メールアドレス"
           data-vv-as="メールアドレス"
+          :error-messages="errors.collect('email')"
           :value="email"
           @updateValue="updateValue"
         />
-        <app-text tag="span" error ex-small>{{ errors.first('email') }}</app-text>
       </div>
       <div>
         <app-input
@@ -35,10 +35,10 @@
           type="password"
           placeholder="パスワード"
           data-vv-as="パスワード"
+          :error-messages="errors.collect('password')"
           :value="password"
           @updateValue="updateValue"
         />
-        <app-text tag="span" error ex-small>{{ errors.first('password') }}</app-text>
       </div>
 
       <template v-if="errorMessage">
