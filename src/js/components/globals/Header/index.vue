@@ -34,6 +34,7 @@ export default {
   padding: 10px 20px;
   width: 100%;
   background-color: var(--themeColor);
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, .6);
   z-index: var(--z-header);
 }
 </style>

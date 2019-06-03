@@ -5,14 +5,14 @@
   --z-header: 3;
 
   /* --- 色 --- */
-  --themeColor: #0a9dd5; /* テーマカラー（ヘッダー） */
-  --subthemeColor: #2c4f54; /* サブテーマカラー（サイドバー） */
-  --textLinkColor: #0068b7; /* テキストリンク */
-  --errorColor: #ff0a0a; /* エラー */
-  --cautionColor: #ffdb4f; /* 注意 */
-  --disabledColor: #c0c6c9; /* 無効 */
-  --createColor: #30d50a; /* 新規作成系（作成ボタン等） */
-  --separatorColor: #eaeaea;
+  --themeColor: #17abe6; /* テーマカラー（ヘッダー） */
+  --subthemeColor: #337480; /* サブテーマカラー（サイドバー） */
+  --textLinkColor: #36f; /* テキストリンクに使う */
+  --createColor: #59994d; /* 新規系に使う（作成） */
+  --errorColor: #e61717; /* エラー系に使う（削除） */
+  --cautionColor: #e6c72e; /* 注意系に使う（編集） */
+  --disabledColor: #c0c6c9; /* ボタンの無効時に使ってる */
+  --separatorColor: #eaeaea; /* ボーダーや区切り線に使う */
   --white: #fff; /* 白に使用 */
 
   /* --- 幅 --- */
