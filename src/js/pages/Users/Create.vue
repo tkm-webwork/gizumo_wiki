@@ -1,7 +1,14 @@
 <template lang="html">
   <section class="users-create">
     <app-heading :level="1">ユーザー作成</app-heading>
-    <app-button small round @click="back">戻る</app-button>
+    <app-button
+      small
+      round
+      bg-caution
+      @click="back"
+    >
+      戻る
+    </app-button>
 
     <form @submit.prevent="createUser">
       <div>
@@ -41,11 +48,9 @@
         />
       </div>
 
-      <template v-if="errorMessage">
-        <div>
-          <app-text>{{ errorMessage }}</app-text>
-        </div>
-      </template>
+      <div v-if="errorMessage">
+        <app-text bg-error>{{ errorMessage }}</app-text>
+      </div>
 
       <div>
         <app-button

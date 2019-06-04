@@ -89,6 +89,7 @@ export default {
 .router-link {
   font-size: 16px;
   transition: all .5s;
+  line-height: 1.4;
   &.is-active {
     color: var(--subthemeColor);
     font-weight: bold;
@@ -106,7 +107,8 @@ export default {
   padding: 10px 20px;
 }
 .router-link--small {
-  padding: 5px 15px;
+  padding: 5px 10px;
+  font-size: 14px;
 }
 .router-link--underline {
   text-decoration: underline;

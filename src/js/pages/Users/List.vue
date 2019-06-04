@@ -9,13 +9,17 @@
         small
         white
         round
-        bg-keycolor
+        bg-lightgreen
       >
         新規ユーザーの作成
       </app-router-link>
     </div>
 
-    <p v-if="errorMessage">{{ errorMessage }}</p>
+    <div v-if="errorMessage" class="users-list__error">
+      <app-text bg-error>
+        {{ errorMessage }}
+      </app-text>
+    </div>
 
     <div class="users-list__table">
       <app-user-table :target-array="userList" :theads="theads" />
@@ -24,7 +28,7 @@
 </template>
 
 <script>
-import { RouterLink, Heading } from '@Components/atoms';
+import { RouterLink, Heading, Text } from '@Components/atoms';
 import { UserTable } from '@Components/molecules';
 
 export default {
@@ -32,6 +36,7 @@ export default {
     appUserTable: UserTable,
     appRouterLink: RouterLink,
     appHeading: Heading,
+    appText: Text,
   },
   computed: {
     errorMessage() {
@@ -41,13 +46,7 @@ export default {
       return this.$store.state.users.userList;
     },
     theads() {
-      return [
-        'アカウント名',
-        'ユーザー名',
-        '権限',
-        '詳細',
-        '削除',
-      ];
+      return ['名前', 'アカウント名', '権限', '', ''];
     },
   },
   created() {
@@ -59,6 +58,9 @@ export default {
 <style lang="css" scoped>
 .users-list {
   &__create {
+    margin-top: 20px;
+  }
+  &__error {
     margin-top: 20px;
   }
   &__table {

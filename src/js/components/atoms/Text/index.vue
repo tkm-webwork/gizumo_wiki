@@ -17,6 +17,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    bgError: {
+      type: Boolean,
+      default: false,
+    },
     small: {
       type: Boolean,
       default: false,
@@ -36,6 +40,7 @@ export default {
         text: true,
         'text--inline-block': this.inlineBlock,
         'text--error': this.error,
+        'text--bg-error': this.bgError,
         'text--small': this.small,
         'text--ex-small': this.exSmall,
         'text--ex-large': this.exLarge,
@@ -56,6 +61,12 @@ export default {
 }
 .text--error {
   color: var(--errorColor);
+}
+.text--bg-error {
+  padding: 10px 15px;
+  color: #fff;
+  border-left: 8px solid var(--errorColor);
+  background-color: color(var(--errorColor) a(80%));
 }
 .text--ex-large {
   font-size: 24px;
