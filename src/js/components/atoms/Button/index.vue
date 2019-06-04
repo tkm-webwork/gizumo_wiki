@@ -19,11 +19,23 @@ export default {
       type: Boolean,
       default: false,
     },
+    small: {
+      type: Boolean,
+      default: false,
+    },
+    round: {
+      type: Boolean,
+      default: false,
+    },
     disabled: {
       type: Boolean,
       default: false,
     },
     bgDanger: {
+      type: Boolean,
+      default: false,
+    },
+    bgCaution: {
       type: Boolean,
       default: false,
     },
@@ -33,8 +45,11 @@ export default {
       return {
         button: true,
         'button--block': this.block,
+        'button--small': this.small,
+        'button--round': this.round,
         'button--disabled': this.disabled,
         'button--danger': this.bgDanger,
+        'button--bg-caution': this.bgCaution,
       };
     },
   },
@@ -47,14 +62,22 @@ export default {
   padding: 10px 20px;
   display: inline-block;
   font-size: 16px;
+  line-height: 1.4;
   color: #fff;
-  background-color: var(--keycolor);
+  background-color: var(--themeColor);
   @mixin hoverOpacity;
 }
 
 .button--block {
   display: block;
   width: 100%;
+}
+.button--small {
+  padding: 5px 10px;
+  font-size: 14px;
+}
+.button--round {
+  border-radius: 5px;
 }
 .button--disabled {
   background-color: var(--disabledColor);
@@ -65,5 +88,8 @@ export default {
 }
 .button--danger {
   background-color: var(--errorColor);
+}
+.button--bg-caution {
+  background-color: var(--cautionColor);
 }
 </style>

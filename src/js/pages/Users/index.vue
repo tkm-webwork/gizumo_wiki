@@ -1,11 +1,13 @@
 <template lang="html">
-  <h1>User</h1>
+  <router-view />
 </template>
 
 <script>
 export default {
+  watch: {
+    $route() {
+      this.$store.dispatch('clearMessage');
+    },
+  },
 };
 </script>
-
-<style lang="css" scoped>
-</style>

@@ -1,26 +1,30 @@
 import Cookies from 'js-cookie';
+import axios from 'axios';
+import Router from '../../_router';
 
 export default {
   state: {
     loading: false,
     signedIn: false,
+    initSignIn: false,
     token: '',
     errorMessage: '',
     user: {
       name: '',
     },
   },
-  getters: {},
+  getters: {
+    token: state => state.token,
+  },
   mutations: {
     signInRequest(state) {
       state.loading = true;
       state.errorMessage = '';
     },
-    signInSuccess(state, { username, token }) {
+    signInSuccess(state, { token }) {
       Cookies.set('user-token', token, { expires: 10 });
       state.loading = false;
       state.signedIn = true;
-      state.user.name = username;
       state.token = token;
     },
     signInFailure(state, payload) {
@@ -32,39 +36,33 @@ export default {
       Cookies.remove('user-token');
       state.loading = false;
       state.signedIn = false;
-      state.user.name = '';
     },
   },
   actions: {
     checkAuth({ commit }, { token }) {
       commit('signInRequest');
-      // TODO: ここで非同期処理 Fetch User
-      return commit('signInSuccess', {
-        username: 'user',
+      commit('signInSuccess', {
         token,
       });
+      Router.push('/');
     },
-    signIn({ commit }, { username, password }) {
+    signIn({ commit }, { email, password }) {
       commit('signInRequest');
-      return new Promise((resolve, reject) => {
-        if (!username && !password) {
-          commit('signInFailure', {
-            errorMessage: 'ユーザー名・パスワードを入力してください。',
-          });
-          return reject(new Error('エラーですよ'));
-        }
-        // TODO: ここで非同期処理 Fetch User
-        return setTimeout(() => {
-          if (username === 'user' && password === 'test') {
-            const token = 'tokenString';
-            commit('signInSuccess', { username, token });
-            return resolve();
-          }
-          commit('signInFailure', {
-            errorMessage: 'ユーザーが存在しません。ユーザー名とパスワードをご確認ください。',
-          });
-          return reject(new Error('エラーですよ'));
-        }, 2000);
+      const data = new URLSearchParams();
+      data.append('email', email);
+      data.append('password', password);
+      axios({
+        url: `${API_BASE_URL}/me`,
+        method: 'POST',
+        data,
+      }).then((responce, reject) => {
+        if (!responce.data.token) reject(new Error());
+        commit('signInSuccess', responce.data);
+        Router.push('/');
+      }).catch(() => {
+        commit('signInFailure', {
+          errorMessage: 'ログインに失敗しました。メールアドレスとパスワードを確認して再度ログインし直してみてください。',
+        });
       });
     },
     signOut({ commit }) {

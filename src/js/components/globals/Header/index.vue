@@ -1,6 +1,5 @@
 <template lang="html">
   <header class="header">
-    <app-router-link v-if="signedIn">MENUを開く</app-router-link>
     <app-heading class-name="header__title">
       Gizumo Wiki
     </app-heading>
@@ -8,17 +7,11 @@
 </template>
 
 <script>
-import { Heading, RouterLink } from '@Components/atoms';
+import { Heading } from '@Components/atoms';
 
 export default {
   components: {
     appHeading: Heading,
-    appRouterLink: RouterLink,
-  },
-  computed: {
-    signedIn() {
-      return this.$store.state.auth.signedIn;
-    },
   },
 };
 </script>
@@ -33,7 +26,8 @@ export default {
   align-items: center;
   padding: 10px 20px;
   width: 100%;
-  background-color: var(--keycolor);
+  background-color: var(--themeColor);
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, .6);
   z-index: var(--z-header);
 }
 </style>
