@@ -121,9 +121,9 @@ export default {
 
 .markdown-view__index-title {
   font-size: 16px;
-  color: var(--keycolor);
+  color: var(--themeColor);
   font-weight: bold;
-  border-bottom: 1px solid var(--keycolor);
+  border-bottom: 1px solid var(--themeColor);
   padding-left: 16px;
   margin-bottom: 16px;
 }
@@ -147,7 +147,7 @@ export default {
       display: block;
       width: 10px;
       height: 2px;
-      background-color: var(--keycolor);
+      background-color: var(--themeColor);
       top: calc(50% - 2px);
       left: 0;
     }
@@ -184,7 +184,7 @@ export default {
     padding: 10px 15px;
     font-size: 34px;
     line-height: 1.4;
-    border-bottom: 1px solid var(--keycolor);
+    border-bottom: 1px solid var(--themeColor);
     & + h2 {
       margin-top: 0;
     }

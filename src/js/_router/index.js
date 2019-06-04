@@ -17,6 +17,9 @@ import ArticlePost from '@Pages/Articles/Post';
 
 // ユーザー
 import Users from '@Pages/Users';
+import UserList from '@Pages/Users/List';
+import UserDetail from '@Pages/Users/Detail';
+import UserCreate from '@Pages/Users/Create';
 
 import Store from '../_store';
 
@@ -69,9 +72,25 @@ const router = new VueRouter({
       ],
     },
     {
-      name: 'users',
       path: '/users',
       component: Users,
+      children: [
+        {
+          name: 'allUsers',
+          path: '',
+          component: UserList,
+        },
+        {
+          name: 'userCreate',
+          path: 'create',
+          component: UserCreate,
+        },
+        {
+          name: 'userDetail',
+          path: ':id',
+          component: UserDetail,
+        },
+      ],
     },
     {
       name: 'notfound',

@@ -1,5 +1,3 @@
-/* global API_BASE_URL:true */
-/* 上記はwebpack.congig.jsで定義しているグローバル変数、変数名:trueをコメントアウトで記載しないとeslintでエラーがでるので記載 */
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import Router from '../../_router';
@@ -8,13 +6,16 @@ export default {
   state: {
     loading: false,
     signedIn: false,
+    initSignIn: false,
     token: '',
     errorMessage: '',
     user: {
       name: '',
     },
   },
-  getters: {},
+  getters: {
+    token: state => state.token,
+  },
   mutations: {
     signInRequest(state) {
       state.loading = true;

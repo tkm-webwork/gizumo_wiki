@@ -24,6 +24,9 @@
       }
     }
   },
+  "globals": {
+    "API_BASE_URL": true
+  },
   "rules": {
     "no-new": "off",
     "no-console": "warn",

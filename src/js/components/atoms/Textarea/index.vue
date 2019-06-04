@@ -57,7 +57,7 @@ export default {
   border: 1px solid #ccc;
   transition: all .5s;
   &:focus {
-    border-color: var(--keycolor);
+    border-color: var(--themeColor);
   }
 }
 

@@ -48,11 +48,11 @@ export default {
 <style lang="css" scoped>
 /* Defaultスタイル */
 .heading--primary {
-  padding: 5px;
+  padding: 3px 5px;
   padding-left: 15px;
   font-size: 24px;
-  border-left: 5px solid var(--keycolor);
-  background-color: #fff;
+  border-left: 5px solid var(--themeColor);
+  border-bottom: 1px solid var(--separatorColor);
 }
 .heading--secondary {}
 .heading--tertiary {}

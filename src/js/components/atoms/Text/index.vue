@@ -1,11 +1,15 @@
 <template lang="html">
-  <p :class="classes"><slot /></p>
+  <component :is="tag" :class="classes"><slot /></component>
 </template>
 
 <script>
 export default {
   props: {
-    exLarge: {
+    tag: {
+      type: String,
+      default: 'p',
+    },
+    inlineBlock: {
       type: Boolean,
       default: false,
     },
@@ -13,7 +17,19 @@ export default {
       type: Boolean,
       default: false,
     },
-    inlineBlock: {
+    bgError: {
+      type: Boolean,
+      default: false,
+    },
+    small: {
+      type: Boolean,
+      default: false,
+    },
+    exSmall: {
+      type: Boolean,
+      default: false,
+    },
+    exLarge: {
       type: Boolean,
       default: false,
     },
@@ -22,9 +38,12 @@ export default {
     classes() {
       return {
         text: true,
-        'text--error': this.error,
-        'text--ex-large': this.exLarge,
         'text--inline-block': this.inlineBlock,
+        'text--error': this.error,
+        'text--bg-error': this.bgError,
+        'text--small': this.small,
+        'text--ex-small': this.exSmall,
+        'text--ex-large': this.exLarge,
       };
     },
   },
@@ -35,13 +54,28 @@ export default {
 /* Defaultスタイル */
 .text {
   font-size: 16px;
-  &--ex-large {
-    font-size: 24px;
-  }
 }
 
 .text--inline-block {
   display: inline-block;
+}
+.text--error {
+  color: var(--errorColor);
+}
+.text--bg-error {
+  padding: 10px 15px;
+  color: #fff;
+  border-left: 8px solid var(--errorColor);
+  background-color: color(var(--errorColor) a(80%));
+}
+.text--ex-large {
+  font-size: 24px;
+}
+.text--small {
+  font-size: 14px;
+}
+.text--ex-small {
+  font-size: 12px;
 }
 
 /* Unique（For Props）スタイル */
