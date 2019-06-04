@@ -1,13 +1,39 @@
 <template lang="html">
   <section class="users-detail">
     <app-heading :level="1">ユーザー詳細</app-heading>
-    <app-button small round @click="back">戻る</app-button>
-    <div>
-      <p>{{ user.id }}</p>
-      <p>{{ user.accountname }}</p>
-      <p>{{ user.username }}</p>
-      <p>{{ user.email }}</p>
-      <p>{{ user.role }}</p>
+
+    <div class="users-detail__back">
+      <app-button
+        small
+        round
+        bg-caution
+        @click="back"
+      >
+        戻る
+      </app-button>
+    </div>
+
+    <div v-if="errorMessage" class="users-detail__error">
+      <app-text bg-error>{{ errorMessage }}</app-text>
+    </div>
+
+    <div class="users-detail__info">
+      <div class="users-detail__info__each">
+        <p>ユーザーID</p>
+        <p>{{ user.id }}</p>
+      </div>
+      <div class="users-detail__info__each">
+        <p>{{ user.accountname }}</p>
+      </div>
+      <div class="users-detail__info__each">
+        <p>{{ user.username }}</p>
+      </div>
+      <div class="users-detail__info__each">
+        <p>{{ user.email }}</p>
+      </div>
+      <div class="users-detail__info__each">
+        <p>{{ user.role }}</p>
+      </div>
     </div>
   </section>
 </template>
@@ -38,4 +64,15 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.users-detail {
+  &__back {
+    margin-top: 20px;
+  }
+  &__error {
+    margin-top: 20px;
+  }
+  &__info {
+    margin-top: 20px;
+  }
+}
 </style>
