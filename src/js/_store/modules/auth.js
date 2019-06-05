@@ -6,7 +6,6 @@ export default {
   state: {
     loading: false,
     signedIn: false,
-    initSignIn: false,
     token: '',
     errorMessage: '',
     user: {
@@ -17,6 +16,14 @@ export default {
     token: state => state.token,
   },
   mutations: {
+    hasToken(state, { token }) {
+      state.signedIn = true;
+      state.token = token;
+    },
+    noToken(state) {
+      state.signedIn = false;
+      state.token = '';
+    },
     signInRequest(state) {
       state.loading = true;
       state.errorMessage = '';
@@ -40,11 +47,13 @@ export default {
   },
   actions: {
     checkAuth({ commit }, { token }) {
-      commit('signInRequest');
-      commit('signInSuccess', {
-        token,
-      });
-      Router.push('/');
+      if (token) {
+        commit('hasToken', {
+          token,
+        });
+      } else {
+        commit('noToken');
+      }
     },
     signIn({ commit }, { email, password }) {
       commit('signInRequest');

@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import Cookies from 'js-cookie';
 import { Header, Sidebar } from '@Components/globals';
 
 export default {
@@ -37,12 +36,6 @@ export default {
         this.$route.name,
       ];
     },
-  },
-  created() {
-    const token = Cookies.get('user-token');
-    if (token) {
-      this.$store.dispatch('checkAuth', { token });
-    }
   },
 };
 </script>
