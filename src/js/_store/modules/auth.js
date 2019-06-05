@@ -20,6 +20,10 @@ export default {
       state.signedIn = true;
       state.token = token;
     },
+    noToken(state) {
+      state.signedIn = false;
+      state.token = '';
+    },
     signInRequest(state) {
       state.loading = true;
       state.errorMessage = '';
@@ -43,9 +47,13 @@ export default {
   },
   actions: {
     checkAuth({ commit }, { token }) {
-      commit('hasToken', {
-        token,
-      });
+      if (token) {
+        commit('hasToken', {
+          token,
+        });
+      } else {
+        commit('noToken');
+      }
     },
     signIn({ commit }, { email, password }) {
       commit('signInRequest');
