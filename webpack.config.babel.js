@@ -123,12 +123,14 @@ if (isDev) {
   config.plugins.push(
     new webpack.DefinePlugin({
       'API_BASE_URL': JSON.stringify('http://api.wiki.gizumo-inc.work/api'),
+      'MY_SESSION_STORAGE_KEY': JSON.stringify('dev_gizumo_wiki'),
     })
   );
 } else if (isProd) {
   config.plugins.push(
     new webpack.DefinePlugin({
       'API_BASE_URL': JSON.stringify(''),
+      'MY_SESSION_STORAGE_KEY': JSON.stringify('prod_gizumo_wiki'),
     })
   );
 }
