@@ -11,6 +11,7 @@ export default {
       {
         id: 1,
         title: 'JavaScriptとは',
+        categories: ['Javascript', 'フロントエンド'],
         content: `
 Front Lessonで学習したHTMLやCSSはページを構成し装飾するための**マークアップ言語**です。  
 これからやってもらうJavaScriptというものは**プログラミング言語**です。
@@ -59,6 +60,7 @@ JavaScriptに触れたこともないという方は想像ができないかも�
       {
         id: 2,
         title: 'JavaScriptを始めてみよう',
+        categories: ['Javascript', '入門'],
         content: `
 ## このレッスンでやること
 
@@ -306,6 +308,17 @@ for (var i = 0; i < 10; i++ ) {
         content: payload.content,
       });
     },
+    showAllArticles(state) {
+      state.articleList = state.articleList;
+    },
+    fiteredArticles(state, payload) {
+      const filteredArticles = state.articleList.filter(
+        article => article.categories.some(
+          category => category === payload.category,
+        ),
+      );
+      state.articleList = [...filteredArticles];
+    },
   },
   actions: {
     initPostArticle({ commit }) {
@@ -327,6 +340,17 @@ for (var i = 0; i < 10; i++ ) {
       commit({
         type: 'editedContent',
         content,
+      });
+    },
+    showAllArticles({ commit }) {
+      commit({
+        type: 'showAllArticles',
+      });
+    },
+    filteredArticles({ commit }, category) {
+      commit({
+        type: 'fiteredArticles',
+        category,
       });
     },
   },
