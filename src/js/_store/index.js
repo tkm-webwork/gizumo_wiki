@@ -12,8 +12,8 @@ export default new Vuex.Store({
     users,
   },
   plugins: [createPersistedState({
-    key: 'gizumo_wiki',
+    key: MY_SESSION_STORAGE_KEY,
     paths: ['auth.signedIn', 'auth.token'],
-    storage: window.localStorage,
+    storage: window.sessionStorage,
   })],
 });

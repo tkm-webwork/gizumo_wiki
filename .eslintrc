@@ -25,7 +25,8 @@
     }
   },
   "globals": {
-    "API_BASE_URL": true
+    "API_BASE_URL": true,
+    "MY_SESSION_STORAGE_KEY": true,
   },
   "rules": {
     "no-new": "off",
