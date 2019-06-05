@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-
+import createPersistedState from 'vuex-persistedstate';
 import { auth, articles, users } from './modules';
 
 Vue.use(Vuex);
@@ -11,4 +11,9 @@ export default new Vuex.Store({
     articles,
     users,
   },
+  plugins: [createPersistedState({
+    key: 'gizumo_wiki',
+    paths: ['auth.signedIn', 'auth.token'],
+    storage: window.localStorage,
+  })],
 });

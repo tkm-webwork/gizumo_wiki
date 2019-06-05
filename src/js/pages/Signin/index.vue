@@ -62,6 +62,11 @@ export default {
       password: '',
     };
   },
+  created() {
+    if (this.$store.state.auth.signedIn) {
+      this.$router.push('/');
+    }
+  },
   computed: {
     loading() {
       return this.$store.state.auth.loading;
