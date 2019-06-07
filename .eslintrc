@@ -20,7 +20,7 @@
           ["@Components", "./src/js/components"],
           ["@Pages", "./src/js/pages"]
         ],
-        "extensions": ['.vue', '.js', .json', '.css']
+        "extensions": [".vue", ".js", ".json", ".css"]
       }
     }
   },
