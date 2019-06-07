@@ -44,13 +44,29 @@ export default {
       markdownIndexes: [],
     };
   },
+  computed: {
+    articleId() {
+      const { id } = this.$route.params;
+      return id;
+    },
+    markdownContent() {
+      const { title, content } = this.$store.state.articles.targetArticle;
+      return `# ${title}\n${content}`;
+    },
+  },
+  created() {
+    this.$store.dispatch('getArticle', parseInt(this.$route.params.id, 10));
+  },
+  mounted() {
+    this.createMarkdownIndexesAnchorInfo();
+  },
   methods: {
     createMarkdownIndexesAnchorInfo() {
       const markdownIndexes = [];
-      const markdowonHtml = document.querySelector('.article-detail__markdown');
+      const markdownHtml = document.querySelector('.article-detail__markdown');
       const header = document.querySelector('header');
       const headerHeight = header.clientHeight;
-      const hElements = markdowonHtml.querySelectorAll('h1, h2');
+      const hElements = markdownHtml.querySelectorAll('h1, h2');
       hElements.forEach((element, index) => {
         const tagName = element.tagName.toLowerCase();
         element.setAttribute('id', `${tagName}-${index}`);
@@ -78,22 +94,6 @@ export default {
         this.$SmoothScroll(target.scrollToY);
       }
     },
-  },
-  computed: {
-    articleId() {
-      const { id } = this.$route.params;
-      return id;
-    },
-    markdownContent() {
-      const { title, content } = this.$store.state.articles.targetArticle;
-      return `# ${title}\n${content}`;
-    },
-  },
-  created() {
-    this.$store.dispatch('getArticle', parseInt(this.$route.params.id, 10));
-  },
-  mounted() {
-    this.createMarkdownIndexesAnchorInfo();
   },
 };
 </script>

@@ -71,9 +71,14 @@ export default {
   methods: {
     getArticle(id) {
       this.$store.dispatch('getArticle', parseInt(id, 10));
-      if (this.$store.state.targetArticle.id === null) {
-        this.$router.push({ path: '/notfound' });
-      }
+      // if (this.$store.state.articles.targetArticle.id === null) {
+      //   this.$router.push({ path: '/notfound' });
+      // }
+      this.$nextTick().then(() => {
+        if (!this.$store.state.articles.targetArticle.id) {
+          this.$router.push({ path: '/notfound' });
+        }
+      });
     },
     editedTitle($event) {
       this.$store.dispatch('editedTitle', $event.target.value);

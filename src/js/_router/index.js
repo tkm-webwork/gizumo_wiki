@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import Cookies from 'js-cookie';
 
 import Signin from '@Pages/Signin';
 import NotFound from '@Pages/NotFound';
@@ -34,6 +35,13 @@ const router = new VueRouter({
       meta: {
         isPublic: true,
       },
+      beforeEnter(to, from, next) {
+        if (Store.state.auth.signedIn) {
+          next('/');
+        } else {
+          next();
+        }
+      },
     },
     {
       name: 'home',
@@ -50,7 +58,7 @@ const router = new VueRouter({
       component: Articles,
       children: [
         {
-          name: 'allArticles',
+          name: 'articleList',
           path: '',
           component: ArticleList,
         },
@@ -101,6 +109,8 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  const token = Cookies.get('user-token') || null;
+  Store.dispatch('checkAuth', { token });
   if (to.matched.some(page => !page.meta.isPublic) && !Store.state.auth.signedIn) {
     next('/signin');
   } else {
