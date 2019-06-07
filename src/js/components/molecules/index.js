@@ -1,11 +1,17 @@
 import MarkdownView from './MarkdownView';
 import SidebarList from './SidebarList';
 import ArticleList from './ArticleList';
+import UserCreate from './UserCreate';
 import UserTable from './UserTable';
+import UserDetail from './UserDetail';
+import UserList from './UserList';
 
 export {
   MarkdownView,
   SidebarList,
   ArticleList,
+  UserCreate,
   UserTable,
+  UserDetail,
+  UserList,
 };
