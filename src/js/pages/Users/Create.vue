@@ -26,7 +26,6 @@ export default {
     };
   },
   computed: {
-    // TODO: loadingまだ使ってないのでつかう
     loading() {
       return this.$store.state.users.loading;
     },

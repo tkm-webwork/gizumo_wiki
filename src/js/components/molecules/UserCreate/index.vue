@@ -56,7 +56,7 @@
         </div>
       </div>
 
-      <div class="users-create__buttom">
+      <div class="users-create__button">
         <app-button
           button-type="submit"
           :disabled="loading ? true : false"

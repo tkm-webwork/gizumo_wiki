@@ -1,5 +1,6 @@
 <template lang="html">
   <app-user-detail
+    :error-message="errorMessage"
     :user="user"
     @back="back"
   />
@@ -15,6 +16,9 @@ export default {
   computed: {
     user() {
       return this.$store.state.users.user;
+    },
+    errorMessage() {
+      return this.$store.state.users.errorMessage;
     },
   },
   created() {

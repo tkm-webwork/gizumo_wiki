@@ -7,8 +7,8 @@
     </thead>
     <tbody class="user-table__body">
       <tr v-for="user in targetArray" :key="user.id">
-        <td :class="user.username ? '' : 'is-disabled'">
-          {{ user.username || '名前未設定' }}
+        <td :class="user.name ? '' : 'is-disabled'">
+          {{ user.name || '名前未設定' }}
         </td>
         <td>{{ user.accountname }}</td>
         <td>{{ user.role }}</td>

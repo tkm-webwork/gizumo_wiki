@@ -26,7 +26,7 @@
         <p>{{ user.accountname }}</p>
       </div>
       <div class="users-detail__info__each">
-        <p>{{ user.username }}</p>
+        <p>{{ user.name }}</p>
       </div>
       <div class="users-detail__info__each">
         <p>{{ user.email }}</p>
@@ -39,14 +39,19 @@
 </template>
 
 <script>
-import { Heading, Button } from '@Components/atoms';
+import { Heading, Button, Text } from '@Components/atoms';
 
 export default {
   components: {
     appHeading: Heading,
     appButton: Button,
+    appText: Text,
   },
   props: {
+    errorMessage: {
+      type: String,
+      default: '',
+    },
     user: {
       type: Object,
       default: () => ({}),
