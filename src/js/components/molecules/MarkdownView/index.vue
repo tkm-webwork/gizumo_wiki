@@ -52,11 +52,6 @@ export default {
       default: () => [],
     },
   },
-  methods: {
-    handleScroll(scrollToY, duration = 500) {
-      this.$SmoothScroll(scrollToY, duration);
-    },
-  },
   computed: {
     wrapperClasses() {
       return {
@@ -88,6 +83,11 @@ export default {
     markedIndex() {
       // TODO: ドキュメントの目次作る
       return marked('目次');
+    },
+  },
+  methods: {
+    handleScroll(scrollToY, duration = 500) {
+      this.$SmoothScroll(scrollToY, duration);
     },
   },
 };
