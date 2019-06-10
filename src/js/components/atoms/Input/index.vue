@@ -18,7 +18,7 @@
         <li
           v-for="(error, index) in errorMessages"
           :key="index"
-           class="error"
+          class="error"
         >
           {{ error }}
         </li>
