@@ -44,6 +44,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    danger: {
+      type: Boolean,
+      default: false,
+    },
     white: {
       type: Boolean,
       default: false,
@@ -74,6 +78,7 @@ export default {
         'router-link--small': this.small,
         'router-link--underline': this.underline,
         'router-link--key-color': this.keyColor,
+        'router-link--danger': this.danger,
         'router-link--white': this.white,
         'router-link--round': this.round,
         'router-link--bg-key-color': this.bgKeycolor,
@@ -85,7 +90,7 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
+<style lang="postcss" scoped>
 .router-link {
   font-size: 16px;
   transition: all .5s;
@@ -116,14 +121,17 @@ export default {
 .router-link--key-color {
   color: var(--themeColor);
 }
+.router-link--danger {
+  color: var(--errorColor);
+}
+.router-link--white {
+  color: #fff;
+}
 .router-link--bg-key-color {
   background-color: var(--themeColor);
 }
 .router-link--bg-lightgreen {
   background-color: var(--createColor);
-}
-.router-link--white {
-  color: #fff;
 }
 .router-link--round {
   border-radius: 5px;

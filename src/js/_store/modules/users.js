@@ -7,16 +7,22 @@ export default {
     user: {
       id: null,
       name: '',
-      accountname: '',
+      accountName: '',
       email: '',
       role: '',
     },
     userList: [],
+    roleArray: ['user', 'system', 'admin'],
   },
-  getters: {},
+  getters: {
+    userListLength: state => state.userList.length,
+  },
   mutations: {
     clearMessage(state) {
       state.errorMessage = '';
+    },
+    updateValue(state, { name, value }) {
+      state.user = Object.assign({}, state.user, { [name]: value });
     },
     applyRequest(state) {
       state.loading = true;
@@ -32,7 +38,7 @@ export default {
     doneCreateUser(state, { user }) {
       state.user = Object.assign({}, state.user, {
         id: user.id,
-        accountname: user.name,
+        accountName: user.name,
         email: user.email,
       });
       state.loading = false;
@@ -46,6 +52,9 @@ export default {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
+    updateValue({ commit }, target) {
+      commit('updateValue', target);
+    },
     getAllUsers({ commit, rootGetters }) {
       axios(rootGetters.token)({
         method: 'GET',
@@ -56,7 +65,7 @@ export default {
         const users = response.data.user.map(user => ({
           id: user.id,
           name: user.full_name ? user.full_name : null,
-          accountname: user.account_name,
+          accountName: user.account_name,
           email: user.email,
           role: user.role,
         }));
@@ -73,11 +82,12 @@ export default {
         if (response.data.code === 0) throw new Error(response.data.message);
 
         const { user } = response.data;
+
         commit('doneGetUser', {
           user: Object.assign({}, {
             id: user.id,
             name: user.full_name,
-            accountname: user.account_name,
+            accountName: user.account_name,
             email: user.email,
             role: user.role,
           }),
@@ -88,20 +98,38 @@ export default {
     },
     createUser({ commit, rootGetters }, user) {
       commit('applyRequest');
+
       axios(rootGetters.token)({
         method: 'POST',
         url: '/user',
         data: user,
       }).then((response) => {
         // TODO: 422 (Unprocessable Entity)のエラーが出る
-        console.log('==== doneCreateUser =================');
-        console.log(response);
-        console.log('=====================================');
+        // console.log('==== doneCreateUser =================');
+        // console.log(response);
+        // console.log('=====================================');
         if (response.data.code === 0) throw new Error(response.data.message);
 
         commit('doneGetUser', { user: response.data.user });
       }).catch((err) => {
         commit('failRequest', { message: err.response.data.message });
+      });
+    },
+    editUser({ commit, rootGetters }, user) {
+      commit('applyRequest');
+
+      console.log(rootGetters.token);
+      axios(rootGetters.token)({
+        method: 'PUT',
+        url: `/user/${user.id}`,
+        data: Object.assign(user),
+      }).then((response) => {
+        // TODO: 422 (Unprocessable Entity)のエラーが出る
+        if (response.data.code === 0) throw new Error(response.data.message);
+
+        console.log(response, 'edit成功');
+      }).catch((err) => {
+        commit('failRequest', { message: err.message });
       });
     },
   },

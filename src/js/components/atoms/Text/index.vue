@@ -9,7 +9,15 @@ export default {
       type: String,
       default: 'p',
     },
+    bold: {
+      type: Boolean,
+      default: false,
+    },
     inlineBlock: {
+      type: Boolean,
+      default: false,
+    },
+    keyColor: {
       type: Boolean,
       default: false,
     },
@@ -38,7 +46,9 @@ export default {
     classes() {
       return {
         text: true,
+        'text--bold': this.bold,
         'text--inline-block': this.inlineBlock,
+        'text--key-color': this.keyColor,
         'text--error': this.error,
         'text--bg-error': this.bgError,
         'text--small': this.small,
@@ -56,8 +66,14 @@ export default {
   font-size: 16px;
 }
 
+.text--bold {
+  font-weight: var(--bold);
+}
 .text--inline-block {
   display: inline-block;
+}
+.text--key-color {
+  color: var(--themeColor);
 }
 .text--error {
   color: var(--errorColor);
