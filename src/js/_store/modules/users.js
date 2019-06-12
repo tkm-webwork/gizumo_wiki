@@ -40,9 +40,13 @@ export default {
         role: user.role,
       });
     },
-    // doneCreateUser(state, ) {
-    //
-    // },
+    doneCreateUser(state, { user }) {
+      state.user = Object.assign({}, state.user, {
+        id: user.id,
+        accountname: user.name,
+        email: user.email,
+      });
+    },
     failRequest(state, { message }) {
       state.errorMessage = message;
     },
@@ -56,6 +60,9 @@ export default {
         method: 'GET',
         url: '/user',
       }).then((response) => {
+        // console.log('==== doneGetAllUsers =================');
+        // console.log(response);
+        // console.log('======================================');
         commit('doneGetAllUsers', { users: response.data.user });
       }).catch((err) => {
         commit('failRequest', { message: err.response.data.message });
@@ -66,6 +73,9 @@ export default {
         method: 'GET',
         url: `/user/${id}`,
       }).then((response) => {
+        // console.log('==== doneGetUser =================');
+        // console.log(response);
+        // console.log('==================================');
         commit('doneGetUser', { user: response.data.user });
       }).catch((err) => {
         commit('failRequest', { message: err.response.data.message });
@@ -77,8 +87,10 @@ export default {
         url: '/user',
         data: user,
       }).then((response) => {
-        console.log(response);
-        // commit('doneGetUser', { user: response.data.user });
+        // console.log('==== doneCreateUser =================');
+        // console.log(response);
+        // console.log('=====================================');
+        commit('doneGetUser', { user: response.data.user });
       }).catch((err) => {
         commit('failRequest', { message: err.response.data.message });
       });

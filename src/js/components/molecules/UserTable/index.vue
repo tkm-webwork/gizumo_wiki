@@ -63,7 +63,7 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
+<style lang="postcss" scoped>
 .user-table {
   width: 100%;
   background-color: #fff;
