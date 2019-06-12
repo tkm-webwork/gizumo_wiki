@@ -17,12 +17,21 @@
         border-gray
       />
     </div>
+    <app-modal>
+      モーダルのテスト
+    </app-modal>
+    <button
+      @click="toggleModal"
+    >
+      モーダルの開閉ボタン
+    </button>
   </div>
 </template>
 
 <script>
 import { Heading, RouterLink } from '@Components/atoms';
 import { ArticleList } from '@Components/molecules';
+import Mixins from '@Helpers/mixins';
 
 export default {
   components: {
@@ -30,6 +39,7 @@ export default {
     appArticleList: ArticleList,
     appRouterLink: RouterLink,
   },
+  mixins: [Mixins],
   data() {
     return {
       title: 'すべて',
