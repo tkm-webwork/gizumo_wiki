@@ -20,7 +20,7 @@
           :key="index"
           class="error"
         >
-          {{ error }}
+          {{ error.msg }}
         </li>
       </ul>
     </template>
@@ -31,7 +31,7 @@
 export default {
   props: {
     errorMessages: {
-      type: [String, Array],
+      type: [Array, Object],
       default: () => [],
     },
     name: {
@@ -58,7 +58,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    vvas: {
+    dataVvAs: {
       type: String,
       default: '',
     },
@@ -72,7 +72,7 @@ export default {
     },
     displayFields() {
       if (this.vvas === '') return this.name;
-      return this.vvas;
+      return this.dataVvAs;
     },
   },
 };
