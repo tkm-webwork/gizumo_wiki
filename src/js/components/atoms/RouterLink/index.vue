@@ -85,7 +85,7 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
+<style lang="postcss" scoped>
 .router-link {
   font-size: 16px;
   transition: all .5s;

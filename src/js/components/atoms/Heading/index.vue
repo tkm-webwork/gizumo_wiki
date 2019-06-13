@@ -54,7 +54,11 @@ export default {
   border-left: 5px solid var(--themeColor);
   border-bottom: 1px solid var(--separatorColor);
 }
-.heading--secondary {}
+.heading--secondary {
+  font-size: 20px;
+  padding: 0 20px 4px 20px;
+  border-bottom: 6px double var(--themeColor);
+}
 .heading--tertiary {}
 .heading--quaternary {}
 .heading--quinary {}
