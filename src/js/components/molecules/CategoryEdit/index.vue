@@ -2,24 +2,24 @@
   <div>
     <app-heading :level="1">カテゴリー管理</app-heading>
     <app-heading
-      class="category-management-post-title"
+      class="category-management-edit-title"
       :level="2"
     >
-      新規カテゴリーの作成
+      カテゴリーの更新
     </app-heading>
     <app-input
-      class="category-management-post-input"
+      class="category-management-edit-input"
       required
       type="text"
-      name="category"
+      name="updateCategory"
       placeholder="カテゴリー名を入力してください"
       data-vv-as="カテゴリー名"
       :error-messages="errors"
-      :value="category"
+      :value="updateCategoryName"
       @updateValue="$emit('udpateValue', $event)"
     />
     <app-button
-      class="category-management-post-submit"
+      class="category-management-edit-submit"
       button-type="submit"
       round
       :disabled="disabled ? true : false"
@@ -27,19 +27,32 @@
     >
       {{ buttonText }}
     </app-button>
+    <app-router-link
+      class="category-management-edit-link"
+      block
+      underline
+      key-color
+      hover-opacity
+      to="/categories"
+    >
+      カテゴリー一覧へ戻る
+    </app-router-link>
   </div>
 </template>
 <script>
-import { Heading, Input, Button } from '@Components/atoms';
+import {
+  Heading, Input, Button, RouterLink,
+} from '@Components/atoms';
 
 export default {
   components: {
     appHeading: Heading,
     appInput: Input,
     appButton: Button,
+    appRouterLink: RouterLink,
   },
   props: {
-    category: {
+    updateCategoryName: {
       type: String,
       default: '',
     },
@@ -50,19 +63,22 @@ export default {
   },
   computed: {
     buttonText() {
-      return this.loading ? '作成中...' : '作成';
+      return this.loading ? '更新中...' : '更新';
     },
   },
 };
 </script>
 <style scoped>
-.category-management-post-title {
+.category-management-edit-title {
   margin-top: 16px;
 }
-.category-management-post-input {
+.category-management-edit-input {
   margin-top: 16px;
 }
-.category-management-post-submit {
+.category-management-edit-submit {
+  margin-top: 16px;
+}
+.category-management-edit-link {
   margin-top: 16px;
 }
 </style>

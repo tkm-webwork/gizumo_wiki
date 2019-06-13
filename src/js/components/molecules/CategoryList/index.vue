@@ -34,24 +34,71 @@
                 {{ category.name }}
               </app-router-link>
             </td>
+            <td class="category-management-list-table-body-data is-update-button">
+              <app-router-link
+                bg-lightgreen
+                large
+                white
+                round
+                hover-opacity
+                :to="`/categories/${category.id}`"
+              >
+                更新
+              </app-router-link>
+            </td>
             <td class="category-management-list-table-body-data is-delete-button">
-              <app-button>削除</app-button>
+              <app-button
+                bg-danger
+                round
+                @click="openModal(category.id, category.name)"
+              >
+                削除
+              </app-button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
+    <app-modal>
+      <div class="category-management-modal-confirm">
+        <app-text
+          class="category-management-modal-confirm-title"
+          exlarge
+          tag="p"
+        >
+          下記のカテゴリーを削除しますか?
+        </app-text>
+        <app-text
+          class="category-management-modal-confirm-name"
+          theme-color
+          tag="p"
+        >
+          {{ deleteCategoryName }}
+        </app-text>
+        <app-button
+          class="category-management-modal-confirm-button"
+          bg-danger
+          round
+          @click="handleClick"
+        >
+          削除する
+        </app-button>
+      </div>
+    </app-modal>
   </div>
 </template>
 
 <script>
-import { Heading, RouterLink, Button } from '@Components/atoms';
+import {
+  Heading, RouterLink, Button, Text,
+} from '@Components/atoms';
 
 export default {
   components: {
     appHeading: Heading,
     appRouterLink: RouterLink,
     appButton: Button,
+    appText: Text,
   },
   props: {
     theads: {
@@ -66,6 +113,18 @@ export default {
         return [];
       },
     },
+    deleteCategoryName: {
+      type: String,
+      default: '',
+    },
+  },
+  methods: {
+    openModal(categoryId, categoryName) {
+      this.$emit('openModal', categoryId, categoryName);
+    },
+    handleClick() {
+      this.$emit('handleClick');
+    },
   },
 };
 </script>
@@ -77,11 +136,12 @@ export default {
 }
 .category-management-list-table {
   padding: 16px;
-  height: 500px;
+  height: 600px;
   margin-top: 16px;
   display: block;
 }
 .category-management-list-table-head-title {
+  width: 200px;
   font-size: 16px;
   font-weight: bold;
   background-color: var(--themeColor);
@@ -116,6 +176,18 @@ export default {
     &.is-delete-button {
       width: 100px;
     }
+  }
+}
+
+.category-management-modal-confirm {
+  text-align: center;
+  &-name {
+    margin-top: 16px;
+    font-size: 16px;
+    color: var(--themeColor);
+  }
+  &-button {
+    margin-top: 48px;
   }
 }
 </style>

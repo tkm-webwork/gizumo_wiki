@@ -7,6 +7,7 @@ import UserDetail from './UserDetail';
 import UserList from './UserList';
 import CategoryPost from './CategoryPost';
 import CategoryList from './CategoryList';
+import CategoryEdit from './CategoryEdit';
 
 export {
   MarkdownView,
@@ -18,4 +19,5 @@ export {
   UserList,
   CategoryPost,
   CategoryList,
+  CategoryEdit,
 };
