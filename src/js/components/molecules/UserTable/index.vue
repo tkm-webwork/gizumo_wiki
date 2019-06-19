@@ -2,23 +2,35 @@
   <table class="user-table">
     <thead class="user-table__head">
       <tr>
-        <th v-for="(thead, index) in theads" :key="index">{{ thead }}</th>
+        <th v-for="(thead, index) in theads" :key="index">
+          <app-text tag="span" key-color bold>
+            {{ thead }}
+          </app-text>
+        </th>
       </tr>
     </thead>
     <tbody class="user-table__body">
       <tr v-for="user in targetArray" :key="user.id">
-        <td :class="user.username ? '' : 'is-disabled'">
-          {{ user.username || '名前未設定' }}
+        <td :class="user.name ? '' : 'is-disabled'">
+          <app-text tag="span" small>
+            {{ user.name || '名前未設定' }}
+          </app-text>
         </td>
-        <td>{{ user.accountname }}</td>
-        <td>{{ user.role }}</td>
+        <td>
+          <app-text tag="span" small>{{ user.accountName }}</app-text>
+        </td>
+        <td>
+          <app-text tag="span" small>{{ user.email }}</app-text>
+        </td>
+        <td>
+          <app-text tag="span" small>{{ user.role }}</app-text>
+        </td>
         <td>
           <app-router-link
             :to="`/users/${user.id}`"
-            bg-keycolor
-            small
-            white
-            round
+            key-color
+            underline
+            hover-opacity
           >
             詳細
           </app-router-link>
@@ -41,14 +53,14 @@
 import {
   RouterLink,
   Button,
-  // Text,
+  Text,
 } from '@Components/atoms';
 
 export default {
   components: {
     appRouterLink: RouterLink,
     appButton: Button,
-    // appText: Text,
+    appText: Text,
   },
   props: {
     targetArray: {
@@ -66,26 +78,19 @@ export default {
 <style lang="postcss" scoped>
 .user-table {
   width: 100%;
+  text-align: left;
   background-color: #fff;
-  th, td {
-    padding: 5px;
-    text-align: center;
-    border: 1px solid var(--separatorColor);
+  tr {
+    border-bottom: 1px solid var(--separatorColor);
   }
   &__head {
-    font-weight: var(--bold);
-    font-size: 14px;
-    background-color: var(--separatorColor);
     th {
-      border-right: 1px solid var(--white);
-      &:last-child {
-        border-right: 1px solid var(--separatorColor);
-      }
+      padding: 5px 10px;
     }
   }
   &__body {
-    font-size: 14px;
     td {
+      padding: 10px;
       &.is-disabled {
         color: var(--disabledColor);
         font-size: 12px;

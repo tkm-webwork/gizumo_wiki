@@ -9,6 +9,10 @@ export default {
       type: String,
       default: 'p',
     },
+    bold: {
+      type: Boolean,
+      default: false,
+    },
     inlineBlock: {
       type: Boolean,
       default: false,
@@ -42,6 +46,7 @@ export default {
     classes() {
       return {
         text: true,
+        'text--bold': this.bold,
         'text--inline-block': this.inlineBlock,
         'text--error': this.error,
         'text--themecolor': this.themeColor,
@@ -61,6 +66,9 @@ export default {
   font-size: 16px;
 }
 
+.text--bold {
+  font-weight: var(--bold);
+}
 .text--inline-block {
   display: inline-block;
 }
