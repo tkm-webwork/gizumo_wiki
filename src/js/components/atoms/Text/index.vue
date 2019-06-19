@@ -17,6 +17,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    themeColor: {
+      type: Boolean,
+      default: false,
+    },
     bgError: {
       type: Boolean,
       default: false,
@@ -40,6 +44,7 @@ export default {
         text: true,
         'text--inline-block': this.inlineBlock,
         'text--error': this.error,
+        'text--themecolor': this.themeColor,
         'text--bg-error': this.bgError,
         'text--small': this.small,
         'text--ex-small': this.exSmall,
@@ -58,6 +63,9 @@ export default {
 
 .text--inline-block {
   display: inline-block;
+}
+.text--themecolor {
+  color: var(--themeColor);
 }
 .text--error {
   color: var(--errorColor);
