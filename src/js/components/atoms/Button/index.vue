@@ -56,7 +56,7 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
+<style lang="postcss" scoped>
 /* Defaultスタイル */
 .button {
   padding: 10px 20px;

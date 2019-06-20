@@ -1,6 +1,7 @@
 <template lang="html">
   <app-user-create
     :loading="loading"
+    caution-message="※ 文頭・文末の全角・半角スペースは削除され、文中の全角スペースは半角スペースに置き換えられます。"
     :error-message="errorMessage"
     :name="name"
     :email="email"
@@ -26,7 +27,6 @@ export default {
     };
   },
   computed: {
-    // TODO: loadingまだ使ってないのでつかう
     loading() {
       return this.$store.state.users.loading;
     },
@@ -43,9 +43,12 @@ export default {
     },
     createUser() {
       this.$store.dispatch('createUser', {
-        name: this.name,
-        email: this.email,
-        password: this.password,
+        /* eslint-disable-next-line no-irregular-whitespace */
+        name: this.name.replace(/( |　)+/, ' ').trim(),
+        /* eslint-disable-next-line no-irregular-whitespace */
+        email: this.email.replace(/( |　)+/, ' ').trim(),
+        /* eslint-disable-next-line no-irregular-whitespace */
+        password: this.password.replace(/( |　)+/, ' ').trim(),
       });
     },
   },

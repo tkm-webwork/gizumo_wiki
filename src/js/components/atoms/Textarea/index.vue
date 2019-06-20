@@ -45,7 +45,7 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
+<style lang="postcss" scoped>
 /* Defaultスタイル */
 .textarea {
   display: block;

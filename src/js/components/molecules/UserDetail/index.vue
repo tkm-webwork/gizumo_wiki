@@ -6,55 +6,158 @@
       <app-button
         small
         round
-        bg-caution
+        disabled
         @click="back"
       >
         戻る
       </app-button>
     </div>
 
-    <div v-if="errorMessage" class="users-detail__error">
-      <app-text bg-error>{{ errorMessage }}</app-text>
-    </div>
+    <form class="users-detail__info" @submit.prevent="editUser">
+      <div class="users-detail__info__row">
+        <div class="users-detail__info__row__title">
+          <app-text key-color>名前</app-text>
+        </div>
+        <div class="users-detail__info__row__content">
+          <app-input
+            v-validate="'required'"
+            name="name"
+            type="text"
+            placeholder="名前"
+            data-vv-as="名前"
+            :error-message="errors.collect('name')"
+            :value="user.name"
+            @updateValue="updateValue"
+          />
+        </div>
+      </div>
+      <div class="users-detail__info__row">
+        <div class="users-detail__info__row__title">
+          <app-text key-color>アカウント名</app-text>
+        </div>
+        <div class="users-detail__info__row__content">
+          <app-input
+            v-validate="'required'"
+            name="accountName"
+            type="text"
+            placeholder="アカウント名"
+            data-vv-as="アカウント名"
+            :error-message="errors.collect('accountName')"
+            :value="user.accountName"
+            @updateValue="updateValue"
+          />
+        </div>
+      </div>
+      <div class="users-detail__info__row">
+        <div class="users-detail__info__row__title">
+          <app-text key-color>メールアドレス</app-text>
+        </div>
+        <div class="users-detail__info__row__content">
+          <app-input
+            v-validate="'required|email'"
+            name="email"
+            type="text"
+            placeholder="メールアドレス"
+            data-vv-as="メールアドレス"
+            :error-message="errors.collect('email')"
+            :value="user.email"
+            @updateValue="updateValue"
+          />
+        </div>
+      </div>
 
-    <div class="users-detail__info">
-      <div class="users-detail__info__each">
-        <p>ユーザーID</p>
-        <p>{{ user.id }}</p>
+      <div class="users-detail__info__row">
+        <div class="users-detail__info__row__title">
+          <app-text key-color>権限</app-text>
+        </div>
+        <div class="users-detail__info__row__content">
+          <app-select
+            v-validate="'required'"
+            name="role"
+            data-vv-as="権限"
+            :error-message="errors.collect('role')"
+            :options="options"
+            :value="user.role"
+            @updateValue="updateValue"
+          />
+        </div>
       </div>
-      <div class="users-detail__info__each">
-        <p>{{ user.accountname }}</p>
+
+      <div v-if="cautionMessage" class="users-detail__info__row">
+        <app-text ex-small>{{ cautionMessage }}</app-text>
       </div>
-      <div class="users-detail__info__each">
-        <p>{{ user.username }}</p>
+
+      <div v-if="errorMessage" class="users-detail__error">
+        <app-text bg-error>{{ errorMessage }}</app-text>
       </div>
-      <div class="users-detail__info__each">
-        <p>{{ user.email }}</p>
+
+      <div class="users-detail__info__submit">
+        <app-button
+          button-type="submit"
+          :disabled="loading ? true : false"
+        >
+          <template v-if="loading">
+            <span>更新中です...</span>
+          </template>
+          <template v-else>
+            <span>更新</span>
+          </template>
+        </app-button>
       </div>
-      <div class="users-detail__info__each">
-        <p>{{ user.role }}</p>
-      </div>
-    </div>
+    </form>
   </section>
 </template>
 
 <script>
-import { Heading, Button } from '@Components/atoms';
+import {
+  Heading,
+  Button,
+  Text,
+  Input,
+  Select,
+} from '@Components/atoms';
 
 export default {
   components: {
     appHeading: Heading,
     appButton: Button,
+    appText: Text,
+    appInput: Input,
+    appSelect: Select,
   },
   props: {
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+    cautionMessage: {
+      type: String,
+      default: '',
+    },
+    errorMessage: {
+      type: String,
+      default: '',
+    },
     user: {
       type: Object,
       default: () => ({}),
+    },
+    options: {
+      type: Array,
+      default: () => [],
     },
   },
   methods: {
     back() {
       this.$emit('back');
+    },
+    updateValue($event) {
+      this.$emit('updateValue', $event.target);
+    },
+    editUser() {
+      this.$validator.validate().then((valid) => {
+        if (valid) this.$emit('editUser');
+      });
     },
   },
 };
@@ -70,6 +173,28 @@ export default {
   }
   &__info {
     margin-top: 20px;
+    margin: 0 auto;
+    width: 80%;
+    &__row {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+      &:first-child {
+        margin-top: 0;
+      }
+      &__title {
+        width: 20%;
+        text-align: right;
+      }
+      &__content {
+        margin-left: 10%;
+        width: 70%;
+      }
+    }
+    &__submit {
+      text-align: right;
+      margin-top: 20px;
+    }
   }
 }
 </style>

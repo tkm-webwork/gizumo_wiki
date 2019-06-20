@@ -21,6 +21,11 @@
       </app-text>
     </div>
 
+    <div class="users-list__number">
+      <app-text tag="span">登録者数：  </app-text>
+      <app-text tag="span">{{ userListLength }} 人</app-text>
+    </div>
+
     <div class="users-list__table">
       <app-user-table :target-array="userList" :theads="theads" />
     </div>
@@ -47,6 +52,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    userListLength: {
+      type: Number,
+      default: 0,
+    },
     theads: {
       type: Array,
       default: () => [],
@@ -61,6 +70,9 @@ export default {
     margin-top: 20px;
   }
   &__error {
+    margin-top: 20px;
+  }
+  &__number {
     margin-top: 20px;
   }
   &__table {

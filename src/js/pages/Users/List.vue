@@ -2,6 +2,7 @@
   <app-user-list
     :error-message="errorMessage"
     :user-list="userList"
+    :user-list-length="userListLength"
     :theads="theads"
   />
 </template>
@@ -20,8 +21,11 @@ export default {
     userList() {
       return this.$store.state.users.userList;
     },
+    userListLength() {
+      return this.$store.getters.userListLength;
+    },
     theads() {
-      return ['名前', 'アカウント名', '権限', '', ''];
+      return ['名前', 'アカウント名', 'メールアドレス', '権限', '', ''];
     },
   },
   created() {
