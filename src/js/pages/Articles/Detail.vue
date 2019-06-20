@@ -55,7 +55,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('getArticle', parseInt(this.$route.params.id, 10));
+    this.$store.dispatch('getArticleDetail', parseInt(this.articleId, 10));
   },
   mounted() {
     this.createMarkdownIndexesAnchorInfo();
@@ -98,7 +98,7 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
+<style lang="postcss" scoped>
 .article-detail {
   &__markdown {
     display: flex;

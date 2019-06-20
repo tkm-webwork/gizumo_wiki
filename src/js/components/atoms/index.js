@@ -5,6 +5,7 @@ import ListItem from './ListItem';
 import Text from './Text';
 import Textarea from './Textarea';
 import RouterLink from './RouterLink';
+import MarkdownPreview from './MarkdownPreview';
 
 export {
   Button,
@@ -14,4 +15,5 @@ export {
   Text,
   Textarea,
   RouterLink,
+  MarkdownPreview,
 };
