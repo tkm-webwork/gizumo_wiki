@@ -5,7 +5,7 @@
       <app-button
         small
         round
-        bg-caution
+        disabled
         @click="back"
       >
         戻る
@@ -18,8 +18,8 @@
           v-validate="'required'"
           name="name"
           type="text"
-          placeholder="ユーザー名"
-          data-vv-as="ユーザー名"
+          placeholder="名前"
+          data-vv-as="名前"
           :error-messages="errors.collect('name')"
           :value="name"
           @updateValue="updateValue"
@@ -50,13 +50,15 @@
         />
       </div>
 
-      <div class="users-create__error">
-        <div v-if="errorMessage">
-          <app-text bg-error>{{ errorMessage }}</app-text>
-        </div>
+      <div v-if="cautionMessage" class="users-create__error">
+        <app-text ex-small>{{ cautionMessage }}</app-text>
       </div>
 
-      <div class="users-create__buttom">
+      <div v-if="errorMessage" class="users-create__error">
+        <app-text bg-error>{{ errorMessage }}</app-text>
+      </div>
+
+      <div class="users-create__button">
         <app-button
           button-type="submit"
           :disabled="loading ? true : false"
@@ -93,6 +95,10 @@ export default {
     loading: {
       type: Boolean,
       default: false,
+    },
+    cautionMessage: {
+      type: String,
+      default: '',
     },
     errorMessage: {
       type: String,

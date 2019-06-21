@@ -1,5 +1,5 @@
 <template>
-  <section class="users-list">
+  <div class="users-list">
     <app-heading :level="1">ユーザー一覧</app-heading>
 
     <div class="users-list__create">
@@ -21,19 +21,18 @@
       </app-text>
     </div>
 
-    <div class="users-list__table">
-      <app-user-table :target-array="userList" :theads="theads" />
+    <div class="users-list__number">
+      <app-text tag="span">登録者数：  </app-text>
+      <app-text tag="span">{{ userListLength }} 人</app-text>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
 import { RouterLink, Heading, Text } from '@Components/atoms';
-import { UserTable } from '@Components/molecules';
 
 export default {
   components: {
-    appUserTable: UserTable,
     appRouterLink: RouterLink,
     appHeading: Heading,
     appText: Text,
@@ -43,13 +42,9 @@ export default {
       type: String,
       default: '',
     },
-    userList: {
-      type: Array,
-      default: () => [],
-    },
-    theads: {
-      type: Array,
-      default: () => [],
+    userListLength: {
+      type: Number,
+      default: 0,
     },
   },
 };
@@ -63,7 +58,7 @@ export default {
   &__error {
     margin-top: 20px;
   }
-  &__table {
+  &__number {
     margin-top: 20px;
   }
 }

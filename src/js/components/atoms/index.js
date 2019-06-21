@@ -6,6 +6,7 @@ import Text from './Text';
 import Textarea from './Textarea';
 import RouterLink from './RouterLink';
 import MarkdownPreview from './MarkdownPreview';
+import Select from './Select';
 
 export {
   Button,
@@ -16,4 +17,5 @@ export {
   Textarea,
   RouterLink,
   MarkdownPreview,
+  Select,
 };

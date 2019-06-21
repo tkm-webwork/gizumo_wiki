@@ -78,14 +78,14 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
+<style lang="postcss" scoped>
 /* Defaultスタイル */
 .input {
   margin-top: 5px;
   padding: 10px;
   width: 100%;
   font-size: 16px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--separatorColor);
   transition: all .5s;
   &:focus {
     border-bottom-color: var(--themeColor);
