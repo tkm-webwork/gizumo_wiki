@@ -104,12 +104,7 @@ const config = {
                 }),
                 require('postcss-color-function')(),
                 require('postcss-nested')(),
-                require('autoprefixer')({
-                  browsers: [
-                    'IE >= 11',
-                    'last 2 versions'
-                  ]
-                }),
+                require('autoprefixer')(),
               ],
             },
           },
