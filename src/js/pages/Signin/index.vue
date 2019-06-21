@@ -84,6 +84,8 @@ export default {
         type: 'signIn',
         email: this.email,
         password: this.password,
+      }).then(() => {
+        this.$router.push('/');
       });
     },
   },
