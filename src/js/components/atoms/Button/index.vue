@@ -59,7 +59,7 @@ export default {
 <style lang="postcss" scoped>
 /* Defaultスタイル */
 .button {
-  padding: 10px 20px;
+  padding: 8px 20px;
   display: inline-block;
   font-size: 16px;
   line-height: 1.4;
@@ -73,7 +73,7 @@ export default {
   width: 100%;
 }
 .button--small {
-  padding: 5px 10px;
+  padding: 5px 12px;
   font-size: 14px;
 }
 .button--round {

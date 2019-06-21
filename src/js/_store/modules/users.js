@@ -6,7 +6,7 @@ export default {
     errorMessage: '',
     user: {
       id: null,
-      name: '',
+      fullName: '',
       accountName: '',
       email: '',
       role: '',
@@ -38,7 +38,7 @@ export default {
     doneCreateUser(state, { user }) {
       state.user = Object.assign({}, state.user, {
         id: user.id,
-        accountName: user.name,
+        name: user.name,
         email: user.email,
       });
       state.loading = false;
@@ -64,7 +64,7 @@ export default {
 
         const users = response.data.user.map(user => ({
           id: user.id,
-          name: user.full_name ? user.full_name : null,
+          fullName: user.full_name ? user.full_name : null,
           accountName: user.account_name,
           email: user.email,
           role: user.role,
@@ -86,7 +86,7 @@ export default {
         commit('doneGetUser', {
           user: Object.assign({}, {
             id: user.id,
-            name: user.full_name,
+            fullName: user.full_name,
             accountName: user.account_name,
             email: user.email,
             role: user.role,
@@ -118,7 +118,8 @@ export default {
     editUser({ commit, rootGetters }, user) {
       commit('applyRequest');
 
-      console.log(rootGetters.token);
+      // console.log(rootGetters.token);
+      // console.log(user);
       axios(rootGetters.token)({
         method: 'PUT',
         url: `/user/${user.id}`,
@@ -127,7 +128,7 @@ export default {
         // TODO: 422 (Unprocessable Entity)のエラーが出る
         if (response.data.code === 0) throw new Error(response.data.message);
 
-        console.log(response, 'edit成功');
+        // console.log(response, 'edit成功');
       }).catch((err) => {
         commit('failRequest', { message: err.message });
       });
