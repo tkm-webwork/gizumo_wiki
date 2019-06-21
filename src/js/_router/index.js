@@ -37,13 +37,6 @@ const router = new VueRouter({
       meta: {
         isPublic: true,
       },
-      beforeEnter(to, from, next) {
-        if (Store.state.auth.signedIn) {
-          next('/');
-        } else {
-          next();
-        }
-      },
     },
     {
       name: 'home',
@@ -117,15 +110,40 @@ const router = new VueRouter({
       name: 'notfound',
       path: '/*',
       component: NotFound,
+      meta: {
+        isPublic: true,
+      },
     },
   ],
 });
 
 router.beforeEach((to, from, next) => {
   const token = Cookies.get('user-token') || null;
-  Store.dispatch('checkAuth', { token });
-  if (to.matched.some(page => !page.meta.isPublic) && !Store.state.auth.signedIn) {
-    next('/signin');
+  const isPublic = to.matched.some(page => page.meta.isPublic);
+  const isSignIn = to.matched.some(page => page.path === '/signin');
+  if (!isPublic && !Store.state.auth.signedIn) {
+    /**
+     * 認証が必要なurlは、checkAuthアクションを実行して
+     * cookieにセットされているtokenの整合性をチェック、整合性がとれていない場合もしくは
+     * checkAuthアクションでエラーが発生した場合は
+     * 「/signin」にリダイレクト
+     */
+    Store.dispatch('checkAuth', { token }).then(() => {
+      next();
+    }).catch(() => {
+      next('/signin');
+    });
+  } else if (isSignIn) {
+    /**
+     * 「/signin」ページにアクセスしたときにcheckAuthアクションを実行して
+     * cookieにセットされているtokenのの整合性が取れていれば
+     * 「/」にリダイレクト
+     */
+    Store.dispatch('checkAuth', { token }).then(() => {
+      next('/');
+    }).catch(() => {
+      next();
+    });
   } else {
     next();
   }

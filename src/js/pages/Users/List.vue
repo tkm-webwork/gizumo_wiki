@@ -1,18 +1,25 @@
 <template lang="html">
-  <app-user-list
-    :error-message="errorMessage"
-    :user-list="userList"
-    :user-list-length="userListLength"
-    :theads="theads"
-  />
+  <section class="user-list">
+    <app-user-list
+      :error-message="errorMessage"
+      :user-list-length="userListLength"
+    />
+    <div class="user-list__table">
+      <app-user-table
+        :target-array="userList"
+        :theads="theads"
+      />
+    </div>
+  </section>
 </template>
 
 <script>
-import { UserList } from '@Components/molecules';
+import { UserList, UserTable } from '@Components/molecules';
 
 export default {
   components: {
     appUserList: UserList,
+    appUserTable: UserTable,
   },
   computed: {
     errorMessage() {
@@ -33,3 +40,11 @@ export default {
   },
 };
 </script>
+
+<style lang="postcss" scoped>
+.user-list {
+  &__table {
+    margin-top: 20px;
+  }
+}
+</style>
