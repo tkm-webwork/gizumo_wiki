@@ -3,7 +3,7 @@
     <thead class="user-table__head">
       <tr>
         <th v-for="(thead, index) in theads" :key="index">
-          <app-text tag="span" key-color bold>
+          <app-text tag="span" theme-color bold>
             {{ thead }}
           </app-text>
         </th>
@@ -11,9 +11,9 @@
     </thead>
     <tbody class="user-table__body">
       <tr v-for="user in targetArray" :key="user.id">
-        <td :class="user.name ? '' : 'is-disabled'">
+        <td :class="user.fullName ? '' : 'is-disabled'">
           <app-text tag="span" small>
-            {{ user.name || '名前未設定' }}
+            {{ user.fullName || '名前未設定' }}
           </app-text>
         </td>
         <td>
@@ -28,7 +28,7 @@
         <td>
           <app-router-link
             :to="`/users/${user.id}`"
-            key-color
+            theme-color
             underline
             hover-opacity
           >
@@ -40,6 +40,7 @@
             bg-danger
             small
             round
+            @click="deleteModal"
           >
             削除
           </app-button>
@@ -70,6 +71,11 @@ export default {
     theads: {
       type: Array,
       default: () => [],
+    },
+  },
+  methods: {
+    deleteModal() {
+      this.$emit('deleteModal');
     },
   },
 };

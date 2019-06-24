@@ -7,6 +7,7 @@
         small
         round
         disabled
+        pointer
         @click="back"
       >
         戻る
@@ -16,24 +17,24 @@
     <form class="users-detail__info" @submit.prevent="editUser">
       <div class="users-detail__info__row">
         <div class="users-detail__info__row__title">
-          <app-text key-color>名前</app-text>
+          <app-text theme-color bold>名前</app-text>
         </div>
         <div class="users-detail__info__row__content">
           <app-input
             v-validate="'required'"
-            name="name"
+            name="fullName"
             type="text"
             placeholder="名前"
             data-vv-as="名前"
-            :error-message="errors.collect('name')"
-            :value="user.name"
+            :error-messages="errors.collect('fullName')"
+            :value="user.fullName"
             @updateValue="updateValue"
           />
         </div>
       </div>
       <div class="users-detail__info__row">
         <div class="users-detail__info__row__title">
-          <app-text key-color>アカウント名</app-text>
+          <app-text theme-color bold>アカウント名</app-text>
         </div>
         <div class="users-detail__info__row__content">
           <app-input
@@ -42,7 +43,7 @@
             type="text"
             placeholder="アカウント名"
             data-vv-as="アカウント名"
-            :error-message="errors.collect('accountName')"
+            :error-messages="errors.collect('accountName')"
             :value="user.accountName"
             @updateValue="updateValue"
           />
@@ -50,7 +51,7 @@
       </div>
       <div class="users-detail__info__row">
         <div class="users-detail__info__row__title">
-          <app-text key-color>メールアドレス</app-text>
+          <app-text theme-color bold>メールアドレス</app-text>
         </div>
         <div class="users-detail__info__row__content">
           <app-input
@@ -59,7 +60,7 @@
             type="text"
             placeholder="メールアドレス"
             data-vv-as="メールアドレス"
-            :error-message="errors.collect('email')"
+            :error-messages="errors.collect('email')"
             :value="user.email"
             @updateValue="updateValue"
           />
@@ -68,14 +69,14 @@
 
       <div class="users-detail__info__row">
         <div class="users-detail__info__row__title">
-          <app-text key-color>権限</app-text>
+          <app-text theme-color bold>権限</app-text>
         </div>
         <div class="users-detail__info__row__content">
           <app-select
             v-validate="'required'"
             name="role"
             data-vv-as="権限"
-            :error-message="errors.collect('role')"
+            :error-messages="errors.collect('role')"
             :options="options"
             :value="user.role"
             @updateValue="updateValue"
@@ -95,6 +96,7 @@
         <app-button
           button-type="submit"
           :disabled="loading ? true : false"
+          round
         >
           <template v-if="loading">
             <span>更新中です...</span>
@@ -155,6 +157,7 @@ export default {
       this.$emit('updateValue', $event.target);
     },
     editUser() {
+      this.$emit('clearMessage');
       this.$validator.validate().then((valid) => {
         if (valid) this.$emit('editUser');
       });

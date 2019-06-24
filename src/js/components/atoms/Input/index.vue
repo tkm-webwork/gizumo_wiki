@@ -20,7 +20,7 @@
           :key="index"
           class="error"
         >
-          {{ error.msg }}
+          {{ error }}
         </li>
       </ul>
     </template>
@@ -93,9 +93,11 @@ export default {
 }
 
 .error {
-  color: red;
   display: inline-block;
   margin-top: 10px;
+  color: var(--errorColor);
+  opacity: .8;
+  font-size: 13px;
 }
 
 .input--white-bg {

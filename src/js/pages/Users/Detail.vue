@@ -6,6 +6,7 @@
     :user="user"
     :options="roleArray"
     @back="back"
+    @clearMessage="clearMessage"
     @updateValue="updateValue"
     @editUser="editUser"
   />
@@ -40,18 +41,22 @@ export default {
     back() {
       this.$router.go(-1);
     },
+    clearMessage() {
+      this.$store.dispatch('clearMessage');
+    },
     updateValue(target) {
-      this.$store.dispatch('updateValue', target);
+      if (!this.loading) this.$store.dispatch('updateValue', target);
     },
     editUser() {
-      const user = Object.assign({}, this.user, {
+      const user = {
         /* eslint-disable-next-line no-irregular-whitespace */
-        name: this.user.name.replace(/( |　)+/, ' ').trim(),
+        full_name: this.user.fullName.replace(/(　)+/, ' ').trim(),
         /* eslint-disable-next-line no-irregular-whitespace */
-        account_name: this.user.accountName.replace(/( |　)+/, ' ').trim(),
+        account_name: this.user.accountName.replace(/(　)+/, ' ').trim(),
         /* eslint-disable-next-line no-irregular-whitespace */
-        email: this.user.email.replace(/( |　)+/, ' ').trim(),
-      });
+        email: this.user.email.replace(/(　)+/, ' ').trim(),
+        role: this.user.role,
+      };
       this.$store.dispatch('editUser', user);
     },
   },
