@@ -7,6 +7,7 @@
         small
         round
         disabled
+        pointer
         @click="back"
       >
         戻る

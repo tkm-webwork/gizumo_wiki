@@ -40,6 +40,7 @@
             bg-danger
             small
             round
+            @click="deleteModal"
           >
             削除
           </app-button>
@@ -70,6 +71,11 @@ export default {
     theads: {
       type: Array,
       default: () => [],
+    },
+  },
+  methods: {
+    deleteModal() {
+      this.$emit('deleteModal');
     },
   },
 };

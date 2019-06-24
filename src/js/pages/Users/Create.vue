@@ -54,7 +54,7 @@ export default {
           /* eslint-disable-next-line no-irregular-whitespace */
           email: this.email.replace(/( |　)+/, ' ').trim(),
           /* eslint-disable-next-line no-irregular-whitespace */
-          password: this.password.replace(/( |　)+/, ' ').trim(),
+          password: this.password.replace(/( |　)+/, '').trim(),
         });
       }
     },

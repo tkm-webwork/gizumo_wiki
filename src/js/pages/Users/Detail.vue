@@ -48,14 +48,15 @@ export default {
       if (!this.loading) this.$store.dispatch('updateValue', target);
     },
     editUser() {
-      const user = Object.assign({}, this.user, {
+      const user = {
         /* eslint-disable-next-line no-irregular-whitespace */
-        full_name: this.user.fullName.replace(/( |　)+/, ' ').trim(),
+        full_name: this.user.fullName.replace(/(　)+/, ' ').trim(),
         /* eslint-disable-next-line no-irregular-whitespace */
-        account_name: this.user.accountName.replace(/( |　)+/, ' ').trim(),
+        account_name: this.user.accountName.replace(/(　)+/, ' ').trim(),
         /* eslint-disable-next-line no-irregular-whitespace */
-        email: this.user.email.replace(/( |　)+/, ' ').trim(),
-      });
+        email: this.user.email.replace(/(　)+/, ' ').trim(),
+        role: this.user.role,
+      };
       this.$store.dispatch('editUser', user);
     },
   },

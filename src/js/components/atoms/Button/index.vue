@@ -39,6 +39,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    pointer: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     classes() {
@@ -50,6 +54,7 @@ export default {
         'button--disabled': this.disabled,
         'button--danger': this.bgDanger,
         'button--bg-caution': this.bgCaution,
+        'button--pointer': this.pointer,
       };
     },
   },
@@ -91,5 +96,8 @@ export default {
 }
 .button--bg-caution {
   background-color: var(--cautionColor);
+}
+.button--pointer {
+  cursor: pointer;
 }
 </style>
