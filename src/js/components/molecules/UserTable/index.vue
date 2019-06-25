@@ -40,7 +40,7 @@
             bg-danger
             small
             round
-            @click="deleteModal"
+            @click="deleteModal(user.id)"
           >
             削除
           </app-button>
@@ -74,8 +74,8 @@ export default {
     },
   },
   methods: {
-    deleteModal() {
-      this.$emit('deleteModal');
+    deleteModal(id) {
+      this.$emit('deleteModal', id);
     },
   },
 };
@@ -92,11 +92,13 @@ export default {
   &__head {
     th {
       padding: 5px 10px;
+      vertical-align: middle;
     }
   }
   &__body {
     td {
       padding: 10px;
+      vertical-align: middle;
       &.is-disabled {
         color: var(--disabledColor);
         font-size: 12px;
