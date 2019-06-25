@@ -9,7 +9,7 @@
         </th>
       </tr>
     </thead>
-    <tbody class="user-table__body">
+    <transition-group name="fade" tag="tbody" class="user-table__body">
       <tr v-for="user in targetArray" :key="user.id">
         <td :class="user.fullName ? '' : 'is-disabled'">
           <app-text tag="span" small>
@@ -46,7 +46,7 @@
           </app-button>
         </td>
       </tr>
-    </tbody>
+    </transition-group>
   </table>
 </template>
 
@@ -103,6 +103,12 @@ export default {
         color: var(--disabledColor);
         font-size: 12px;
       }
+    }
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-to {
+      opacity: 0;
     }
   }
 }
