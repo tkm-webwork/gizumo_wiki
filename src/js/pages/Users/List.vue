@@ -8,13 +8,13 @@
       <app-user-table
         :target-array="userList"
         :theads="theads"
-        @deleteModal="toggleModal"
+        @deleteModal="openDeleteModal"
       />
     </div>
 
     <app-delete-modal
       @closeModal="toggleModal"
-      @excuteDelete="deleteUser"
+      @deleteUser="deleteUser"
     />
   </section>
 </template>
@@ -40,6 +40,9 @@ export default {
     userListLength() {
       return this.$store.getters.userListLength;
     },
+    deleteUserId() {
+      return this.$store.state.users.deleteUserId;
+    },
     theads() {
       return ['名前', 'アカウント名', 'メールアドレス', '権限', '', ''];
     },
@@ -48,10 +51,15 @@ export default {
     this.$store.dispatch('getAllUsers');
   },
   methods: {
+    openDeleteModal(id) {
+      this.$store.dispatch('openDeleteModal', { id });
+      this.toggleModal();
+    },
     deleteUser() {
-      const { id } = this.$route.params;
-
-      this.$store.dispatch('deleteUser', { id });
+      this.$store.dispatch('deleteUser', { id: this.deleteUserId }).then(() => {
+        this.toggleModal();
+        this.$store.dispatch('getAllUsers');
+      });
     },
   },
 };

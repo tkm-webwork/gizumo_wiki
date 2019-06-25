@@ -9,7 +9,7 @@
         </th>
       </tr>
     </thead>
-    <tbody class="user-table__body">
+    <transition-group name="fade" tag="tbody" class="user-table__body">
       <tr v-for="user in targetArray" :key="user.id">
         <td :class="user.fullName ? '' : 'is-disabled'">
           <app-text tag="span" small>
@@ -40,13 +40,13 @@
             bg-danger
             small
             round
-            @click="deleteModal"
+            @click="deleteModal(user.id)"
           >
             削除
           </app-button>
         </td>
       </tr>
-    </tbody>
+    </transition-group>
   </table>
 </template>
 
@@ -74,8 +74,8 @@ export default {
     },
   },
   methods: {
-    deleteModal() {
-      this.$emit('deleteModal');
+    deleteModal(id) {
+      this.$emit('deleteModal', id);
     },
   },
 };
@@ -92,15 +92,23 @@ export default {
   &__head {
     th {
       padding: 5px 10px;
+      vertical-align: middle;
     }
   }
   &__body {
     td {
       padding: 10px;
+      vertical-align: middle;
       &.is-disabled {
         color: var(--disabledColor);
         font-size: 12px;
       }
+    }
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-to {
+      opacity: 0;
     }
   }
 }

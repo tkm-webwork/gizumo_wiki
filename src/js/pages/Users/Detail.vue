@@ -1,7 +1,7 @@
 <template lang="html">
   <app-user-detail
     :loading="loading"
-    caution-message="※ 文頭・文末の全角・半角スペースは削除され、文中の全角スペースは半角スペースに置き換えられます。"
+    caution-message="※ 名前以外の文頭・文末・文中の全角・半角スペースは削除されます。"
     :error-message="errorMessage"
     :user="user"
     :options="roleArray"
@@ -52,9 +52,9 @@ export default {
         /* eslint-disable-next-line no-irregular-whitespace */
         full_name: this.user.fullName.replace(/(　)+/, ' ').trim(),
         /* eslint-disable-next-line no-irregular-whitespace */
-        account_name: this.user.accountName.replace(/(　)+/, ' ').trim(),
+        account_name: this.user.accountName.replace(/( |　)+/, '').trim(),
         /* eslint-disable-next-line no-irregular-whitespace */
-        email: this.user.email.replace(/(　)+/, ' ').trim(),
+        email: this.user.email.replace(/( |　)+/, '').trim(),
         role: this.user.role,
       };
       this.$store.dispatch('editUser', user);

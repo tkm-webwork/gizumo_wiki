@@ -11,6 +11,7 @@ export default {
       email: '',
       role: '',
     },
+    deleteUserId: null,
     userList: [],
     roleArray: ['user', 'system', 'admin'],
   },
@@ -43,8 +44,11 @@ export default {
       });
       state.loading = false;
     },
-    doneDeleteUser() {
-      console.log('doneDeleteUser');
+    openDeleteModal(state, { id }) {
+      state.deleteUserId = id;
+    },
+    doneDeleteUser(state) {
+      state.deleteUserId = null;
     },
     failRequest(state, { message }) {
       state.errorMessage = message;
@@ -107,20 +111,20 @@ export default {
     createUser({ commit, rootGetters }, user) {
       commit('applyRequest');
 
-      // console.log(user);
-      axios(rootGetters.token)({
-        method: 'POST',
-        url: '/user',
-        data: user,
-      }).then((response) => {
-        // console.log('==== doneCreateUser =================');
-        // console.log(response);
-        // console.log('=====================================');
-        if (response.data.code === 0) throw new Error(response.data.message);
+      return new Promise((resolve) => {
+        axios(rootGetters.token)({
+          method: 'POST',
+          url: '/user',
+          data: user,
+        }).then((response) => {
+          // NOTE: エラー時はresponse.data.codeが0で返ってくる。
+          if (response.data.code === 0) throw new Error(response.data.message);
 
-        commit('doneGetUser', { user: response.data.user });
-      }).catch((err) => {
-        commit('failRequest', { message: err.response.data.message });
+          commit('doneGetUser', { user: response.data.user });
+          resolve();
+        }).catch((err) => {
+          commit('failRequest', { message: err.response.data.message });
+        });
       });
     },
     // ユーザー更新
@@ -150,21 +154,28 @@ export default {
         commit('failRequest', { message: err.message });
       });
     },
+
+    // ユーザー削除のモーダルを開く
+    openDeleteModal({ commit }, { id }) {
+      commit('openDeleteModal', { id });
+    },
     // ユーザー削除
     deleteUser({ commit, rootGetters }, { id }) {
       commit('applyRequest');
 
-      axios(rootGetters.token)({
-        method: 'DELETE',
-        url: `/user/${id}`,
-      }).then((response) => {
-        // console.log(response);
-        if (response.data.code === 0) throw new Error(response.data.message);
+      return new Promise((resolve) => {
+        axios(rootGetters.token)({
+          method: 'DELETE',
+          url: `/user/${id}`,
+        }).then((response) => {
+          // NOTE: エラー時はresponse.data.codeが0で返ってくる。
+          if (response.data.code === 0) throw new Error(response.data.message);
 
-        commit('doneDeleteUser');
-      }).catch((err) => {
-        // console.log(err);
-        commit('failRequest', { message: err.message });
+          commit('doneDeleteUser');
+          resolve();
+        }).catch((err) => {
+          commit('failRequest', { message: err.message });
+        });
       });
     },
   },

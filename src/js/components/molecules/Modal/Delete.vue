@@ -16,7 +16,7 @@
         </div>
 
         <div class="delete-modal__button">
-          <app-button bg-danger block @click="excuteDelete">
+          <app-button bg-danger block @click="deleteUser">
             削除する
           </app-button>
         </div>
@@ -38,8 +38,8 @@ export default {
     closeModal() {
       this.$emit('closeModal');
     },
-    excuteDelete() {
-      this.$emit('excuteDelete');
+    deleteUser() {
+      this.$emit('deleteUser');
     },
   },
 };
