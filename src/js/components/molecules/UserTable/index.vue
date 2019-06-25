@@ -3,17 +3,17 @@
     <thead class="user-table__head">
       <tr>
         <th v-for="(thead, index) in theads" :key="index">
-          <app-text tag="span" key-color bold>
+          <app-text tag="span" theme-color bold>
             {{ thead }}
           </app-text>
         </th>
       </tr>
     </thead>
-    <tbody class="user-table__body">
+    <transition-group name="fade" tag="tbody" class="user-table__body">
       <tr v-for="user in targetArray" :key="user.id">
-        <td :class="user.name ? '' : 'is-disabled'">
+        <td :class="user.fullName ? '' : 'is-disabled'">
           <app-text tag="span" small>
-            {{ user.name || '名前未設定' }}
+            {{ user.fullName || '名前未設定' }}
           </app-text>
         </td>
         <td>
@@ -28,7 +28,7 @@
         <td>
           <app-router-link
             :to="`/users/${user.id}`"
-            key-color
+            theme-color
             underline
             hover-opacity
           >
@@ -40,12 +40,13 @@
             bg-danger
             small
             round
+            @click="deleteModal(user.id)"
           >
             削除
           </app-button>
         </td>
       </tr>
-    </tbody>
+    </transition-group>
   </table>
 </template>
 
@@ -72,6 +73,11 @@ export default {
       default: () => [],
     },
   },
+  methods: {
+    deleteModal(id) {
+      this.$emit('deleteModal', id);
+    },
+  },
 };
 </script>
 
@@ -86,15 +92,23 @@ export default {
   &__head {
     th {
       padding: 5px 10px;
+      vertical-align: middle;
     }
   }
   &__body {
     td {
       padding: 10px;
+      vertical-align: middle;
       &.is-disabled {
         color: var(--disabledColor);
         font-size: 12px;
       }
+    }
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-to {
+      opacity: 0;
     }
   }
 }

@@ -16,12 +16,12 @@
       <div class="users-create__input">
         <app-input
           v-validate="'required'"
-          name="name"
+          name="accountName"
           type="text"
-          placeholder="名前"
-          data-vv-as="名前"
-          :error-messages="errors.collect('name')"
-          :value="name"
+          placeholder="アカウント名"
+          data-vv-as="アカウント名"
+          :error-messages="errors.collect('accountName')"
+          :value="accountName"
           @updateValue="updateValue"
         />
       </div>
@@ -104,7 +104,7 @@ export default {
       type: String,
       default: '',
     },
-    name: {
+    accountName: {
       type: String,
       default: '',
     },
@@ -125,6 +125,7 @@ export default {
       this.$emit('updateValue', $event.target);
     },
     createUser() {
+      this.$emit('clearMessage');
       this.$validator.validate().then((valid) => {
         if (valid) this.$emit('createUser');
       });
