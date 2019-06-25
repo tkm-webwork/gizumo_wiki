@@ -6,6 +6,7 @@ import Text from './Text';
 import Textarea from './Textarea';
 import RouterLink from './RouterLink';
 import Select from './Select';
+import Modal from './Modal';
 
 export {
   Button,
@@ -16,4 +17,5 @@ export {
   Textarea,
   RouterLink,
   Select,
+  Modal,
 };

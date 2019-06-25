@@ -2,7 +2,7 @@
   <button
     :class="classes"
     :type="buttonType"
-    @click="$emit('click')"
+    @click="$emit('click', $event)"
   >
     <slot />
   </button>
@@ -39,6 +39,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    pointer: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     classes() {
@@ -50,6 +54,7 @@ export default {
         'button--disabled': this.disabled,
         'button--danger': this.bgDanger,
         'button--bg-caution': this.bgCaution,
+        'button--pointer': this.pointer,
       };
     },
   },
@@ -59,7 +64,7 @@ export default {
 <style lang="postcss" scoped>
 /* Defaultスタイル */
 .button {
-  padding: 10px 20px;
+  padding: 8px 20px;
   display: inline-block;
   font-size: 16px;
   line-height: 1.4;
@@ -73,7 +78,7 @@ export default {
   width: 100%;
 }
 .button--small {
-  padding: 5px 10px;
+  padding: 5px 12px;
   font-size: 14px;
 }
 .button--round {
@@ -91,5 +96,8 @@ export default {
 }
 .button--bg-caution {
   background-color: var(--cautionColor);
+}
+.button--pointer {
+  cursor: pointer;
 }
 </style>
