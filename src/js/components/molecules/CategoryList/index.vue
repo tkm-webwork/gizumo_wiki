@@ -22,16 +22,16 @@
         <tbody class="category-management-list-table-body">
           <tr
             v-for="category in categories"
-            :key="category.id"
+            :key="category.category.id"
             class="category-management-list-table-body-row"
           >
             <td class="category-management-list-table-body-data is-category-name">
               <app-router-link
                 key-color
                 underline
-                :to="`/articles?category=${category.name}`"
+                :to="`/articles?category=${category.category.name}`"
               >
-                {{ category.name }}
+                {{ category.category.name }}
               </app-router-link>
             </td>
             <td class="category-management-list-table-body-data is-update-button">
@@ -41,7 +41,7 @@
                 white
                 round
                 hover-opacity
-                :to="`/categories/${category.id}`"
+                :to="`/categories/${category.category.id}`"
               >
                 更新
               </app-router-link>
@@ -50,7 +50,7 @@
               <app-button
                 bg-danger
                 round
-                @click="openModal(category.id, category.name)"
+                @click="openModal(category.category.id, category.category.name)"
               >
                 削除
               </app-button>
@@ -63,7 +63,7 @@
       <div class="category-management-modal-confirm">
         <app-text
           class="category-management-modal-confirm-title"
-          exlarge
+          ex-large
           tag="p"
         >
           下記のカテゴリーを削除しますか?

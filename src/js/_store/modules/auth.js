@@ -10,7 +10,7 @@ export default {
     user: {
       email: '',
       id: null,
-      name: '',
+      account_name: '',
       password_reset_flg: null,
       role: '',
     },
@@ -63,7 +63,7 @@ export default {
           }).then((res) => {
             const payload = {
               token,
-              user: res.data.user,
+              user: res.data,
             };
             commit('signInSuccess', payload);
             resolve();

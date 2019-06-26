@@ -9,6 +9,7 @@ import CategoryPost from './CategoryPost';
 import CategoryList from './CategoryList';
 import CategoryEdit from './CategoryEdit';
 import ArticleEdit from './ArticleEdit';
+import DeleteModal from './Modal';
 
 export {
   MarkdownView,
@@ -22,4 +23,5 @@ export {
   CategoryList,
   CategoryEdit,
   ArticleEdit,
+  DeleteModal,
 };

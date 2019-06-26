@@ -7,6 +7,7 @@ import Textarea from './Textarea';
 import RouterLink from './RouterLink';
 import MarkdownPreview from './MarkdownPreview';
 import Select from './Select';
+import Modal from './Modal';
 
 export {
   Button,
@@ -18,4 +19,5 @@ export {
   RouterLink,
   MarkdownPreview,
   Select,
+  Modal,
 };

@@ -40,7 +40,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    keyColor: {
+    themeColor: {
       type: Boolean,
       default: false,
     },
@@ -56,7 +56,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    bgKeycolor: {
+    bgThemeColor: {
       type: Boolean,
       default: false,
     },
@@ -77,11 +77,11 @@ export default {
         'router-link--large': this.large,
         'router-link--small': this.small,
         'router-link--underline': this.underline,
-        'router-link--key-color': this.keyColor,
+        'router-link--themecolor': this.themeColor,
         'router-link--danger': this.danger,
         'router-link--white': this.white,
         'router-link--round': this.round,
-        'router-link--bg-key-color': this.bgKeycolor,
+        'router-link--bg-themecolor': this.bgThemeColor,
         'router-link--bg-lightgreen': this.bgLightgreen,
         'router-link--hover-opacity': this.hoverOpacity,
       };
@@ -118,7 +118,7 @@ export default {
 .router-link--underline {
   text-decoration: underline;
 }
-.router-link--key-color {
+.router-link--themecolor {
   color: var(--themeColor);
 }
 .router-link--danger {
@@ -127,7 +127,7 @@ export default {
 .router-link--white {
   color: #fff;
 }
-.router-link--bg-key-color {
+.router-link--bg-themecolor {
   background-color: var(--themeColor);
 }
 .router-link--bg-lightgreen {

@@ -16,7 +16,7 @@ export default {
         method: 'GET',
         url: '/category',
       }).then((responce) => {
-        commit('doneGetAllCategories', { categories: responce.data.category });
+        commit('doneGetAllCategories', { categories: responce.data });
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
       });
