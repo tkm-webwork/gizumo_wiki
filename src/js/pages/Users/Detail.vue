@@ -48,7 +48,7 @@ export default {
       if (!this.loading) this.$store.dispatch('updateValue', target);
     },
     editUser() {
-      const user = {
+      this.$store.dispatch('editUser', {
         /* eslint-disable-next-line no-irregular-whitespace */
         full_name: this.user.fullName.replace(/(　)+/, ' ').trim(),
         /* eslint-disable-next-line no-irregular-whitespace */
@@ -56,8 +56,7 @@ export default {
         /* eslint-disable-next-line no-irregular-whitespace */
         email: this.user.email.replace(/( |　)+/, '').trim(),
         role: this.user.role,
-      };
-      this.$store.dispatch('editUser', user);
+      });
     },
   },
 };
