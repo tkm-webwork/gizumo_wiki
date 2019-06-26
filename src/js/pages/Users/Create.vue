@@ -46,7 +46,6 @@ export default {
       this[target.name] = target.value;
     },
     createUser() {
-      this.$store.dispatch('clearMessage');
       if (!this.loading) {
         this.$store.dispatch('createUser', {
           /* eslint-disable-next-line no-irregular-whitespace */

@@ -70,6 +70,7 @@ export default {
       }).then((response) => {
         // NOTE: エラー時はresponse.data.codeが0で返ってくる。
         if (response.data.code === 0) throw new Error(response.data.message);
+        console.log(response.data);
 
         const users = response.data.map(data => ({
           id: data.user.id,
