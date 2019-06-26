@@ -66,7 +66,7 @@ export default {
         url: '/article',
       }).then((res) => {
         const payload = {
-          articles: res.data.article,
+          articles: res.data,
         };
         commit('doneGetAllArticles', payload);
       }).catch((err) => {

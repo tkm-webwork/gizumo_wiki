@@ -17,7 +17,7 @@
     >
       <app-list-item
         v-for="item in targetArray"
-        :key="item.id"
+        :key="item.article.id"
         flex
         beetween
         align-items
@@ -27,11 +27,11 @@
         <app-text
           class="article-list-title"
         >
-          {{ item.title }}
+          {{ item.article.title }}
         </app-text>
         <div class="article-list-links">
           <app-router-link
-            :to="`/articles/${item.id}`"
+            :to="`/articles/${item.article.id}`"
             bg-keycolor
             large
             white
@@ -39,7 +39,7 @@
             詳細
           </app-router-link>
           <app-router-link
-            :to="`/articles/${item.id}/edit`"
+            :to="`/articles/${item.article.id}/edit`"
             white
             bg-lightgreen
             large
