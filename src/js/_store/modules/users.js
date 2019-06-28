@@ -4,6 +4,7 @@ export default {
   state: {
     loading: false,
     errorMessage: '',
+    doneMessage: '',
     user: {
       id: null,
       fullName: '',
@@ -21,6 +22,7 @@ export default {
   mutations: {
     clearMessage(state) {
       state.errorMessage = '';
+      state.doneMessage = '';
     },
     updateValue(state, { name, value }) {
       state.user = Object.assign({}, state.user, { [name]: value });
@@ -33,22 +35,29 @@ export default {
       state.loading = false;
     },
     doneGetUser(state, { user }) {
-      state.user = Object.assign({}, user);
+      state.user = Object.assign({}, state.user, user);
       state.loading = false;
     },
-    doneCreateUser(state, { user }) {
+    doneCreateUser(state) {
+      state.loading = false;
+      state.doneMessage = '新規ユーザーの追加が完了しました。';
+    },
+    doneEditUser(state, { user }) {
       state.user = Object.assign({}, state.user, {
         id: user.id,
-        name: user.name,
+        fullName: user.full_name,
+        accountName: user.account_name,
         email: user.email,
       });
       state.loading = false;
+      state.doneMessage = 'ユーザーの更新が完了しました。';
     },
     openDeleteModal(state, { id }) {
       state.deleteUserId = id;
     },
     doneDeleteUser(state) {
       state.deleteUserId = null;
+      state.doneMessage = 'ユーザーの削除が完了しました。';
     },
     failRequest(state, { message }) {
       state.errorMessage = message;
@@ -62,6 +71,7 @@ export default {
     updateValue({ commit }, target) {
       commit('updateValue', target);
     },
+
     // ユーザー全件取得
     getAllUsers({ commit, rootGetters }) {
       axios(rootGetters.token)({
@@ -70,7 +80,6 @@ export default {
       }).then((response) => {
         // NOTE: エラー時はresponse.data.codeが0で返ってくる。
         if (response.data.code === 0) throw new Error(response.data.message);
-        console.log(response.data);
 
         const users = response.data.map(data => ({
           id: data.user.id,
@@ -84,6 +93,7 @@ export default {
         commit('failRequest', { message: err.message });
       });
     },
+
     // ユーザー1件取得
     getUser({ commit, rootGetters }, { id }) {
       axios(rootGetters.token)({
@@ -93,21 +103,20 @@ export default {
         // NOTE: エラー時はresponse.data.codeが0で返ってくる。
         if (response.data.code === 0) throw new Error(response.data.message);
 
-        const { user } = response.data;
-
-        commit('doneGetUser', {
-          user: Object.assign({}, {
-            id: user.id,
-            fullName: user.full_name,
-            accountName: user.account_name,
-            email: user.email,
-            role: user.role,
-          }),
+        const data = response.data.user;
+        const user = Object.assign({}, {
+          id: data.id,
+          fullName: data.full_name,
+          accountName: data.account_name,
+          email: data.email,
+          role: data.role,
         });
+        commit('doneGetUser', { user });
       }).catch((err) => {
         commit('failRequest', { message: err.message });
       });
     },
+
     // ユーザー作成
     createUser({ commit, rootGetters }, user) {
       commit('applyRequest');
@@ -121,36 +130,29 @@ export default {
           // NOTE: エラー時はresponse.data.codeが0で返ってくる。
           if (response.data.code === 0) throw new Error(response.data.message);
 
-          commit('doneGetUser', { user: response.data.user });
+          commit('doneCreateUser');
           resolve();
         }).catch((err) => {
           commit('failRequest', { message: err.response.data.message });
         });
       });
     },
+
     // ユーザー更新
     editUser({ commit, rootGetters }, user) {
       commit('applyRequest');
 
-      // TODO: ここで更新ができない（422エラー）。下記でリクエスト
-      // {
-      //   account_name: "takashi"
-      //   email: "yoshinari@test.co"
-      //   full_name: "yoshinari"
-      //   role: "system"
-      // }
-      // console.log('==== editUser =================');
-      // console.log(user);
-      // console.log('=====================================');
       axios(rootGetters.token)({
         method: 'PUT',
         url: `/user/${user.id}`,
-        data: Object.assign(user),
+        data: user,
       }).then((response) => {
-        // TODO: 422 (Unprocessable Entity)のエラーが出る
+        // NOTE: エラー時はresponse.data.codeが0で返ってくる。
         if (response.data.code === 0) throw new Error(response.data.message);
+        // TODO: 返ってくる値が変わるので、そこの調整
+        // console.log(response.data.user);
 
-        // console.log(response, 'edit成功');
+        commit('doneEditUser', { user: response.data.user });
       }).catch((err) => {
         commit('failRequest', { message: err.message });
       });
