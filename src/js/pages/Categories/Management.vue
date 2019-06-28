@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       category: '',
-      theads: ['カテゴリー名', 'カテゴリーの更新', 'カテゴリーの削除'],
+      theads: ['カテゴリー名', '', '', ''],
     };
   },
   computed: {
@@ -85,12 +85,12 @@ export default {
   height: calc(100vh - 94px);
   &-post {
     padding-right: 2%;
-    width: 30%;
+    width: 38%;
     border-right: 1px solid #ccc;
   }
   &-list {
     margin-left: 2%;
-    width: 68%;
+    width: 60%;
   }
 }
 </style>

@@ -1,18 +1,12 @@
 <template lang="html">
   <div>
     <app-heading :level="1">カテゴリー管理</app-heading>
-    <app-heading
-      class="category-management-post-title"
-      :level="2"
-    >
-      新規カテゴリーの作成
-    </app-heading>
     <app-input
       class="category-management-post-input"
       required
       type="text"
       name="category"
-      placeholder="カテゴリー名を入力してください"
+      placeholder="追加するカテゴリー名を入力してください"
       data-vv-as="カテゴリー名"
       :error-messages="errors"
       :value="category"

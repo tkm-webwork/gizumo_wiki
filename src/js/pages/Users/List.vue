@@ -30,6 +30,11 @@ export default {
     appDeleteModal: DeleteModal,
   },
   mixins: [Mixins],
+  data() {
+    return {
+      theads: ['名前', 'アカウント名', 'メールアドレス', '権限', '', ''],
+    };
+  },
   computed: {
     errorMessage() {
       return this.$store.state.users.errorMessage;
@@ -42,9 +47,6 @@ export default {
     },
     deleteUserId() {
       return this.$store.state.users.deleteUserId;
-    },
-    theads() {
-      return ['名前', 'アカウント名', 'メールアドレス', '権限', '', ''];
     },
   },
   created() {
