@@ -2,6 +2,7 @@
   <section class="user-list">
     <app-user-list
       :error-message="errorMessage"
+      :done-message="doneMessage"
       :user-list-length="userListLength"
     />
     <div class="user-list__table">
@@ -39,6 +40,9 @@ export default {
     errorMessage() {
       return this.$store.state.users.errorMessage;
     },
+    doneMessage() {
+      return this.$store.state.users.doneMessage;
+    },
     userList() {
       return this.$store.state.users.userList;
     },
@@ -54,8 +58,9 @@ export default {
   },
   methods: {
     openDeleteModal(id) {
-      this.$store.dispatch('openDeleteModal', { id });
       this.toggleModal();
+      this.$store.dispatch('clearMessage');
+      this.$store.dispatch('openDeleteModal', { id });
     },
     deleteUser() {
       this.$store.dispatch('deleteUser', { id: this.deleteUserId }).then(() => {

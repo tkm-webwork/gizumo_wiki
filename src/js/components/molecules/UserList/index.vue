@@ -15,10 +15,12 @@
       </app-router-link>
     </div>
 
-    <div v-if="errorMessage" class="users-list__error">
-      <app-text bg-error>
-        {{ errorMessage }}
-      </app-text>
+    <div v-if="errorMessage" class="users-list__notice">
+      <app-text bg-error>{{ errorMessage }}</app-text>
+    </div>
+
+    <div v-if="doneMessage" class="users-list__notice">
+      <app-text bg-success>{{ doneMessage }}</app-text>
     </div>
 
     <div class="users-list__number">
@@ -42,6 +44,10 @@ export default {
       type: String,
       default: '',
     },
+    doneMessage: {
+      type: String,
+      default: '',
+    },
     userListLength: {
       type: Number,
       default: 0,
@@ -55,7 +61,7 @@ export default {
   &__create {
     margin-top: 20px;
   }
-  &__error {
+  &__notice {
     margin-top: 20px;
   }
   &__number {

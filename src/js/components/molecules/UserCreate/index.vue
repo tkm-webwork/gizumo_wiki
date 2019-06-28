@@ -54,8 +54,12 @@
         <app-text ex-small>{{ cautionMessage }}</app-text>
       </div>
 
-      <div v-if="errorMessage" class="users-create__error">
+      <div v-if="errorMessage" class="users-create__notice">
         <app-text bg-error>{{ errorMessage }}</app-text>
+      </div>
+
+      <div v-if="doneMessage" class="users-create__notice">
+        <app-text bg-success>{{ doneMessage }}</app-text>
       </div>
 
       <div class="users-create__button">
@@ -104,6 +108,10 @@ export default {
       type: String,
       default: '',
     },
+    doneMessage: {
+      type: String,
+      default: '',
+    },
     accountName: {
       type: String,
       default: '',
@@ -148,7 +156,7 @@ export default {
       margin-top: 0;
     }
   }
-  &__error {
+  &__notice {
     margin-top: 20px;
   }
   &__button {
