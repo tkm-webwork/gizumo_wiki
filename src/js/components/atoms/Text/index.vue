@@ -25,6 +25,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    bgSuccess: {
+      type: Boolean,
+      default: false,
+    },
     bgError: {
       type: Boolean,
       default: false,
@@ -50,6 +54,7 @@ export default {
         'text--inline-block': this.inlineBlock,
         'text--error': this.error,
         'text--themecolor': this.themeColor,
+        'text--bg-success': this.bgSuccess,
         'text--bg-error': this.bgError,
         'text--small': this.small,
         'text--ex-small': this.exSmall,
@@ -74,6 +79,12 @@ export default {
 }
 .text--themecolor {
   color: var(--themeColor);
+}
+.text--bg-success {
+  padding: 10px 15px;
+  color: #fff;
+  border-left: 8px solid var(--themeColor);
+  background-color: color(var(--themeColor) a(80%));
 }
 .text--error {
   color: var(--errorColor);

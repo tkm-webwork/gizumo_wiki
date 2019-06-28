@@ -88,8 +88,12 @@
         <app-text ex-small>{{ cautionMessage }}</app-text>
       </div>
 
-      <div v-if="errorMessage" class="users-detail__error">
+      <div v-if="errorMessage" class="users-detail__notice">
         <app-text bg-error>{{ errorMessage }}</app-text>
+      </div>
+
+      <div v-if="doneMessage" class="users-detail__notice">
+        <app-text bg-success>{{ doneMessage }}</app-text>
       </div>
 
       <div class="users-detail__info__submit">
@@ -137,6 +141,10 @@ export default {
       default: '',
     },
     errorMessage: {
+      type: String,
+      default: '',
+    },
+    doneMessage: {
       type: String,
       default: '',
     },
