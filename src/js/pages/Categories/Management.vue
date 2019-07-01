@@ -3,8 +3,11 @@
     <section class="category-management-post">
       <app-category-post
         :category="category"
-        :disabled="disabled"
+        :disabled="loading ? true : false"
+        :error-message="errorMessage"
+        :done-message="doneMessage"
         @udpateValue="updateValue"
+        @clearMessage="clearMessage"
         @handleSubmit="handleSubmit"
       />
     </section>
@@ -14,7 +17,7 @@
         :categories="categoryList"
         :delete-category-name="deleteCategoryName"
         @openModal="openModal"
-        @handleClick="handleClick"
+        @handleClick="deleteCategory"
       />
     </section>
   </div>
@@ -40,9 +43,11 @@ export default {
     loading() {
       return this.$store.state.categories.loading;
     },
-    disabled() {
-      const isValied = this.errors.items.length > 0;
-      return this.loading || isValied;
+    errorMessage() {
+      return this.$store.state.categories.errorMessage;
+    },
+    doneMessage() {
+      return this.$store.state.categories.doneMessage;
     },
     categoryList() {
       return this.$store.state.categories.categoryList;
@@ -55,24 +60,34 @@ export default {
     },
   },
   created() {
+    this.$store.dispatch('clearMessage');
     this.$store.dispatch('getAllCategories');
   },
   methods: {
     updateValue($event) {
       this[$event.target.name] = $event.target.value;
     },
+    clearMessage() {
+      this.$store.dispatch('clearMessage');
+    },
     handleSubmit() {
-      if (this.disabled) return;
-      this.$store.dispatch('postCateogry', this.category);
-      this.category = '';
-      this.$store.dispatch('getAllCategories');
+      if (this.loading) return;
+      this.$store.dispatch('postCateogry', this.category)
+        .then(() => {
+          this.category = '';
+          this.$store.dispatch('getAllCategories');
+        });
     },
     openModal(categoryId, categoryName) {
-      this.$store.dispatch('confirmDeleteCategory', { categoryId, categoryName });
       this.toggleModal();
+      this.$store.dispatch('clearMessage');
+      this.$store.dispatch('confirmDeleteCategory', { categoryId, categoryName });
     },
-    handleClick() {
-      this.$store.dispatch('deleteCategory', this.deleteCategoryId);
+    deleteCategory() {
+      this.$store.dispatch('deleteCategory', this.deleteCategoryId)
+        .then(() => {
+          this.$store.dispatch('getAllCategories');
+        });
       this.toggleModal();
     },
   },

@@ -1,39 +1,56 @@
 <template lang="html">
-  <div>
+  <form @submit.prevent="addCategory">
     <app-heading :level="1">カテゴリー管理</app-heading>
     <app-input
-      class="category-management-post-input"
-      required
-      type="text"
-      name="category"
-      placeholder="追加するカテゴリー名を入力してください"
+      v-validate="'required'"
       data-vv-as="カテゴリー名"
-      :error-messages="errors"
+      type="text"
+      placeholder="追加するカテゴリー名を入力してください"
+      name="category"
+      :error-messages="errors.collect('category')"
       :value="category"
       @updateValue="$emit('udpateValue', $event)"
     />
     <app-button
-      class="category-management-post-submit"
+      class="category-management-post__submit"
       button-type="submit"
       round
-      :disabled="disabled ? true : false"
-      @click="$emit('handleSubmit')"
+      :disabled="disabled"
     >
       {{ buttonText }}
     </app-button>
-  </div>
+
+    <div v-if="errorMessage" class="category-management-post__notice">
+      <app-text bg-error>{{ errorMessage }}</app-text>
+    </div>
+
+    <div v-if="doneMessage" class="category-management-post__notice">
+      <app-text bg-success>{{ doneMessage }}</app-text>
+    </div>
+  </form>
 </template>
 <script>
-import { Heading, Input, Button } from '@Components/atoms';
+import {
+  Heading, Input, Button, Text,
+} from '@Components/atoms';
 
 export default {
   components: {
     appHeading: Heading,
     appInput: Input,
     appButton: Button,
+    appText: Text,
   },
   props: {
     category: {
+      type: String,
+      default: '',
+    },
+    errorMessage: {
+      type: String,
+      default: '',
+    },
+    doneMessage: {
       type: String,
       default: '',
     },
@@ -44,19 +61,29 @@ export default {
   },
   computed: {
     buttonText() {
-      return this.loading ? '作成中...' : '作成';
+      return this.disabled ? '作成中...' : '作成';
+    },
+  },
+  methods: {
+    addCategory() {
+      this.$emit('clearMessage');
+      this.$validator.validate().then((valid) => {
+        if (valid) this.$emit('handleSubmit');
+      });
     },
   },
 };
 </script>
-<style scoped>
-.category-management-post-title {
-  margin-top: 16px;
-}
-.category-management-post-input {
-  margin-top: 16px;
-}
-.category-management-post-submit {
-  margin-top: 16px;
+<style lang="postcss" scoped>
+.category-management-post {
+  &__input {
+    margin-top: 16px;
+  }
+  &__submit {
+    margin-top: 16px;
+  }
+  &__notice {
+    margin-top: 16px;
+  }
 }
 </style>
