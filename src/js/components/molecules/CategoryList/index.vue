@@ -1,82 +1,76 @@
 <template>
-  <div>
-    <app-heading
-      class="category-management-list-head"
-      :level="2"
-    >
-      カテゴリー一覧
-    </app-heading>
-    <div class="category-management-list-scroll">
-      <table class="category-management-list-table">
-        <thead>
-          <tr class="category-management-list-table-head-row">
-            <th
-              v-for="(thead, index) in theads"
-              :key="index"
-              class="category-management-list-table-head-title"
-            >
-              {{ thead }}
-            </th>
-          </tr>
-        </thead>
-        <tbody class="category-management-list-table-body">
-          <tr
-            v-for="category in categories"
-            :key="category.category.id"
-            class="category-management-list-table-body-row"
+  <div class="category-list">
+    <table class="category-list__table">
+      <thead class="category-list__table__head">
+        <tr>
+          <th
+            v-for="(thead, index) in theads"
+            :key="index"
           >
-            <td class="category-management-list-table-body-data is-category-name">
-              <app-router-link
-                key-color
-                underline
-                :to="`/articles?category=${category.category.name}`"
-              >
-                {{ category.category.name }}
-              </app-router-link>
-            </td>
-            <td class="category-management-list-table-body-data is-update-button">
-              <app-router-link
-                bg-lightgreen
-                large
-                white
-                round
-                hover-opacity
-                :to="`/categories/${category.category.id}`"
-              >
-                更新
-              </app-router-link>
-            </td>
-            <td class="category-management-list-table-body-data is-delete-button">
-              <app-button
-                bg-danger
-                round
-                @click="openModal(category.category.id, category.category.name)"
-              >
-                削除
-              </app-button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+            <app-text tag="span" theme-color bold>
+              {{ thead }}
+            </app-text>
+          </th>
+        </tr>
+      </thead>
+      <transition-group name="fade" tag="tbody" class="category-list__table__body">
+        <tr v-for="category in categories" :key="category.category.id">
+          <td>
+            <app-text tag="span">
+              {{ category.category.name }}
+            </app-text>
+          </td>
+          <td>
+            <app-router-link
+              underline
+              small
+              hover-opacity
+              :to="`/articles?category=${category.category.name}`"
+            >
+              このカテゴリーの記事
+            </app-router-link>
+          </td>
+          <td>
+            <app-router-link
+              theme-color
+              underline
+              hover-opacity
+              :to="`/categories/${category.category.id}`"
+            >
+              更新
+            </app-router-link>
+          </td>
+          <td>
+            <app-button
+              bg-danger
+              small
+              round
+              @click="openModal(category.category.id, category.category.name)"
+            >
+              削除
+            </app-button>
+          </td>
+        </tr>
+      </transition-group>
+    </table>
     <app-modal>
-      <div class="category-management-modal-confirm">
+      <div class="category-list__modal">
         <app-text
-          class="category-management-modal-confirm-title"
+          class="category-list__modal__title"
           ex-large
           tag="p"
         >
           下記のカテゴリーを削除しますか?
         </app-text>
         <app-text
-          class="category-management-modal-confirm-name"
+          class="category-list__modal__name"
           theme-color
           tag="p"
         >
           {{ deleteCategoryName }}
         </app-text>
         <app-button
-          class="category-management-modal-confirm-button"
+          class="category-list__modal__button"
           bg-danger
           round
           @click="handleClick"
@@ -90,12 +84,11 @@
 
 <script>
 import {
-  Heading, RouterLink, Button, Text,
+  RouterLink, Button, Text,
 } from '@Components/atoms';
 
 export default {
   components: {
-    appHeading: Heading,
     appRouterLink: RouterLink,
     appButton: Button,
     appText: Text,
@@ -130,63 +123,49 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
-.category-management-list-scroll {
+.category-list {
+  padding: 10px 0 20px;
+  height: 100%;
   overflow: scroll;
-  white-space: nowrap;
-}
-.category-management-list-table {
-  padding: 16px;
-  height: 600px;
-  margin-top: 16px;
-  display: block;
-}
-.category-management-list-table-head-title {
-  width: 200px;
-  font-size: 16px;
-  font-weight: bold;
-  background-color: var(--themeColor);
-  color: var(--white);
-  padding: 16px;
-  border-collapse: collapse;
-  border: 1px solid var(--white);
-}
-.category-management-list-table-body {
-  &-row {
-    &:nth-child(even) {
-      background-color: var(--separatorColor);
-      .category-management-list-table-body-data {
-        border: 1px solid var(--white);
+  &__table {
+    width: 100%;
+    text-align: left;
+    tr {
+      border-bottom: 1px solid var(--separatorColor);
+    }
+    &__head {
+      th {
+        padding: 5px 10px;
+        vertical-align: middle;
       }
     }
-    &:nth-child(odd) {
-      background-color: var(--white);
-      .category-management-list-table-body-data {
-        border: 1px solid var(--separatorColor);
+    &__body {
+      td {
+        padding: 10px;
+        vertical-align: middle;
+        &.is-disabled {
+          color: var(--disabledColor);
+          font-size: 12px;
+        }
       }
-    }
-  }
-  &-data {
-    vertical-align: middle;
-    text-align: center;
-    border-collapse: collapse;
-    padding: 16px 0;
-    &.is-category-name {
-      width: 200px;
-    }
-    &.is-delete-button {
-      width: 100px;
+      .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s;
+      }
+      .fade-enter, .fade-leave-to {
+        opacity: 0;
+      }
     }
   }
 }
 
-.category-management-modal-confirm {
+.category-list__modal {
   text-align: center;
-  &-name {
+  &__name {
     margin-top: 16px;
     font-size: 16px;
     color: var(--themeColor);
   }
-  &-button {
+  &__button {
     margin-top: 48px;
   }
 }

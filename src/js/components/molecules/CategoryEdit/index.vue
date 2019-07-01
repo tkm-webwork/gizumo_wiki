@@ -1,34 +1,8 @@
 <template lang="html">
-  <div>
+  <form @submit.prevent="handleSubmit">
     <app-heading :level="1">カテゴリー管理</app-heading>
-    <app-heading
-      class="category-management-edit-title"
-      :level="2"
-    >
-      カテゴリーの更新
-    </app-heading>
-    <app-input
-      class="category-management-edit-input"
-      required
-      type="text"
-      name="updateCategory"
-      placeholder="カテゴリー名を入力してください"
-      data-vv-as="カテゴリー名"
-      :error-messages="errors"
-      :value="updateCategoryName"
-      @updateValue="$emit('udpateValue', $event)"
-    />
-    <app-button
-      class="category-management-edit-submit"
-      button-type="submit"
-      round
-      :disabled="disabled ? true : false"
-      @click="$emit('handleSubmit')"
-    >
-      {{ buttonText }}
-    </app-button>
     <app-router-link
-      class="category-management-edit-link"
+      class="category-management-edit__link"
       block
       underline
       key-color
@@ -37,11 +11,38 @@
     >
       カテゴリー一覧へ戻る
     </app-router-link>
-  </div>
+    <app-input
+      v-validate="'required'"
+      class="category-management-edit__input"
+      type="text"
+      name="updateCategory"
+      placeholder="カテゴリー名を入力してください"
+      data-vv-as="カテゴリー名"
+      :error-messages="errors.collect('updateCategory')"
+      :value="updateCategoryName"
+      @updateValue="$emit('udpateValue', $event)"
+    />
+    <app-button
+      class="category-management-edit__submit"
+      button-type="submit"
+      round
+      :disabled="disabled"
+    >
+      {{ buttonText }}
+    </app-button>
+
+    <div v-if="errorMessage" class="category-management-edit__notice">
+      <app-text bg-error>{{ errorMessage }}</app-text>
+    </div>
+
+    <div v-if="doneMessage" class="category-management-edit__notice">
+      <app-text bg-success>{{ doneMessage }}</app-text>
+    </div>
+  </form>
 </template>
 <script>
 import {
-  Heading, Input, Button, RouterLink,
+  Heading, Input, Button, RouterLink, Text,
 } from '@Components/atoms';
 
 export default {
@@ -50,6 +51,7 @@ export default {
     appInput: Input,
     appButton: Button,
     appRouterLink: RouterLink,
+    appText: Text,
   },
   props: {
     updateCategoryName: {
@@ -60,25 +62,46 @@ export default {
       type: Boolean,
       default: false,
     },
+    errorMessage: {
+      type: String,
+      default: '',
+    },
+    doneMessage: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     buttonText() {
-      return this.loading ? '更新中...' : '更新';
+      return this.disabled ? '更新中...' : '更新';
+    },
+  },
+  methods: {
+    handleSubmit() {
+      this.$emit('clearMessage');
+      this.$validator.validate().then((valid) => {
+        if (valid) this.$emit('handleSubmit');
+      });
     },
   },
 };
 </script>
-<style scoped>
-.category-management-edit-title {
-  margin-top: 16px;
-}
-.category-management-edit-input {
-  margin-top: 16px;
-}
-.category-management-edit-submit {
-  margin-top: 16px;
-}
-.category-management-edit-link {
-  margin-top: 16px;
+<style lang="postcss" scoped>
+.category-management-edit {
+  &__title {
+    margin-top: 16px;
+  }
+  &__input {
+    margin-top: 16px;
+  }
+  &__submit {
+    margin-top: 16px;
+  }
+  &__link {
+    margin-top: 16px;
+  }
+  &__notice {
+    margin-top: 16px;
+  }
 }
 </style>
