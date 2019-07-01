@@ -50,18 +50,17 @@ export default {
       this[target.name] = target.value;
     },
     createUser() {
-      if (!this.loading) {
-        this.$store.dispatch('createUser', {
-          /* eslint-disable-next-line no-irregular-whitespace */
-          account_name: this.accountName.replace(/( |　)+/, '').trim(),
-          /* eslint-disable-next-line no-irregular-whitespace */
-          email: this.email.replace(/( |　)+/, '').trim(),
-          /* eslint-disable-next-line no-irregular-whitespace */
-          password: this.password.replace(/( |　)+/, '').trim(),
-        }).then(() => {
-          this.$router.push('/users');
-        });
-      }
+      if (this.loading) return;
+      this.$store.dispatch('createUser', {
+        /* eslint-disable-next-line no-irregular-whitespace */
+        account_name: this.accountName.replace(/( |　)+/, '').trim(),
+        /* eslint-disable-next-line no-irregular-whitespace */
+        email: this.email.replace(/( |　)+/, '').trim(),
+        /* eslint-disable-next-line no-irregular-whitespace */
+        password: this.password.replace(/( |　)+/, '').trim(),
+      }).then(() => {
+        this.$router.push('/users');
+      });
     },
   },
 };

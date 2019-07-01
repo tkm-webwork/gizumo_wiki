@@ -61,10 +61,11 @@ export default {
       this.$store.dispatch('openDeleteModal', { id });
     },
     deleteUser() {
-      this.$store.dispatch('deleteUser', { id: this.deleteUserId }).then(() => {
-        this.toggleModal();
-        this.$store.dispatch('getAllUsers');
-      });
+      this.$store.dispatch('deleteUser', { id: this.deleteUserId })
+        .then(() => {
+          this.$store.dispatch('getAllUsers');
+        });
+      this.toggleModal();
     },
   },
 };
