@@ -1,12 +1,11 @@
 <template lang="html">
   <app-user-detail
-    :loading="loading"
     caution-message="※ 名前以外の文頭・文末・文中の全角・半角スペースは削除されます。"
     :error-message="errorMessage"
     :done-message="doneMessage"
     :user="user"
     :options="roleArray"
-    @back="back"
+    :disabled="loading ? true : false"
     @clearMessage="clearMessage"
     @updateValue="updateValue"
     @editUser="editUser"
@@ -43,9 +42,6 @@ export default {
     this.$store.dispatch('clearMessage');
   },
   methods: {
-    back() {
-      this.$router.go(-1);
-    },
     clearMessage() {
       this.$store.dispatch('clearMessage');
     },
