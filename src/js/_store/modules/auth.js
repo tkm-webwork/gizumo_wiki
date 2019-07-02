@@ -88,7 +88,17 @@ export default {
           data,
         }).then((response) => {
           if (!response.data.token) reject(new Error());
-          commit('signInSuccess', response.data);
+
+          return axios(response.data.token)({
+            method: 'GET',
+            url: '/me',
+          }).then((user) => {
+            if (user.data.code === 0) return reject(new Error());
+
+            return { token: response.data.token, user: user.data };
+          }).catch(() => reject(new Error()));
+        }).then((payload) => {
+          commit('signInSuccess', payload);
           resolve();
         }).catch(() => {
           commit('signInFailure', {

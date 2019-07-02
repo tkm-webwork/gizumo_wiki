@@ -73,6 +73,9 @@ export default {
     errorMessage() {
       return this.$store.state.auth.errorMessage;
     },
+    user() {
+      return this.$store.state.auth.user;
+    },
   },
   methods: {
     updateValue($event) {
@@ -85,7 +88,11 @@ export default {
         email: this.email,
         password: this.password,
       }).then(() => {
-        this.$router.push(this.$route.query.redirect || '/');
+        const passwordResetFlg = this.user.password_reset_flg;
+        if (!passwordResetFlg) {
+          return this.$router.push('/password/init');
+        }
+        return this.$router.push(this.$route.query.redirect || '/');
       });
     },
   },

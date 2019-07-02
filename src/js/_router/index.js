@@ -24,6 +24,11 @@ import UserList from '@Pages/Users/List';
 import UserDetail from '@Pages/Users/Detail';
 import UserCreate from '@Pages/Users/Create';
 
+// パスワード
+import Password from '@Pages/Password';
+import PasswordInit from '@Pages/Password/init';
+import PasswordReset from '@Pages/Password/reset';
+
 import Store from '../_store';
 
 Vue.use(VueRouter);
@@ -103,6 +108,22 @@ const router = new VueRouter({
           name: 'categoryEdit',
           path: ':id',
           component: CategoryEdit,
+        },
+      ],
+    },
+    {
+      path: '/password',
+      component: Password,
+      children: [
+        {
+          name: 'passwordInit',
+          path: 'init',
+          component: PasswordInit,
+        },
+        {
+          name: 'passwordRest',
+          path: 'reset',
+          component: PasswordReset,
         },
       ],
     },
