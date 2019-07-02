@@ -4,7 +4,7 @@
     :error-message="errorMessage"
     :done-message="doneMessage"
     :user="user"
-    :options="roleArray"
+    :options="roleList"
     :disabled="loading ? true : false"
     @clearMessage="clearMessage"
     @updateValue="updateValue"
@@ -32,13 +32,16 @@ export default {
     user() {
       return this.$store.state.users.user;
     },
-    roleArray() {
-      return this.$store.state.users.roleArray;
+    roleList() {
+      return this.$store.state.users.roleList;
     },
   },
   created() {
     const { id } = this.$route.params;
     this.$store.dispatch('getUser', { id });
+    this.$store.dispatch('clearMessage');
+  },
+  destroyed() {
     this.$store.dispatch('clearMessage');
   },
   methods: {
@@ -57,7 +60,7 @@ export default {
         account_name: this.user.accountName.replace(/( |　)+/, '').trim(),
         /* eslint-disable-next-line no-irregular-whitespace */
         email: this.user.email.replace(/( |　)+/, '').trim(),
-        role_id: this.user.role,
+        role_id: this.roleList.find(role => role.value === this.user.role).id,
       });
     },
   },

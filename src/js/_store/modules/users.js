@@ -14,7 +14,7 @@ export default {
     },
     deleteUserId: null,
     userList: [],
-    roleArray: ['user', 'system', 'admin'],
+    roleList: [],
   },
   getters: {
     userListLength: state => state.userList.length,
@@ -34,8 +34,9 @@ export default {
       state.userList = users;
       state.loading = false;
     },
-    doneGetUser(state, { user }) {
+    doneGetUser(state, { user, roleList }) {
       state.user = Object.assign({}, state.user, user);
+      state.roleList = roleList;
       state.loading = false;
     },
     doneCreateUser(state) {
@@ -43,12 +44,7 @@ export default {
       state.doneMessage = '新規ユーザーの追加が完了しました。';
     },
     doneEditUser(state, { user }) {
-      state.user = Object.assign({}, state.user, {
-        id: user.id,
-        fullName: user.full_name,
-        accountName: user.account_name,
-        email: user.email,
-      });
+      state.user = Object.assign({}, state.user, user);
       state.loading = false;
       state.doneMessage = 'ユーザーの更新が完了しました。';
     },
@@ -111,7 +107,7 @@ export default {
           email: data.email,
           role: data.role,
         });
-        commit('doneGetUser', { user });
+        commit('doneGetUser', { user, roleList: response.data.role });
       }).catch((err) => {
         commit('failRequest', { message: err.message });
       });
@@ -149,10 +145,16 @@ export default {
       }).then((response) => {
         // NOTE: エラー時はresponse.data.codeが0で返ってくる。
         if (response.data.code === 0) throw new Error(response.data.message);
-        // TODO: 返ってくる値が変わるので、そこの調整
-        // console.log(response.data.user);
 
-        commit('doneEditUser', { user: response.data.user });
+        const editedUser = Object.assign({}, {
+          id: response.data.user.id,
+          fullName: response.data.user.full_name,
+          accountName: response.data.user.account_name,
+          email: response.data.user.email,
+          role: response.data.user.role,
+        });
+
+        commit('doneEditUser', { editedUser });
       }).catch((err) => {
         commit('failRequest', { message: err.message });
       });
