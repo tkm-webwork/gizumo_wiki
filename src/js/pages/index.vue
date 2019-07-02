@@ -40,7 +40,7 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
+<style lang="postcss" scoped>
 .content {
   display: flex;
   padding-top: var(--headerHight);

@@ -128,11 +128,12 @@ router.beforeEach((to, from, next) => {
      * checkAuthアクションでエラーが発生した場合は
      * 「/signin」にリダイレクト
      */
-    Store.dispatch('checkAuth', { token }).then(() => {
-      next();
-    }).catch(() => {
-      next('/signin');
-    });
+    Store.dispatch('checkAuth', { token })
+      .then(() => next())
+      .catch(() => next({
+        path: '/signin',
+        query: { redirect: to.fullPath },
+      }));
   } else if (isSignIn) {
     /**
      * 「/signin」ページにアクセスしたときにcheckAuthアクションを実行して

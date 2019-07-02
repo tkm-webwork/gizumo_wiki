@@ -86,9 +86,9 @@ export default {
           url: '/me',
           method: 'POST',
           data,
-        }).then((responce) => {
-          if (!responce.data.token) reject(new Error());
-          commit('signInSuccess', responce.data);
+        }).then((response) => {
+          if (!response.data.token) reject(new Error());
+          commit('signInSuccess', response.data);
           resolve();
         }).catch(() => {
           commit('signInFailure', {
