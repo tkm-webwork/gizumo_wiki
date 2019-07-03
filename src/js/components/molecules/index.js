@@ -1,3 +1,4 @@
+import PasswordForm from './PasswordForm';
 import MarkdownView from './MarkdownView';
 import SidebarList from './SidebarList';
 import ArticleList from './ArticleList';
@@ -11,6 +12,7 @@ import CategoryEdit from './CategoryEdit';
 import DeleteModal from './Modal';
 
 export {
+  PasswordForm,
   MarkdownView,
   SidebarList,
   ArticleList,

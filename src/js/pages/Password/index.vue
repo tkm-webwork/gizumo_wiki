@@ -6,7 +6,7 @@
 export default {
   computed: {
     parmas() {
-      console.log(this.$route.params);
+      console.log(this.$route);
       return this.$route.params;
     },
   },
