@@ -1,8 +1,10 @@
 <template lang="html">
   <app-password-form
+    :loading="loading"
     :password="password"
     :new-password="newPassword"
     :confirm-new-password="confirmNewPassword"
+    :button-text="buttonText"
     :error-message="errorMessage"
     :done-message="doneMessage"
     @updateValue="updateValue"
@@ -25,6 +27,12 @@ export default {
     };
   },
   computed: {
+    loading() {
+      return this.$store.state.auth.loading;
+    },
+    buttonText() {
+      return this.loading ? '設定中です...' : '設定';
+    },
     errorMessage() {
       return this.$store.state.auth.errorMessage;
     },
@@ -37,6 +45,12 @@ export default {
       this[target.name] = target.value;
     },
     setPassword() {
+      if (this.loading) return;
+      this.$store.dispatch('changePassword', {
+        password: this.password,
+        new_password: this.newPassword,
+        new_password_confirm: this.confirmNewPassword,
+      });
       console.log('submit OK');
     },
   },
