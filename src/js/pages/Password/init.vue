@@ -51,7 +51,6 @@ export default {
         new_password: this.newPassword,
         new_password_confirm: this.confirmNewPassword,
       });
-      console.log('submit OK');
     },
   },
 };

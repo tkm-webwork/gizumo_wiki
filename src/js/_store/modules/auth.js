@@ -49,6 +49,9 @@ export default {
       state.loading = false;
       state.signedIn = false;
     },
+    doneChangePassword() {
+      console.log('doneChangePassword');
+    },
     failRequest(state, { message }) {
       state.loading = false;
       state.errorMessage = message;
@@ -119,15 +122,16 @@ export default {
     // パスワードの設定（初回ログイン時）
     changePassword({ commit, rootGetters }, data) {
       commit('sendRequest');
+      console.log(data);
 
       axios(rootGetters.token)({
-        url: '/me',
+        url: '/user/info',
         method: 'POST',
         data,
       }).then((response) => {
         console.log(response);
+        commit('doneChangePassword');
       }).catch((err) => {
-        console.log(err.message);
         commit('failRequest', { message: err.message });
       });
     },

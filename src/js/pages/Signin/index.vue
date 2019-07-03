@@ -87,13 +87,14 @@ export default {
         type: 'signIn',
         email: this.email,
         password: this.password,
-      }).then(() => {
-        const passwordResetFlg = this.user.password_reset_flg;
-        if (!passwordResetFlg) {
-          return this.$router.push('/password/init');
-        }
-        return this.$router.push(this.$route.query.redirect || '/');
-      });
+      // }).then(() => {
+      //   const passwordResetFlg = this.user.password_reset_flg;
+      //   if (!passwordResetFlg) {
+      //     return this.$router.push('/password/init');
+      //   }
+      //   return this.$router.push(this.$route.query.redirect || '/');
+      // });
+      }).then(() => this.$router.push(this.$route.query.redirect || '/'));
     },
   },
 };

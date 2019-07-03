@@ -142,15 +142,24 @@ router.beforeEach((to, from, next) => {
   const token = Cookies.get('user-token') || null;
   const isPublic = to.matched.some(page => page.meta.isPublic);
   const isSignIn = to.matched.some(page => page.path === '/signin');
+  const notFromPasswordInit = from.matched.some(page => page.path !== '/password/init');
+  const notFromSignin = from.matched.some(page => page.path !== '/signin');
+
   if (!isPublic && !Store.state.auth.signedIn) {
     /**
      * 認証が必要なurlは、checkAuthアクションを実行して
      * cookieにセットされているtokenの整合性をチェック、整合性がとれていない場合もしくは
      * checkAuthアクションでエラーが発生した場合は
      * 「/signin」にリダイレクト
+     * 整合性がとれた場合
+     * パスワード初期化が済んでいればアクセスしようとしたURLにリダイレクト
+     * 済んでなければ「/password/init」にリダイレクト
      */
     Store.dispatch('checkAuth', { token })
-      .then(() => next())
+      .then(() => {
+        if (Store.state.auth.user.password_reset_flg) return next();
+        return next('/password/init');
+      })
       .catch(() => next({
         path: '/signin',
         query: { redirect: to.fullPath },
@@ -158,14 +167,28 @@ router.beforeEach((to, from, next) => {
   } else if (isSignIn) {
     /**
      * 「/signin」ページにアクセスしたときにcheckAuthアクションを実行して
-     * cookieにセットされているtokenのの整合性が取れていれば
+     * cookieにセットされているtokenの整合性が取れて
+     * パスワード初期化が済んでいれば
      * 「/」にリダイレクト
+     * 済んでなければ「/password/init」にリダイレクト
      */
-    Store.dispatch('checkAuth', { token }).then(() => {
-      next('/');
-    }).catch(() => {
-      next();
-    });
+    Store.dispatch('checkAuth', { token })
+      .then(() => {
+        if (Store.state.auth.user.password_reset_flg) return next('/');
+        return next('/password/init');
+      }).catch(() => next());
+  } else if (
+    !Store.state.auth.user.password_reset_flg
+    && notFromPasswordInit
+    && notFromSignin
+  ) {
+    /**
+     *  パスワード初期化が済んでいなければ「/password/init」にリダイレクト
+     *  NOTE: 条件式
+     *  NOTE: 「/password/init」と「/signin」からのリダイレクトじゃない
+     *  TODO: 条件式はなんとかならないか考える
+     */
+    next('/password/init');
   } else {
     next();
   }
