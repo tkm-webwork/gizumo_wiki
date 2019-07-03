@@ -2,14 +2,15 @@
   <section class="users-create">
     <app-heading :level="1">ユーザー作成</app-heading>
     <div class="users-create__back">
-      <app-button
-        small
-        round
-        disabled
-        @click="back"
+      <app-router-link
+        block
+        underline
+        key-color
+        hover-opacity
+        to="/users"
       >
-        戻る
-      </app-button>
+        ユーザー一覧へ戻る
+      </app-router-link>
     </div>
 
     <form class="users-create__form" @submit.prevent="createUser">
@@ -65,15 +66,10 @@
       <div class="users-create__button">
         <app-button
           button-type="submit"
-          :disabled="loading ? true : false"
+          :disabled="disabled"
           block
         >
-          <template v-if="loading">
-            <span>作成中です...</span>
-          </template>
-          <template v-else>
-            <span>作成</span>
-          </template>
+          {{ buttonText }}
         </app-button>
       </div>
     </form>
@@ -86,6 +82,7 @@ import {
   Heading,
   Input,
   Text,
+  RouterLink,
 } from '@Components/atoms';
 
 export default {
@@ -94,9 +91,10 @@ export default {
     appHeading: Heading,
     appInput: Input,
     appText: Text,
+    appRouterLink: RouterLink,
   },
   props: {
-    loading: {
+    disabled: {
       type: Boolean,
       default: false,
     },
@@ -125,10 +123,12 @@ export default {
       default: '',
     },
   },
-  methods: {
-    back() {
-      this.$emit('back');
+  computed: {
+    buttonText() {
+      return this.disabled ? '作成' : '作成中です...';
     },
+  },
+  methods: {
     updateValue($event) {
       this.$emit('updateValue', $event.target);
     },
