@@ -23,7 +23,7 @@
           <app-text tag="span" small>{{ user.email }}</app-text>
         </td>
         <td>
-          <app-text tag="span" small>{{ user.role }}</app-text>
+          <app-text tag="span" small>{{ user.role.name }}</app-text>
         </td>
         <td>
           <app-router-link
