@@ -28,7 +28,7 @@ export default {
       state.signedIn = false;
       state.token = '';
     },
-    signInRequest(state) {
+    sendRequest(state) {
       state.loading = true;
       state.errorMessage = '';
     },
@@ -48,6 +48,14 @@ export default {
       Cookies.remove('user-token');
       state.loading = false;
       state.signedIn = false;
+    },
+    doneChangePassword(state, { user }) {
+      state.user = Object.assign({}, { ...state.user }, { ...user });
+      state.loading = false;
+    },
+    failRequest(state, { message }) {
+      state.loading = false;
+      state.errorMessage = message;
     },
   },
   actions: {
@@ -77,7 +85,7 @@ export default {
       });
     },
     signIn({ commit }, { email, password }) {
-      commit('signInRequest');
+      commit('sendRequest');
       return new Promise((resolve, reject) => {
         const data = new URLSearchParams();
         data.append('email', email);
@@ -86,9 +94,19 @@ export default {
           url: '/me',
           method: 'POST',
           data,
-        }).then((responce) => {
-          if (!responce.data.token) reject(new Error());
-          commit('signInSuccess', responce.data);
+        }).then((response) => {
+          if (!response.data.token) reject(new Error());
+
+          return axios(response.data.token)({
+            method: 'GET',
+            url: '/me',
+          }).then((user) => {
+            if (user.data.code === 0) return reject(new Error());
+
+            return { token: response.data.token, user: user.data };
+          }).catch(() => reject(new Error()));
+        }).then((payload) => {
+          commit('signInSuccess', payload);
           resolve();
         }).catch(() => {
           commit('signInFailure', {
@@ -100,6 +118,29 @@ export default {
     },
     signOut({ commit }) {
       commit('signOut');
+    },
+
+    // パスワードの設定（初回ログイン時）
+    changePassword({ commit, rootGetters }, data) {
+      commit('sendRequest');
+
+      return new Promise((resolve) => {
+        axios(rootGetters.token)({
+          url: '/user/password/update',
+          method: 'POST',
+          data,
+        }).then((response) => {
+          if (response.data.code === 0) throw new Error(response.data.message);
+
+          const user = {
+            password_reset_flg: response.data.user.password_reset_flg,
+          };
+          commit('doneChangePassword', { user });
+          resolve();
+        }).catch((err) => {
+          commit('failRequest', { message: err.message });
+        });
+      });
     },
   },
 };

@@ -24,6 +24,11 @@ import UserList from '@Pages/Users/List';
 import UserDetail from '@Pages/Users/Detail';
 import UserCreate from '@Pages/Users/Create';
 
+// パスワード
+import Password from '@Pages/Password';
+import PasswordInit from '@Pages/Password/init';
+import PasswordReset from '@Pages/Password/reset';
+
 import Store from '../_store';
 
 Vue.use(VueRouter);
@@ -107,6 +112,22 @@ const router = new VueRouter({
       ],
     },
     {
+      path: '/password',
+      component: Password,
+      children: [
+        {
+          name: 'passwordInit',
+          path: 'init',
+          component: PasswordInit,
+        },
+        {
+          name: 'passwordRest',
+          path: 'reset',
+          component: PasswordReset,
+        },
+      ],
+    },
+    {
       name: 'notfound',
       path: '/*',
       component: NotFound,
@@ -121,29 +142,53 @@ router.beforeEach((to, from, next) => {
   const token = Cookies.get('user-token') || null;
   const isPublic = to.matched.some(page => page.meta.isPublic);
   const isSignIn = to.matched.some(page => page.path === '/signin');
+  const isPasswordInit = to.matched.some(page => page.path === '/password/init');
+  const notFromPasswordInit = from.matched.some(page => page.path !== '/password/init');
+
   if (!isPublic && !Store.state.auth.signedIn) {
     /**
      * 認証が必要なurlは、checkAuthアクションを実行して
      * cookieにセットされているtokenの整合性をチェック、整合性がとれていない場合もしくは
      * checkAuthアクションでエラーが発生した場合は
      * 「/signin」にリダイレクト
+     * 整合性がとれた場合
+     * パスワード初期化が済んでいればアクセスしようとしたURLにリダイレクト
+     * 済んでなければ「/password/init」にリダイレクト
      */
-    Store.dispatch('checkAuth', { token }).then(() => {
-      next();
-    }).catch(() => {
-      next('/signin');
-    });
+    Store.dispatch('checkAuth', { token })
+      .then(() => {
+        if (Store.state.auth.user.password_reset_flg) {
+          return next();
+        }
+        return next('/password/init');
+      })
+      .catch(() => next({
+        path: '/signin',
+        query: { redirect: to.fullPath },
+      }));
   } else if (isSignIn) {
     /**
      * 「/signin」ページにアクセスしたときにcheckAuthアクションを実行して
-     * cookieにセットされているtokenのの整合性が取れていれば
+     * cookieにセットされているtokenの整合性が取れて
+     * パスワード初期化が済んでいれば
      * 「/」にリダイレクト
+     * 済んでなければ「/password/init」にリダイレクト
      */
-    Store.dispatch('checkAuth', { token }).then(() => {
-      next('/');
-    }).catch(() => {
-      next();
-    });
+    Store.dispatch('checkAuth', { token })
+      .then(() => {
+        if (Store.state.auth.user.password_reset_flg) return next('/');
+        return next('/password/init');
+      }).catch(() => next());
+  } else if (
+    !Store.state.auth.user.password_reset_flg
+    && notFromPasswordInit && !isPasswordInit
+  ) {
+    /**
+     *  Store.state.auth.user.password_reset_flgが0
+     *  /password/initからじゃない
+     *  /password/initへじゃない
+     */
+    next('/password/init');
   } else {
     next();
   }
