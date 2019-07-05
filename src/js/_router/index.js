@@ -142,8 +142,8 @@ router.beforeEach((to, from, next) => {
   const token = Cookies.get('user-token') || null;
   const isPublic = to.matched.some(page => page.meta.isPublic);
   const isSignIn = to.matched.some(page => page.path === '/signin');
+  const isPasswordInit = to.matched.some(page => page.path === '/password/init');
   const notFromPasswordInit = from.matched.some(page => page.path !== '/password/init');
-  const notFromSignin = from.matched.some(page => page.path !== '/signin');
 
   if (!isPublic && !Store.state.auth.signedIn) {
     /**
@@ -157,7 +157,9 @@ router.beforeEach((to, from, next) => {
      */
     Store.dispatch('checkAuth', { token })
       .then(() => {
-        if (Store.state.auth.user.password_reset_flg) return next();
+        if (Store.state.auth.user.password_reset_flg) {
+          return next();
+        }
         return next('/password/init');
       })
       .catch(() => next({
@@ -179,14 +181,12 @@ router.beforeEach((to, from, next) => {
       }).catch(() => next());
   } else if (
     !Store.state.auth.user.password_reset_flg
-    && notFromPasswordInit
-    && notFromSignin
+    && notFromPasswordInit && !isPasswordInit
   ) {
     /**
-     *  パスワード初期化が済んでいなければ「/password/init」にリダイレクト
-     *  NOTE: 条件式
-     *  NOTE: 「/password/init」と「/signin」からのリダイレクトじゃない
-     *  TODO: 条件式はなんとかならないか考える
+     *  Store.state.auth.user.password_reset_flgが0
+     *  /password/initからじゃない
+     *  /password/initへじゃない
      */
     next('/password/init');
   } else {

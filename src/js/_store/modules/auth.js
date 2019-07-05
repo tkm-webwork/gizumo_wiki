@@ -49,8 +49,9 @@ export default {
       state.loading = false;
       state.signedIn = false;
     },
-    doneChangePassword() {
-      console.log('doneChangePassword');
+    doneChangePassword(state, { user }) {
+      state.user = Object.assign({}, { ...state.user }, { ...user });
+      state.loading = false;
     },
     failRequest(state, { message }) {
       state.loading = false;
@@ -122,17 +123,23 @@ export default {
     // パスワードの設定（初回ログイン時）
     changePassword({ commit, rootGetters }, data) {
       commit('sendRequest');
-      console.log(data);
 
-      axios(rootGetters.token)({
-        url: '/user/info',
-        method: 'POST',
-        data,
-      }).then((response) => {
-        console.log(response);
-        commit('doneChangePassword');
-      }).catch((err) => {
-        commit('failRequest', { message: err.message });
+      return new Promise((resolve) => {
+        axios(rootGetters.token)({
+          url: '/user/password/update',
+          method: 'POST',
+          data,
+        }).then((response) => {
+          if (response.data.code === 0) throw new Error(response.data.message);
+
+          const user = {
+            password_reset_flg: response.data.user.password_reset_flg,
+          };
+          commit('doneChangePassword', { user });
+          resolve();
+        }).catch((err) => {
+          commit('failRequest', { message: err.message });
+        });
       });
     },
   },

@@ -50,6 +50,8 @@ export default {
         password: this.password,
         new_password: this.newPassword,
         new_password_confirm: this.confirmNewPassword,
+      }).then(() => {
+        this.$router.push('/');
       });
     },
   },
