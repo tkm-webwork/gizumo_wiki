@@ -4,6 +4,7 @@
     :article-content="articleContent"
     :markdown-content="markdownContent"
     :category-list="categoryList"
+    :loading="loading"
     @selectedArticleCategory="selectedArticleCategory"
     @editedTitle="editedTitle"
     @editedContent="editedContent"
@@ -40,6 +41,9 @@ export default {
       const { categoryList } = this.$store.state.categories;
       return categoryList;
     },
+    loading() {
+      return this.$store.state.articles.loading;
+    },
   },
   created() {
     this.$store.dispatch('getAllCategories');
@@ -57,6 +61,7 @@ export default {
       this.$store.dispatch('selectedArticleCategory', categoryName);
     },
     handleSubmit() {
+      if (this.loading) return;
       this.$store.dispatch('postArticle');
     },
   },

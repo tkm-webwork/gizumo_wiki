@@ -24,6 +24,7 @@ export default {
     },
     articleList: [],
     deleteArticleId: null,
+    loading: false,
   },
   getters: {
     transformedArticles(state) {
@@ -97,6 +98,9 @@ export default {
     },
     doneDeleteArticle(state) {
       state.deleteArticleId = null;
+    },
+    toggleLoading(state) {
+      state.loading = !state.loading;
     },
   },
   actions: {
@@ -191,6 +195,7 @@ export default {
       commit('selectedArticleCategory', payload);
     },
     updateArticle({ commit, rootGetters }) {
+      commit('toggleLoading');
       const data = new URLSearchParams();
       data.append('id', rootGetters.targetArticle.id);
       data.append('title', rootGetters.targetArticle.title);
@@ -214,8 +219,9 @@ export default {
           },
         };
         commit('updateArticle', payload);
+        commit('toggleLoading');
       }).catch(() => {
-
+        commit('toggleLoading');
       });
     },
     confirmDeleteArticle({ commit }, articleId) {
@@ -232,7 +238,8 @@ export default {
         commit('doneDeleteArticle');
       });
     },
-    postArticle({ rootGetters }) {
+    postArticle({ commit, rootGetters }) {
+      commit('toggleLoading');
       const data = new URLSearchParams();
       data.append('title', rootGetters.targetArticle.title);
       data.append('content', rootGetters.targetArticle.content);
@@ -246,8 +253,9 @@ export default {
         data,
       }).then((res) => {
         console.log(res);
+        commit('toggleLoading');
       }).catch(() => {
-
+        commit('toggleLoading');
       });
     },
   },

@@ -57,8 +57,9 @@
         button-type="submit"
         round
         @click="$emit('handleSubmit')"
+        :disabled="loading"
       >
-        作成
+        {{ buttonText }}
       </app-button>
     </section>
 
@@ -104,6 +105,15 @@ export default {
     value: {
       type: String,
       default: '',
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    buttonText() {
+      return this.loading ? '作成中...' : '作成';
     },
   },
 };

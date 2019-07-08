@@ -6,6 +6,7 @@
     :markdown-content="markdownContent"
     :current-category-name="currentCategoryName"
     :category-list="categoryList"
+    :loading="loading"
     @selectedArticleCategory="selectedArticleCategory"
     @editedTitle="editedTitle"
     @editedContent="editedContent"
@@ -51,6 +52,9 @@ export default {
       const { categoryList } = this.$store.state.categories;
       return categoryList;
     },
+    loading() {
+      return this.$store.state.articles.loading;
+    },
   },
   created() {
     this.$store.dispatch('getAllCategories');
@@ -64,6 +68,7 @@ export default {
       this.$store.dispatch('editedContent', $event.target.value);
     },
     handleSubmit() {
+      if (this.loading) return;
       this.$store.dispatch('updateArticle');
     },
     selectedArticleCategory($event) {
