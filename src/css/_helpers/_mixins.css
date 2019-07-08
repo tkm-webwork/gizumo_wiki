@@ -4,6 +4,11 @@
     opacity: .7;
   }
 }
+@define-mixin hoverUnderline {
+  &:hover {
+    text-decoration: underline;
+  }
+}
 
 @define-mixin mobile {
   @media (--mobile-viewport) {

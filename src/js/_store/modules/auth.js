@@ -103,6 +103,7 @@ export default {
           }).then((user) => {
             if (user.data.code === 0) return reject(new Error());
 
+            // TODO: roleは返ってくる値がオブジェクトになるので後ほど要修正
             return { token: response.data.token, user: user.data };
           }).catch(() => reject(new Error()));
         }).then((payload) => {
