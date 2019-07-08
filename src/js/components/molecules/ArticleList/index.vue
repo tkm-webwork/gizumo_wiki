@@ -6,7 +6,9 @@
       key-color
       white
       bg-lightgreen
-      large
+      small
+      round
+      hover-opcity
       class="article-list-create-link"
     >
       新しいドキュメントを作る
@@ -32,9 +34,9 @@
         <div class="article-list-links">
           <app-router-link
             :to="`/articles/${article.id}`"
-            bg-theme-color
-            large
-            white
+            theme-color
+            underline
+            hover-opacity
           >
             詳細
           </app-router-link>
@@ -42,12 +44,16 @@
             :to="`/articles/${article.id}/edit`"
             white
             bg-lightgreen
-            large
+            small
+            round
           >
             更新
           </app-router-link>
           <app-button
             bg-danger
+            small
+            round
+            hover-opcity
             @click="openModal(article.id)"
           >
             削除
