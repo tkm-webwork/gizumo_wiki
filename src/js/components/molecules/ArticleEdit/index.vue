@@ -53,9 +53,10 @@
         class="article-edit-submit"
         button-type="submit"
         round
+        :disabled="loading"
         @click="$emit('handleSubmit')"
       >
-        更新
+        {{ buttonText }}
       </app-button>
     </section>
 
@@ -105,6 +106,15 @@ export default {
     categoryList: {
       type: Array,
       default: () => [],
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    buttonText() {
+      return this.loading ? '更新中...' : '更新';
     },
   },
 };
