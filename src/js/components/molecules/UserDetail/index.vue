@@ -190,8 +190,8 @@ export default {
     margin-top: 20px;
   }
   &__info {
-    margin-top: 20px;
     margin: 0 auto;
+    margin-top: 20px;
     width: 80%;
     &__row {
       display: flex;

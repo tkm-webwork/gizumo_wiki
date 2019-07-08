@@ -18,6 +18,9 @@ import ArticleDetail from '@Pages/Articles/Detail';
 import ArticleEdit from '@Pages/Articles/Edit';
 import ArticlePost from '@Pages/Articles/Post';
 
+// 自分のアカウントページ
+import Profile from '@Pages/Profile';
+
 // ユーザー
 import Users from '@Pages/Users';
 import UserList from '@Pages/Users/List';
@@ -47,6 +50,27 @@ const router = new VueRouter({
       name: 'home',
       path: '/',
       component: Home,
+    },
+    {
+      path: '/password',
+      component: Password,
+      children: [
+        {
+          name: 'passwordInit',
+          path: 'init',
+          component: PasswordInit,
+        },
+        {
+          name: 'passwordRest',
+          path: 'reset',
+          component: PasswordReset,
+        },
+      ],
+    },
+    {
+      name: 'profile',
+      path: '/profile',
+      component: Profile,
     },
     {
       path: '/articles',
@@ -108,22 +132,6 @@ const router = new VueRouter({
           name: 'categoryEdit',
           path: ':id',
           component: CategoryEdit,
-        },
-      ],
-    },
-    {
-      path: '/password',
-      component: Password,
-      children: [
-        {
-          name: 'passwordInit',
-          path: 'init',
-          component: PasswordInit,
-        },
-        {
-          name: 'passwordRest',
-          path: 'reset',
-          component: PasswordReset,
         },
       ],
     },

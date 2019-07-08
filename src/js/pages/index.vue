@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="wrapper">
-    <app-header />
+    <app-header :signed-in="signedIn" />
     <div :class="contentClasses">
       <app-sidebar v-if="signedIn" />
       <main :class="contentMainClasses">

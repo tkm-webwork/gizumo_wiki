@@ -68,6 +68,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    hoverUnderline: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     classes() {
@@ -84,6 +88,7 @@ export default {
         'router-link--bg-themecolor': this.bgThemeColor,
         'router-link--bg-lightgreen': this.bgLightgreen,
         'router-link--hover-opacity': this.hoverOpacity,
+        'router-link--hover-underline': this.hoverUnderline,
       };
     },
   },
@@ -104,6 +109,9 @@ export default {
 }
 .router-link--hover-opacity {
   @mixin hoverOpacity;
+}
+.router-link--hover-underline {
+  @mixin hoverUnderline;
 }
 .router-link--block {
   display: block;
