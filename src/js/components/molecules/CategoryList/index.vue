@@ -14,10 +14,10 @@
         </tr>
       </thead>
       <transition-group name="fade" tag="tbody" class="category-list__table__body">
-        <tr v-for="category in categories" :key="category.category.id">
+        <tr v-for="category in categories" :key="category.id">
           <td>
             <app-text tag="span">
-              {{ category.category.name }}
+              {{ category.name }}
             </app-text>
           </td>
           <td>
@@ -25,7 +25,7 @@
               underline
               small
               hover-opacity
-              :to="`/articles?category=${category.category.name}`"
+              :to="`/articles?category=${category.name}`"
             >
               このカテゴリーの記事
             </app-router-link>
@@ -35,7 +35,7 @@
               theme-color
               underline
               hover-opacity
-              :to="`/categories/${category.category.id}`"
+              :to="`/categories/${category.id}`"
             >
               更新
             </app-router-link>
@@ -45,7 +45,7 @@
               bg-danger
               small
               round
-              @click="openModal(category.category.id, category.category.name)"
+              @click="openModal(category.id, category.name)"
             >
               削除
             </app-button>
