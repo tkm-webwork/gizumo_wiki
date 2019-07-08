@@ -1,3 +1,3 @@
 <template lang="html">
-  <router-view />
+  <p>password reset</p>
 </template>

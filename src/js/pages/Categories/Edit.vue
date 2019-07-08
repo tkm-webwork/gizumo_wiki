@@ -2,9 +2,12 @@
   <div>
     <app-category-edit
       :update-category-name="updateCategoryName"
-      :disabled="disabled"
+      :disabled="loading ? true : false"
+      :error-message="errorMessage"
+      :done-message="doneMessage"
       @udpateValue="updateValue"
-      @handleSubmit="handleSubmit"
+      @clearMessage="clearMessage"
+      @handleSubmit="updateCategory"
     />
   </div>
 </template>
@@ -20,9 +23,11 @@ export default {
     loading() {
       return this.$store.state.categories.loading;
     },
-    disabled() {
-      const isValied = this.errors.items.length > 0;
-      return this.loading || isValied;
+    errorMessage() {
+      return this.$store.state.categories.errorMessage;
+    },
+    doneMessage() {
+      return this.$store.state.categories.doneMessage;
     },
     updateCategoryName() {
       return this.$store.state.categories.updateCategoryName;
@@ -31,13 +36,17 @@ export default {
   created() {
     const { id } = this.$route.params;
     this.$store.dispatch('getCategoryDetail', id);
+    this.$store.dispatch('clearMessage');
   },
   methods: {
     updateValue($event) {
       this.$store.dispatch('editedCategoryName', $event.target.value);
     },
-    handleSubmit() {
-      if (this.disabled) return;
+    clearMessage() {
+      this.$store.dispatch('clearMessage');
+    },
+    updateCategory() {
+      if (this.loading) return;
       this.$store.dispatch('updateCategory');
     },
   },

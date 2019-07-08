@@ -2,8 +2,10 @@ import axios from '@Helpers/axiosDefault';
 
 export default {
   state: {
-    categoryList: [],
     loading: false,
+    errorMessage: '',
+    doneMessage: '',
+    categoryList: [],
     deleteCategoryId: null,
     deleteCategoryName: '',
     updateCategoryId: null,
@@ -13,6 +15,9 @@ export default {
     categoryList: state => state.categoryList,
   },
   actions: {
+    clearMessage({ commit }) {
+      commit('clearMessage');
+    },
     getAllCategories({ commit, rootGetters }) {
       axios(rootGetters.token)({
         method: 'GET',
@@ -31,30 +36,41 @@ export default {
     },
     postCateogry({ commit, rootGetters }, categoryName) {
       commit('toggleLoading');
+
       const data = new URLSearchParams();
       data.append('name', categoryName);
-      axios(rootGetters.token)({
-        method: 'POST',
-        url: '/category',
-        data,
-      }).then(() => {
-        commit('toggleLoading');
-      }).catch((err) => {
-        commit('failFetchCategory', { message: err.message });
-        commit('toggleLoading');
+      return new Promise((resolve) => {
+        axios(rootGetters.token)({
+          method: 'POST',
+          url: '/category',
+          data,
+        }).then(() => {
+          commit('toggleLoading');
+          commit('donePostCategory');
+          resolve();
+        }).catch((err) => {
+          commit('failFetchCategory', { message: err.message });
+          commit('toggleLoading');
+        });
       });
     },
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
       commit('confirmDeleteCategory', { categoryId, categoryName });
     },
     deleteCategory({ commit, rootGetters }, categoryId) {
-      axios(rootGetters.token)({
-        method: 'DELETE',
-        url: `/category/${categoryId}`,
-      }).then(() => {
-        commit('doneDeleteCategory');
-      }).catch((err) => {
-        commit('failFetchCategory', { message: err.message });
+      return new Promise((resolve) => {
+        axios(rootGetters.token)({
+          method: 'DELETE',
+          url: `/category/${categoryId}`,
+        }).then((response) => {
+          // NOTE: エラー時はresponse.data.codeが0で返ってくる。
+          if (response.data.code === 0) throw new Error(response.data.message);
+
+          commit('doneDeleteCategory');
+          resolve();
+        }).catch((err) => {
+          commit('failFetchCategory', { message: err.message });
+        });
       });
     },
     getCategoryDetail({ commit, rootGetters }, categoryId) {
@@ -91,11 +107,15 @@ export default {
     },
   },
   mutations: {
+    clearMessage(state) {
+      state.errorMessage = '';
+      state.doneMessage = '';
+    },
     doneGetAllCategories(state, { categories }) {
       state.categoryList = [...categories];
     },
-    failFetchCategory(state) {
-      return state;
+    failFetchCategory(state, { message }) {
+      state.errorMessage = message;
     },
     toggleLoading(state) {
       state.loading = !state.loading;
@@ -104,9 +124,13 @@ export default {
       state.deleteCategoryId = categoryId;
       state.deleteCategoryName = categoryName;
     },
+    donePostCategory(state) {
+      state.doneMessage = 'カテゴリーの追加が完了しました。';
+    },
     doneDeleteCategory(state) {
       state.deleteCategoryId = null;
       state.deleteCategoryName = '';
+      state.doneMessage = 'カテゴリーの削除が完了しました。';
     },
     doneGetCategoryDetail(state, payload) {
       state.updateCategoryId = payload.id;
@@ -118,6 +142,7 @@ export default {
     doneUpdateCategory(state, payload) {
       state.updateCategoryId = payload.id;
       state.updateCategoryId = payload.name;
+      state.doneMessage = 'カテゴリーの更新が完了しました。';
     },
   },
 };

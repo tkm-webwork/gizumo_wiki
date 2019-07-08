@@ -2,6 +2,7 @@
   <section class="user-list">
     <app-user-list
       :error-message="errorMessage"
+      :done-message="doneMessage"
       :user-list-length="userListLength"
     />
     <div class="user-list__table">
@@ -30,9 +31,17 @@ export default {
     appDeleteModal: DeleteModal,
   },
   mixins: [Mixins],
+  data() {
+    return {
+      theads: ['名前', 'アカウント名', 'メールアドレス', '権限', '', ''],
+    };
+  },
   computed: {
     errorMessage() {
       return this.$store.state.users.errorMessage;
+    },
+    doneMessage() {
+      return this.$store.state.users.doneMessage;
     },
     userList() {
       return this.$store.state.users.userList;
@@ -43,23 +52,22 @@ export default {
     deleteUserId() {
       return this.$store.state.users.deleteUserId;
     },
-    theads() {
-      return ['名前', 'アカウント名', 'メールアドレス', '権限', '', ''];
-    },
   },
   created() {
     this.$store.dispatch('getAllUsers');
   },
   methods: {
     openDeleteModal(id) {
-      this.$store.dispatch('openDeleteModal', { id });
       this.toggleModal();
+      this.$store.dispatch('clearMessage');
+      this.$store.dispatch('openDeleteModal', { id });
     },
     deleteUser() {
-      this.$store.dispatch('deleteUser', { id: this.deleteUserId }).then(() => {
-        this.toggleModal();
-        this.$store.dispatch('getAllUsers');
-      });
+      this.$store.dispatch('deleteUser', { id: this.deleteUserId })
+        .then(() => {
+          this.$store.dispatch('getAllUsers');
+        });
+      this.toggleModal();
     },
   },
 };
