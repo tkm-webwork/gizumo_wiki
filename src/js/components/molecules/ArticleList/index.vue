@@ -8,14 +8,15 @@
       bg-lightgreen
       small
       round
-      hover-opcity
-      class="article-list-create-link"
+      hover-opacity
+      class="article-list__create-link"
     >
       新しいドキュメントを作る
     </app-router-link>
-    <ul
-      :class="classes"
+    <transition-group
       class="article-list"
+      name="fade"
+      tag="ul"
     >
       <app-list-item
         v-for="article in targetArray"
@@ -25,13 +26,14 @@
         align-items
         bg-white
         large
+        border-bottom-gray
       >
         <app-text
-          class="article-list-title"
+          class="article-list__title"
         >
           {{ article.title }}
         </app-text>
-        <div class="article-list-links">
+        <div class="article-list__links">
           <app-router-link
             :to="`/articles/${article.id}`"
             theme-color
@@ -46,6 +48,7 @@
             bg-lightgreen
             small
             round
+            hover-opacity
           >
             更新
           </app-router-link>
@@ -53,14 +56,14 @@
             bg-danger
             small
             round
-            hover-opcity
+            hover-opacity
             @click="openModal(article.id)"
           >
             削除
           </app-button>
         </div>
       </app-list-item>
-    </ul>
+    </transition-group>
     <app-modal>
       <app-text
         ex-large
@@ -116,11 +119,6 @@ export default {
     articleTitle() {
       return `${this.title}の一覧`;
     },
-    classes() {
-      return {
-        'article-list--bordergray': this.borderGray,
-      };
-    },
   },
   methods: {
     openModal(articleId) {
@@ -131,25 +129,25 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
-  .article-list-title {
-    width: 60%;
-  }
-  .article-list-create-link {
-    margin-top:  16px;
-  }
   .article-list {
     margin-top: 16px;
-  }
-  .article-list-links {
-    *:not(first-child) {
-      margin-left: 16px;
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .5s;
     }
-  }
-  .article-list--bordergray li {
-    border-bottom: 1px solid var(--separatorColor);
-  }
-  .article-list--bordergray li:first-child {
-    border-top: 1px solid var(--separatorColor);
+    .fade-enter, .fade-leave-to {
+      opacity: 0;
+    }
+    &__title {
+      width: 60%;
+    }
+    &__create-link {
+      margin-top: 16px;
+    }
+    &__links {
+      *:not(first-child) {
+        margin-left: 16px;
+      }
+    }
   }
 
 </style>
