@@ -27,6 +27,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    bold: {
+      type: Boolean,
+      default: false,
+    },
+    themeColor: {
+      type: Boolean,
+      default: false,
+    },
     disabled: {
       type: Boolean,
       default: false,
@@ -38,6 +46,10 @@ export default {
     bgCaution: {
       type: Boolean,
       default: false,
+    },
+    bgWhite: {
+      type: Boolean,
+      defualt: false,
     },
     pointer: {
       type: Boolean,
@@ -51,9 +63,12 @@ export default {
         'button--block': this.block,
         'button--small': this.small,
         'button--round': this.round,
+        'button--bold': this.bold,
+        'button--theme-color': this.themeColor,
         'button--disabled': this.disabled,
         'button--danger': this.bgDanger,
         'button--bg-caution': this.bgCaution,
+        'button--bg-white': this.bgWhite,
         'button--pointer': this.pointer,
       };
     },
@@ -84,6 +99,12 @@ export default {
 .button--round {
   border-radius: 5px;
 }
+.button--bold {
+  font-weight: var(--bold);
+}
+.button--theme-color {
+  color: var(--themeColor);
+}
 .button--disabled {
   background-color: var(--disabledColor);
   cursor: default;
@@ -96,6 +117,9 @@ export default {
 }
 .button--bg-caution {
   background-color: var(--cautionColor);
+}
+.button--bg-white {
+  background-color: #fff;
 }
 .button--pointer {
   cursor: pointer;

@@ -1,5 +1,6 @@
 import SigninForm from './SigninForm';
 import PasswordForm from './PasswordForm';
+import Profile from './Profile';
 import MarkdownView from './MarkdownView';
 import SidebarList from './SidebarList';
 import ArticleList from './ArticleList';
@@ -15,6 +16,7 @@ import DeleteModal from './Modal';
 export {
   SigninForm,
   PasswordForm,
+  Profile,
   MarkdownView,
   SidebarList,
   ArticleList,
