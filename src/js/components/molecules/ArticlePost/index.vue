@@ -1,17 +1,20 @@
 <template lang="html">
-  <div class="article-edit">
-    <section class="article-edit-editor">
-      <app-heading :level="1">記事の更新</app-heading>
+  <div class="article-post">
+    <section class="article-post-editor">
+      <app-heading :level="1">記事の新規作成</app-heading>
       <app-heading
-        class="article-edit-editor-title"
+        class="article-post-editor-title"
         :level="2"
       >
         カテゴリーの選択
       </app-heading>
       <app-select
-        :value="currentCategoryName"
+        :value="value"
         @updateValue="$emit('selectedArticleCategory', $event)"
       >
+        <option
+          value=""
+        />
         <option
           v-for="(category) in categoryList"
           :key="category.id"
@@ -21,12 +24,12 @@
         </option>
       </app-select>
       <app-heading
-        class="article-edit-editor-title"
+        class="article-post-editor-title"
         :level="2"
       >
-        タイトル・本文の更新
+        カテゴリーの選択
       </app-heading>
-      <div class="article-edit-form">
+      <div class="article-post-form">
         <app-input
           name="title"
           type="text"
@@ -39,7 +42,7 @@
         />
       </div>
 
-      <div class="article-edit-form">
+      <div class="article-post-form">
         <app-textarea
           name="content"
           placeholder="記事の本文をマークダウン記法で入力してください。"
@@ -50,16 +53,16 @@
         />
       </div>
       <app-button
-        class="article-edit-submit"
+        class="article-post-submit"
         button-type="submit"
         round
         @click="$emit('handleSubmit')"
       >
-        更新
+        作成
       </app-button>
     </section>
 
-    <article class="article-edit-preview">
+    <article class="article-post-preview">
       <app-markdown-preview
         :markdown-content="markdownContent"
       />
@@ -69,23 +72,19 @@
 
 <script>
 import {
-  Heading, MarkdownPreview, Textarea, Input, Button, Select,
+  Heading, Input, Textarea, MarkdownPreview, Button, Select,
 } from '@Components/atoms';
 
 export default {
   components: {
     appHeading: Heading,
+    appInput: Input,
     appTextarea: Textarea,
     appMarkdownPreview: MarkdownPreview,
-    appInput: Input,
     appButton: Button,
     appSelect: Select,
   },
   props: {
-    articleId: {
-      type: Number,
-      default: 0,
-    },
     articleTitle: {
       type: String,
       default: '',
@@ -98,20 +97,20 @@ export default {
       type: String,
       default: '',
     },
-    currentCategoryName: {
-      type: String,
-      default: '',
-    },
     categoryList: {
       type: Array,
       default: () => [],
+    },
+    value: {
+      type: String,
+      default: '',
     },
   },
 };
 </script>
 
 <style lang="postcss" scoped>
-.article-edit {
+.article-post {
   display: flex;
   height: 100%;
   &-editor {

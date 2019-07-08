@@ -4,6 +4,8 @@
       :title="title"
       :target-array="articlesList"
       border-gray
+      @openModal="openModal"
+      @handleClick="handleClick"
     />
   </div>
 </template>
@@ -36,12 +38,36 @@ export default {
           if (this.$store.state.articles.articleList.length === 0) {
             this.$router.push({ path: '/notfound' });
           }
-        }).catch((err) => {
-          console.log(err);
+        }).catch(() => {
+          // console.log(err);
         });
     } else {
       this.$store.dispatch('getAllArticles');
     }
+  },
+  methods: {
+    openModal(articleId) {
+      this.$store.dispatch('confirmDeleteArticle', articleId);
+      this.toggleModal();
+    },
+    handleClick() {
+      this.$store.dispatch('deleteArticle');
+      this.toggleModal();
+      if (this.$route.query.category) {
+        const { category } = this.$route.query;
+        this.title = category;
+        this.$store.dispatch('filteredArticles', category)
+          .then(() => {
+            if (this.$store.state.articles.articleList.length === 0) {
+              this.$router.push({ path: '/notfound' });
+            }
+          }).catch(() => {
+            // console.log(err);
+          });
+      } else {
+        this.$store.dispatch('getAllArticles');
+      }
+    },
   },
 };
 </script>

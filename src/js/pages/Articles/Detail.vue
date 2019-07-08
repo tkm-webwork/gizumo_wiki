@@ -1,44 +1,23 @@
 <template lang="html">
-  <section class="article-detail">
-    <app-heading :level="1">記事詳細（プレビュー）</app-heading>
-    <div class="article-detail-links">
-      <app-router-link
-        :to="`/articles/${articleId}/edit`"
-        white
-        bg-lightgreen
-        large
-      >
-        更新
-      </app-router-link>
-      <app-button
-        bg-danger
-      >
-        削除
-      </app-button>
-    </div>
-    <article class="article-detail__markdown">
-      <app-markdown-view
-        :markdown-content="markdownContent"
-        :markdown-indexes="markdownIndexes"
-        wide
-        white-bg
-        flex
-      />
-    </article>
-  </section>
+  <app-article-detail
+    :article-id="articleId"
+    :markdown-indexes="markdownIndexes"
+    :markdown-content="markdownContent"
+    @parsedMarkdown="initIndex"
+    @openModal="openModal"
+    @handleClick="handleClick"
+  />
 </template>
 
 <script>
-import { Heading, Button, RouterLink } from '@Components/atoms';
-import { MarkdownView } from '@Components/molecules';
+import { ArticleDetail } from '@Components/molecules';
+import Mixins from '@Helpers/mixins';
 
 export default {
   components: {
-    appHeading: Heading,
-    appMarkdownView: MarkdownView,
-    appButton: Button,
-    appRouterLink: RouterLink,
+    appArticleDetail: ArticleDetail,
   },
+  mixins: [Mixins],
   data() {
     return {
       markdownIndexes: [],
@@ -46,7 +25,7 @@ export default {
   },
   computed: {
     articleId() {
-      const { id } = this.$route.params;
+      const id = parseInt(this.$route.params.id, 10);
       return id;
     },
     markdownContent() {
@@ -57,33 +36,45 @@ export default {
   created() {
     this.$store.dispatch('getArticleDetail', parseInt(this.articleId, 10));
   },
-  mounted() {
-    this.createMarkdownIndexesAnchorInfo();
-  },
   methods: {
+    initIndex() {
+      /**
+       * TODO: マークダウンのhtmlがパースされた後にcreateMarkdownIndexesAnchorInfoメソッドを
+       * 実行する必要があり、下記のsetTimeOutの処理だとパースした後を完全に保証しているわけではなく不完全なので、
+       * 要修正
+       */
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          this.createMarkdownIndexesAnchorInfo();
+          resolve();
+        }, 500);
+      });
+    },
     createMarkdownIndexesAnchorInfo() {
       const markdownIndexes = [];
       const markdownHtml = document.querySelector('.article-detail__markdown');
-      const header = document.querySelector('header');
-      const headerHeight = header.clientHeight;
-      const hElements = markdownHtml.querySelectorAll('h1, h2');
-      hElements.forEach((element, index) => {
-        const tagName = element.tagName.toLowerCase();
-        element.setAttribute('id', `${tagName}-${index}`);
-        const idVal = element.getAttribute('id');
-        const title = element.textContent;
-        const { offsetTop } = element;
-        const scrollToY = offsetTop - headerHeight;
-        markdownIndexes.push({
-          tagName,
-          val: idVal,
-          title,
-          scrollToY,
+      if (markdownHtml) {
+        const header = document.querySelector('header');
+        const headerHeight = header.clientHeight;
+        const hElements = markdownHtml.querySelectorAll('h1, h2');
+        hElements.forEach((element, index) => {
+          const tagName = element.tagName.toLowerCase();
+          element.setAttribute('id', `${tagName}-${index}`);
+          const idVal = element.getAttribute('id');
+          const title = element.textContent;
+          const { offsetTop } = element;
+          const scrollToY = offsetTop - headerHeight;
+          markdownIndexes.push({
+            tagName,
+            val: idVal,
+            title,
+            scrollToY,
+          });
         });
-      });
-      this.markdownIndexes = [...markdownIndexes];
-      if (this.$route.hash) {
-        this.smoothScroll();
+        this.markdownIndexes = [...markdownIndexes];
+        if (this.$route.hash) {
+          this.smoothScroll();
+        }
       }
     },
     smoothScroll() {
@@ -94,25 +85,15 @@ export default {
         this.$SmoothScroll(target.scrollToY);
       }
     },
+    openModal(articleId) {
+      this.$store.dispatch('confirmDeleteArticle', articleId);
+      this.toggleModal();
+    },
+    handleClick() {
+      this.$store.dispatch('deleteArticle');
+      this.toggleModal();
+      this.$router.push('/articles');
+    },
   },
 };
 </script>
-
-<style lang="postcss" scoped>
-.article-detail {
-  &__markdown {
-    display: flex;
-    align-items: flex-start;
-  }
-  &__index {
-    margin-left: 5%;
-    width: 30%;
-    height: 300px;
-    background-color: #fff;
-  }
-}
-.article-detail-links {
-  display: flex;
-  margin: 16px 0 0;
-}
-</style>

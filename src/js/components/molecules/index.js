@@ -1,4 +1,3 @@
-import MarkdownView from './MarkdownView';
 import SidebarList from './SidebarList';
 import ArticleList from './ArticleList';
 import UserCreate from './UserCreate';
@@ -9,10 +8,11 @@ import CategoryPost from './CategoryPost';
 import CategoryList from './CategoryList';
 import CategoryEdit from './CategoryEdit';
 import ArticleEdit from './ArticleEdit';
+import ArticlePost from './ArticlePost';
+import ArticleDetail from './ArticleDetail';
 import DeleteModal from './Modal';
 
 export {
-  MarkdownView,
   SidebarList,
   ArticleList,
   UserCreate,
@@ -23,5 +23,7 @@ export {
   CategoryList,
   CategoryEdit,
   ArticleEdit,
+  ArticlePost,
+  ArticleDetail,
   DeleteModal,
 };

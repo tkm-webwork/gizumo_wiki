@@ -8,6 +8,7 @@ import RouterLink from './RouterLink';
 import MarkdownPreview from './MarkdownPreview';
 import Select from './Select';
 import Modal from './Modal';
+import MarkdownIndex from './MarkdownIndex';
 
 export {
   Button,
@@ -18,6 +19,7 @@ export {
   Textarea,
   RouterLink,
   MarkdownPreview,
+  MarkdownIndex,
   Select,
   Modal,
 };

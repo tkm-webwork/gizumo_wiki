@@ -4,6 +4,9 @@
     :article-title="articleTitle"
     :article-content="articleContent"
     :markdown-content="markdownContent"
+    :current-category-name="currentCategoryName"
+    :category-list="categoryList"
+    @selectedArticleCategory="selectedArticleCategory"
     @editedTitle="editedTitle"
     @editedContent="editedContent"
     @handleSubmit="handleSubmit"
@@ -40,8 +43,17 @@ export default {
     markdownContent() {
       return `# ${this.articleTitle}\n${this.articleContent}`;
     },
+    currentCategoryName() {
+      const { name } = this.$store.state.articles.targetArticle.category;
+      return name;
+    },
+    categoryList() {
+      const { categoryList } = this.$store.state.categories;
+      return categoryList;
+    },
   },
   created() {
+    this.$store.dispatch('getAllCategories');
     this.$store.dispatch('getArticleDetail', parseInt(this.articleId, 10));
   },
   methods: {
@@ -53,6 +65,10 @@ export default {
     },
     handleSubmit() {
       this.$store.dispatch('updateArticle');
+    },
+    selectedArticleCategory($event) {
+      const categoryName = $event.target.value;
+      this.$store.dispatch('selectedArticleCategory', categoryName);
     },
   },
 };

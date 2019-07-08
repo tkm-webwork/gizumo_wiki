@@ -7,9 +7,7 @@
         :value="value"
         @input="$emit('updateValue', $event)"
       >
-        <option v-for="(role, index) in options" :key="index" :value="role">
-          {{ role }}
-        </option>
+        <slot />
       </select>
     </div>
 
@@ -41,10 +39,6 @@ export default {
     value: {
       type: [String, Number],
       default: '',
-    },
-    options: {
-      type: Array,
-      default: () => [],
     },
   },
   computed: {

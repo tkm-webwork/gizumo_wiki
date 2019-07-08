@@ -9,14 +9,22 @@ export default {
     updateCategoryId: null,
     updateCategoryName: '',
   },
-  getters: {},
+  getters: {
+    categoryList: state => state.categoryList,
+  },
   actions: {
     getAllCategories({ commit, rootGetters }) {
       axios(rootGetters.token)({
         method: 'GET',
         url: '/category',
-      }).then((responce) => {
-        commit('doneGetAllCategories', { categories: responce.data });
+      }).then((res) => {
+        const payload = {
+          categories: [],
+        };
+        res.data.forEach((val) => {
+          payload.categories.push(val.category);
+        });
+        commit('doneGetAllCategories', payload);
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
       });

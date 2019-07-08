@@ -1,50 +1,22 @@
 <template lang="html">
-  <div class="article-edit">
-    <section class="article-edit-editor">
-      <app-heading :level="1">記事の新規作成</app-heading>
-      <div class="article-edit-form">
-        <app-input
-          name="title"
-          type="text"
-          placeholder="記事のタイトルを入力してください。"
-          required
-          white-bg
-          vvas="記事のタイトル"
-          :value="articleTitle"
-          @updateValue="editedTitle"
-        />
-      </div>
-
-      <div class="article-edit-form">
-        <app-textarea
-          name="content"
-          placeholder="記事の本文をマークダウン記法で入力してください。"
-          required
-          white-bg
-          :value="articleContent"
-          @updateValue="editedContent"
-        />
-      </div>
-    </section>
-
-    <article class="article-edit-preview">
-      <app-markdown-view
-        :markdown-content="markdownContent"
-      />
-    </article>
-  </div>
+  <app-article-post
+    :article-title="articleTitle"
+    :article-content="articleContent"
+    :markdown-content="markdownContent"
+    :category-list="categoryList"
+    @selectedArticleCategory="selectedArticleCategory"
+    @editedTitle="editedTitle"
+    @editedContent="editedContent"
+    @handleSubmit="handleSubmit"
+  />
 </template>
 
 <script>
-import { Heading, Input, Textarea } from '@Components/atoms';
-import { MarkdownView } from '@Components/molecules';
+import { ArticlePost } from '@Components/molecules';
 
 export default {
   components: {
-    appHeading: Heading,
-    appInput: Input,
-    appTextarea: Textarea,
-    appMarkdownView: MarkdownView,
+    appArticlePost: ArticlePost,
   },
   data() {
     return {
@@ -64,8 +36,13 @@ export default {
     markdownContent() {
       return `# ${this.articleTitle}\n${this.articleContent}`;
     },
+    categoryList() {
+      const { categoryList } = this.$store.state.categories;
+      return categoryList;
+    },
   },
   created() {
+    this.$store.dispatch('getAllCategories');
     this.$store.dispatch('initPostArticle');
   },
   methods: {
@@ -75,11 +52,18 @@ export default {
     editedContent($event) {
       this.$store.dispatch('editedContent', $event.target.value);
     },
+    selectedArticleCategory($event) {
+      const categoryName = $event.target.value ? $event.target.value : '';
+      this.$store.dispatch('selectedArticleCategory', categoryName);
+    },
+    handleSubmit() {
+      this.$store.dispatch('postArticle');
+    },
   },
 };
 </script>
 
-<style lang="css" scoped>
+<style lang="postcss" scoped>
 .article-edit {
   display: flex;
   height: 100%;

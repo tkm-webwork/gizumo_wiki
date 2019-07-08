@@ -77,10 +77,13 @@
             name="role"
             data-vv-as="権限"
             :error-messages="errors.collect('role')"
-            :options="options"
             :value="user.role"
             @updateValue="updateValue"
-          />
+          >
+            <option v-for="(role, index) in options" :key="index" :value="role">
+              {{ role }}
+            </option>
+          </app-select>
         </div>
       </div>
 

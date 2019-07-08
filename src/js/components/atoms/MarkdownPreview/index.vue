@@ -4,24 +4,6 @@
       :class="classes"
       v-html="marked"
     />
-    <template v-if="flex">
-      <template v-if="existsMarkdownIndexes">
-        <div class="markdown-view__index">
-          <p class="markdown-view__index-title">目次</p>
-          <template
-            v-for="index in markdownIndexes"
-          >
-            <a
-              :key="index.val"
-              :class="`markdown-view__index__anchor is-article-title-${index.tagName}`"
-              @click.prevent="handleScroll(index.scrollToY)"
-            >
-              {{ index.title }}
-            </a>
-          </template>
-        </div>
-      </template>
-    </template>
   </div>
 </template>
 
@@ -84,6 +66,9 @@ export default {
       });
       return marked(this.markdownContent);
     },
+  },
+  mounted() {
+    this.$emit('parsedMarkdown');
   },
   methods: {
     handleScroll(scrollToY, duration = 500) {

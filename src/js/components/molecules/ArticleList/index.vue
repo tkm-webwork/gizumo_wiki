@@ -16,8 +16,8 @@
       class="article-list"
     >
       <app-list-item
-        v-for="item in targetArray"
-        :key="item.article.id"
+        v-for="article in targetArray"
+        :key="article.id"
         flex
         beetween
         align-items
@@ -27,19 +27,19 @@
         <app-text
           class="article-list-title"
         >
-          {{ item.article.title }}
+          {{ article.title }}
         </app-text>
         <div class="article-list-links">
           <app-router-link
-            :to="`/articles/${item.article.id}`"
-            bg-keycolor
+            :to="`/articles/${article.id}`"
+            bg-theme-color
             large
             white
           >
             詳細
           </app-router-link>
           <app-router-link
-            :to="`/articles/${item.article.id}/edit`"
+            :to="`/articles/${article.id}/edit`"
             white
             bg-lightgreen
             large
@@ -48,12 +48,26 @@
           </app-router-link>
           <app-button
             bg-danger
+            @click="openModal(article.id)"
           >
             削除
           </app-button>
         </div>
       </app-list-item>
     </ul>
+    <app-modal>
+      <app-text
+        ex-large
+      >
+        本当に削除しますか?
+      </app-text>
+      <app-button
+        bg-danger
+        @click="$emit('handleClick')"
+      >
+        削除
+      </app-button>
+    </app-modal>
   </div>
 </template>
 
@@ -100,6 +114,11 @@ export default {
       return {
         'article-list--bordergray': this.borderGray,
       };
+    },
+  },
+  methods: {
+    openModal(articleId) {
+      this.$emit('openModal', articleId);
     },
   },
 };
