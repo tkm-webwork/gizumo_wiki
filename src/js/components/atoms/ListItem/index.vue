@@ -27,6 +27,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    borderBottomGray: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     classes() {
@@ -37,6 +41,7 @@ export default {
         'list-item--align-items': this.alignItems,
         'list-item--bg-white': this.bgWhite,
         'list-item--large': this.large,
+        'list-item--border-bottom-gray': this.borderBottomGray,
       };
     },
   },
@@ -65,5 +70,8 @@ export default {
 }
 .list-item--large {
   padding: 10px;
+}
+.list-item--border-bottom-gray {
+  border-bottom: 1px solid var(--separatorColor);
 }
 </style>
