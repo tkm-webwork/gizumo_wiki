@@ -5,6 +5,7 @@
     :markdown-content="markdownContent"
     :category-list="categoryList"
     :loading="loading"
+    :error-message="errorMessage"
     @selectedArticleCategory="selectedArticleCategory"
     @editedTitle="editedTitle"
     @editedContent="editedContent"
@@ -44,6 +45,9 @@ export default {
     loading() {
       return this.$store.state.articles.loading;
     },
+    errorMessage() {
+      return this.$store.state.articles.errorMessage;
+    },
   },
   created() {
     this.$store.dispatch('getAllCategories');
@@ -62,7 +66,9 @@ export default {
     },
     handleSubmit() {
       if (this.loading) return;
-      this.$store.dispatch('postArticle');
+      this.$store.dispatch('postArticle').then(() => {
+        this.$router.push('/articles');
+      });
     },
   },
 };

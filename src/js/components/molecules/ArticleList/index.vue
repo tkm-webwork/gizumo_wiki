@@ -1,5 +1,8 @@
 <template lang="html">
-  <div>
+  <div class="article-list">
+    <div v-if="doneMessage" class="article-list__notice--create">
+      <app-text bg-success>{{ doneMessage }}</app-text>
+    </div>
     <app-heading :level="1">{{ articleTitle }}</app-heading>
     <app-router-link
       to="articles/post"
@@ -14,7 +17,7 @@
       新しいドキュメントを作る
     </app-router-link>
     <transition-group
-      class="article-list"
+      class="article-list__articles"
       name="fade"
       tag="ul"
     >
@@ -114,6 +117,10 @@ export default {
       type: String,
       default: 'すべて',
     },
+    doneMessage: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     articleTitle() {
@@ -130,9 +137,11 @@ export default {
 
 <style lang="postcss" scoped>
   .article-list {
-    margin-top: 16px;
-    .fade-enter-active, .fade-leave-active {
-      transition: opacity .5s;
+    &__articles {
+      margin-top: 16px;
+      .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s;
+      }
     }
     .fade-enter, .fade-leave-to {
       opacity: 0;
@@ -148,6 +157,8 @@ export default {
         margin-left: 16px;
       }
     }
+    &__notice--create {
+      margin-bottom: 16px;
+    }
   }
-
 </style>

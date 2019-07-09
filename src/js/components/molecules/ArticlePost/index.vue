@@ -1,79 +1,84 @@
 <template lang="html">
   <div class="article-post">
-    <section class="article-post-editor">
-      <app-heading :level="1">記事の新規作成</app-heading>
-      <app-heading
-        class="article-post-editor-title"
-        :level="2"
-      >
-        カテゴリーの選択
-      </app-heading>
-      <app-select
-        :value="value"
-        @updateValue="$emit('selectedArticleCategory', $event)"
-      >
-        <option
-          value=""
-        />
-        <option
-          v-for="(category) in categoryList"
-          :key="category.id"
-          :value="category.name"
+    <div v-if="errorMessage" class="article-post__notice">
+      <app-text bg-error>{{ errorMessage }}</app-text>
+    </div>
+    <div class="article-post__columns">
+      <section class="article-post-editor">
+        <app-heading :level="1">記事の新規作成</app-heading>
+        <app-heading
+          class="article-post-editor-title"
+          :level="2"
         >
-          {{ category.name }}
-        </option>
-      </app-select>
-      <app-heading
-        class="article-post-editor-title"
-        :level="2"
-      >
-        カテゴリーの選択
-      </app-heading>
-      <div class="article-post-form">
-        <app-input
-          name="title"
-          type="text"
-          placeholder="記事のタイトルを入力してください。"
-          required
-          white-bg
-          vvas="記事のタイトル"
-          :value="articleTitle"
-          @updateValue="$emit('editedTitle', $event)"
-        />
-      </div>
+          カテゴリーの選択
+        </app-heading>
+        <app-select
+          :value="value"
+          @updateValue="$emit('selectedArticleCategory', $event)"
+        >
+          <option
+            value=""
+          />
+          <option
+            v-for="(category) in categoryList"
+            :key="category.id"
+            :value="category.name"
+          >
+            {{ category.name }}
+          </option>
+        </app-select>
+        <app-heading
+          class="article-post-editor-title"
+          :level="2"
+        >
+          カテゴリーの選択
+        </app-heading>
+        <div class="article-post-form">
+          <app-input
+            name="title"
+            type="text"
+            placeholder="記事のタイトルを入力してください。"
+            required
+            white-bg
+            vvas="記事のタイトル"
+            :value="articleTitle"
+            @updateValue="$emit('editedTitle', $event)"
+          />
+        </div>
 
-      <div class="article-post-form">
-        <app-textarea
-          name="content"
-          placeholder="記事の本文をマークダウン記法で入力してください。"
-          required
-          white-bg
-          :value="articleContent"
-          @updateValue="$emit('editedContent', $event)"
-        />
-      </div>
-      <app-button
-        class="article-post-submit"
-        button-type="submit"
-        round
-        @click="$emit('handleSubmit')"
-        :disabled="loading"
-      >
-        {{ buttonText }}
-      </app-button>
-    </section>
+        <div class="article-post-form">
+          <app-textarea
+            name="content"
+            placeholder="記事の本文をマークダウン記法で入力してください。"
+            required
+            white-bg
+            :value="articleContent"
+            @updateValue="$emit('editedContent', $event)"
+          />
+        </div>
+        <app-button
+          class="article-post-submit"
+          button-type="submit"
+          round
+          :disabled="loading"
+          @click="$emit('handleSubmit')"
+        >
+          {{ buttonText }}
+        </app-button>
+      </section>
 
-    <article class="article-post-preview">
-      <app-markdown-preview
-        :markdown-content="markdownContent"
-      />
-    </article>
+      <article class="article-post-preview">
+        <app-markdown-preview
+          :markdown-content="markdownContent"
+        />
+      </article>
+    </div>
   </div>
 </template>
 
 <script>
 import {
-  Heading, Input, Textarea, MarkdownPreview, Button, Select,
+  Heading, Input, Textarea, MarkdownPreview, Button, Select, Text,
 } from '@Components/atoms';
 
 export default {
@@ -84,6 +89,7 @@ export default {
     appMarkdownPreview: MarkdownPreview,
     appButton: Button,
     appSelect: Select,
+    appText: Text,
   },
   props: {
     articleTitle: {
@@ -110,6 +116,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    errorMessage: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     buttonText() {
@@ -121,8 +131,6 @@ export default {
 
 <style lang="postcss" scoped>
 .article-post {
-  display: flex;
-  height: 100%;
   &-editor {
     padding-right: 2%;
     width: 50%;
@@ -130,6 +138,10 @@ export default {
     &-title {
       margin-top: 16px;
     }
+  }
+  &__columns {
+  display: flex;
+  height: 100%;
   }
   &-preview {
     margin-left: 2%;
@@ -142,6 +154,9 @@ export default {
   }
   &-submit {
     margin-top: 16px;
+  }
+  &__notice {
+    margin-bottom: 16px;
   }
 }
 </style>

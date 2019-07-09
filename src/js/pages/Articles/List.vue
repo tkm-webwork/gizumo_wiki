@@ -3,6 +3,7 @@
     <app-article-list
       :title="title"
       :target-array="articlesList"
+      :done-message="doneMessage"
       border-gray
       @openModal="openModal"
       @handleClick="handleClick"
@@ -28,8 +29,12 @@ export default {
     articlesList() {
       return this.$store.state.articles.articleList;
     },
+    doneMessage() {
+      return this.$store.state.articles.doneMessage;
+    },
   },
   created() {
+    // this.$store.dispatch('clearMessage');
     if (this.$route.query.category) {
       const { category } = this.$route.query;
       this.title = category;

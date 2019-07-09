@@ -7,6 +7,7 @@
     :current-category-name="currentCategoryName"
     :category-list="categoryList"
     :loading="loading"
+    :done-message="doneMessage"
     @selectedArticleCategory="selectedArticleCategory"
     @editedTitle="editedTitle"
     @editedContent="editedContent"
@@ -54,6 +55,9 @@ export default {
     },
     loading() {
       return this.$store.state.articles.loading;
+    },
+    doneMessage() {
+      return this.$store.state.articles.doneMessage;
     },
   },
   created() {

@@ -80,6 +80,17 @@ const router = new VueRouter({
           name: 'articleList',
           path: '',
           component: ArticleList,
+          beforeEnter(to, from, next) {
+            const isArticle = from.name ? from.name.indexOf('article') >= 0 : false;
+            if (isArticle) {
+              Store.dispatch('clearMessage');
+              console.log(from.name);
+              next({
+                query: { redirect: from.name },
+              });
+            }
+            next();
+          },
         },
         {
           name: 'articlePost',
