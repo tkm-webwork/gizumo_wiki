@@ -77,12 +77,12 @@ export default {
         // NOTE: エラー時はresponse.data.codeが0で返ってくる。
         if (response.data.code === 0) throw new Error(response.data.message);
 
-        const users = response.data.map(data => ({
-          id: data.user.id,
-          fullName: data.user.full_name,
-          accountName: data.user.account_name,
-          email: data.user.email,
-          role: data.user.role,
+        const users = response.data.users.map(data => ({
+          id: data.id,
+          fullName: data.full_name,
+          accountName: data.account_name,
+          email: data.email,
+          role: data.role,
         }));
         commit('doneGetAllUsers', { users });
       }).catch((err) => {

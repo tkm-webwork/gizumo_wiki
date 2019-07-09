@@ -22,12 +22,10 @@ export default {
       axios(rootGetters.token)({
         method: 'GET',
         url: '/category',
-      }).then((res) => {
-        const payload = {
-          categories: [],
-        };
-        res.data.forEach((val) => {
-          payload.categories.push(val.category);
+      }).then((response) => {
+        const payload = { categories: [] };
+        response.data.categories.forEach((val) => {
+          payload.categories.push(val);
         });
         commit('doneGetAllCategories', payload);
       }).catch((err) => {
@@ -77,8 +75,8 @@ export default {
       axios(rootGetters.token)({
         method: 'GET',
         url: `/category/${categoryId}`,
-      }).then((res) => {
-        const payload = res.data.category;
+      }).then((response) => {
+        const payload = response.data.category;
         commit('doneGetCategoryDetail', payload);
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
@@ -96,8 +94,8 @@ export default {
         method: 'PUT',
         url: `/category/${this.state.categories.updateCategoryId}`,
         data,
-      }).then((res) => {
-        const payload = res.data.category;
+      }).then((response) => {
+        const payload = response.data.category;
         commit('doneUpdateCategory', payload);
         commit('toggleLoading');
       }).catch((err) => {
