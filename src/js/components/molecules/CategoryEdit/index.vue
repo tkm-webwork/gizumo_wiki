@@ -26,7 +26,7 @@
       class="category-management-edit__submit"
       button-type="submit"
       round
-      :disabled="disabled"
+      :disabled="disabled || !access.edit"
     >
       {{ buttonText }}
     </app-button>
@@ -70,14 +70,20 @@ export default {
       type: String,
       default: '',
     },
+    access: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   computed: {
     buttonText() {
+      if (!this.access.edit) return '変更権限がありません';
       return this.disabled ? '更新中...' : '更新';
     },
   },
   methods: {
     handleSubmit() {
+      if (!this.access.edit) return;
       this.$emit('clearMessage');
       this.$validator.validate().then((valid) => {
         if (valid) this.$emit('handleSubmit');

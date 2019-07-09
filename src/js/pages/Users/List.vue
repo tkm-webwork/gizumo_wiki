@@ -4,16 +4,19 @@
       :error-message="errorMessage"
       :done-message="doneMessage"
       :user-list-length="userListLength"
+      :access="access"
     />
     <div class="user-list__table">
       <app-user-table
         :target-array="userList"
         :theads="theads"
+        :access="access"
         @deleteModal="openDeleteModal"
       />
     </div>
 
     <app-delete-modal
+      :access="access"
       @closeModal="toggleModal"
       @deleteUser="deleteUser"
     />
@@ -31,6 +34,12 @@ export default {
     appDeleteModal: DeleteModal,
   },
   mixins: [Mixins],
+  props: {
+    access: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
   data() {
     return {
       theads: ['名前', 'アカウント名', 'メールアドレス', '権限', '', ''],

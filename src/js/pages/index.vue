@@ -5,7 +5,7 @@
       <app-sidebar v-if="signedIn" />
       <main :class="contentMainClasses">
         <div class="content-inner">
-          <router-view />
+          <router-view :access="access" />
         </div>
       </main>
     </div>
@@ -35,6 +35,9 @@ export default {
         'content-main',
         this.$route.name,
       ];
+    },
+    access() {
+      return this.$store.getters.access;
     },
   },
 };

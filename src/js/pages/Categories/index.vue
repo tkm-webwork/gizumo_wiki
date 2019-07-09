@@ -1,3 +1,14 @@
 <template lang="html">
-  <router-view />
+  <router-view :access="access" />
 </template>
+
+<script>
+export default {
+  props: {
+    access: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+};
+</script>

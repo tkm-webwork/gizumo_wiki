@@ -40,6 +40,7 @@
             bg-danger
             small
             round
+            :disabled="!access.delete"
             @click="deleteModal(user.id)"
           >
             削除
@@ -72,9 +73,14 @@ export default {
       type: Array,
       default: () => [],
     },
+    access: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   methods: {
     deleteModal(id) {
+      if (!this.access.delete) return;
       this.$emit('deleteModal', id);
     },
   },

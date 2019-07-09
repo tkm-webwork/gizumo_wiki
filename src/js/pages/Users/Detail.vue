@@ -6,6 +6,7 @@
     :user="user"
     :options="roleList"
     :disabled="loading ? true : false"
+    :access="access"
     @clearMessage="clearMessage"
     @updateValue="updateValue"
     @editUser="editUser"
@@ -18,6 +19,12 @@ import { UserDetail } from '@Components/molecules';
 export default {
   components: {
     appUserDetail: UserDetail,
+  },
+  props: {
+    access: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   computed: {
     loading() {

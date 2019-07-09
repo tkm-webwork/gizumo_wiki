@@ -5,6 +5,7 @@
       :disabled="loading ? true : false"
       :error-message="errorMessage"
       :done-message="doneMessage"
+      :access="access"
       @udpateValue="updateValue"
       @clearMessage="clearMessage"
       @handleSubmit="updateCategory"
@@ -18,6 +19,12 @@ import { CategoryEdit } from '@Components/molecules';
 export default {
   components: {
     appCategoryEdit: CategoryEdit,
+  },
+  props: {
+    access: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   computed: {
     loading() {

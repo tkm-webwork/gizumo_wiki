@@ -105,13 +105,6 @@ export default {
 .button--theme-color {
   color: var(--themeColor);
 }
-.button--disabled {
-  background-color: var(--disabledColor);
-  cursor: default;
-  &:hover {
-    opacity: 1;
-  }
-}
 .button--danger {
   background-color: var(--errorColor);
 }
@@ -120,6 +113,13 @@ export default {
 }
 .button--bg-white {
   background-color: #fff;
+}
+.button--disabled {
+  background-color: var(--disabledColor);
+  cursor: default;
+  &:hover {
+    opacity: 1;
+  }
 }
 .button--pointer {
   cursor: pointer;

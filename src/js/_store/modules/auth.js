@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
 import axios from '@Helpers/axiosDefault';
+import getAccess from '@Helpers/getAccessControlList';
 
 export default {
   state: {
@@ -18,6 +19,7 @@ export default {
   getters: {
     token: state => state.token,
     user: state => state.user,
+    access: state => getAccess(state.user.role.value),
   },
   mutations: {
     hasToken(state, { token }) {

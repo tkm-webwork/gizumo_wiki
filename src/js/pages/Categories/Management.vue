@@ -6,6 +6,7 @@
         :disabled="loading ? true : false"
         :error-message="errorMessage"
         :done-message="doneMessage"
+        :access="access"
         @udpateValue="updateValue"
         @clearMessage="clearMessage"
         @handleSubmit="handleSubmit"
@@ -16,6 +17,7 @@
         :theads="theads"
         :categories="categoryList"
         :delete-category-name="deleteCategoryName"
+        :access="access"
         @openModal="openModal"
         @handleClick="deleteCategory"
       />
@@ -33,6 +35,12 @@ export default {
     appCategoryList: CategoryList,
   },
   mixins: [Mixins],
+  props: {
+    access: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
   data() {
     return {
       category: '',

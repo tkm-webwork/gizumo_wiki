@@ -66,7 +66,7 @@
       <div class="users-create__button">
         <app-button
           button-type="submit"
-          :disabled="disabled"
+          :disabled="disabled || !access.create"
           block
         >
           {{ buttonText }}
@@ -98,6 +98,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    access: {
+      type: Object,
+      default: () => ({}),
+    },
     cautionMessage: {
       type: String,
       default: '',
@@ -125,7 +129,8 @@ export default {
   },
   computed: {
     buttonText() {
-      return this.disabled ? '作成' : '作成中です...';
+      if (!this.access.create) return '作成権限がありません';
+      return this.disabled ? '作成中です...' : '作成';
     },
   },
   methods: {
@@ -133,6 +138,7 @@ export default {
       this.$emit('updateValue', $event.target);
     },
     createUser() {
+      if (!this.access.create) return;
       this.$emit('clearMessage');
       this.$validator.validate().then((valid) => {
         if (valid) this.$emit('createUser');
