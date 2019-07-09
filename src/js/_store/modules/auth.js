@@ -46,8 +46,16 @@ export default {
     },
     signOut(state) {
       Cookies.remove('user-token');
+      state.token = '';
       state.loading = false;
       state.signedIn = false;
+      state.user = Object.assign({}, {
+        email: '',
+        id: null,
+        account_name: '',
+        password_reset_flg: null,
+        role: '',
+      });
     },
     doneChangePassword(state, { user }) {
       state.user = Object.assign({}, { ...state.user }, { ...user });
