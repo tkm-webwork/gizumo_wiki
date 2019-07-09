@@ -33,7 +33,7 @@
           <app-text theme-color bold>権限</app-text>
         </div>
         <div class="profile__info__row__content">
-          <app-text>{{ user.role }}</app-text>
+          <app-text>{{ user.role.name }}</app-text>
         </div>
       </div>
     </div>

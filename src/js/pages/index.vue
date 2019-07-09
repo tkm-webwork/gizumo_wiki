@@ -52,7 +52,8 @@ export default {
   &-main {
     padding-left: var(--sidebarWidth);
     width: 100%;
-    &.signin {
+    &.signin,
+    &.signout {
       padding-left: 0;
     }
   }

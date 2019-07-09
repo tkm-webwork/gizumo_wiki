@@ -46,8 +46,16 @@ export default {
     },
     signOut(state) {
       Cookies.remove('user-token');
+      state.token = '';
       state.loading = false;
       state.signedIn = false;
+      state.user = Object.assign({}, {
+        email: '',
+        id: null,
+        account_name: '',
+        password_reset_flg: null,
+        role: '',
+      });
     },
     doneChangePassword(state, { user }) {
       state.user = Object.assign({}, { ...state.user }, { ...user });
@@ -68,11 +76,8 @@ export default {
           axios(token)({
             method: 'GET',
             url: '/me',
-          }).then((res) => {
-            const payload = {
-              token,
-              user: res.data,
-            };
+          }).then((response) => {
+            const payload = { token, user: response.data.user };
             commit('signInSuccess', payload);
             resolve();
           }).catch(() => {
@@ -100,11 +105,10 @@ export default {
           return axios(response.data.token)({
             method: 'GET',
             url: '/me',
-          }).then((user) => {
-            if (user.data.code === 0) return reject(new Error());
+          }).then((ownData) => {
+            if (ownData.data.code === 0) return reject(new Error());
 
-            // TODO: roleは返ってくる値がオブジェクトになるので後ほど要修正
-            return { token: response.data.token, user: user.data };
+            return { token: response.data.token, user: ownData.data.user };
           }).catch(() => reject(new Error()));
         }).then((payload) => {
           commit('signInSuccess', payload);

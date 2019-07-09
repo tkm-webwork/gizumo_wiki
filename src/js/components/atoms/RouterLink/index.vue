@@ -1,6 +1,6 @@
 <template lang="html">
   <router-link
-    :to="{ path: to }"
+    :to="to"
     :active-class="activeClass"
     :exact-active-class="exactActiveClass"
     :class="classes"
@@ -13,7 +13,7 @@
 export default {
   props: {
     to: {
-      type: String,
+      type: [String, Object],
       default: '',
     },
     activeClass: {

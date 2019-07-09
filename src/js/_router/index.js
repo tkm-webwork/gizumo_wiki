@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Cookies from 'js-cookie';
 
 import Signin from '@Pages/Signin';
+import Signout from '@Pages/Signout';
 import NotFound from '@Pages/NotFound';
 import Home from '@Pages/Home';
 
@@ -45,6 +46,12 @@ const router = new VueRouter({
       meta: {
         isPublic: true,
       },
+    },
+    {
+      name: 'signout',
+      path: '/signout',
+      component: Signout,
+      props: true,
     },
     {
       name: 'home',
@@ -163,6 +170,8 @@ router.beforeEach((to, from, next) => {
   const isSignIn = to.matched.some(page => page.path === '/signin');
   const isPasswordInit = to.matched.some(page => page.path === '/password/init');
   const notFromPasswordInit = from.matched.some(page => page.path !== '/password/init');
+  const isSignout = to.matched.some(page => page.path === '/signout');
+  const notFromSignout = from.matched.some(page => page.path !== '/signout');
 
   if (!isPublic && !Store.state.auth.signedIn) {
     /**
@@ -181,10 +190,13 @@ router.beforeEach((to, from, next) => {
         }
         return next('/password/init');
       })
-      .catch(() => next({
-        path: '/signin',
-        query: { redirect: to.fullPath },
-      }));
+      .catch(() => {
+        const query = to.fullPath === '/signout'
+        || to.fullPath === '/password/init'
+          ? {}
+          : { redirect: to.fullPath };
+        return next({ path: '/signin', query });
+      });
   } else if (isSignIn) {
     /**
      * 「/signin」ページにアクセスしたときにcheckAuthアクションを実行して
@@ -198,6 +210,8 @@ router.beforeEach((to, from, next) => {
         if (Store.state.auth.user.password_reset_flg) return next('/');
         return next('/password/init');
       }).catch(() => next());
+  } else if (!token && notFromSignout && !isSignout) {
+    next('/signout');
   } else if (
     !Store.state.auth.user.password_reset_flg
     && notFromPasswordInit && !isPasswordInit

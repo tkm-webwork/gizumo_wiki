@@ -20,7 +20,7 @@
               <app-router-link
                 small
                 hover-underline
-                :to="route.path"
+                :to="route.to"
               >
                 {{ route.name }}
               </app-router-link>
@@ -57,11 +57,15 @@ export default {
       return [
         {
           name: 'アカウントページ',
-          path: '/profile',
+          to: { name: 'profile', path: '/profile' },
         },
         {
           name: 'サインアウト',
-          path: '/signout',
+          to: {
+            name: 'signout',
+            path: '/signout',
+            params: { signoutMessage: 'サインアウトしました。' },
+          },
         },
       ];
     },
