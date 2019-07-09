@@ -29,13 +29,6 @@ export default {
   created() {
     this.$store.dispatch('signOut');
   },
-  // computed: {
-  //   signoutMessage() {
-  //     return this.$store.state.auth.token
-  //       ? 'サインアウトしました。'
-  //       : '再度ログインしてください。';
-  //   },
-  // },
 };
 </script>
 
