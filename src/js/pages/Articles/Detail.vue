@@ -92,7 +92,10 @@ export default {
     handleClick() {
       this.$store.dispatch('deleteArticle');
       this.toggleModal();
-      this.$router.push('/articles');
+      this.$router.push({
+        path: '/articles',
+        query: { redirect: this.$route.fullPath },
+      });
     },
   },
 };

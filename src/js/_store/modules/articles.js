@@ -122,7 +122,7 @@ export default {
         url: '/article',
       }).then((res) => {
         const payload = {
-          articles: res.data.data.articles,
+          articles: res.data.articles,
         };
         commit('doneGetAllArticles', payload);
       }).catch((err) => {
@@ -136,7 +136,7 @@ export default {
           url: `/article/${articleId}`,
         }).then((res) => {
           const category = res.data.article.category
-            ? res.data.article.category.category
+            ? res.data.article.category
             : { id: null, name: '' };
           const payload = {
             article: {
@@ -223,7 +223,7 @@ export default {
             updated_at: res.data.article.updated_at,
             created_at: res.data.article.created_at,
             user: res.data.article.user,
-            category: res.data.article.category.category,
+            category: res.data.article.category,
           },
         };
         commit('updateArticle', payload);
@@ -237,6 +237,7 @@ export default {
       commit('confirmDeleteArticle', { articleId });
     },
     deleteArticle({ commit, rootGetters }) {
+      commit('clearMessage');
       const data = new URLSearchParams();
       data.append('id', rootGetters.deleteArticle);
       axios(rootGetters.token)({

@@ -67,7 +67,10 @@ export default {
     handleSubmit() {
       if (this.loading) return;
       this.$store.dispatch('postArticle').then(() => {
-        this.$router.push('/articles');
+        this.$router.push({
+          path: '/articles',
+          query: { redirect: '/article/post' },
+        });
       });
     },
   },
