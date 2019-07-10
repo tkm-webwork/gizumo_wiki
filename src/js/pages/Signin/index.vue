@@ -28,6 +28,9 @@ export default {
       return this.$store.state.auth.errorMessage;
     },
   },
+  created() {
+    this.$store.dispatch('clearMessage');
+  },
   methods: {
     updateValue(target) {
       this[target.name] = target.value;

@@ -1,14 +1,10 @@
 <template lang="html">
   <app-password-form
     :loading="loading"
-    :password="password"
-    :new-password="newPassword"
-    :confirm-new-password="confirmNewPassword"
     heading-text="パスワードの初期化"
     :button-text="buttonText"
     :error-message="errorMessage"
     :done-message="doneMessage"
-    @updateValue="updateValue"
     @handleSubmit="setPassword"
   />
 </template>
@@ -18,13 +14,6 @@ import { PasswordForm } from '@Components/molecules';
 
 export default {
   components: { appPasswordForm: PasswordForm },
-  data() {
-    return {
-      password: '',
-      newPassword: '',
-      confirmNewPassword: '',
-    };
-  },
   computed: {
     loading() {
       return this.$store.state.auth.loading;
@@ -40,16 +29,9 @@ export default {
     },
   },
   methods: {
-    updateValue(target) {
-      this[target.name] = target.value;
-    },
-    setPassword() {
+    setPassword(data) {
       if (this.loading) return;
-      this.$store.dispatch('changePassword', {
-        password: this.password,
-        new_password: this.newPassword,
-        new_password_confirm: this.confirmNewPassword,
-      }).then(() => {
+      this.$store.dispatch('changePassword', data).then(() => {
         this.$router.push('/');
       });
     },

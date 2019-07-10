@@ -151,7 +151,6 @@ router.beforeEach((to, from, next) => {
   const isPublic = to.matched.some(page => page.meta.isPublic);
   const isSignIn = to.matched.some(page => page.path === '/signin');
   const isPasswordInit = to.matched.some(page => page.path === '/password/init');
-  const notFromPasswordInit = from.matched.some(page => page.path !== '/password/init');
   const isSignout = to.matched.some(page => page.path === '/signout');
   const notFromSignout = from.matched.some(page => page.path !== '/signout');
 
@@ -194,13 +193,9 @@ router.beforeEach((to, from, next) => {
       }).catch(() => next());
   } else if (!token && notFromSignout && !isSignout) {
     next('/signout');
-  } else if (
-    !Store.state.auth.user.password_reset_flg
-    && notFromPasswordInit && !isPasswordInit
-  ) {
+  } else if (!Store.state.auth.user.password_reset_flg && !isPasswordInit) {
     /**
      *  Store.state.auth.user.password_reset_flgが0
-     *  /password/initからじゃない
      *  /password/initへじゃない
      */
     next('/password/init');

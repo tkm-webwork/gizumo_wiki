@@ -80,18 +80,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    password: {
-      type: String,
-      default: '',
-    },
-    newPassword: {
-      type: String,
-      default: '',
-    },
-    confirmNewPassword: {
-      type: String,
-      default: '',
-    },
     headingText: {
       type: String,
       default: '',
@@ -109,14 +97,27 @@ export default {
       default: '',
     },
   },
+  data() {
+    return {
+      password: '',
+      newPassword: '',
+      confirmNewPassword: '',
+    };
+  },
   methods: {
     updateValue($event) {
-      this.$emit('updateValue', $event.target);
+      this[$event.target.name] = $event.target.value;
     },
     handleSubmit() {
       this.$emit('clearMessage');
       this.$validator.validate().then((valid) => {
-        if (valid) this.$emit('handleSubmit');
+        if (valid) {
+          this.$emit('handleSubmit', {
+            password: this.password,
+            new_password: this.newPassword,
+            new_password_confirm: this.confirmNewPassword,
+          });
+        }
       });
     },
   },

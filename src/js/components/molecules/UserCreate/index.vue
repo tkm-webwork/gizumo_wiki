@@ -51,16 +51,8 @@
         />
       </div>
 
-      <div v-if="cautionMessage" class="users-create__error">
+      <div v-if="cautionMessage" class="users-create__notice">
         <app-text ex-small>{{ cautionMessage }}</app-text>
-      </div>
-
-      <div v-if="errorMessage" class="users-create__notice">
-        <app-text bg-error>{{ errorMessage }}</app-text>
-      </div>
-
-      <div v-if="doneMessage" class="users-create__notice">
-        <app-text bg-success>{{ doneMessage }}</app-text>
       </div>
 
       <div class="users-create__button">
@@ -73,6 +65,10 @@
         </app-button>
       </div>
     </form>
+
+    <div v-if="errorMessage" class="users-create__notice">
+      <app-text bg-error>{{ errorMessage }}</app-text>
+    </div>
   </section>
 </template>
 
@@ -107,10 +103,6 @@ export default {
       default: '',
     },
     errorMessage: {
-      type: String,
-      default: '',
-    },
-    doneMessage: {
       type: String,
       default: '',
     },
