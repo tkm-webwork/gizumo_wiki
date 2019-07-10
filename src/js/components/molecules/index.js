@@ -14,6 +14,7 @@ import ArticleEdit from './ArticleEdit';
 import ArticlePost from './ArticlePost';
 import ArticleDetail from './ArticleDetail';
 import DeleteModal from './Modal';
+import Notice from './Notice';
 
 export {
   SigninForm,
@@ -32,4 +33,5 @@ export {
   ArticlePost,
   ArticleDetail,
   DeleteModal,
+  Notice,
 };
