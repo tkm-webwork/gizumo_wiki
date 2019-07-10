@@ -1,35 +1,15 @@
 <template lang="html">
-  <div class="not-found">
-    <app-text ex-large>
-      お探しのページは削除されている可能性があります。
-    </app-text>
-
-    <div class="not-found__link">
-      <app-router-link to="/" underline key-color>
-        TOPに戻る
-      </app-router-link>
-    </div>
-  </div>
+  <app-notice
+    notice-text="お探しのページは削除されている可能性があります。"
+    link-path="/"
+    link-text="TOPに戻る"
+  />
 </template>
 
 <script>
-import { Text, RouterLink } from '@Components/atoms';
+import { Notice } from '@Components/molecules';
 
 export default {
-  components: {
-    appText: Text,
-    appRouterLink: RouterLink,
-  },
+  components: { appNotice: Notice },
 };
 </script>
-
-<style lang="css" scoped>
-.not-found {
-  margin-top: 80px;
-  width: 100%;
-  text-align: center;
-  &__link {
-    margin-top: 40px;
-  }
-}
-</style>
