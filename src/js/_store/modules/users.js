@@ -105,7 +105,7 @@ export default {
           fullName: data.full_name,
           accountName: data.account_name,
           email: data.email,
-          role: data.role,
+          role: data.role.value,
         });
         commit('doneGetUser', { user, roleList: response.data.role });
       }).catch((err) => {

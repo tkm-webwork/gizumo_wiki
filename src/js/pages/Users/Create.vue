@@ -1,12 +1,12 @@
 <template lang="html">
   <app-user-create
-    :disabled="loading ? true : false"
     caution-message="※ 文頭・文末・文中の全角・半角スペースは削除されます。"
     :error-message="errorMessage"
-    :done-message="doneMessage"
     :account-name="accountName"
     :email="email"
     :password="password"
+    :disabled="loading ? true : false"
+    :access="access"
     @clearMessage="clearMessage"
     @updateValue="updateValue"
     @createUser="createUser"
@@ -19,6 +19,12 @@ import { UserCreate } from '@Components/molecules';
 export default {
   components: {
     appUserCreate: UserCreate,
+  },
+  props: {
+    access: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   data() {
     return {
@@ -33,9 +39,6 @@ export default {
     },
     errorMessage() {
       return this.$store.state.users.errorMessage;
-    },
-    doneMessage() {
-      return this.$store.state.users.doneMessage;
     },
   },
   methods: {

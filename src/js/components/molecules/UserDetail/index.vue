@@ -84,7 +84,7 @@
               v-for="(role, index) in options"
               :key="index"
               :value="role.value"
-              :selected="user.role.value === role.value"
+              :selected="user.role === role.value"
             >
               {{ role.name }}
             </option>
@@ -99,7 +99,7 @@
       <div class="users-detail__info__submit">
         <app-button
           button-type="submit"
-          :disabled="disabled"
+          :disabled="disabled || !access.edit"
           round
         >
           {{ buttonText }}
@@ -161,9 +161,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    access: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   computed: {
     buttonText() {
+      if (!this.access.edit) return '変更権限がありません';
       return this.disabled ? '更新中です...' : '更新';
     },
   },
@@ -172,6 +177,7 @@ export default {
       this.$emit('updateValue', $event.target);
     },
     editUser() {
+      if (!this.access.edit) return;
       this.$emit('clearMessage');
       this.$validator.validate().then((valid) => {
         if (valid) this.$emit('editUser');

@@ -2,7 +2,7 @@
   <div class="users-list">
     <app-heading :level="1">ユーザー一覧</app-heading>
 
-    <div class="users-list__create">
+    <div v-if="access.create" class="users-list__create">
       <app-router-link
         to="/users/create"
         hover-opacity
@@ -51,6 +51,10 @@ export default {
     userListLength: {
       type: Number,
       default: 0,
+    },
+    access: {
+      type: Object,
+      default: () => ({}),
     },
   },
 };

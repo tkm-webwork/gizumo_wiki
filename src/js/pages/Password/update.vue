@@ -1,7 +1,7 @@
 <template lang="html">
   <app-password-form
     :loading="loading"
-    heading-text="パスワードの初期化"
+    heading-text="パスワードの更新"
     :button-text="buttonText"
     :error-message="errorMessage"
     :done-message="doneMessage"
@@ -19,7 +19,7 @@ export default {
       return this.$store.state.auth.loading;
     },
     buttonText() {
-      return this.loading ? '設定中です...' : '設定';
+      return this.loading ? '更新中です...' : '更新';
     },
     errorMessage() {
       return this.$store.state.auth.errorMessage;

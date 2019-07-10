@@ -1,6 +1,6 @@
 <template>
   <div class="password-form">
-    <app-heading :level="1">パスワードの初期化</app-heading>
+    <app-heading :level="1">{{ headingText }}</app-heading>
 
     <form class="password-form__body" @submit.prevent="handleSubmit">
       <div class="password-form__body__input">
@@ -51,15 +51,15 @@
           {{ buttonText }}
         </app-button>
       </div>
-
-      <div v-if="errorMessage" class="password-form__body__notice">
-        <app-text bg-error>{{ errorMessage }}</app-text>
-      </div>
-
-      <div v-if="doneMessage" class="password-form__body__notice">
-        <app-text bg-success>{{ doneMessage }}</app-text>
-      </div>
     </form>
+
+    <div v-if="errorMessage" class="password-form__body__notice">
+      <app-text bg-error>{{ errorMessage }}</app-text>
+    </div>
+
+    <div v-if="doneMessage" class="password-form__body__notice">
+      <app-text bg-success>{{ doneMessage }}</app-text>
+    </div>
   </div>
 </template>
 
@@ -80,15 +80,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    password: {
-      type: String,
-      default: '',
-    },
-    newPassword: {
-      type: String,
-      default: '',
-    },
-    confirmNewPassword: {
+    headingText: {
       type: String,
       default: '',
     },
@@ -105,14 +97,27 @@ export default {
       default: '',
     },
   },
+  data() {
+    return {
+      password: '',
+      newPassword: '',
+      confirmNewPassword: '',
+    };
+  },
   methods: {
     updateValue($event) {
-      this.$emit('updateValue', $event.target);
+      this[$event.target.name] = $event.target.value;
     },
     handleSubmit() {
       this.$emit('clearMessage');
       this.$validator.validate().then((valid) => {
-        if (valid) this.$emit('handleSubmit');
+        if (valid) {
+          this.$emit('handleSubmit', {
+            password: this.password,
+            new_password: this.newPassword,
+            new_password_confirm: this.confirmNewPassword,
+          });
+        }
       });
     },
   },

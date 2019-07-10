@@ -51,28 +51,24 @@
         />
       </div>
 
-      <div v-if="cautionMessage" class="users-create__error">
+      <div v-if="cautionMessage" class="users-create__notice">
         <app-text ex-small>{{ cautionMessage }}</app-text>
-      </div>
-
-      <div v-if="errorMessage" class="users-create__notice">
-        <app-text bg-error>{{ errorMessage }}</app-text>
-      </div>
-
-      <div v-if="doneMessage" class="users-create__notice">
-        <app-text bg-success>{{ doneMessage }}</app-text>
       </div>
 
       <div class="users-create__button">
         <app-button
           button-type="submit"
-          :disabled="disabled"
+          :disabled="disabled || !access.create"
           block
         >
           {{ buttonText }}
         </app-button>
       </div>
     </form>
+
+    <div v-if="errorMessage" class="users-create__notice">
+      <app-text bg-error>{{ errorMessage }}</app-text>
+    </div>
   </section>
 </template>
 
@@ -98,15 +94,15 @@ export default {
       type: Boolean,
       default: false,
     },
+    access: {
+      type: Object,
+      default: () => ({}),
+    },
     cautionMessage: {
       type: String,
       default: '',
     },
     errorMessage: {
-      type: String,
-      default: '',
-    },
-    doneMessage: {
       type: String,
       default: '',
     },
@@ -125,7 +121,8 @@ export default {
   },
   computed: {
     buttonText() {
-      return this.disabled ? '作成' : '作成中です...';
+      if (!this.access.create) return '作成権限がありません';
+      return this.disabled ? '作成中です...' : '作成';
     },
   },
   methods: {
@@ -133,6 +130,7 @@ export default {
       this.$emit('updateValue', $event.target);
     },
     createUser() {
+      if (!this.access.create) return;
       this.$emit('clearMessage');
       this.$validator.validate().then((valid) => {
         if (valid) this.$emit('createUser');

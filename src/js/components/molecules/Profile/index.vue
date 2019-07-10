@@ -37,16 +37,29 @@
         </div>
       </div>
     </div>
+
+    <div class="profile__button">
+      <app-router-link
+        to="/password/update"
+        bg-danger
+        white
+        large
+        round
+      >
+        パスワードの変更をする
+      </app-router-link>
+    </div>
   </section>
 </template>
 
 <script>
-import { Heading, Text } from '@Components/atoms';
+import { Heading, Text, RouterLink } from '@Components/atoms';
 
 export default {
   components: {
     appHeading: Heading,
     appText: Text,
+    appRouterLink: RouterLink,
   },
   props: {
     user: {
@@ -80,6 +93,11 @@ export default {
         width: 70%;
       }
     }
+  }
+  &__button {
+    margin: 0 auto;
+    margin-top: 20px;
+    width: 80%;
   }
 }
 </style>

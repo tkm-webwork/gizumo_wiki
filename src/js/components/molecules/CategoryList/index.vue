@@ -45,6 +45,7 @@
               bg-danger
               small
               round
+              :disabled="!access.delete"
               @click="openModal(category.id, category.name)"
             >
               削除
@@ -110,12 +111,18 @@ export default {
       type: String,
       default: '',
     },
+    access: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   methods: {
     openModal(categoryId, categoryName) {
+      if (!this.access.delete) return;
       this.$emit('openModal', categoryId, categoryName);
     },
     handleClick() {
+      if (!this.access.delete) return;
       this.$emit('handleClick');
     },
   },

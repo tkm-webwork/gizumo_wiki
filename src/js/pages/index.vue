@@ -5,7 +5,7 @@
       <app-sidebar v-if="signedIn" />
       <main :class="contentMainClasses">
         <div class="content-inner">
-          <router-view />
+          <router-view :access="access" />
         </div>
       </main>
     </div>
@@ -36,6 +36,9 @@ export default {
         this.$route.name,
       ];
     },
+    access() {
+      return this.$store.getters.access;
+    },
   },
 };
 </script>
@@ -53,7 +56,8 @@ export default {
     padding-left: var(--sidebarWidth);
     width: 100%;
     &.signin,
-    &.signout {
+    &.signout,
+    &.notfound {
       padding-left: 0;
     }
   }

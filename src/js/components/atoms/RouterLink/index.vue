@@ -60,6 +60,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    bgDanger: {
+      type: Boolean,
+      default: false,
+    },
     bgLightgreen: {
       type: Boolean,
       default: false,
@@ -86,6 +90,7 @@ export default {
         'router-link--white': this.white,
         'router-link--round': this.round,
         'router-link--bg-themecolor': this.bgThemeColor,
+        'router-link--bg-danger': this.bgDanger,
         'router-link--bg-lightgreen': this.bgLightgreen,
         'router-link--hover-opacity': this.hoverOpacity,
         'router-link--hover-underline': this.hoverUnderline,
@@ -137,6 +142,9 @@ export default {
 }
 .router-link--bg-themecolor {
   background-color: var(--themeColor);
+}
+.router-link--bg-danger {
+  background-color: var(--errorColor);
 }
 .router-link--bg-lightgreen {
   background-color: var(--createColor);
