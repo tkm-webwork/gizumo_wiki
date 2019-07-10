@@ -29,9 +29,8 @@ import UserDetail from '@Pages/Users/Detail';
 import UserCreate from '@Pages/Users/Create';
 
 // パスワード
-import Password from '@Pages/Password';
 import PasswordInit from '@Pages/Password/init';
-import PasswordReset from '@Pages/Password/reset';
+import PasswordUpdate from '@Pages/Password/update';
 
 import Store from '../_store';
 
@@ -59,20 +58,14 @@ const router = new VueRouter({
       component: Home,
     },
     {
-      path: '/password',
-      component: Password,
-      children: [
-        {
-          name: 'passwordInit',
-          path: 'init',
-          component: PasswordInit,
-        },
-        {
-          name: 'passwordRest',
-          path: 'reset',
-          component: PasswordReset,
-        },
-      ],
+      name: 'passwordInit',
+      path: '/password/init',
+      component: PasswordInit,
+    },
+    {
+      name: 'passwordUpdate',
+      path: '/password/update',
+      component: PasswordUpdate,
     },
     {
       name: 'profile',
