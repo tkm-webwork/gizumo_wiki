@@ -1,6 +1,6 @@
 <template>
   <div class="password-form">
-    <app-heading :level="1">パスワードの初期化</app-heading>
+    <app-heading :level="1">{{ headingText }}</app-heading>
 
     <form class="password-form__body" @submit.prevent="handleSubmit">
       <div class="password-form__body__input">
@@ -51,15 +51,15 @@
           {{ buttonText }}
         </app-button>
       </div>
-
-      <div v-if="errorMessage" class="password-form__body__notice">
-        <app-text bg-error>{{ errorMessage }}</app-text>
-      </div>
-
-      <div v-if="doneMessage" class="password-form__body__notice">
-        <app-text bg-success>{{ doneMessage }}</app-text>
-      </div>
     </form>
+
+    <div v-if="errorMessage" class="password-form__body__notice">
+      <app-text bg-error>{{ errorMessage }}</app-text>
+    </div>
+
+    <div v-if="doneMessage" class="password-form__body__notice">
+      <app-text bg-success>{{ doneMessage }}</app-text>
+    </div>
   </div>
 </template>
 
@@ -89,6 +89,10 @@ export default {
       default: '',
     },
     confirmNewPassword: {
+      type: String,
+      default: '',
+    },
+    headingText: {
       type: String,
       default: '',
     },

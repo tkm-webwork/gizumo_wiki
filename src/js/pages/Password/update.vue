@@ -4,7 +4,7 @@
     :password="password"
     :new-password="newPassword"
     :confirm-new-password="confirmNewPassword"
-    heading-text="パスワードの初期化"
+    heading-text="パスワードの更新"
     :button-text="buttonText"
     :error-message="errorMessage"
     :done-message="doneMessage"
