@@ -8,6 +8,7 @@
     :category-list="categoryList"
     :loading="loading"
     :done-message="doneMessage"
+    :access="access"
     @selectedArticleCategory="selectedArticleCategory"
     @editedTitle="editedTitle"
     @editedContent="editedContent"
@@ -58,6 +59,9 @@ export default {
     },
     doneMessage() {
       return this.$store.state.articles.doneMessage;
+    },
+    access() {
+      return this.$store.getters.access;
     },
   },
   created() {

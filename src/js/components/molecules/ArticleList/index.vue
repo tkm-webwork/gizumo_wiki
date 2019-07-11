@@ -60,9 +60,10 @@
             small
             round
             hover-opacity
+            :disabled="!access.delete"
             @click="openModal(article.id)"
           >
-            削除
+            {{ buttonText }}
           </app-button>
         </div>
       </app-list-item>
@@ -121,14 +122,22 @@ export default {
       type: String,
       default: '',
     },
+    access: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   computed: {
     articleTitle() {
       return `${this.title}の一覧`;
     },
+    buttonText() {
+      return this.access.delete ? '削除' : '削除権限がありません';
+    },
   },
   methods: {
     openModal(articleId) {
+      if (!this.access.delete) return;
       this.$emit('openModal', articleId);
     },
   },

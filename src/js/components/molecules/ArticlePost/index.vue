@@ -60,8 +60,8 @@
           class="article-post-submit"
           button-type="submit"
           round
-          :disabled="loading"
-          @click="$emit('handleSubmit')"
+          :disabled="!disabled"
+          @click="handleSubmit"
         >
           {{ buttonText }}
         </app-button>
@@ -120,10 +120,24 @@ export default {
       type: String,
       default: '',
     },
+    access: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   computed: {
     buttonText() {
+      if (!this.access.create) return '作成権限がありません';
       return this.loading ? '作成中...' : '作成';
+    },
+    disabled() {
+      return this.access.create && !this.loading;
+    },
+  },
+  methods: {
+    handleSubmit() {
+      if (!this.access.create) return;
+      this.$emit('handleSubmit');
     },
   },
 };

@@ -177,7 +177,7 @@ export default {
         }).then((res) => {
           const payload = {
             category,
-            articles: res.data.data.articles,
+            articles: res.data.articles,
           };
           commit('doneFilteredArticles', payload);
           resolve();

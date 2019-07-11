@@ -57,8 +57,8 @@
           class="article-edit-submit"
           button-type="submit"
           round
-          :disabled="loading"
-          @click="$emit('handleSubmit')"
+          :disabled="!disabled"
+          @click="handleSubmit"
         >
           {{ buttonText }}
         </app-button>
@@ -121,10 +121,24 @@ export default {
       type: String,
       default: '',
     },
+    access: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   computed: {
     buttonText() {
+      if (!this.access.edit) return '更新権限がありません';
       return this.loading ? '更新中...' : '更新';
+    },
+    disabled() {
+      return this.access.edit && !this.loading;
+    },
+  },
+  methods: {
+    handleSubmit() {
+      if (!this.access.edit) return;
+      this.$emit('handleSubmit');
     },
   },
 };

@@ -5,6 +5,7 @@
     :markdown-content="markdownContent"
     :category-list="categoryList"
     :loading="loading"
+    :access="access"
     :error-message="errorMessage"
     @selectedArticleCategory="selectedArticleCategory"
     @editedTitle="editedTitle"
@@ -47,6 +48,9 @@ export default {
     },
     errorMessage() {
       return this.$store.state.articles.errorMessage;
+    },
+    access() {
+      return this.$store.getters.access;
     },
   },
   created() {

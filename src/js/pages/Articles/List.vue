@@ -4,6 +4,7 @@
       :title="title"
       :target-array="articlesList"
       :done-message="doneMessage"
+      :access="access"
       border-gray
       @openModal="openModal"
       @handleClick="handleClick"
@@ -32,9 +33,11 @@ export default {
     doneMessage() {
       return this.$store.state.articles.doneMessage;
     },
+    access() {
+      return this.$store.getters.access;
+    },
   },
   created() {
-    // this.$store.dispatch('clearMessage');
     if (this.$route.query.category) {
       const { category } = this.$route.query;
       this.title = category;
