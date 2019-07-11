@@ -13,6 +13,10 @@
           カテゴリーの選択
         </app-heading>
         <app-select
+          v-validate="'required'"
+          name="category"
+          data-vv-as="カテゴリー"
+          :error-messages="errors.collect('category')"
           :value="currentCategoryName"
           @updateValue="$emit('selectedArticleCategory', $event)"
         >
@@ -32,12 +36,13 @@
         </app-heading>
         <div class="article-edit-form">
           <app-input
+            v-validate="'required'"
             name="title"
             type="text"
             placeholder="記事のタイトルを入力してください。"
-            required
             white-bg
-            vvas="記事のタイトル"
+            data-vv-as="記事のタイトル"
+            :error-messages="errors.collect('title')"
             :value="articleTitle"
             @updateValue="$emit('editedTitle', $event)"
           />
@@ -45,10 +50,12 @@
 
         <div class="article-edit-form">
           <app-textarea
+            v-validate="'required'"
             name="content"
             placeholder="記事の本文をマークダウン記法で入力してください。"
-            required
             white-bg
+            data-vv-as="記事の本文"
+            :error-messages="errors.collect('content')"
             :value="articleContent"
             @updateValue="$emit('editedContent', $event)"
           />
@@ -138,7 +145,9 @@ export default {
   methods: {
     handleSubmit() {
       if (!this.access.edit) return;
-      this.$emit('handleSubmit');
+      this.$validator.validate().then((valid) => {
+        if (valid) this.$emit('handleSubmit');
+      });
     },
   },
 };

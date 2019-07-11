@@ -29,7 +29,7 @@
 export default {
   props: {
     errorMessages: {
-      type: [String, Array],
+      type: Array,
       default: () => [],
     },
     name: {
