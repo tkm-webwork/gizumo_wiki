@@ -3,6 +3,7 @@
     :article-id="articleId"
     :markdown-indexes="markdownIndexes"
     :markdown-content="markdownContent"
+    :access="access"
     @parsedMarkdown="initIndex"
     @openModal="openModal"
     @handleClick="handleClick"
@@ -32,9 +33,12 @@ export default {
       const { title, content } = this.$store.state.articles.targetArticle;
       return `# ${title}\n${content}`;
     },
+    access() {
+      return this.$store.getters.access;
+    },
   },
   created() {
-    this.$store.dispatch('getArticleDetail', parseInt(this.articleId, 10));
+    this.$store.dispatch('articles/getArticleDetail', parseInt(this.articleId, 10));
   },
   methods: {
     initIndex() {
@@ -86,13 +90,16 @@ export default {
       }
     },
     openModal(articleId) {
-      this.$store.dispatch('confirmDeleteArticle', articleId);
+      this.$store.dispatch('articles/confirmDeleteArticle', articleId);
       this.toggleModal();
     },
     handleClick() {
-      this.$store.dispatch('deleteArticle');
+      this.$store.dispatch('articles/deleteArticle');
       this.toggleModal();
-      this.$router.push('/articles');
+      this.$router.push({
+        path: '/articles',
+        query: { redirect: this.$route.fullPath },
+      });
     },
   },
 };

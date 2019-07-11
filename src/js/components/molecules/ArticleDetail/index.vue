@@ -13,9 +13,11 @@
         </app-router-link>
         <app-button
           bg-danger
+          :disabled="!access.delete"
+          :access="access"
           @click="openModal"
         >
-          削除
+          {{ buttonText }}
         </app-button>
       </div>
       <article class="article-detail__markdown">
@@ -76,12 +78,22 @@ export default {
       type: String,
       default: '',
     },
+    access: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+  computed: {
+    buttonText() {
+      return this.access.delete ? '削除' : '削除権限がありません';
+    },
   },
   methods: {
     parsedMarkdown() {
       this.$emit('parsedMarkdown');
     },
     openModal() {
+      if (!this.access.delete) return;
       this.$emit('openModal', this.articleId);
     },
   },
