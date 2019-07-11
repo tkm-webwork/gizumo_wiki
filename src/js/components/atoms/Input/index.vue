@@ -1,8 +1,6 @@
 <template lang="html">
   <div>
     <input
-      v-validate="required ? 'required' : false"
-      :data-vv-as="displayFields"
       :class="classes"
       :name="name"
       :type="type"
@@ -10,20 +8,18 @@
       :value="value"
       @input="$emit('updateValue', $event)"
     >
-    <!-- <span class="error">{{ errors.first(name) }}</span> -->
 
-    <!-- エラーの表示、下で対応できればしてほしい -->
-    <template v-if="errorMessages">
-      <ul>
+    <transition name="shake">
+      <ul v-if="errorMessages.length" class="error">
         <li
-          v-for="(error, index) in errorMessages"
-          :key="index"
-          class="error"
+          v-for="error in errorMessages"
+          :key="error"
+          class="error__text"
         >
           {{ error }}
         </li>
       </ul>
-    </template>
+    </transition>
   </div>
 </template>
 
@@ -31,7 +27,7 @@
 export default {
   props: {
     errorMessages: {
-      type: [Array, Object],
+      type: Array,
       default: () => [],
     },
     name: {
@@ -58,10 +54,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    dataVvAs: {
-      type: String,
-      default: '',
-    },
   },
   computed: {
     classes() {
@@ -69,10 +61,6 @@ export default {
         input: true,
         'input--white-bg': this.whiteBg,
       };
-    },
-    displayFields() {
-      if (this.vvas === '') return this.name;
-      return this.dataVvAs;
     },
   },
 };
@@ -92,15 +80,33 @@ export default {
   }
 }
 
-.error {
-  display: inline-block;
-  margin-top: 10px;
-  color: var(--errorColor);
-  opacity: .8;
-  font-size: 13px;
-}
-
 .input--white-bg {
   background-color: #fff;
+}
+
+.error {
+  margin-top: 10px;
+  &__text {
+    display: inline-block;
+    padding: 5px 20px;
+    color: var(--errorColor);
+    opacity: .8;
+    font-size: 13px;
+    background-color: color(var(--errorColor) a(8%));
+  }
+}
+.shake-enter-active {
+  animation: shake .6s;
+}
+@keyframes shake {
+  10% { transform: translate3d(-4px, 0, 0); }
+  20% { transform: translate3d(4px, 0, 0); }
+  30% { transform: translate3d(-3px, 0, 0); }
+  40% { transform: translate3d(3px, 0, 0); }
+  50% { transform: translate3d(-2px, 0, 0); }
+  60% { transform: translate3d(2px, 0, 0); }
+  70% { transform: translate3d(-1px, 0, 0); }
+  80% { transform: translate3d(1px, 0, 0); }
+  90% { transform: translate3d(-1px, 0, 0); }
 }
 </style>

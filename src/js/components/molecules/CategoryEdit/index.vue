@@ -14,8 +14,8 @@
     <app-input
       v-validate="'required'"
       class="category-management-edit__input"
-      type="text"
       name="updateCategory"
+      type="text"
       placeholder="カテゴリー名を入力してください"
       data-vv-as="カテゴリー名"
       :error-messages="errors.collect('updateCategory')"

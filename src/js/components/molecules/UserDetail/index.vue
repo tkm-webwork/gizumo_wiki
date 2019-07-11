@@ -77,7 +77,7 @@
             name="role"
             data-vv-as="権限"
             :error-messages="errors.collect('role')"
-            :value="user.role.value"
+            :value="user.role"
             @updateValue="updateValue"
           >
             <option

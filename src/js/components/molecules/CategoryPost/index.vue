@@ -3,10 +3,10 @@
     <app-heading :level="1">カテゴリー管理</app-heading>
     <app-input
       v-validate="'required'"
-      data-vv-as="カテゴリー名"
+      name="category"
       type="text"
       placeholder="追加するカテゴリー名を入力してください"
-      name="category"
+      data-vv-as="カテゴリー名"
       :error-messages="errors.collect('category')"
       :value="category"
       @updateValue="$emit('udpateValue', $event)"

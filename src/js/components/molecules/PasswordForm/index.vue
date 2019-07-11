@@ -6,10 +6,10 @@
       <div class="password-form__body__input">
         <app-input
           v-validate="'required'"
-          data-vv-as="今のパスワード"
           name="password"
           type="password"
-          placeholder="今のパスワードを入力してください。"
+          placeholder="現在のパスワードを入力してください。"
+          data-vv-as="現在のパスワード"
           :error-messages="errors.collect('password')"
           :value="password"
           @updateValue="updateValue"
@@ -19,10 +19,10 @@
       <div class="password-form__body__input">
         <app-input
           v-validate="'required'"
-          data-vv-as="新しく設定するパスワード"
           name="newPassword"
           type="password"
           placeholder="新しく設定するパスワードを入力してください。"
+          data-vv-as="新しく設定するパスワード"
           :error-messages="errors.collect('newPassword')"
           :value="newPassword"
           @updateValue="updateValue"
@@ -32,10 +32,10 @@
       <div class="password-form__body__input">
         <app-input
           v-validate="'required'"
-          data-vv-as="新しく設定するパスワードの確認"
           name="confirmNewPassword"
           type="password"
           placeholder="新しく設定するパスワードを再度入力してください。"
+          data-vv-as="新しく設定するパスワードの確認"
           :error-messages="errors.collect('confirmNewPassword')"
           :value="confirmNewPassword"
           @updateValue="updateValue"
