@@ -41,7 +41,7 @@ export default {
     if (this.$route.query.category) {
       const { category } = this.$route.query;
       this.title = category;
-      this.$store.dispatch('filteredArticles', category)
+      this.$store.dispatch('articles/filteredArticles', category)
         .then(() => {
           if (this.$store.state.articles.articleList.length === 0) {
             this.$router.push({ path: '/notfound' });
@@ -50,21 +50,21 @@ export default {
           // console.log(err);
         });
     } else {
-      this.$store.dispatch('getAllArticles');
+      this.$store.dispatch('articles/getAllArticles');
     }
   },
   methods: {
     openModal(articleId) {
-      this.$store.dispatch('confirmDeleteArticle', articleId);
+      this.$store.dispatch('articles/confirmDeleteArticle', articleId);
       this.toggleModal();
     },
     handleClick() {
-      this.$store.dispatch('deleteArticle');
+      this.$store.dispatch('articles/deleteArticle');
       this.toggleModal();
       if (this.$route.query.category) {
         const { category } = this.$route.query;
         this.title = category;
-        this.$store.dispatch('filteredArticles', category)
+        this.$store.dispatch('articles/filteredArticles', category)
           .then(() => {
             if (this.$store.state.articles.articleList.length === 0) {
               this.$router.push({ path: '/notfound' });
@@ -73,7 +73,7 @@ export default {
             // console.log(err);
           });
       } else {
-        this.$store.dispatch('getAllArticles');
+        this.$store.dispatch('articles/getAllArticles');
       }
     },
   },

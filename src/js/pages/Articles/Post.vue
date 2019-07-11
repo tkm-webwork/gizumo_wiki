@@ -7,6 +7,7 @@
     :loading="loading"
     :access="access"
     :error-message="errorMessage"
+    :value="categoryName"
     @selectedArticleCategory="selectedArticleCategory"
     @editedTitle="editedTitle"
     @editedContent="editedContent"
@@ -52,25 +53,28 @@ export default {
     access() {
       return this.$store.getters.access;
     },
+    categoryName() {
+      return this.$store.state.articles.targetArticle.category.name;
+    },
   },
   created() {
     this.$store.dispatch('getAllCategories');
-    this.$store.dispatch('initPostArticle');
+    this.$store.dispatch('articles/initPostArticle');
   },
   methods: {
     editedTitle($event) {
-      this.$store.dispatch('editedTitle', $event.target.value);
+      this.$store.dispatch('articles/editedTitle', $event.target.value);
     },
     editedContent($event) {
-      this.$store.dispatch('editedContent', $event.target.value);
+      this.$store.dispatch('articles/editedContent', $event.target.value);
     },
     selectedArticleCategory($event) {
       const categoryName = $event.target.value ? $event.target.value : '';
-      this.$store.dispatch('selectedArticleCategory', categoryName);
+      this.$store.dispatch('articles/selectedArticleCategory', categoryName);
     },
     handleSubmit() {
       if (this.loading) return;
-      this.$store.dispatch('postArticle').then(() => {
+      this.$store.dispatch('articles/postArticle').then(() => {
         this.$router.push({
           path: '/articles',
           query: { redirect: '/article/post' },
