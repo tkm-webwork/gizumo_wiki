@@ -16,7 +16,12 @@
         </div>
 
         <div class="delete-modal__button">
-          <app-button bg-danger block @click="deleteUser">
+          <app-button
+            bg-danger
+            block
+            :disabled="!access.delete"
+            @click="deleteUser"
+          >
             削除する
           </app-button>
         </div>
@@ -34,11 +39,18 @@ export default {
     appText: Text,
     appButton: Button,
   },
+  props: {
+    access: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
   methods: {
     closeModal() {
       this.$emit('closeModal');
     },
     deleteUser() {
+      if (!this.access.delete) return;
       this.$emit('deleteUser');
     },
   },

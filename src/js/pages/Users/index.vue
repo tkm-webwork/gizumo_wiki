@@ -1,12 +1,13 @@
 <template lang="html">
-  <router-view />
+  <router-view :access="access" />
 </template>
 
 <script>
 export default {
-  watch: {
-    $route() {
-      this.$store.dispatch('clearMessage');
+  props: {
+    access: {
+      type: Object,
+      default: () => ({}),
     },
   },
 };

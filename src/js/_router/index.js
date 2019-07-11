@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Cookies from 'js-cookie';
 
 import Signin from '@Pages/Signin';
+import Signout from '@Pages/Signout';
 import NotFound from '@Pages/NotFound';
 import Home from '@Pages/Home';
 
@@ -18,11 +19,18 @@ import ArticleDetail from '@Pages/Articles/Detail';
 import ArticleEdit from '@Pages/Articles/Edit';
 import ArticlePost from '@Pages/Articles/Post';
 
+// 自分のアカウントページ
+import Profile from '@Pages/Profile';
+
 // ユーザー
 import Users from '@Pages/Users';
 import UserList from '@Pages/Users/List';
 import UserDetail from '@Pages/Users/Detail';
 import UserCreate from '@Pages/Users/Create';
+
+// パスワード
+import PasswordInit from '@Pages/Password/init';
+import PasswordUpdate from '@Pages/Password/update';
 
 import Store from '../_store';
 
@@ -39,9 +47,30 @@ const router = new VueRouter({
       },
     },
     {
+      name: 'signout',
+      path: '/signout',
+      component: Signout,
+      props: true,
+    },
+    {
       name: 'home',
       path: '/',
       component: Home,
+    },
+    {
+      name: 'passwordInit',
+      path: '/password/init',
+      component: PasswordInit,
+    },
+    {
+      name: 'passwordUpdate',
+      path: '/password/update',
+      component: PasswordUpdate,
+    },
+    {
+      name: 'profile',
+      path: '/profile',
+      component: Profile,
     },
     {
       path: '/articles',
@@ -51,6 +80,20 @@ const router = new VueRouter({
           name: 'articleList',
           path: '',
           component: ArticleList,
+          beforeEnter(to, from, next) {
+            /**
+             * 記事作成、記事更新、記事削除からリダイレクトするときは?redirect=リダイレクト元のurlのパラメータを
+             * 渡してリダイレクト、パラメータが存在する場合はclearMessageアクションを通知しない
+             */
+            const isArticle = from.name ? from.name.indexOf('article') >= 0 : false;
+            const isRedirect = to.query.redirect;
+            if (isArticle && isRedirect) {
+              next();
+            } else {
+              Store.dispatch('clearMessage');
+              next();
+            }
+          },
         },
         {
           name: 'articlePost',
@@ -121,29 +164,55 @@ router.beforeEach((to, from, next) => {
   const token = Cookies.get('user-token') || null;
   const isPublic = to.matched.some(page => page.meta.isPublic);
   const isSignIn = to.matched.some(page => page.path === '/signin');
+  const isPasswordInit = to.matched.some(page => page.path === '/password/init');
+  const isSignout = to.matched.some(page => page.path === '/signout');
+  const notFromSignout = from.matched.some(page => page.path !== '/signout');
+
   if (!isPublic && !Store.state.auth.signedIn) {
     /**
      * 認証が必要なurlは、checkAuthアクションを実行して
      * cookieにセットされているtokenの整合性をチェック、整合性がとれていない場合もしくは
      * checkAuthアクションでエラーが発生した場合は
      * 「/signin」にリダイレクト
+     * 整合性がとれた場合
+     * パスワード初期化が済んでいればアクセスしようとしたURLにリダイレクト
+     * 済んでなければ「/password/init」にリダイレクト
      */
-    Store.dispatch('checkAuth', { token }).then(() => {
-      next();
-    }).catch(() => {
-      next('/signin');
-    });
+    Store.dispatch('checkAuth', { token })
+      .then(() => {
+        if (Store.state.auth.user.password_reset_flg) {
+          return next();
+        }
+        return next('/password/init');
+      })
+      .catch(() => {
+        const query = to.fullPath === '/signout'
+        || to.fullPath === '/password/init'
+          ? {}
+          : { redirect: to.fullPath };
+        return next({ path: '/signin', query });
+      });
   } else if (isSignIn) {
     /**
      * 「/signin」ページにアクセスしたときにcheckAuthアクションを実行して
-     * cookieにセットされているtokenのの整合性が取れていれば
+     * cookieにセットされているtokenの整合性が取れて
+     * パスワード初期化が済んでいれば
      * 「/」にリダイレクト
+     * 済んでなければ「/password/init」にリダイレクト
      */
-    Store.dispatch('checkAuth', { token }).then(() => {
-      next('/');
-    }).catch(() => {
-      next();
-    });
+    Store.dispatch('checkAuth', { token })
+      .then(() => {
+        if (Store.state.auth.user.password_reset_flg) return next('/');
+        return next('/password/init');
+      }).catch(() => next());
+  } else if (!token && notFromSignout && !isSignout) {
+    next('/signout');
+  } else if (!Store.state.auth.user.password_reset_flg && !isPasswordInit) {
+    /**
+     *  Store.state.auth.user.password_reset_flgが0
+     *  /password/initへじゃない
+     */
+    next('/password/init');
   } else {
     next();
   }

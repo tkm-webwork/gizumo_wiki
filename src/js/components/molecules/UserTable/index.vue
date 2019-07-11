@@ -23,7 +23,7 @@
           <app-text tag="span" small>{{ user.email }}</app-text>
         </td>
         <td>
-          <app-text tag="span" small>{{ user.role }}</app-text>
+          <app-text tag="span" small>{{ user.role.name }}</app-text>
         </td>
         <td>
           <app-router-link
@@ -40,6 +40,7 @@
             bg-danger
             small
             round
+            :disabled="!access.delete"
             @click="deleteModal(user.id)"
           >
             削除
@@ -72,9 +73,14 @@ export default {
       type: Array,
       default: () => [],
     },
+    access: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   methods: {
     deleteModal(id) {
+      if (!this.access.delete) return;
       this.$emit('deleteModal', id);
     },
   },

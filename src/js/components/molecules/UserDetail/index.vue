@@ -3,15 +3,15 @@
     <app-heading :level="1">ユーザー詳細</app-heading>
 
     <div class="users-detail__back">
-      <app-button
-        small
-        round
-        disabled
-        pointer
-        @click="back"
+      <app-router-link
+        block
+        underline
+        key-color
+        hover-opacity
+        to="/users"
       >
-        戻る
-      </app-button>
+        ユーザー一覧へ戻る
+      </app-router-link>
     </div>
 
     <form class="users-detail__info" @submit.prevent="editUser">
@@ -77,10 +77,18 @@
             name="role"
             data-vv-as="権限"
             :error-messages="errors.collect('role')"
-            :options="options"
-            :value="user.role"
+            :value="user.role.value"
             @updateValue="updateValue"
-          />
+          >
+            <option
+              v-for="(role, index) in options"
+              :key="index"
+              :value="role.value"
+              :selected="user.role === role.value"
+            >
+              {{ role.name }}
+            </option>
+          </app-select>
         </div>
       </div>
 
@@ -88,25 +96,24 @@
         <app-text ex-small>{{ cautionMessage }}</app-text>
       </div>
 
-      <div v-if="errorMessage" class="users-detail__error">
-        <app-text bg-error>{{ errorMessage }}</app-text>
-      </div>
-
       <div class="users-detail__info__submit">
         <app-button
           button-type="submit"
-          :disabled="loading ? true : false"
+          :disabled="disabled || !access.edit"
           round
         >
-          <template v-if="loading">
-            <span>更新中です...</span>
-          </template>
-          <template v-else>
-            <span>更新</span>
-          </template>
+          {{ buttonText }}
         </app-button>
       </div>
     </form>
+
+    <div v-if="errorMessage" class="users-detail__notice">
+      <app-text bg-error>{{ errorMessage }}</app-text>
+    </div>
+
+    <div v-if="doneMessage" class="users-detail__notice">
+      <app-text bg-success>{{ doneMessage }}</app-text>
+    </div>
   </section>
 </template>
 
@@ -117,6 +124,7 @@ import {
   Text,
   Input,
   Select,
+  RouterLink,
 } from '@Components/atoms';
 
 export default {
@@ -126,17 +134,18 @@ export default {
     appText: Text,
     appInput: Input,
     appSelect: Select,
+    appRouterLink: RouterLink,
   },
   props: {
-    loading: {
-      type: Boolean,
-      default: false,
-    },
     cautionMessage: {
       type: String,
       default: '',
     },
     errorMessage: {
+      type: String,
+      default: '',
+    },
+    doneMessage: {
       type: String,
       default: '',
     },
@@ -148,15 +157,27 @@ export default {
       type: Array,
       default: () => [],
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+    access: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+  computed: {
+    buttonText() {
+      if (!this.access.edit) return '変更権限がありません';
+      return this.disabled ? '更新中です...' : '更新';
+    },
   },
   methods: {
-    back() {
-      this.$emit('back');
-    },
     updateValue($event) {
       this.$emit('updateValue', $event.target);
     },
     editUser() {
+      if (!this.access.edit) return;
       this.$emit('clearMessage');
       this.$validator.validate().then((valid) => {
         if (valid) this.$emit('editUser');
@@ -171,12 +192,12 @@ export default {
   &__back {
     margin-top: 20px;
   }
-  &__error {
+  &__notice {
     margin-top: 20px;
   }
   &__info {
-    margin-top: 20px;
     margin: 0 auto;
+    margin-top: 20px;
     width: 80%;
     &__row {
       display: flex;

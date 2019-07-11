@@ -4,24 +4,6 @@
       :class="classes"
       v-html="marked"
     />
-    <template v-if="flex">
-      <template v-if="markdownIndexes">
-        <div class="markdown-view__index">
-          <p class="markdown-view__index-title">目次</p>
-          <template
-            v-for="index in markdownIndexes"
-          >
-            <a
-              :key="index.val"
-              :class="`markdown-view__index__anchor is-article-title-${index.tagName}`"
-              @click.prevent="handleScroll(index.scrollToY)"
-            >
-              {{ index.title }}
-            </a>
-          </template>
-        </div>
-      </template>
-    </template>
   </div>
 </template>
 
@@ -66,6 +48,10 @@ export default {
         'markdown-view__body--white-bg': this.whiteBg,
       };
     },
+    existsMarkdownIndexes() {
+      const isExsits = this.markdownIndexes.length > 0;
+      return isExsits;
+    },
     marked() {
       const renderer = new marked.Renderer();
       renderer.code = (code, lang) => `<pre class="hljs"><code class="language-${lang}">${hljs.highlightAuto(code, [lang]).value}</code></pre>`;
@@ -80,10 +66,9 @@ export default {
       });
       return marked(this.markdownContent);
     },
-    markedIndex() {
-      // TODO: ドキュメントの目次作る
-      return marked('目次');
-    },
+  },
+  mounted() {
+    this.$emit('parsedMarkdown');
   },
   methods: {
     handleScroll(scrollToY, duration = 500) {
@@ -93,7 +78,7 @@ export default {
 };
 </script>
 
-<style lang="css">
+<style lang="postcss">
 /* markdown-view */
 .markdown-view--flex {
   display: flex;

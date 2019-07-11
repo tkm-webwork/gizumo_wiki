@@ -1,11 +1,11 @@
 <template lang="html">
   <div class="wrapper">
-    <app-header />
+    <app-header :signed-in="signedIn" />
     <div :class="contentClasses">
       <app-sidebar v-if="signedIn" />
       <main :class="contentMainClasses">
         <div class="content-inner">
-          <router-view />
+          <router-view :access="access" />
         </div>
       </main>
     </div>
@@ -36,11 +36,14 @@ export default {
         this.$route.name,
       ];
     },
+    access() {
+      return this.$store.getters.access;
+    },
   },
 };
 </script>
 
-<style lang="css" scoped>
+<style lang="postcss" scoped>
 .content {
   display: flex;
   padding-top: var(--headerHight);
@@ -52,7 +55,9 @@ export default {
   &-main {
     padding-left: var(--sidebarWidth);
     width: 100%;
-    &.signin {
+    &.signin,
+    &.signout,
+    &.notfound {
       padding-left: 0;
     }
   }

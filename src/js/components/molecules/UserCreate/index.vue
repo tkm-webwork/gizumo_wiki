@@ -2,14 +2,15 @@
   <section class="users-create">
     <app-heading :level="1">ユーザー作成</app-heading>
     <div class="users-create__back">
-      <app-button
-        small
-        round
-        disabled
-        @click="back"
+      <app-router-link
+        block
+        underline
+        key-color
+        hover-opacity
+        to="/users"
       >
-        戻る
-      </app-button>
+        ユーザー一覧へ戻る
+      </app-router-link>
     </div>
 
     <form class="users-create__form" @submit.prevent="createUser">
@@ -50,29 +51,24 @@
         />
       </div>
 
-      <div v-if="cautionMessage" class="users-create__error">
+      <div v-if="cautionMessage" class="users-create__notice">
         <app-text ex-small>{{ cautionMessage }}</app-text>
-      </div>
-
-      <div v-if="errorMessage" class="users-create__error">
-        <app-text bg-error>{{ errorMessage }}</app-text>
       </div>
 
       <div class="users-create__button">
         <app-button
           button-type="submit"
-          :disabled="loading ? true : false"
+          :disabled="disabled || !access.create"
           block
         >
-          <template v-if="loading">
-            <span>作成中です...</span>
-          </template>
-          <template v-else>
-            <span>作成</span>
-          </template>
+          {{ buttonText }}
         </app-button>
       </div>
     </form>
+
+    <div v-if="errorMessage" class="users-create__notice">
+      <app-text bg-error>{{ errorMessage }}</app-text>
+    </div>
   </section>
 </template>
 
@@ -82,6 +78,7 @@ import {
   Heading,
   Input,
   Text,
+  RouterLink,
 } from '@Components/atoms';
 
 export default {
@@ -90,11 +87,16 @@ export default {
     appHeading: Heading,
     appInput: Input,
     appText: Text,
+    appRouterLink: RouterLink,
   },
   props: {
-    loading: {
+    disabled: {
       type: Boolean,
       default: false,
+    },
+    access: {
+      type: Object,
+      default: () => ({}),
     },
     cautionMessage: {
       type: String,
@@ -117,14 +119,18 @@ export default {
       default: '',
     },
   },
-  methods: {
-    back() {
-      this.$emit('back');
+  computed: {
+    buttonText() {
+      if (!this.access.create) return '作成権限がありません';
+      return this.disabled ? '作成中です...' : '作成';
     },
+  },
+  methods: {
     updateValue($event) {
       this.$emit('updateValue', $event.target);
     },
     createUser() {
+      if (!this.access.create) return;
       this.$emit('clearMessage');
       this.$validator.validate().then((valid) => {
         if (valid) this.$emit('createUser');
@@ -148,7 +154,7 @@ export default {
       margin-top: 0;
     }
   }
-  &__error {
+  &__notice {
     margin-top: 20px;
   }
   &__button {

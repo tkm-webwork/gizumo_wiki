@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
 import axios from '@Helpers/axiosDefault';
+import getAccess from '@Helpers/getAccessControlList';
 
 export default {
   state: {
@@ -10,7 +11,7 @@ export default {
     user: {
       email: '',
       id: null,
-      name: '',
+      account_name: '',
       password_reset_flg: null,
       role: '',
     },
@@ -18,6 +19,7 @@ export default {
   getters: {
     token: state => state.token,
     user: state => state.user,
+    access: state => getAccess(state.user.role.value),
   },
   mutations: {
     hasToken(state, { token }) {
@@ -28,7 +30,7 @@ export default {
       state.signedIn = false;
       state.token = '';
     },
-    signInRequest(state) {
+    sendRequest(state) {
       state.loading = true;
       state.errorMessage = '';
     },
@@ -46,8 +48,24 @@ export default {
     },
     signOut(state) {
       Cookies.remove('user-token');
+      state.token = '';
       state.loading = false;
       state.signedIn = false;
+      state.user = Object.assign({}, {
+        email: '',
+        id: null,
+        account_name: '',
+        password_reset_flg: null,
+        role: '',
+      });
+    },
+    doneChangePassword(state, { user }) {
+      state.user = Object.assign({}, { ...state.user }, { ...user });
+      state.loading = false;
+    },
+    failRequest(state, { message }) {
+      state.loading = false;
+      state.errorMessage = message;
     },
   },
   actions: {
@@ -60,11 +78,8 @@ export default {
           axios(token)({
             method: 'GET',
             url: '/me',
-          }).then((res) => {
-            const payload = {
-              token,
-              user: res.data.user,
-            };
+          }).then((response) => {
+            const payload = { token, user: response.data.user };
             commit('signInSuccess', payload);
             resolve();
           }).catch(() => {
@@ -77,7 +92,7 @@ export default {
       });
     },
     signIn({ commit }, { email, password }) {
-      commit('signInRequest');
+      commit('sendRequest');
       return new Promise((resolve, reject) => {
         const data = new URLSearchParams();
         data.append('email', email);
@@ -86,9 +101,19 @@ export default {
           url: '/me',
           method: 'POST',
           data,
-        }).then((responce) => {
-          if (!responce.data.token) reject(new Error());
-          commit('signInSuccess', responce.data);
+        }).then((response) => {
+          if (!response.data.token) reject(new Error());
+
+          return axios(response.data.token)({
+            method: 'GET',
+            url: '/me',
+          }).then((ownData) => {
+            if (ownData.data.code === 0) return reject(new Error());
+
+            return { token: response.data.token, user: ownData.data.user };
+          }).catch(() => reject(new Error()));
+        }).then((payload) => {
+          commit('signInSuccess', payload);
           resolve();
         }).catch(() => {
           commit('signInFailure', {
@@ -100,6 +125,29 @@ export default {
     },
     signOut({ commit }) {
       commit('signOut');
+    },
+
+    // パスワードの設定（初回ログイン時）
+    changePassword({ commit, rootGetters }, data) {
+      commit('sendRequest');
+
+      return new Promise((resolve) => {
+        axios(rootGetters.token)({
+          url: '/user/password/update',
+          method: 'POST',
+          data,
+        }).then((response) => {
+          if (response.data.code === 0) throw new Error(response.data.message);
+
+          const user = {
+            password_reset_flg: response.data.user.password_reset_flg,
+          };
+          commit('doneChangePassword', { user });
+          resolve();
+        }).catch((err) => {
+          commit('failRequest', { message: err.message });
+        });
+      });
     },
   },
 };

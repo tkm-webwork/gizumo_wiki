@@ -1,12 +1,12 @@
 <template lang="html">
   <app-user-create
-    :loading="loading"
     caution-message="※ 文頭・文末・文中の全角・半角スペースは削除されます。"
     :error-message="errorMessage"
     :account-name="accountName"
     :email="email"
     :password="password"
-    @back="back"
+    :disabled="loading ? true : false"
+    :access="access"
     @clearMessage="clearMessage"
     @updateValue="updateValue"
     @createUser="createUser"
@@ -19,6 +19,12 @@ import { UserCreate } from '@Components/molecules';
 export default {
   components: {
     appUserCreate: UserCreate,
+  },
+  props: {
+    access: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   data() {
     return {
@@ -36,9 +42,6 @@ export default {
     },
   },
   methods: {
-    back() {
-      this.$router.go(-1);
-    },
     clearMessage() {
       this.$store.dispatch('clearMessage');
     },
@@ -46,19 +49,17 @@ export default {
       this[target.name] = target.value;
     },
     createUser() {
-      this.$store.dispatch('clearMessage');
-      if (!this.loading) {
-        this.$store.dispatch('createUser', {
-          /* eslint-disable-next-line no-irregular-whitespace */
-          account_name: this.accountName.replace(/( |　)+/, '').trim(),
-          /* eslint-disable-next-line no-irregular-whitespace */
-          email: this.email.replace(/( |　)+/, '').trim(),
-          /* eslint-disable-next-line no-irregular-whitespace */
-          password: this.password.replace(/( |　)+/, '').trim(),
-        }).then(() => {
-          this.$router.push('/users');
-        });
-      }
+      if (this.loading) return;
+      this.$store.dispatch('createUser', {
+        /* eslint-disable-next-line no-irregular-whitespace */
+        account_name: this.accountName.replace(/( |　)+/, '').trim(),
+        /* eslint-disable-next-line no-irregular-whitespace */
+        email: this.email.replace(/( |　)+/, '').trim(),
+        /* eslint-disable-next-line no-irregular-whitespace */
+        password: this.password.replace(/( |　)+/, '').trim(),
+      }).then(() => {
+        this.$router.push('/users');
+      });
     },
   },
 };
