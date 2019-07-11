@@ -38,7 +38,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('getArticleDetail', parseInt(this.articleId, 10));
+    this.$store.dispatch('articles/getArticleDetail', parseInt(this.articleId, 10));
   },
   methods: {
     initIndex() {
@@ -90,11 +90,11 @@ export default {
       }
     },
     openModal(articleId) {
-      this.$store.dispatch('confirmDeleteArticle', articleId);
+      this.$store.dispatch('articles/confirmDeleteArticle', articleId);
       this.toggleModal();
     },
     handleClick() {
-      this.$store.dispatch('deleteArticle');
+      this.$store.dispatch('articles/deleteArticle');
       this.toggleModal();
       this.$router.push({
         path: '/articles',

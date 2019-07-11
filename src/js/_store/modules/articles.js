@@ -2,6 +2,7 @@ import axios from '@Helpers/axiosDefault';
 // import Cookies from 'js-cookie';
 
 export default {
+  namespaced: true,
   state: {
     targetArticle: {
       id: null,
@@ -205,14 +206,14 @@ export default {
     updateArticle({ commit, rootGetters }) {
       commit('toggleLoading');
       const data = new URLSearchParams();
-      data.append('id', rootGetters.targetArticle.id);
-      data.append('title', rootGetters.targetArticle.title);
-      data.append('content', rootGetters.targetArticle.content);
-      data.append('user_id', rootGetters.targetArticle.user.id);
-      data.append('category_id', rootGetters.targetArticle.category.id);
+      data.append('id', rootGetters['articles/targetArticle'].id);
+      data.append('title', rootGetters['articles/targetArticle'].title);
+      data.append('content', rootGetters['articles/targetArticle'].content);
+      data.append('user_id', rootGetters['articles/targetArticle'].user.id);
+      data.append('category_id', rootGetters['articles/targetArticle'].category.id);
       axios(rootGetters.token)({
         method: 'PUT',
-        url: `/article/${rootGetters.targetArticle.id}`,
+        url: `/article/${rootGetters['articles/targetArticle'].id}`,
         data,
       }).then((res) => {
         const payload = {
@@ -239,10 +240,10 @@ export default {
     deleteArticle({ commit, rootGetters }) {
       commit('clearMessage');
       const data = new URLSearchParams();
-      data.append('id', rootGetters.deleteArticle);
+      data.append('id', rootGetters['articles/deleteArticleId']);
       axios(rootGetters.token)({
         method: 'DELETE',
-        url: `/article/${rootGetters.deleteArticleId}`,
+        url: `/article/${rootGetters['articles/deleteArticleId']}`,
         data,
       }).then(() => {
         commit('doneDeleteArticle');
@@ -256,11 +257,11 @@ export default {
         commit('clearMessage');
         commit('toggleLoading');
         const data = new URLSearchParams();
-        data.append('title', rootGetters.targetArticle.title);
-        data.append('content', rootGetters.targetArticle.content);
+        data.append('title', rootGetters['articles/targetArticle'].title);
+        data.append('content', rootGetters['articles/targetArticle'].content);
         data.append('user_id', rootGetters.user.id);
-        if (rootGetters.targetArticle.category.id !== null) {
-          data.append('category_id', rootGetters.targetArticle.category.id);
+        if (rootGetters['articles/targetArticle'].category.id !== null) {
+          data.append('category_id', rootGetters['articles/targetArticle'].category.id);
         }
         axios(rootGetters.token)({
           method: 'POST',

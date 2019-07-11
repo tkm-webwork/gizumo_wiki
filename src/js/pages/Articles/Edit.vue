@@ -66,22 +66,22 @@ export default {
   },
   created() {
     this.$store.dispatch('getAllCategories');
-    this.$store.dispatch('getArticleDetail', parseInt(this.articleId, 10));
+    this.$store.dispatch('articles/getArticleDetail', parseInt(this.articleId, 10));
   },
   methods: {
     editedTitle($event) {
-      this.$store.dispatch('editedTitle', $event.target.value);
+      this.$store.dispatch('articles/editedTitle', $event.target.value);
     },
     editedContent($event) {
-      this.$store.dispatch('editedContent', $event.target.value);
+      this.$store.dispatch('articles/editedContent', $event.target.value);
     },
     handleSubmit() {
       if (this.loading) return;
-      this.$store.dispatch('updateArticle');
+      this.$store.dispatch('articles/updateArticle');
     },
     selectedArticleCategory($event) {
       const categoryName = $event.target.value;
-      this.$store.dispatch('selectedArticleCategory', categoryName);
+      this.$store.dispatch('articles/selectedArticleCategory', categoryName);
     },
   },
 };
