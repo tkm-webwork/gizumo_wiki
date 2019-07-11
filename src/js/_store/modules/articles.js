@@ -25,6 +25,8 @@ export default {
     articleList: [],
     deleteArticleId: null,
     loading: false,
+    doneMessage: '',
+    errorMessage: '',
   },
   getters: {
     transformedArticles(state) {
@@ -80,8 +82,8 @@ export default {
     doneGetAllArticles(state, payload) {
       state.articleList = [...payload.articles];
     },
-    failFetchArticle(state) {
-      return state;
+    failRequest(state, { message }) {
+      state.errorMessage = message;
     },
     selectedArticleCategory(state, payload) {
       state.targetArticle.category = Object.assign(
@@ -102,6 +104,13 @@ export default {
     toggleLoading(state) {
       state.loading = !state.loading;
     },
+    clearMessage(state) {
+      state.doneMessage = '';
+      state.errorMessage = '';
+    },
+    displayDoneMessage(state, payload = { message: '成功しました' }) {
+      state.doneMessage = payload.message;
+    },
   },
   actions: {
     initPostArticle({ commit }) {
@@ -113,21 +122,21 @@ export default {
         url: '/article',
       }).then((res) => {
         const payload = {
-          articles: res.data.data.articles,
+          articles: res.data.articles,
         };
         commit('doneGetAllArticles', payload);
       }).catch((err) => {
-        commit('failFetchArticle', { message: err.message });
+        commit('failRequest', { message: err.message });
       });
     },
     getArticleDetail({ commit, rootGetters }, articleId) {
-      return new Promise((resolve) => {
+      return new Promise((resolve, reject) => {
         axios(rootGetters.token)({
           method: 'GET',
           url: `/article/${articleId}`,
         }).then((res) => {
           const category = res.data.article.category
-            ? res.data.article.category.category
+            ? res.data.article.category
             : { id: null, name: '' };
           const payload = {
             article: {
@@ -143,10 +152,9 @@ export default {
           commit('doneGetArticle', payload);
           resolve();
         }).catch((err) => {
-          commit('failFetchArticle', { message: err.message });
+          commit('failRequest', { message: err.message });
+          reject();
         });
-      }).catch(() => {
-        throw new Error('エラーが発生しました');
       });
     },
     editedTitle({ commit }, title) {
@@ -169,12 +177,12 @@ export default {
         }).then((res) => {
           const payload = {
             category,
-            articles: res.data.data.articles,
+            articles: res.data.articles,
           };
           commit('doneFilteredArticles', payload);
           resolve();
         }).catch((err) => {
-          commit('failFetchArticle', { message: err.message });
+          commit('failRequest', { message: err.message });
           reject(new Error('エラーが発生しました'));
         });
       });
@@ -215,11 +223,12 @@ export default {
             updated_at: res.data.article.updated_at,
             created_at: res.data.article.created_at,
             user: res.data.article.user,
-            category: res.data.article.category.category,
+            category: res.data.article.category,
           },
         };
         commit('updateArticle', payload);
         commit('toggleLoading');
+        commit('displayDoneMessage', { message: 'ドキュメントを更新しました' });
       }).catch(() => {
         commit('toggleLoading');
       });
@@ -228,6 +237,7 @@ export default {
       commit('confirmDeleteArticle', { articleId });
     },
     deleteArticle({ commit, rootGetters }) {
+      commit('clearMessage');
       const data = new URLSearchParams();
       data.append('id', rootGetters.deleteArticle);
       axios(rootGetters.token)({
@@ -236,27 +246,39 @@ export default {
         data,
       }).then(() => {
         commit('doneDeleteArticle');
+        commit('displayDoneMessage', { message: 'ドキュメントを削除しました' });
+      }).catch((err) => {
+        commit('failRequest', { message: err.message });
       });
     },
     postArticle({ commit, rootGetters }) {
-      commit('toggleLoading');
-      const data = new URLSearchParams();
-      data.append('title', rootGetters.targetArticle.title);
-      data.append('content', rootGetters.targetArticle.content);
-      data.append('user_id', rootGetters.user.id);
-      if (rootGetters.targetArticle.category.id !== null) {
-        data.append('category_id', rootGetters.targetArticle.category.id);
-      }
-      axios(rootGetters.token)({
-        method: 'POST',
-        url: '/article',
-        data,
-      }).then((res) => {
-        console.log(res);
+      return new Promise((resolve, reject) => {
+        commit('clearMessage');
         commit('toggleLoading');
-      }).catch(() => {
-        commit('toggleLoading');
+        const data = new URLSearchParams();
+        data.append('title', rootGetters.targetArticle.title);
+        data.append('content', rootGetters.targetArticle.content);
+        data.append('user_id', rootGetters.user.id);
+        if (rootGetters.targetArticle.category.id !== null) {
+          data.append('category_id', rootGetters.targetArticle.category.id);
+        }
+        axios(rootGetters.token)({
+          method: 'POST',
+          url: '/article',
+          data,
+        }).then(() => {
+          commit('toggleLoading');
+          commit('displayDoneMessage', { message: 'ドキュメントを作成しました' });
+          resolve();
+        }).catch((err) => {
+          commit('toggleLoading');
+          commit('failRequest', { message: err.message });
+          reject();
+        });
       });
+    },
+    clearMessage({ commit }) {
+      commit('clearMessage');
     },
   },
 };

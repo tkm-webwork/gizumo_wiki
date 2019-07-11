@@ -3,6 +3,7 @@
     :article-id="articleId"
     :markdown-indexes="markdownIndexes"
     :markdown-content="markdownContent"
+    :access="access"
     @parsedMarkdown="initIndex"
     @openModal="openModal"
     @handleClick="handleClick"
@@ -31,6 +32,9 @@ export default {
     markdownContent() {
       const { title, content } = this.$store.state.articles.targetArticle;
       return `# ${title}\n${content}`;
+    },
+    access() {
+      return this.$store.getters.access;
     },
   },
   created() {
@@ -92,7 +96,10 @@ export default {
     handleClick() {
       this.$store.dispatch('deleteArticle');
       this.toggleModal();
-      this.$router.push('/articles');
+      this.$router.push({
+        path: '/articles',
+        query: { redirect: this.$route.fullPath },
+      });
     },
   },
 };

@@ -5,6 +5,8 @@
     :markdown-content="markdownContent"
     :category-list="categoryList"
     :loading="loading"
+    :access="access"
+    :error-message="errorMessage"
     @selectedArticleCategory="selectedArticleCategory"
     @editedTitle="editedTitle"
     @editedContent="editedContent"
@@ -44,6 +46,12 @@ export default {
     loading() {
       return this.$store.state.articles.loading;
     },
+    errorMessage() {
+      return this.$store.state.articles.errorMessage;
+    },
+    access() {
+      return this.$store.getters.access;
+    },
   },
   created() {
     this.$store.dispatch('getAllCategories');
@@ -62,7 +70,12 @@ export default {
     },
     handleSubmit() {
       if (this.loading) return;
-      this.$store.dispatch('postArticle');
+      this.$store.dispatch('postArticle').then(() => {
+        this.$router.push({
+          path: '/articles',
+          query: { redirect: '/article/post' },
+        });
+      });
     },
   },
 };

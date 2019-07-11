@@ -3,6 +3,8 @@
     <app-article-list
       :title="title"
       :target-array="articlesList"
+      :done-message="doneMessage"
+      :access="access"
       border-gray
       @openModal="openModal"
       @handleClick="handleClick"
@@ -27,6 +29,12 @@ export default {
   computed: {
     articlesList() {
       return this.$store.state.articles.articleList;
+    },
+    doneMessage() {
+      return this.$store.state.articles.doneMessage;
+    },
+    access() {
+      return this.$store.getters.access;
     },
   },
   created() {
