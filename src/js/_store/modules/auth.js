@@ -79,13 +79,16 @@ export default {
             method: 'GET',
             url: '/me',
           }).then((response) => {
+            if (response.data.code === 0) {
+              commit('signInFailure');
+              return reject();
+            }
+
             const payload = { token, user: response.data.user };
             commit('signInSuccess', payload);
-            resolve();
+            return resolve();
           }).catch(() => {
-            commit('signInFailure', {
-              errorMessage: 'エラーが発生しました。',
-            });
+            commit('signInFailure', { errorMessage: 'エラーが発生しました。' });
             reject(new Error('エラーが発生しました'));
           });
         }

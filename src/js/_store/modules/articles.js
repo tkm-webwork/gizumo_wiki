@@ -36,6 +36,13 @@ export default {
         content: `${article.title + article.content}`,
       }));
     },
+    tenNewArticleList(state) {
+      let count = 0;
+      return state.articleList.filter(() => {
+        count += 1;
+        return count <= 10;
+      });
+    },
     targetArticle: state => state.targetArticle,
     deleteArticleId: state => state.deleteArticleId,
   },

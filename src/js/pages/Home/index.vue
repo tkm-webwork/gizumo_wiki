@@ -1,30 +1,51 @@
 <template lang="html">
-  <div>
-    <div>
-      <app-heading>関連記事の多いカテゴリー</app-heading>
+  <div class="home">
+    <div class="home__content">
+      <app-heading>カテゴリー</app-heading>
 
-      <ul>
+      <ul class="home__content__category">
         <li v-for="category in categoryList" :key="category.id">
-          {{ category.name }}
+          <app-router-link
+            :to="{ path: '/articles', query: { category: category.name } }"
+            underline
+          >
+            {{ category.name }}
+          </app-router-link>
         </li>
       </ul>
 
-      <app-router-link to="/categories">
-        カテゴリー一覧へ
-      </app-router-link>
+      <div class="home__content__button">
+        <app-router-link
+          to="/categories"
+          round
+          bg-theme-color
+          white
+          small
+        >
+          カテゴリーページへ
+        </app-router-link>
+      </div>
     </div>
-    <div>
-      <app-heading>最新記事</app-heading>
+    <div class="home__content">
+      <app-heading>最新記事 10件</app-heading>
 
-      <ul>
+      <ul class="home__content__article">
         <li v-for="article in articleList" :key="article.id">
           {{ article.title }}
         </li>
       </ul>
 
-      <app-router-link to="/articles">
-        記事一覧へ
-      </app-router-link>
+      <div class="home__content__button">
+        <app-router-link
+          to="/articles"
+          round
+          bg-theme-color
+          white
+          small
+        >
+          記事一覧へ
+        </app-router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -39,7 +60,7 @@ export default {
   },
   computed: {
     articleList() {
-      return this.$store.state.articles.articleList;
+      return this.$store.getters['articles/tenNewArticleList'];
     },
     categoryList() {
       return this.$store.state.categories.categoryList;
@@ -52,5 +73,32 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
+<style lang="postcss" scoped>
+.home {
+  &__content {
+    margin-top: 20px;
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &__category {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      margin-left: -10px;
+      width: 50%;
+      font-size: 16px;
+      > li {
+        margin-top: 10px;
+        margin-left: 10px;
+      }
+    }
+
+    &__category {}
+
+    &__button {
+      margin-top: 10px;
+    }
+  }
+}
 </style>
