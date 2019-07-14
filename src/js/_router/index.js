@@ -90,7 +90,7 @@ const router = new VueRouter({
             if (isArticle && isRedirect) {
               next();
             } else {
-              Store.dispatch('clearMessage');
+              Store.dispatch('articles/clearMessage');
               next();
             }
           },
@@ -178,7 +178,7 @@ router.beforeEach((to, from, next) => {
      * パスワード初期化が済んでいればアクセスしようとしたURLにリダイレクト
      * 済んでなければ「/password/init」にリダイレクト
      */
-    Store.dispatch('checkAuth', { token })
+    Store.dispatch('auth/checkAuth', { token })
       .then(() => {
         if (Store.state.auth.user.password_reset_flg) {
           return next();
@@ -200,7 +200,7 @@ router.beforeEach((to, from, next) => {
      * 「/」にリダイレクト
      * 済んでなければ「/password/init」にリダイレクト
      */
-    Store.dispatch('checkAuth', { token })
+    Store.dispatch('auth/checkAuth', { token })
       .then(() => {
         if (Store.state.auth.user.password_reset_flg) return next('/');
         return next('/password/init');

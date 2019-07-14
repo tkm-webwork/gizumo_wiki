@@ -29,7 +29,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('clearMessage');
+    this.$store.dispatch('auth/clearMessage');
   },
   methods: {
     updateValue(target) {
@@ -38,7 +38,7 @@ export default {
     signIn() {
       if (this.loading) return;
       this.$store.dispatch({
-        type: 'signIn',
+        type: 'auth/signIn',
         email: this.email,
         password: this.password,
       }).then(() => this.$router.push(this.$route.query.redirect || '/'));

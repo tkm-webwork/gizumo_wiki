@@ -118,7 +118,7 @@ export default {
       commit('initPostArticle');
     },
     getAllArticles({ commit, rootGetters }) {
-      axios(rootGetters.token)({
+      axios(rootGetters['auth/token'])({
         method: 'GET',
         url: '/article',
       }).then((res) => {
@@ -132,7 +132,7 @@ export default {
     },
     getArticleDetail({ commit, rootGetters }, articleId) {
       return new Promise((resolve, reject) => {
-        axios(rootGetters.token)({
+        axios(rootGetters['auth/token'])({
           method: 'GET',
           url: `/article/${articleId}`,
         }).then((res) => {
@@ -172,7 +172,7 @@ export default {
     },
     filteredArticles({ commit, rootGetters }, category) {
       return new Promise((resolve, reject) => {
-        axios(rootGetters.token)({
+        axios(rootGetters['auth/token'])({
           method: 'GET',
           url: '/article',
         }).then((res) => {
@@ -211,7 +211,7 @@ export default {
       data.append('content', rootGetters['articles/targetArticle'].content);
       data.append('user_id', rootGetters['articles/targetArticle'].user.id);
       data.append('category_id', rootGetters['articles/targetArticle'].category.id);
-      axios(rootGetters.token)({
+      axios(rootGetters['auth/token'])({
         method: 'PUT',
         url: `/article/${rootGetters['articles/targetArticle'].id}`,
         data,
@@ -241,7 +241,7 @@ export default {
       commit('clearMessage');
       const data = new URLSearchParams();
       data.append('id', rootGetters['articles/deleteArticleId']);
-      axios(rootGetters.token)({
+      axios(rootGetters['auth/token'])({
         method: 'DELETE',
         url: `/article/${rootGetters['articles/deleteArticleId']}`,
         data,
@@ -259,11 +259,11 @@ export default {
         const data = new URLSearchParams();
         data.append('title', rootGetters['articles/targetArticle'].title);
         data.append('content', rootGetters['articles/targetArticle'].content);
-        data.append('user_id', rootGetters.user.id);
+        data.append('user_id', rootGetters['auth/user'].id);
         if (rootGetters['articles/targetArticle'].category.id !== null) {
           data.append('category_id', rootGetters['articles/targetArticle'].category.id);
         }
-        axios(rootGetters.token)({
+        axios(rootGetters['auth/token'])({
           method: 'POST',
           url: '/article',
           data,

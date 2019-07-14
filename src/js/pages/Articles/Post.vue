@@ -51,7 +51,7 @@ export default {
       return this.$store.state.articles.errorMessage;
     },
     access() {
-      return this.$store.getters.access;
+      return this.$store.getters['auth/access'];
     },
     categoryName() {
       return this.$store.state.articles.targetArticle.category.name;

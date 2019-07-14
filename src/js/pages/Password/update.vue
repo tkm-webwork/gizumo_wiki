@@ -31,7 +31,7 @@ export default {
   methods: {
     setPassword(data) {
       if (this.loading) return;
-      this.$store.dispatch('changePassword', data).then(() => {
+      this.$store.dispatch('auth/changePassword', data).then(() => {
         this.$router.push('/');
       });
     },

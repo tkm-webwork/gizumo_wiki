@@ -19,7 +19,7 @@ export default {
       commit('clearMessage');
     },
     getAllCategories({ commit, rootGetters }) {
-      axios(rootGetters.token)({
+      axios(rootGetters['auth/token'])({
         method: 'GET',
         url: '/category',
       }).then((response) => {
@@ -38,7 +38,7 @@ export default {
       const data = new URLSearchParams();
       data.append('name', categoryName);
       return new Promise((resolve) => {
-        axios(rootGetters.token)({
+        axios(rootGetters['auth/token'])({
           method: 'POST',
           url: '/category',
           data,
@@ -57,7 +57,7 @@ export default {
     },
     deleteCategory({ commit, rootGetters }, categoryId) {
       return new Promise((resolve) => {
-        axios(rootGetters.token)({
+        axios(rootGetters['auth/token'])({
           method: 'DELETE',
           url: `/category/${categoryId}`,
         }).then((response) => {
@@ -72,7 +72,7 @@ export default {
       });
     },
     getCategoryDetail({ commit, rootGetters }, categoryId) {
-      axios(rootGetters.token)({
+      axios(rootGetters['auth/token'])({
         method: 'GET',
         url: `/category/${categoryId}`,
       }).then((response) => {
@@ -90,7 +90,7 @@ export default {
       const data = new URLSearchParams();
       data.append('id', this.state.categories.updateCategoryId);
       data.append('name', this.state.categories.updateCategoryName);
-      axios(rootGetters.token)({
+      axios(rootGetters['auth/token'])({
         method: 'PUT',
         url: `/category/${this.state.categories.updateCategoryId}`,
         data,

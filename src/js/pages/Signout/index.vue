@@ -18,7 +18,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('signOut');
+    this.$store.dispatch('auth/signOut');
   },
 };
 </script>

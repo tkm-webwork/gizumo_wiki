@@ -45,21 +45,21 @@ export default {
   },
   created() {
     const { id } = this.$route.params;
-    this.$store.dispatch('getUser', { id });
-    this.$store.dispatch('clearMessage');
+    this.$store.dispatch('users/getUser', { id });
+    this.$store.dispatch('users/clearMessage');
   },
   destroyed() {
-    this.$store.dispatch('clearMessage');
+    this.$store.dispatch('users/clearMessage');
   },
   methods: {
     clearMessage() {
-      this.$store.dispatch('clearMessage');
+      this.$store.dispatch('users/clearMessage');
     },
     updateValue(target) {
-      if (!this.loading) this.$store.dispatch('updateValue', target);
+      if (!this.loading) this.$store.dispatch('users/updateValue', target);
     },
     editUser() {
-      this.$store.dispatch('editUser', {
+      this.$store.dispatch('users/editUser', {
         id: this.user.id,
         /* eslint-disable-next-line no-irregular-whitespace */
         full_name: this.user.fullName.replace(/(　)+/, ' ').trim(),

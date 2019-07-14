@@ -34,7 +34,7 @@ export default {
       return `# ${title}\n${content}`;
     },
     access() {
-      return this.$store.getters.access;
+      return this.$store.getters['auth/access'];
     },
   },
   created() {

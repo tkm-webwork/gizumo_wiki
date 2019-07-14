@@ -37,7 +37,7 @@ export default {
       ];
     },
     access() {
-      return this.$store.getters.access;
+      return this.$store.getters['auth/access'];
     },
   },
 };
