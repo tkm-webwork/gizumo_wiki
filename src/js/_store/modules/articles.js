@@ -189,7 +189,7 @@ export default {
       });
     },
     selectedArticleCategory({ commit, rootGetters }, categoryName) {
-      const { categoryList } = rootGetters;
+      const categoryList = rootGetters['categories/categoryList'];
       let matches = categoryList.find(category => category.name === categoryName);
       // カテゴリーが空のときのidとnameは下記をセット
       if (!matches) {
