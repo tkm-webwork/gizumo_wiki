@@ -43,14 +43,14 @@ export default {
   },
   methods: {
     clearMessage() {
-      this.$store.dispatch('clearMessage');
+      this.$store.dispatch('users/clearMessage');
     },
     updateValue(target) {
       this[target.name] = target.value;
     },
     createUser() {
       if (this.loading) return;
-      this.$store.dispatch('createUser', {
+      this.$store.dispatch('users/createUser', {
         /* eslint-disable-next-line no-irregular-whitespace */
         account_name: this.accountName.replace(/( |　)+/, '').trim(),
         /* eslint-disable-next-line no-irregular-whitespace */

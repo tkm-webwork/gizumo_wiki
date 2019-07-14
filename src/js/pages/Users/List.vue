@@ -63,18 +63,18 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('getAllUsers');
+    this.$store.dispatch('users/getAllUsers');
   },
   methods: {
     openDeleteModal(id) {
       this.toggleModal();
-      this.$store.dispatch('clearMessage');
-      this.$store.dispatch('openDeleteModal', { id });
+      this.$store.dispatch('users/clearMessage');
+      this.$store.dispatch('users/openDeleteModal', { id });
     },
     deleteUser() {
-      this.$store.dispatch('deleteUser', { id: this.deleteUserId })
+      this.$store.dispatch('users/deleteUser', { id: this.deleteUserId })
         .then(() => {
-          this.$store.dispatch('getAllUsers');
+          this.$store.dispatch('users/getAllUsers');
         });
       this.toggleModal();
     },

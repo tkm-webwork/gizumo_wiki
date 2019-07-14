@@ -3,6 +3,7 @@ import axios from '@Helpers/axiosDefault';
 import getAccess from '@Helpers/getAccessControlList';
 
 export default {
+  namespaced: true,
   state: {
     loading: false,
     signedIn: false,
@@ -66,6 +67,9 @@ export default {
     failRequest(state, { message }) {
       state.loading = false;
       state.errorMessage = message;
+    },
+    clearMessage(state) {
+      state.errorMessage = '';
     },
   },
   actions: {
@@ -132,7 +136,7 @@ export default {
       commit('sendRequest');
 
       return new Promise((resolve) => {
-        axios(rootGetters.token)({
+        axios(rootGetters['auth/token'])({
           url: '/user/password/update',
           method: 'POST',
           data,
@@ -148,6 +152,9 @@ export default {
           commit('failRequest', { message: err.message });
         });
       });
+    },
+    clearMessage({ commit }) {
+      commit('clearMessage');
     },
   },
 };
