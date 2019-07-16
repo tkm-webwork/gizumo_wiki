@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="home">
-    <div class="home__content">
+    <section class="home__content">
       <app-heading>カテゴリー</app-heading>
 
       <ul class="home__content__category">
@@ -8,6 +8,7 @@
           <app-router-link
             :to="{ path: '/articles', query: { category: category.name } }"
             underline
+            hover-opacity
           >
             {{ category.name }}
           </app-router-link>
@@ -25,13 +26,25 @@
           カテゴリーページへ
         </app-router-link>
       </div>
-    </div>
-    <div class="home__content">
+    </section>
+    <article class="home__content">
       <app-heading>最新記事 10件</app-heading>
 
       <ul class="home__content__article">
         <li v-for="article in articleList" :key="article.id">
-          {{ article.title }}
+          <app-router-link
+            :to="{ path: `/articles/${article.id}` }"
+            block
+            hover-opacity
+            hover-underline
+          >
+            <span class="home__content__article__category">
+              {{ article.category.name }}
+            </span>
+            <p class="home__content__article__title">
+              {{ article.title }}
+            </p>
+          </app-router-link>
         </li>
       </ul>
 
@@ -46,7 +59,7 @@
           記事一覧へ
         </app-router-link>
       </div>
-    </div>
+    </article>
   </div>
 </template>
 
@@ -74,31 +87,48 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
-.home {
-  &__content {
-    margin-top: 20px;
+.home__content {
+  margin-top: 20px;
+  &:first-child {
+    margin-top: 0;
+  }
+}
+.home__content__category {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  margin-left: -10px;
+  width: 50%;
+  font-size: 16px;
+  > li {
+    margin-top: 10px;
+    margin-left: 10px;
+  }
+}
+
+.home__content__article {
+  margin-top: 10px;
+  > li {
+    padding: 10px;
+    border-top: 1px solid var(--separatorColor);
     &:first-child {
-      margin-top: 0;
+      border-top: none;
     }
+  }
+  &__category {
+    display: block;
+    font-weight: bold;
+    font-size: 14px;
+    color: var(--themeColor);
+  }
+  &__title {
+    margin-top: 5px;
+  }
+}
 
-    &__category {
-      display: flex;
-      flex-wrap: wrap;
-      margin-top: 10px;
-      margin-left: -10px;
-      width: 50%;
-      font-size: 16px;
-      > li {
-        margin-top: 10px;
-        margin-left: 10px;
-      }
-    }
-
-    &__category {}
-
-    &__button {
-      margin-top: 10px;
-    }
+.home__content {
+  &__button {
+    margin-top: 10px;
   }
 }
 </style>
