@@ -53,7 +53,7 @@ export default {
       return this.$store.state.users.userList;
     },
     userListLength() {
-      return this.$store.getters.userListLength;
+      return this.$store.getters['users/userListLength'];
     },
     deleteUserId() {
       return this.$store.state.users.deleteUserId;
