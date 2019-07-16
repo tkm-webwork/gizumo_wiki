@@ -27,7 +27,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('getAllCategories');
+    this.$store.dispatch('categories/getAllCategories');
     this.$store.dispatch('articles/getAllArticles');
   },
 };
