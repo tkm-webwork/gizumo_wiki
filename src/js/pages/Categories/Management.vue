@@ -35,12 +35,6 @@ export default {
     appCategoryList: CategoryList,
   },
   mixins: [Mixins],
-  props: {
-    access: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
   data() {
     return {
       category: '',
@@ -48,6 +42,9 @@ export default {
     };
   },
   computed: {
+    access() {
+      return this.$store.getters['auth/access'];
+    },
     loading() {
       return this.$store.state.categories.loading;
     },

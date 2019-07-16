@@ -34,18 +34,15 @@ export default {
     appDeleteModal: DeleteModal,
   },
   mixins: [Mixins],
-  props: {
-    access: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
   data() {
     return {
       theads: ['名前', 'アカウント名', 'メールアドレス', '権限', '', ''],
     };
   },
   computed: {
+    access() {
+      return this.$store.getters['auth/access'];
+    },
     errorMessage() {
       return this.$store.state.users.errorMessage;
     },

@@ -20,13 +20,10 @@ export default {
   components: {
     appUserDetail: UserDetail,
   },
-  props: {
-    access: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
   computed: {
+    access() {
+      return this.$store.getters['auth/access'];
+    },
     loading() {
       return this.$store.state.users.loading;
     },

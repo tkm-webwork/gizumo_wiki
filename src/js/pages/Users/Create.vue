@@ -20,12 +20,6 @@ export default {
   components: {
     appUserCreate: UserCreate,
   },
-  props: {
-    access: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
   data() {
     return {
       accountName: '',
@@ -39,6 +33,9 @@ export default {
     },
     errorMessage() {
       return this.$store.state.users.errorMessage;
+    },
+    access() {
+      return this.$store.getters['auth/access'];
     },
   },
   methods: {
