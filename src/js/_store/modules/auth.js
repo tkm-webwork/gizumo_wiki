@@ -3,6 +3,7 @@ import axios from '@Helpers/axiosDefault';
 import getAccess from '@Helpers/getAccessControlList';
 
 export default {
+  namespaced: true,
   state: {
     loading: false,
     signedIn: false,
@@ -67,6 +68,9 @@ export default {
       state.loading = false;
       state.errorMessage = message;
     },
+    clearMessage(state) {
+      state.errorMessage = '';
+    },
   },
   actions: {
     checkAuth({ commit }, { token }) {
@@ -79,13 +83,16 @@ export default {
             method: 'GET',
             url: '/me',
           }).then((response) => {
+            if (response.data.code === 0) {
+              commit('signInFailure');
+              return reject();
+            }
+
             const payload = { token, user: response.data.user };
             commit('signInSuccess', payload);
-            resolve();
+            return resolve();
           }).catch(() => {
-            commit('signInFailure', {
-              errorMessage: 'エラーが発生しました。',
-            });
+            commit('signInFailure', { errorMessage: 'エラーが発生しました。' });
             reject(new Error('エラーが発生しました'));
           });
         }
@@ -132,7 +139,7 @@ export default {
       commit('sendRequest');
 
       return new Promise((resolve) => {
-        axios(rootGetters.token)({
+        axios(rootGetters['auth/token'])({
           url: '/user/password/update',
           method: 'POST',
           data,
@@ -148,6 +155,9 @@ export default {
           commit('failRequest', { message: err.message });
         });
       });
+    },
+    clearMessage({ commit }) {
+      commit('clearMessage');
     },
   },
 };

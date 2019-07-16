@@ -20,13 +20,10 @@ export default {
   components: {
     appCategoryEdit: CategoryEdit,
   },
-  props: {
-    access: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
   computed: {
+    access() {
+      return this.$store.getters['auth/access'];
+    },
     loading() {
       return this.$store.state.categories.loading;
     },
@@ -42,19 +39,19 @@ export default {
   },
   created() {
     const { id } = this.$route.params;
-    this.$store.dispatch('getCategoryDetail', id);
-    this.$store.dispatch('clearMessage');
+    this.$store.dispatch('categories/getCategoryDetail', id);
+    this.$store.dispatch('categories/clearMessage');
   },
   methods: {
     updateValue($event) {
-      this.$store.dispatch('editedCategoryName', $event.target.value);
+      this.$store.dispatch('categories/editedCategoryName', $event.target.value);
     },
     clearMessage() {
-      this.$store.dispatch('clearMessage');
+      this.$store.dispatch('categories/clearMessage');
     },
     updateCategory() {
       if (this.loading) return;
-      this.$store.dispatch('updateCategory');
+      this.$store.dispatch('categories/updateCategory');
     },
   },
 };

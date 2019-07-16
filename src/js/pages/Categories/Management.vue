@@ -35,12 +35,6 @@ export default {
     appCategoryList: CategoryList,
   },
   mixins: [Mixins],
-  props: {
-    access: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
   data() {
     return {
       category: '',
@@ -48,6 +42,9 @@ export default {
     };
   },
   computed: {
+    access() {
+      return this.$store.getters['auth/access'];
+    },
     loading() {
       return this.$store.state.categories.loading;
     },
@@ -68,33 +65,34 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('clearMessage');
-    this.$store.dispatch('getAllCategories');
+    this.$store.dispatch('categories/clearMessage');
+    this.$store.dispatch('categories/getAllCategories');
   },
   methods: {
     updateValue($event) {
       this[$event.target.name] = $event.target.value;
     },
     clearMessage() {
-      this.$store.dispatch('clearMessage');
+      this.$store.dispatch('categories/clearMessage');
     },
     handleSubmit() {
       if (this.loading) return;
-      this.$store.dispatch('postCateogry', this.category)
+      this.$store.dispatch('categories/postCateogry', this.category)
         .then(() => {
           this.category = '';
-          this.$store.dispatch('getAllCategories');
+          this.$store.dispatch('categories/getAllCategories');
         });
     },
     openModal(categoryId, categoryName) {
       this.toggleModal();
-      this.$store.dispatch('clearMessage');
-      this.$store.dispatch('confirmDeleteCategory', { categoryId, categoryName });
+      this.$store.dispatch('categories/clearMessage');
+      this.$store.dispatch('categories/confirmDeleteCategory',
+        { categoryId, categoryName });
     },
     deleteCategory() {
-      this.$store.dispatch('deleteCategory', this.deleteCategoryId)
+      this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId)
         .then(() => {
-          this.$store.dispatch('getAllCategories');
+          this.$store.dispatch('categories/getAllCategories');
         });
       this.toggleModal();
     },

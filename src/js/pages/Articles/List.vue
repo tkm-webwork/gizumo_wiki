@@ -38,7 +38,7 @@ export default {
       return this.$store.state.articles.doneMessage;
     },
     access() {
-      return this.$store.getters.access;
+      return this.$store.getters['auth/access'];
     },
   },
   created() {

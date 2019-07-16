@@ -61,11 +61,11 @@ export default {
       return this.$store.state.articles.doneMessage;
     },
     access() {
-      return this.$store.getters.access;
+      return this.$store.getters['auth/access'];
     },
   },
   created() {
-    this.$store.dispatch('getAllCategories');
+    this.$store.dispatch('categories/getAllCategories');
     this.$store.dispatch('articles/getArticleDetail', parseInt(this.articleId, 10));
   },
   methods: {

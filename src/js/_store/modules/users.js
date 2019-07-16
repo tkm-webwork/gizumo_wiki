@@ -1,6 +1,7 @@
 import axios from '@Helpers/axiosDefault';
 
 export default {
+  namespaced: true,
   state: {
     loading: false,
     errorMessage: '',
@@ -70,7 +71,7 @@ export default {
 
     // ユーザー全件取得
     getAllUsers({ commit, rootGetters }) {
-      axios(rootGetters.token)({
+      axios(rootGetters['auth/token'])({
         method: 'GET',
         url: '/user',
       }).then((response) => {
@@ -92,7 +93,7 @@ export default {
 
     // ユーザー1件取得
     getUser({ commit, rootGetters }, { id }) {
-      axios(rootGetters.token)({
+      axios(rootGetters['auth/token'])({
         method: 'GET',
         url: `/user/${id}`,
       }).then((response) => {
@@ -118,7 +119,7 @@ export default {
       commit('applyRequest');
 
       return new Promise((resolve) => {
-        axios(rootGetters.token)({
+        axios(rootGetters['auth/token'])({
           method: 'POST',
           url: '/user',
           data: user,
@@ -138,7 +139,7 @@ export default {
     editUser({ commit, rootGetters }, user) {
       commit('applyRequest');
 
-      axios(rootGetters.token)({
+      axios(rootGetters['auth/token'])({
         method: 'PUT',
         url: `/user/${user.id}`,
         data: user,
@@ -169,7 +170,7 @@ export default {
       commit('applyRequest');
 
       return new Promise((resolve) => {
-        axios(rootGetters.token)({
+        axios(rootGetters['auth/token'])({
           method: 'DELETE',
           url: `/user/${id}`,
         }).then((response) => {

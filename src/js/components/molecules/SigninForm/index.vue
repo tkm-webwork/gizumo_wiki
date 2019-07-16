@@ -6,7 +6,6 @@
         name="email"
         type="text"
         placeholder="メールアドレス"
-        required
         data-vv-as="メールアドレス"
         :error-messages="errors.collect('email')"
         :value="email"
@@ -19,7 +18,6 @@
         name="password"
         type="password"
         placeholder="パスワード"
-        required
         data-vv-as="パスワード"
         :error-messages="errors.collect('password')"
         :value="password"
