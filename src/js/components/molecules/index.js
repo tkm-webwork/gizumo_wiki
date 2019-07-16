@@ -2,6 +2,8 @@ import SigninForm from './SigninForm';
 import PasswordForm from './PasswordForm';
 import Profile from './Profile';
 import SidebarList from './SidebarList';
+import HomeCategory from './HomeCategory';
+import HomeArticle from './HomeArticle';
 import ArticleList from './ArticleList';
 import UserCreate from './UserCreate';
 import UserTable from './UserTable';
@@ -21,6 +23,8 @@ export {
   PasswordForm,
   Profile,
   SidebarList,
+  HomeCategory,
+  HomeArticle,
   ArticleList,
   UserCreate,
   UserTable,
