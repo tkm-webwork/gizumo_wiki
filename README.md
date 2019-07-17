@@ -86,41 +86,49 @@ npm run publish
 - Vue.js (v2.6.6): <a href="https://jp.vuejs.org/index.html" target="_blank">https://jp.vuejs.org/index.html</a>
 - Vue Router: <a href="https://router.vuejs.org/ja/" target="_blank">https://router.vuejs.org/ja/</a>
 - Vuex: <a href="https://vuex.vuejs.org/ja/" target="_blank">https://vuex.vuejs.org/ja/</a>
+- vee-validate: <a href="https://baianat.github.io/vee-validate/" target="_blank">https://baianat.github.io/vee-validate/</a>
 - Express (v4.16.4): <a href="https://expressjs.com/ja/" target="_blank">https://expressjs.com/ja/</a>
 - PM2 (v3.5.0): <a href="https://nodemon.io/" target="_blank">http://pm2.keymetrics.io/</a>（本番のNode起動）
-- コンポーネントガイド
-- テスト
+- Storybook (5.0.10): <a href="https://storybook.js.org/" target="_blank">https://storybook.js.org/</a>
+- Jest (24.7.1): <a href="https://jestjs.io/en/" target="_blank">https://jestjs.io/en/</a>
+- power-assert (1.6.1): <a href="https://github.com/power-assert-js/power-assert" target="_blank">https://github.com/power-assert-js/power-assert</a>
+- axios (0.18.0): <a href="https://github.com/axios/axios" target="_blank">https://github.com/axios/axios</a>
+- Sass: <a href="https://sass-lang.com/documentation" target="_blank">https://sass-lang.com/documentation</a>
 
 ## 画面
 
 |  | URL |
 |---|---|
 | トップ | `/` |
-| ログイン（ログイン不要） | `/signin` |
+| ログイン（初回） | `/init` |
+| ログイン | `/signin` |
 | カテゴリー一覧  | `/category` |
 | 記事一覧（すべて） | `/articles` |
 | 記事一覧（カテゴリー） | `/articles?=:category` |
 | 記事詳細 | `/articles/:id` |
-| 更新 | `/articles/:id/edit` |
-| 投稿 | `/articles/post` |
-| ユーザー一覧 | `/users` |
-| ユーザー個別 | `/users/:id` |
-| ユーザー作成 | `/users/create` |
-| グループ・グループメンバー追加 | `/group` |
+| 更新* | `/articles/:id/edit` |
+| 投稿* | `/articles/post` |
+| マイページ | `/profile/:username` |
+| ユーザー一覧* | `/users` |
+| ユーザー個別* | `/users/:id` |
+| ユーザー作成* | `/users/create` |
+| グループ・グループメンバー追加* | `/group` |
 | 404 | `/*` |
 
+`*`は管理権限
+
 ## サインアップ・ログイン
-- 管理者が追加（名前・メールアドレス）
-- メール送付
-- メールのURLからパスワード・グループの設定
-- メールアドレス・パスワードでログイン
-- メール再送付・パスワードリセット
+
+- 管理者が管理画面上でユーザー追加（名前・メールアドレス・パスワードを設定）
+- 初回ログイン専用のログイン画面にアクセスしてもらい、ログインする
+- ログイン後にパスワード再設定画面に遷移し、パスワードを再設定するリクエストを送信する。
+- 再設定が完了後、ダッシュボードにリダイレクト
 
 ## 権限グループ
 
 | グループ | 権限範囲 |
 |---|---|
-| 管理者 | 閲覧（全ページ）、更新・削除 |
+| 管理者 | 閲覧（全ページ）、更新・削除 / ユーザー追加 |
 | 閲覧者 | 閲覧（更新系のページを除く） |
 
 ## 閲覧グループ

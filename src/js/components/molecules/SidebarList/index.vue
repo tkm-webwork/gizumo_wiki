@@ -7,6 +7,7 @@
       <app-router-link
         :to="item.path"
         exact-active-class="is-active"
+        hover-opacity
         block
         large
         white
@@ -39,5 +40,5 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="css" scoped>
 </style>

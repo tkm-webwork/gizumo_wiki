@@ -2,9 +2,11 @@ import { VueLoaderPlugin } from 'vue-loader';
 import path from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import WebpackNotifierPlugin from 'webpack-notifier';
+import webpack from 'webpack';
 
 const nodeEnv = process.env.NODE_ENV || 'development';
 const isDev = nodeEnv === 'development';
+const isProd = nodeEnv === 'production';
 
 console.log('==================================================');
 console.log('== nodeEnv ==> ', nodeEnv);
@@ -19,7 +21,12 @@ const config = {
   mode: nodeEnv,
   devtool: isDev ? 'source-map' : 'eval',
   resolve: {
-    extensions: ['.vue', '.js', '.json', '.scss'],
+    extensions: ['.vue', '.js', '.json', '.css'],
+    alias: {
+      '@Components': path.resolve(__dirname, './src/js/components'),
+      '@Helpers': path.resolve(__dirname, './src/js/_helpers'),
+      '@Pages': path.resolve(__dirname, './src/js/pages'),
+    }
   },
   plugins: [
     new VueLoaderPlugin(),
@@ -69,7 +76,7 @@ const config = {
         loader: 'vue-loader',
       },
       {
-        test: /\.(css|sass|scss)$/,
+        test: /\.((post)?css)$/,
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
@@ -77,33 +84,50 @@ const config = {
           },
           {
             loader: 'css-loader',
-            options: { sourceMap: true }
+            options: { sourceMap: true, importLoaders: 1 },
           },
           {
             loader: 'postcss-loader',
             options: {
-              plugins: [
-                require('autoprefixer')({
-                  grid: true,
-                  browsers: [
-                    'IE >= 9',
-                    'last 2 versions'
-                  ]
-                })
-              ]
-            }
+              sourceMap: true,
+              plugins: () => [
+                require('postcss-import')(),
+                require('postcss-mixins')({
+                  mixinsFiles: 'src/css/_helpers/_mixins.css'
+                }),
+                require('postcss-custom-media')({
+                  importFrom: 'src/css/_helpers/_media.css'
+                }),
+                require('postcss-custom-properties')({
+                  preserve: false,
+                  importFrom: 'src/css/_helpers/_variables.css'
+                }),
+                require('postcss-color-function')(),
+                require('postcss-nested')(),
+                require('autoprefixer')(),
+              ],
+            },
           },
-          {
-            loader: 'sass-loader',
-            options: {
-              // outputStyle: 'expanded',
-              data: `@import './src/scss/_helpers/index.scss';`
-            }
-          }
         ]
       }
     ]
   }
+}
+
+if (isDev) {
+  config.plugins.push(
+    new webpack.DefinePlugin({
+      'API_BASE_URL': JSON.stringify('http://api.wiki.gizumo-inc.work/api'),
+      'MY_SESSION_STORAGE_KEY': JSON.stringify('dev_gizumo_wiki'),
+    })
+  );
+} else if (isProd) {
+  config.plugins.push(
+    new webpack.DefinePlugin({
+      'API_BASE_URL': JSON.stringify(''),
+      'MY_SESSION_STORAGE_KEY': JSON.stringify('prod_gizumo_wiki'),
+    })
+  );
 }
 
 export default config;

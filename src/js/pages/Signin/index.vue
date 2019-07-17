@@ -1,65 +1,22 @@
 <template lang="html">
-  <form class="login" @submit.prevent="signIn">
-    <div class="login-form">
-      <app-input
-        name="username"
-        type="text"
-        placeholder="user name"
-        required
-        vvas="ユーザーネーム"
-        :value="username"
-        @updateValue="updateValue"
-      />
-    </div>
-    <div class="login-form">
-      <app-input
-        name="password"
-        type="password"
-        placeholder="password"
-        required
-        vvas="パスワード"
-        :value="password"
-        @updateValue="updateValue"
-      />
-    </div>
-
-    <template v-if="errorMessage">
-      <div class="login-error">
-        <app-text>{{ errorMessage }}</app-text>
-      </div>
-    </template>
-
-    <div class="login-button">
-      <app-button
-        class-name="login-button"
-        button-type="submit"
-        :disabled="disabled ? true : false"
-        block
-      >
-        <template v-if="loading">
-          <span>サインイン中です...</span>
-        </template>
-        <template v-else>
-          <span>サインイン</span>
-        </template>
-      </app-button>
-    </div>
-  </form>
+  <app-signin-form
+    :loading="loading"
+    :email="email"
+    :password="password"
+    :error-message="errorMessage"
+    @updateValue="updateValue"
+    @handleSubmit="signIn"
+  />
 </template>
 
 <script>
-import Cookies from 'js-cookie';
-import { Input, Button, Text } from '@Components/atoms';
+import { SigninForm } from '@Components/molecules';
 
 export default {
-  components: {
-    appInput: Input,
-    appButton: Button,
-    appText: Text,
-  },
+  components: { appSigninForm: SigninForm },
   data() {
     return {
-      username: '',
+      email: '',
       password: '',
     };
   },
@@ -67,41 +24,30 @@ export default {
     loading() {
       return this.$store.state.auth.loading;
     },
-    disabled() {
-      const isValied = this.errors.items.length > 0;
-      return this.loading || isValied;
-    },
     errorMessage() {
       return this.$store.state.auth.errorMessage;
     },
   },
   created() {
-    const token = Cookies.get('user-token');
-    if (token) {
-      this.$router.push(this.$route.query.redirect || '/');
-    } else {
-      this.$store.dispatch('signOut');
-    }
+    this.$store.dispatch('auth/clearMessage');
   },
   methods: {
-    updateValue($event) {
-      this[$event.target.name] = $event.target.value;
+    updateValue(target) {
+      this[target.name] = target.value;
     },
     signIn() {
-      if (this.disabled) return;
+      if (this.loading) return;
       this.$store.dispatch({
-        type: 'signIn',
-        username: this.username,
+        type: 'auth/signIn',
+        email: this.email,
         password: this.password,
-      }).then(() => {
-        this.$router.push(this.$route.query.redirect || '/');
-      });
+      }).then(() => this.$router.push(this.$route.query.redirect || '/'));
     },
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="postcss" scoped>
 .login {
   margin: 100px auto 0;
   padding: 40px;
@@ -115,7 +61,7 @@ export default {
   }
   &-error {
     margin-top: 20px;
-    color: $errorColor;
+    color: var(--errorColor);
   }
   &-button {
     margin-top: 20px;

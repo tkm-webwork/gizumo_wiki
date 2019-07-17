@@ -1,35 +1,88 @@
 <template lang="html">
   <div class="articles">
-    <app-heading :level="1">すべての一覧・カテゴリーごとの一覧</app-heading>
-    <app-router-link to="articles/post">
-      新しいドキュメントを作る
-    </app-router-link>
-    <div class="articles-content">
-      <app-article-list
-        class-name="articles-list"
-        :target-array="articlesList"
-      />
-    </div>
+    <app-article-list
+      :title="title"
+      :target-array="articlesList"
+      :done-message="doneMessage"
+      :access="access"
+      border-gray
+      @openModal="openModal"
+      @handleClick="handleClick"
+    />
   </div>
 </template>
 
 <script>
-import { Heading, RouterLink } from '@Components/atoms';
 import { ArticleList } from '@Components/molecules';
+import Mixins from '@Helpers/mixins';
 
 export default {
   components: {
-    appHeading: Heading,
     appArticleList: ArticleList,
-    appRouterLink: RouterLink,
+  },
+  mixins: [Mixins],
+  beforeRouteUpdate(to, from, next) {
+    this.fetchArticles();
+    next();
+  },
+  data() {
+    return {
+      title: 'すべて',
+    };
   },
   computed: {
     articlesList() {
       return this.$store.state.articles.articleList;
     },
+    doneMessage() {
+      return this.$store.state.articles.doneMessage;
+    },
+    access() {
+      return this.$store.getters['auth/access'];
+    },
+  },
+  created() {
+    this.fetchArticles();
+  },
+  methods: {
+    openModal(articleId) {
+      this.$store.dispatch('articles/confirmDeleteArticle', articleId);
+      this.toggleModal();
+    },
+    handleClick() {
+      this.$store.dispatch('articles/deleteArticle');
+      this.toggleModal();
+      if (this.$route.query.category) {
+        const { category } = this.$route.query;
+        this.title = category;
+        this.$store.dispatch('articles/filteredArticles', category)
+          .then(() => {
+            if (this.$store.state.articles.articleList.length === 0) {
+              this.$router.push({ path: '/notfound' });
+            }
+          }).catch(() => {
+            // console.log(err);
+          });
+      } else {
+        this.$store.dispatch('articles/getAllArticles');
+      }
+    },
+    fetchArticles() {
+      if (this.$route.query.category) {
+        const { category } = this.$route.query;
+        this.title = category;
+        this.$store.dispatch('articles/filteredArticles', category)
+          .then(() => {
+            if (this.$store.state.articles.articleList.length === 0) {
+              this.$router.push({ path: '/notfound' });
+            }
+          }).catch(() => {
+            // console.log(err);
+          });
+      } else {
+        this.$store.dispatch('articles/getAllArticles');
+      }
+    },
   },
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

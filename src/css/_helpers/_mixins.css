@@ -1,0 +1,49 @@
+@define-mixin hoverOpacity {
+  transition: opacity .5s;
+  &:hover {
+    opacity: .7;
+  }
+}
+@define-mixin hoverUnderline {
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+@define-mixin mobile {
+  @media (--mobile-viewport) {
+    @mixin-content;
+  }
+}
+
+@define-mixin tab {
+  @media (--tab-viewport) {
+    @mixin-content;
+  }
+}
+
+@define-mixin pc {
+  @media (--pc-viewport) {
+    @mixin-content;
+  }
+}
+
+
+/* Based on http://codepen.io/javasteve99/pen/hDxpn */
+@define-mixin font-face $font-family, $file-path, $font-weight {
+  @font-face {
+    font-family: '$(font-family)';
+    src: url('/$(file-path).eot');
+    src: url('/$(file-path).eot?#iefix') format('embedded-opentype'), url('/$(file-path).woff') format('woff'), url('/$(file-path).ttf') format('truetype'), url('/$(file-path).svg#$(font-family)') format('svg');
+    font-weight: $(font-weight);
+    font-style: normal;
+  }
+
+  /* Chrome for Windows rendering fix: http://www.adtrak.co.uk/blog/font-face-chrome-rendering/ */
+  @media screen and (-webkit-min-device-pixel-ratio: 0) {
+    @font-face {
+      font-family: '$(font-family)';
+      src: url('/$(file-path).svg#$(font-family)') format('svg');
+    }
+  }
+}

@@ -1,30 +1,15 @@
 <template lang="html">
-  <div class="notfound">
-    <p class="notfound-text">お探しのページは削除されている可能性があります。</p>
-    <router-link :to="{ path: '/' }" class="notfound-link">
-      TOPに戻る
-    </router-link>
-  </div>
+  <app-notice
+    notice-text="お探しのページは削除されている可能性があります。"
+    link-path="/"
+    link-text="TOPに戻る"
+  />
 </template>
 
 <script>
+import { Notice } from '@Components/molecules';
+
 export default {
+  components: { appNotice: Notice },
 };
 </script>
-
-<style lang="scss" scoped>
-.notfound {
-  margin-top: 80px;
-  width: 100%;
-  text-align: center;
-  &-text {
-    font-size: 24px;
-  }
-  &-link {
-    margin-top: 40px;
-    color: $textLinkColor;
-    font-size: 14px;
-    text-decoration: underline;
-  }
-}
-</style>

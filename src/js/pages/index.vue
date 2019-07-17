@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="wrapper">
-    <app-header />
+    <app-header :signed-in="signedIn" />
     <div :class="contentClasses">
       <app-sidebar v-if="signedIn" />
       <main :class="contentMainClasses">
@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import Cookies from 'js-cookie';
 import { Header, Sidebar } from '@Components/globals';
 
 export default {
@@ -38,28 +37,24 @@ export default {
       ];
     },
   },
-  created() {
-    const token = Cookies.get('user-token');
-    if (token) {
-      this.$store.dispatch('checkAuth', { token });
-    }
-  },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="postcss" scoped>
 .content {
   display: flex;
-  padding-top: $headerHight;
-  z-index: index($z, 'content');
+  padding-top: var(--headerHight);
+  z-index: var(--z-content);
   &.articlePost,
   &.articleEdit {
     height: 100vh;
   }
   &-main {
-    padding-left: $sidebarWidth;
+    padding-left: var(--sidebarWidth);
     width: 100%;
-    &.signin {
+    &.signin,
+    &.signout,
+    &.notfound {
       padding-left: 0;
     }
   }

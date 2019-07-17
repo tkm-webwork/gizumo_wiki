@@ -1,6 +1,6 @@
 <template lang="html">
   <router-link
-    :to="{ path: to }"
+    :to="to"
     :active-class="activeClass"
     :exact-active-class="exactActiveClass"
     :class="classes"
@@ -13,7 +13,7 @@
 export default {
   props: {
     to: {
-      type: String,
+      type: [String, Object],
       default: '',
     },
     activeClass: {
@@ -40,11 +40,39 @@ export default {
       type: Boolean,
       default: false,
     },
+    themeColor: {
+      type: Boolean,
+      default: false,
+    },
+    danger: {
+      type: Boolean,
+      default: false,
+    },
     white: {
       type: Boolean,
       default: false,
     },
     round: {
+      type: Boolean,
+      default: false,
+    },
+    bgThemeColor: {
+      type: Boolean,
+      default: false,
+    },
+    bgDanger: {
+      type: Boolean,
+      default: false,
+    },
+    bgLightgreen: {
+      type: Boolean,
+      default: false,
+    },
+    hoverOpacity: {
+      type: Boolean,
+      default: false,
+    },
+    hoverUnderline: {
       type: Boolean,
       default: false,
     },
@@ -57,38 +85,69 @@ export default {
         'router-link--large': this.large,
         'router-link--small': this.small,
         'router-link--underline': this.underline,
+        'router-link--themecolor': this.themeColor,
+        'router-link--danger': this.danger,
         'router-link--white': this.white,
         'router-link--round': this.round,
+        'router-link--bg-themecolor': this.bgThemeColor,
+        'router-link--bg-danger': this.bgDanger,
+        'router-link--bg-lightgreen': this.bgLightgreen,
+        'router-link--hover-opacity': this.hoverOpacity,
+        'router-link--hover-underline': this.hoverUnderline,
       };
     },
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="postcss" scoped>
 .router-link {
   font-size: 16px;
   transition: all .5s;
+  line-height: 1.4;
   &.is-active {
-    color: $darkerColor;
+    color: var(--subthemeColor);
     font-weight: bold;
     background-color: #fff;
+    pointer-events: none;
   }
+}
+.router-link--hover-opacity {
+  @mixin hoverOpacity;
+}
+.router-link--hover-underline {
+  @mixin hoverUnderline;
 }
 .router-link--block {
   display: block;
 }
 .router-link--large {
-  padding: 7px 10px;
+  padding: 10px 20px;
 }
 .router-link--small {
-  padding: 5px;
+  padding: 5px 10px;
+  font-size: 14px;
 }
 .router-link--underline {
   text-decoration: underline;
 }
+.router-link--themecolor {
+  color: var(--themeColor);
+}
+.router-link--danger {
+  color: var(--errorColor);
+}
 .router-link--white {
   color: #fff;
+}
+.router-link--bg-themecolor {
+  background-color: var(--themeColor);
+}
+.router-link--bg-danger {
+  background-color: var(--errorColor);
+}
+.router-link--bg-lightgreen {
+  background-color: var(--createColor);
 }
 .router-link--round {
   border-radius: 5px;

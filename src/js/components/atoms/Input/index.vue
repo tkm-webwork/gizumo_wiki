@@ -1,8 +1,6 @@
 <template lang="html">
   <div>
     <input
-      v-validate="required ? 'required' : false"
-      :data-vv-as="displayFields"
       :class="classes"
       :name="name"
       :type="type"
@@ -10,13 +8,28 @@
       :value="value"
       @input="$emit('updateValue', $event)"
     >
-    <span class="error">{{ errors.first(name) }}</span>
+
+    <transition name="shake">
+      <ul v-if="errorMessages.length" class="error">
+        <li
+          v-for="error in errorMessages"
+          :key="error"
+          class="error__text"
+        >
+          {{ error }}
+        </li>
+      </ul>
+    </transition>
   </div>
 </template>
 
 <script>
 export default {
   props: {
+    errorMessages: {
+      type: Array,
+      default: () => [],
+    },
     name: {
       type: String,
       default: 'inputName',
@@ -41,10 +54,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    vvas: {
-      type: String,
-      default: '',
-    },
   },
   computed: {
     classes() {
@@ -53,35 +62,51 @@ export default {
         'input--white-bg': this.whiteBg,
       };
     },
-    displayFields() {
-      if (this.vvas === '') return this.name;
-      return this.vvas;
-    },
   },
 };
 </script>
 
-<style lang="scss" scoped>
-// Defaultスタイル
+<style lang="postcss" scoped>
+/* Defaultスタイル */
 .input {
   margin-top: 5px;
   padding: 10px;
   width: 100%;
   font-size: 16px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--separatorColor);
   transition: all .5s;
   &:focus {
-    border-bottom-color: $keycolor;
+    border-bottom-color: var(--themeColor);
   }
-}
-
-.error {
-  color: red;
-  display: inline-block;
-  margin-top: 10px;
 }
 
 .input--white-bg {
   background-color: #fff;
+}
+
+.error {
+  margin-top: 10px;
+  &__text {
+    display: inline-block;
+    padding: 5px 20px;
+    color: var(--errorColor);
+    opacity: .8;
+    font-size: 13px;
+    background-color: color(var(--errorColor) a(8%));
+  }
+}
+.shake-enter-active {
+  animation: shake .6s;
+}
+@keyframes shake {
+  10% { transform: translate3d(-4px, 0, 0); }
+  20% { transform: translate3d(4px, 0, 0); }
+  30% { transform: translate3d(-3px, 0, 0); }
+  40% { transform: translate3d(3px, 0, 0); }
+  50% { transform: translate3d(-2px, 0, 0); }
+  60% { transform: translate3d(2px, 0, 0); }
+  70% { transform: translate3d(-1px, 0, 0); }
+  80% { transform: translate3d(1px, 0, 0); }
+  90% { transform: translate3d(-1px, 0, 0); }
 }
 </style>

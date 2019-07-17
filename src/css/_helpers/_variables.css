@@ -1,0 +1,31 @@
+:root {
+  /* --- z-index --- ※ コンポーネント内でのみの重なりはVueファイルに記述 */
+  --z-content: 1;
+  --z-sidebar: 2;
+  --z-header: 3;
+
+  /* --- 色 --- */
+  --themeColor: #17abe6; /* テーマカラー（ヘッダー） */
+  --subthemeColor: #337480; /* サブテーマカラー（サイドバー） */
+  --textLinkColor: #36f; /* テキストリンクに使う */
+  --createColor: #59994d; /* 新規系に使う（作成） */
+  --errorColor: #e61717; /* エラー系に使う（削除） */
+  --cautionColor: #e6c72e; /* 注意系に使う（編集） */
+  --disabledColor: #c0c6c9; /* ボタンの無効時に使ってる */
+  --separatorColor: #eaeaea; /* ボーダーや区切り線に使う */
+  --white: #fff; /* 白に使用 */
+
+  /* --- 幅 --- */
+  --pcContentWidth: 1100px; /* PCのコンテンツ幅 */
+  --mobileContentWidth: 95%; /* PC以外のコンテンツ幅 */
+  --sidebarWidth: 200px; /* sidebarの幅。変わったらこの値も変更 */
+
+  /* --- 高さ --- */
+  --headerHight: 54px; /* headerの高さ。変わったらこの値も変更 */
+
+
+  /* --- フォントの大きさ --- */
+  --normal: 400;
+  --bold: 700;
+  --black: 900;
+}

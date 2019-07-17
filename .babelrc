@@ -14,16 +14,6 @@
     }],
   ],
   "plugins": [
-    [
-      "module-resolver",
-      {
-        "alias": {
-          "@Helpers": "./src/js/_helpers",
-          "@Components": "./src/js/components",
-          "@Pages": "./src/js/pages"
-        }
-      }
-    ]
   ],
   "env": {
     "test": {

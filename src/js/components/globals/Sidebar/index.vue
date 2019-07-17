@@ -23,17 +23,17 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="css" scoped>
 .sidebar {
   position: fixed;
-  top: $headerHight;
+  top: var(--headerHight);
   left: 0;
   padding: 10px;
-  width: $sidebarWidth;
+  width: var(--sidebarWidth);
   height: 100%;
   color: #fff;
   text-align: center;
-  background-color: $darkerColor;
-  z-index: index($z, 'sidebar');
+  background-color: var(--subthemeColor);
+  z-index: var(--z-sidebar);
 }
 </style>

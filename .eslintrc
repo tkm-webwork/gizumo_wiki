@@ -20,9 +20,13 @@
           ["@Components", "./src/js/components"],
           ["@Pages", "./src/js/pages"]
         ],
-        "extensions": ['.vue', '.js', .json', '.scss']
+        "extensions": [".vue", ".js", ".json", ".css"]
       }
     }
+  },
+  "globals": {
+    "API_BASE_URL": true,
+    "MY_SESSION_STORAGE_KEY": true
   },
   "rules": {
     "no-new": "off",

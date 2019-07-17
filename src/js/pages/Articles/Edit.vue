@@ -1,50 +1,27 @@
 <template lang="html">
-  <div class="article-edit">
-    <section class="article-edit-editor">
-      <app-heading :level="1">記事更新・追加</app-heading>
-      <div class="article-edit-form">
-        <app-input
-          name="title"
-          type="text"
-          placeholder="記事のタイトルを入力してください。"
-          required
-          white-bg
-          vvas="記事のタイトル"
-          :value="title"
-          @updateValue="updateValue"
-        />
-      </div>
-
-      <div class="article-edit-form">
-        <app-textarea
-          name="content"
-          placeholder="記事の本文をマークダウン記法で入力してください。"
-          required
-          white-bg
-          :value="content"
-          @updateValue="updateValue"
-        />
-      </div>
-    </section>
-
-    <article class="article-edit-preview">
-      <app-markdown-view
-        :markdown-content="markdownContent"
-      />
-    </article>
-  </div>
+  <app-article-edit
+    :article-id="articleId"
+    :article-title="articleTitle"
+    :article-content="articleContent"
+    :markdown-content="markdownContent"
+    :current-category-name="currentCategoryName"
+    :category-list="categoryList"
+    :loading="loading"
+    :done-message="doneMessage"
+    :access="access"
+    @selectedArticleCategory="selectedArticleCategory"
+    @editedTitle="editedTitle"
+    @editedContent="editedContent"
+    @handleSubmit="handleSubmit"
+  />
 </template>
 
 <script>
-import { Heading, Input, Textarea } from '@Components/atoms';
-import { MarkdownView } from '@Components/molecules';
+import { ArticleEdit } from '@Components/molecules';
 
 export default {
   components: {
-    appHeading: Heading,
-    appInput: Input,
-    appTextarea: Textarea,
-    appMarkdownView: MarkdownView,
+    appArticleEdit: ArticleEdit,
   },
   data() {
     return {
@@ -53,35 +30,59 @@ export default {
     };
   },
   computed: {
+    articleId() {
+      let { id } = this.$route.params;
+      id = parseInt(id, 10);
+      return id;
+    },
+    articleTitle() {
+      const { title } = this.$store.state.articles.targetArticle;
+      return title;
+    },
+    articleContent() {
+      const { content } = this.$store.state.articles.targetArticle;
+      return content;
+    },
     markdownContent() {
-      return `# ${this.title}\n${this.content}`;
+      return `# ${this.articleTitle}\n${this.articleContent}`;
+    },
+    currentCategoryName() {
+      const { name } = this.$store.state.articles.targetArticle.category;
+      return name;
+    },
+    categoryList() {
+      const { categoryList } = this.$store.state.categories;
+      return categoryList;
+    },
+    loading() {
+      return this.$store.state.articles.loading;
+    },
+    doneMessage() {
+      return this.$store.state.articles.doneMessage;
+    },
+    access() {
+      return this.$store.getters['auth/access'];
     },
   },
+  created() {
+    this.$store.dispatch('categories/getAllCategories');
+    this.$store.dispatch('articles/getArticleDetail', parseInt(this.articleId, 10));
+  },
   methods: {
-    updateValue($event) {
-      this[$event.target.name] = $event.target.value;
+    editedTitle($event) {
+      this.$store.dispatch('articles/editedTitle', $event.target.value);
+    },
+    editedContent($event) {
+      this.$store.dispatch('articles/editedContent', $event.target.value);
+    },
+    handleSubmit() {
+      if (this.loading) return;
+      this.$store.dispatch('articles/updateArticle');
+    },
+    selectedArticleCategory($event) {
+      const categoryName = $event.target.value;
+      this.$store.dispatch('articles/selectedArticleCategory', categoryName);
     },
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.article-edit {
-  display: flex;
-  height: 100%;
-  &-editor {
-    padding-right: 2%;
-    width: 50%;
-    border-right: 1px solid #ccc;
-  }
-  &-preview {
-    margin-left: 2%;
-    width: 48%;
-    overflow-y: scroll;
-    background-color: #fff;
-  }
-  &-form {
-    margin-top: 20px;
-  }
-}
-</style>
