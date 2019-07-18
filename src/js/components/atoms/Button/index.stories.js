@@ -7,11 +7,24 @@ storiesOf('ATOMS|Button', module)
   .add('default', () => {
       return {
       template: `<app-button
-                    block
+                  :buttonType="buttonType"
+                  :block="block"
+                  :small="small"
+                  :round="round"
+                  :bold="bold"
+                  :themeColor="themeColor"
+                  :bgDanger="bgDanger"
+                  :bgCaution="bgCaution"
+                  :bgWhite="bgWhite"
+                  :pointer="pointer"
                   >
-                    テキスト
+                    {{ text }}
                 </app-button>`,
       props: {
+        text: {
+          type: String,
+          default: text('テキスト', 'ここにテキストが入ります'),
+        },
         buttonType: {
           type: String,
           default: text('buttonType', 'button'),
@@ -20,9 +33,37 @@ storiesOf('ATOMS|Button', module)
           type: Boolean,
           default: boolean('block', false),
         },
+        small: {
+          type: Boolean,
+          default: boolean('small', false),
+        },
         round: {
           type: Boolean,
           default: boolean('round', false),
+        },
+        bold: {
+          type: Boolean,
+          default: boolean('bold', false),
+        },
+        themeColor: {
+          type: Boolean,
+          default: boolean('themeColor', false),
+        },
+        bgDanger: {
+          type: Boolean,
+          default: boolean('bgDanger', false),
+        },
+        bgCaution: {
+          type: Boolean,
+          default: boolean('bgCaution', false),
+        },
+        bgWhite: {
+          type: Boolean,
+          default: boolean('bgWhite', false),
+        },
+        pointer: {
+          type: Boolean,
+          default: boolean('pointer', false),
         },
       },
       computed: {
@@ -30,12 +71,15 @@ storiesOf('ATOMS|Button', module)
           return {
             button: true,
             'button--block': this.block,
-            'button--large': this.large,
             'button--small': this.small,
             'button--round': this.round,
-            'button--error': this.error,
+            'button--bold': this.bold,
+            'button--theme-color': this.themeColor,
             'button--disabled': this.disabled,
-            'button--caution': this.caution,
+            'button--danger': this.bgDanger,
+            'button--bg-caution': this.bgCaution,
+            'button--bg-white': this.bgWhite,
+            'button--pointer': this.pointer,
           };
         },
       },
@@ -44,12 +88,26 @@ storiesOf('ATOMS|Button', module)
   .add('disabled', () => {
     return {
       template: `<app-button
-                    :classes="classes"
-                    :disabled="disabled"
+                  :disabled="disabled"
+                  :buttonType="buttonType"
+                  :block="block"
+                  :small="small"
+                  :round="round"
+                  :bold="bold"
+                  :themeColor="themeColor"
+                  :pointer="pointer"
                   >
-                    テキスト
+                    {{ text }}
                 </app-button>`,
     props: {
+      text: {
+        type: String,
+        default: text('テキスト', 'ここにテキストが入ります'),
+      },
+      disabled: {
+        type: Boolean,
+        default: true,
+      },
       buttonType: {
         type: String,
         default: text('buttonType', 'button'),
@@ -58,13 +116,25 @@ storiesOf('ATOMS|Button', module)
         type: Boolean,
         default: boolean('block', false),
       },
+      small: {
+        type: Boolean,
+        default: boolean('small', false),
+      },
       round: {
         type: Boolean,
         default: boolean('round', false),
       },
-      disabled: {
+      bold: {
         type: Boolean,
-        default: true,
+        default: boolean('bold', false),
+      },
+      themeColor: {
+        type: Boolean,
+        default: boolean('themeColor', false),
+      },
+      pointer: {
+        type: Boolean,
+        default: boolean('pointer', false),
       },
     },
     computed: {
@@ -72,12 +142,15 @@ storiesOf('ATOMS|Button', module)
         return {
           button: true,
           'button--block': this.block,
-          'button--large': this.large,
           'button--small': this.small,
           'button--round': this.round,
-          'button--error': this.error,
+          'button--bold': this.bold,
+          'button--theme-color': this.themeColor,
           'button--disabled': this.disabled,
-          'button--caution': this.caution,
+          'button--danger': this.bgDanger,
+          'button--bg-caution': this.bgCaution,
+          'button--bg-white': this.bgWhite,
+          'button--pointer': this.pointer,
         };
       },
     },
