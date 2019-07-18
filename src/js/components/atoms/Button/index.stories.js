@@ -7,8 +7,7 @@ storiesOf('ATOMS|Button', module)
   .add('default', () => {
       return {
       template: `<app-button
-                    :desplay="desplay"
-                    :round="round"
+                    block
                   >
                     テキスト
                 </app-button>`,
@@ -17,9 +16,9 @@ storiesOf('ATOMS|Button', module)
           type: String,
           default: text('buttonType', 'button'),
         },
-        desplay: {
+        block: {
           type: Boolean,
-          default: boolean('desplay', false),
+          default: boolean('block', false),
         },
         round: {
           type: Boolean,
@@ -44,21 +43,20 @@ storiesOf('ATOMS|Button', module)
   },{ notes: note })
   .add('disabled', () => {
     return {
-    template: `<app-button
-                  :desplay="desplay"
-                  :round="round"
-                  :disabled="disabled"
-                >
-                  テキスト
-              </app-button>`,
+      template: `<app-button
+                    :classes="classes"
+                    :disabled="disabled"
+                  >
+                    テキスト
+                </app-button>`,
     props: {
       buttonType: {
         type: String,
         default: text('buttonType', 'button'),
       },
-      desplay: {
+      block: {
         type: Boolean,
-        default: boolean('desplay', false),
+        default: boolean('block', false),
       },
       round: {
         type: Boolean,

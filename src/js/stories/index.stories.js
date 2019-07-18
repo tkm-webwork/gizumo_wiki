@@ -1,8 +1,8 @@
 import { withBackgrounds } from '@storybook/addon-backgrounds';
 import { addParameters } from '@storybook/vue';
 import backgrounds from "@storybook/addon-backgrounds";
-import '@Scss/global.scss';
-import '@Scss/storybookoverride.scss';
+import '@Css/global.css';
+import '@Css/storybookoverride.css';
 
 //atoms
 import buttonStory from '@Components/atoms/Button/index.stories';
@@ -16,7 +16,6 @@ import textareaStory from '@Components/atoms/Textarea/index.stories';
 //molecules
 import sidebarListStory from '@Components/molecules/SidebarList/index.stories';
 import articleListStory from '@Components/molecules/ArticleList/index.stories';
-import markdownViewStory from '@Components/molecules/MarkdownView/index.stories';
 
 //globals
 import headerStory from '@Components/globals/Header/index.stories';
