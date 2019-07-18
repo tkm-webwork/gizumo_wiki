@@ -65,7 +65,7 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
+<style lang="postcss" scoped>
 /* Defaultスタイル */
 .text {
   font-size: 16px;

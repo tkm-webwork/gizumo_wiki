@@ -23,7 +23,7 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
+<style lang="postcss" scoped>
 .sidebar {
   position: fixed;
   top: var(--headerHight);
