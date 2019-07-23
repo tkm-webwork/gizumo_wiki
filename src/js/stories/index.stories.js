@@ -12,6 +12,7 @@ import listItemStory from '@Components/atoms/ListItem/index.stories';
 import routerLinkStory from '@Components/atoms/RouterLink/index.stories';
 import textStory from '@Components/atoms/Text/index.stories';
 import textareaStory from '@Components/atoms/Textarea/index.stories';
+import markdownIndexStory from '@Components/atoms/MarkdownIndex/index.stories';
 
 //molecules
 import sidebarListStory from '@Components/molecules/SidebarList/index.stories';
