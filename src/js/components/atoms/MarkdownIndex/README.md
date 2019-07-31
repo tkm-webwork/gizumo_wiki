@@ -6,28 +6,17 @@
 
 ## props
 
-### スタイルの変更
+### markdownIndexesについて
 
-|props|type|デフォルト|指定できる値|説明|
-|---|---|---|---|
-|buttonType|String|`button`|---|buttonタグのtype属性の値をバインディングします|
-|display|Boolean|false|`true` or `false`|`true`のとき、`display: block`が適用されます|
-|round|Boolean|false|`true` or `false`|`true`のとき、`border-radius: 5px`が適用されます|
-|bold|Boolean|false|`true` or `false`|`true`のとき、`font-weight: bold`が適用されます|
-|thmeColor|Boolean|false|`true` or `false`|`true`のとき、`color: #17abe6`が（テーマカラー）が適用されます|
-|pointer|Boolean|false|`true` or `false`|`true`のとき、`cusor: pointer`が適用されます|
+配列にオブジェクトを格納していくのですが、オブジェクトの値に関してはページ内アンカーに必要な情報を定義しています
 
-### 種別の変更
+スムーススクロールの処理については、`vue-smoothscroll`を使用しています。
 
-|props|type|デフォルト|指定できる値|説明|
-|---|---|---|---|
-|disabled|Boolean|false|`true` or `false`|ボタンを灰色(主に非活性状態のボタン)に使用します|
-|bgDanger|Boolean|false|`true` or `false`|ボタンを赤色(主に削除のトリガーになるボタン)に使用します|
-|bgCaution|Boolean|false|`true` or `false`|ボタンを黄色(主に注意喚起のトリガーになるボタン)に使用します|
-|bgWhite|Boolean|false|`true` or `false`|ボタンを白色に変更するときに使用します|
+[https://github.com/Teddy-Zhu/vue-smoothscroll](https://github.com/Teddy-Zhu/vue-smoothscroll)
 
-### サイズの変更
-
-|props|type|デフォルト|指定できる値|説明|
-|---|---|---|---|
-|small|Boolean|false|`true` or `false`|ボタンのサイズを小さくするときに使用します|
+|key|valueのtype|説明|
+|---|---|---|
+|tagName|String|見出しのhtmlタグのレベルを指定します|
+|val|String|スクロール先の対象要素のid属性の値を指定します|
+|title|String|見出しのテキストを指定します|
+|scrollToY|Number|ページのスクロール位置を指定します|
