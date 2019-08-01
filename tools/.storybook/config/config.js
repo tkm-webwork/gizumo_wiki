@@ -19,6 +19,7 @@ import AppRouterLink from '@Components/atoms/RouterLink/index.vue';
 import AppText from '@Components/atoms/Text/index.vue';
 import AppTextarea from '@Components/atoms/Textarea/index.vue';
 import AppMarkdownIndex from '@Components/atoms/MarkdownIndex/index.vue';
+import AppMarkdownPreview from '@Components/atoms/MarkdownPreview/index.vue';
 
 //molecules
 import AppSidebarList from '@Components/molecules/SidebarList/index.vue';
@@ -45,6 +46,7 @@ Vue.component('app-router-link', AppRouterLink);
 Vue.component('app-text', AppText);
 Vue.component('app-textarea', AppTextarea);
 Vue.component('app-markdown-index', AppMarkdownIndex);
+Vue.component('app-markdown-preview', AppMarkdownPreview);
 
 //molecules
 Vue.component('app-sidebar-list', AppSidebarList);
