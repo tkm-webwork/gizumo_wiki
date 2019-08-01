@@ -1,6 +1,5 @@
 import { storiesOf } from '@storybook/vue';
 import { withKnobs, boolean } from '@storybook/addon-knobs';
-import marked from 'marked';
 import Vuex from 'vuex';
 import note from './README.md';
 //highlight.jsの依存しているgruvbox-dark.cssが読み込まれないので一旦これで。。。

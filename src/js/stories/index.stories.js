@@ -14,6 +14,8 @@ import textStory from '@Components/atoms/Text/index.stories';
 import textareaStory from '@Components/atoms/Textarea/index.stories';
 import markdownIndexStory from '@Components/atoms/MarkdownIndex/index.stories';
 import markdownPreviewStory from '@Components/atoms/MarkdownPreview/index.stories';
+import modalStory from '@Components/atoms/Modal/index.stories';
+
 //molecules
 import sidebarListStory from '@Components/molecules/SidebarList/index.stories';
 import articleListStory from '@Components/molecules/ArticleList/index.stories';
