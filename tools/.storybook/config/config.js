@@ -21,6 +21,7 @@ import AppTextarea from '@Components/atoms/Textarea/index.vue';
 import AppMarkdownIndex from '@Components/atoms/MarkdownIndex/index.vue';
 import AppMarkdownPreview from '@Components/atoms/MarkdownPreview/index.vue';
 import AppModal from '@Components/atoms/Modal/index.vue';
+import AppSelect from '@Components/atoms/Select/index.vue';
 
 //molecules
 import AppSidebarList from '@Components/molecules/SidebarList/index.vue';
@@ -49,6 +50,7 @@ Vue.component('app-textarea', AppTextarea);
 Vue.component('app-markdown-index', AppMarkdownIndex);
 Vue.component('app-markdown-preview', AppMarkdownPreview);
 Vue.component('app-modal', AppModal);
+Vue.component('app-select', AppSelect);
 
 //molecules
 Vue.component('app-sidebar-list', AppSidebarList);
