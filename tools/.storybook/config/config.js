@@ -23,14 +23,6 @@ import AppMarkdownPreview from '@Components/atoms/MarkdownPreview/index.vue';
 import AppModal from '@Components/atoms/Modal/index.vue';
 import AppSelect from '@Components/atoms/Select/index.vue';
 
-//molecules
-import AppSidebarList from '@Components/molecules/SidebarList/index.vue';
-import AppArticleList from '@Components/molecules/ArticleList/index.vue';
-
-//globals
-import AppHeader from '@Components/globals/Header/index.vue';
-import Sidebar from '@Components/globals/Sidebar/index.vue';
-
 Validator.localize('ja', ja);
 Vue.use(VeeValidate, { locale: ja });
 Vue.use(vueSmoothScroll);
@@ -51,14 +43,6 @@ Vue.component('app-markdown-index', AppMarkdownIndex);
 Vue.component('app-markdown-preview', AppMarkdownPreview);
 Vue.component('app-modal', AppModal);
 Vue.component('app-select', AppSelect);
-
-//molecules
-Vue.component('app-sidebar-list', AppSidebarList);
-Vue.component('app-article-list', AppArticleList);
-
-//globals
-Vue.component('app-header', AppHeader);
-Vue.component('app-sidebar', Sidebar);
 
 addParameters({
   backgrounds: [
