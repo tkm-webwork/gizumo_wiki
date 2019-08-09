@@ -31,12 +31,13 @@ storiesOf('ATOMS|Input', module)
   .add('default', () => {
     return {
       template: `<app-input
+                  v-validate="'required|name'"
                   :name="name"
                   :type="type"
-                  required
                   :placeholder="placeholder"
                   :value="value"
-                  :vvas="vvas"
+                  :data-vv-as="dataVvAs"
+                  :error-messages="errors.collect('name')"
                 />`,
       props: {
         name: {
@@ -47,10 +48,6 @@ storiesOf('ATOMS|Input', module)
           type: String,
           default: select('type', inputTypeOptions, inputTypeDefaultValue),
         },
-        required: {
-          type: Boolean,
-          default: boolean('required', false),
-        },
         placeholder: {
           type: String,
           default: text('placeholder', '入力してください')
@@ -59,9 +56,9 @@ storiesOf('ATOMS|Input', module)
           type: String,
           default: text('value', ''),
         },
-        vvas: {
+        dataVvAs: {
           type: String,
-          default: text('vvas', 'inputName'),
+          default: text('dataVvAs', ''),
         }
       },
     }
@@ -69,26 +66,27 @@ storiesOf('ATOMS|Input', module)
   .add('whiteBg', () => {
     return {
       template: `<app-input
+                  :whiteBg="whiteBg"
+                  v-validate="'required|name'"
                   :name="name"
                   :type="type"
                   :placeholder="placeholder"
-                  :required="required"
                   :value="value"
-                  :vvas="vvas"
-                  whiteBg
+                  :data-vv-as="dataVvAs"
+                  :error-messages="errors.collect('name')"
                 />`,
       props: {
+        whiteBg: {
+          type: Boolean,
+          default: true,
+        },
         name: {
           type: String,
-          default: 'inputName',
+          default: text('name', 'inputName'),
         },
         type: {
           type: String,
           default: select('type', inputTypeOptions, inputTypeDefaultValue),
-        },
-        required: {
-          type: Boolean,
-          default: boolean('required', false),
         },
         placeholder: {
           type: String,
@@ -98,14 +96,10 @@ storiesOf('ATOMS|Input', module)
           type: String,
           default: text('value', ''),
         },
-        whiteBg: {
-          type: Boolean,
-          default: true,
-        },
-        vvas: {
+        dataVvAs: {
           type: String,
-          default: text('vvas', 'inputName'),
+          default: text('dataVvAs', ''),
         }
-      }
+      },
     }
   },{ notes: note });

@@ -1,8 +1,9 @@
 import { storiesOf } from '@storybook/vue';
 import { withKnobs, boolean } from '@storybook/addon-knobs';
-import marked from 'marked';
 import Vuex from 'vuex';
 import note from './README.md';
+//highlight.jsの依存しているgruvbox-dark.cssが読み込まれないので一旦これで。。。
+import '@Css/storybookmarkdownpreview.css';
 
 const mockUpData = {
   namespace: true,
@@ -16,50 +17,7 @@ const mockUpData = {
       {
         id: 1,
         title: 'JavaScriptとは',
-        content: `
-          Front Lessonで学習したHTMLやCSSはページを構成し装飾するための**マークアップ言語**です。  
-          これからやってもらうJavaScriptというものは**プログラミング言語**です。
-
-          <img src="https://res.cloudinary.com/gizumo-inc/image/upload/v1542180696/curriculums/Front%20lesson/first-markup/03.jpg">
-
-          プログラミング言語というものは「こうしたら、こう動く」というプログラムを作るための言語になります。
-
-          JavaScriptと**Java**は別物なので、間違えないようにしましょう。
-
-
-          ## 特徴
-
-          ここではとっつきづらいことを説明しているので、なんとなく理解できれば問題ないです。
-
-          JavaScriptはテキストエディタとブラウザがあれば書いたコードの確認ができます。
-
-          なぜかと言うと、JavaScriptは<span style="color: red; font-weight: bold;">ブラウザ側で動作する言語</span>だからです。ブラウザに実装されているJavaScriptエンジンというもので解釈されます。ただ、ブラウザごとにJavaScriptエンジンが違うので、**違う動きをする**ことがあります。  
-          余談ですが、HTML/CSSはブラウザのレンダリングエンジンというもので解釈されます。
-
-          また、書き方がどんどん進化していたり、React・Vueなどのライブラリ・フレームワークがつくられ、一言にJavaScriptと言っても**やってることにはかなりの幅があります**。
-
-
-          ## よくやること・できること
-
-          JavaScriptでよくやることとして、第一に上がってくるものはやはり<span style="color: red; font-weight: bold;">HTML要素の操作</span>です。
-
-          jQueryのレッスンでもやってもらいますが、作ったページにほぼ際限なく動きをつけることが可能です。  
-          例えば下記のようなことです。
-
-          - メニューボタンを押すとスライドして表示されるメニュー
-          - 画像が順番に切り替わるスライドショー
-          - スクロールすると表示される、上に戻るボタン
-          - メニューをクリックするとその場所までスクロールしてくれるもの
-          - 選択したボタンの種類に紐づく商品のみの表示
-
-          ただ、このようなHTML操作に焦点が行きがちですが<span style="color: red; font-weight: bold;">それだけではありません</span>。
-
-          それ以外にも、ユーザーが使ってる端末やブラウザの情報を取得して処理を変えることやURLのパラメータによって処理を変えたり、URLを変更して別のページに遷移させることなんかも可能です。  
-          JavaScriptに触れたこともないという方は想像ができないかもしれませんが、別のサーバーなどにリクエストを送ってそれに応じて返ってきたデータを表示するといったことも可能です。
-
-
-          また、前述のReactやVueではそれとは次元が違う使われ方をされています。それについては、jQueryの次のレッスンで軽く触れる予定です。
-        `,
+        content: "## このレッスンでやること\n\nこのレッスンでやることは、下記になります。\n\n- ・ コンポーネント指向について確認\n- ・ componentsについて確認\n\n## コンポーネント指向について\n\nページを構成する要素をそれぞれ再利用可能な部品（コンポーネント）として分割し、それらを組み合わせてページをつくりあげていく手法をwebフロントエンドの世界では「**コンポーネント指向開発**」といいます。\n\nどの粒度で部品を作成していけば良いのかという話になってきますが、その際にチームで共有できるコンポーネントの設計指針が必要となってきます。  \nその中でもデファクトスタンダードとなりつつあるのは、「**Atomic Design**」という概念です、調べてみましょう。  \nVue.jsにはVueインスタンスをコンポーネント化して使用する仕組みが提供されているので、「**コンポーネント指向開発**」に最適です。\n\n続いて、その仕組みを確認していきましょう。\n\n## componentsについて\n\nVue.jsではVueインスタンスをコンポーネント化して使用できる仕組みが提供されています。\n\n具体的にはVueインスタンス内では別のVueインスタンスを使用することができます。\n\n今回のサンプルでいうと、「App.vue」内で別の「<span style=\"color: red; font-weight: bold;\">.vue</span>」ファイルをインポートして使用することができます。  \n続いて実際に「App.vue」内で他の「<span style=\"color: red; font-weight: bold;\">.vue</span>」ファイルを使用できるよう編集していきます。\n\n早速、「App.vue」内で別のVueインスタンスを使用していきます。  \n「components」ディレクトリ内に「ChildComponent.vue」を作成してください。\n\n```\n├── .babelrc\n├── .git\n├── .gitignore\n├── node_modules\n├── package-lock.json\n├── package.json\n├── public\n├── src\n│   ├── components\n│   │   ├──App.vue\n│   │   ├──ChildComponent.vue・・・追加\n│   └── index.js\n└── webpack.config.babel.js\n```\n\n「ChildComponent.vue」内には下記を記述します。\n\n```html\n<template>\n  <h2>Child Component</h2>\n</template>\n```\n\n続いて「ChildComponent.vue」を「App.vue」内でインポートしましょう。  \n「App.vue」を編集します。\n\n```html\n<template>\n  <div>\n    <h1>{{message}}</h1>\n    <hr>\n    <child-component></child-component>\n  </div>\n</template>\n```\n\nマークアップに追加した`child-component`とは、「ChildComponent.vue」を置き換えるカスタムタグの指定になります。  \n\n```html\n<script>\n  import ChildComponent from 'Components/ChildComponent';\n\n  export default {\n    data() {\n      return {\n        message: '<span>Hello Vue</span>',\n      }\n    },\n    components: {\n      ChildComponent,\n    }\n  }\n</script>\n```\n\n`import`文の追加と、`components`というキーのオブジェクトが追加されています。  \nこのオブジェクトには、Vueインスタンス内で使用する他のVueインスタンスを記述していきます。\n\n「ChildComponent.vue」を`ChildComponent`と「パスカルケース」でインポートしていますが、これには理由があります。  \n`components`には使用するカスタムタグ名をキー、値には`import`したVueインスタンスを指定します。  \n\n```javascript\n  components: {\n    ChildComponent,\n  }\n```\n\n上記は「**es6**」の記法で、キーと値が同じ文字列のとき、省略して記述することができます。  \nつまり、省略しないと下記の形式になります。\n\n```javascript\n  components: {\n    ChildComponent: ChildComponent,\n  }\n```\n\n`components`に指定したキーがパスカルケースのとき、「<span style=\"color: red; font-weight: bold;\">vue-loader</span>」によって「ケバブケース」に変換されます。\n\nつまり、最終的に下記の指定と同義になるので、「カスタムタグ」に対して「Vueインスタンス」を置き換えることができているということになります！\n\n```javascript\n  components: {\n    'child-component': ChildComponent,\n  }\n```\n\n「components」については以上になります。",
       },
     ],
   },
@@ -88,14 +46,14 @@ const mockUpData = {
   }
 }
 
-storiesOf('MOLECULES|MarkdownView', module)
+storiesOf('ATOMS|MarkdownPreview', module)
   .addDecorator(withKnobs)
   .add('default', () => {
     return {
-      template: `<app-markdown-view
+      template: `<app-markdown-preview
                   :markdown-content="markdownContent"
                 >
-                </app-markdown-view>`,
+                </app-markdown-preview>`,
       computed: {
         markdownContent() {
           const { title, content } = this.$store.state.articles.targetArticle;;
@@ -113,15 +71,15 @@ storiesOf('MOLECULES|MarkdownView', module)
     }
   }, { notes: note });
 
-storiesOf('MOLECULES|MarkdownView', module)
+storiesOf('ATOMS|MarkdownPreview', module)
   .addDecorator(withKnobs)
   .add('whiteBg', () => {
     return {
-      template: `<app-markdown-view
+      template: `<app-markdown-preview
                   :markdown-content="markdownContent"
                   whiteBg
                 >
-                </app-markdown-view>`,
+                </app-markdown-preview>`,
       props: {
         whiteBg: {
           type: Boolean,
