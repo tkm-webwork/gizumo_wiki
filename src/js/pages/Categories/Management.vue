@@ -8,6 +8,7 @@
         :done-message="doneMessage"
         :access="access"
         @udpateValue="updateValue"
+        @postCategory="postCategory"
         @clearMessage="clearMessage"
       />
     </section>
@@ -79,6 +80,13 @@ export default {
       this.$store.dispatch('categories/clearMessage');
       this.$store.dispatch('categories/confirmDeleteCategory',
         { categoryId, categoryName });
+    },
+    postCategory() {
+      this.$store.dispatch('categories/postCategory', this.category)
+        .then(() => {
+          this.$store.dispatch('categories/getAllCategories');
+          this.category = '';
+        });
     },
     deleteCategory() {
       this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId)
