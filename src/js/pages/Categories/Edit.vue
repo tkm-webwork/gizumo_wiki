@@ -7,7 +7,7 @@
       :done-message="doneMessage"
       :error-message="errorMessage"
       @clearMessage="clearMessage"
-      @updateCategory="updateCategory"
+      @handleSubmit="updateCategory"
       @updateValue="updateValue"
     />
   </div>
