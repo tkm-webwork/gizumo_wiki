@@ -6,14 +6,10 @@ export default {
     loading: false,
     errorMessage: '',
     doneMessage: '',
-    categoryList: [],
     deleteCategoryId: null,
     deleteCategoryName: '',
     updateCategoryId: null,
     updateCategoryName: '',
-  },
-  getters: {
-    categoryList: state => state.categoryList,
   },
   actions: {
     clearMessage({ commit }) {
@@ -23,12 +19,8 @@ export default {
       axios(rootGetters['auth/token'])({
         method: 'GET',
         url: '/category',
-      }).then((response) => {
-        const payload = { categories: [] };
-        response.data.categories.forEach((val) => {
-          payload.categories.push(val);
-        });
-        commit('doneGetAllCategories', payload);
+      }).then(() => {
+        commit('doneGetAllCategories');
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
       });
@@ -109,9 +101,7 @@ export default {
       state.errorMessage = '';
       state.doneMessage = '';
     },
-    doneGetAllCategories(state, { categories }) {
-      state.categoryList = [...categories];
-    },
+    doneGetAllCategories() {},
     failFetchCategory(state, { message }) {
       state.errorMessage = message;
     },

@@ -15,7 +15,13 @@
     <section class="category-management-list">
       <app-category-list
         :theads="theads"
-        :categories="categoryList"
+        :categories="
+          [
+            {
+              'id': 9999,
+              'name': 'ダミーカテゴリー',
+            }
+          ]"
         :delete-category-name="deleteCategoryName"
         :access="access"
         @openModal="openModal"
@@ -53,9 +59,6 @@ export default {
     },
     doneMessage() {
       return this.$store.state.categories.doneMessage;
-    },
-    categoryList() {
-      return this.$store.state.categories.categoryList;
     },
     deleteCategoryId() {
       return this.$store.state.categories.deleteCategoryId;
