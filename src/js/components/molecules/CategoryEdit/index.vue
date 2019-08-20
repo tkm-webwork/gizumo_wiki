@@ -19,6 +19,7 @@
       placeholder="カテゴリー名を入力してください"
       data-vv-as="カテゴリー名"
       :value="updateCategoryName"
+      :error-messages="errors.collect('updateCategory')"
       @updateValue="$emit('updateValue', $event)"
     />
     <app-button
