@@ -14,10 +14,10 @@
         </tr>
       </thead>
       <transition-group name="fade" tag="tbody" class="category-list__table__body">
-        <tr key="1">
+        <tr v-for="category in categories" :key="category.id">
           <td>
             <app-text tag="span">
-              ここにカテゴリー名が入ります
+              {{ category.name }}
             </app-text>
           </td>
           <td>
@@ -25,6 +25,7 @@
               underline
               small
               hover-opacity
+              :to="`/articles?=category=${category.name}`"
             >
               このカテゴリーの記事
             </app-router-link>
@@ -34,6 +35,7 @@
               theme-color
               underline
               hover-opacity
+              :to="`/categories/${category.id}`"
             >
               更新
             </app-router-link>
@@ -44,6 +46,7 @@
               small
               round
               :disabled="!access.delete"
+              @click="openModal(category.id, category.name)"
             >
               削除
             </app-button>
@@ -65,12 +68,13 @@
           theme-color
           tag="p"
         >
-          ここに削除するカテゴリー名が入ります
+          {{ deleteCategoryName }}
         </app-text>
         <app-button
           class="category-list__modal__button"
           bg-danger
           round
+          @click="handleClick"
         >
           削除する
         </app-button>
@@ -110,6 +114,16 @@ export default {
     access: {
       type: Object,
       default: () => ({}),
+    },
+  },
+  methods: {
+    openModal(categoryId, categoryName) {
+      if (!this.access.delete) return;
+      this.$emit('openModal', categoryId, categoryName);
+    },
+    handleClick() {
+      if (!this.access.delete) return;
+      this.$emit('handleClick');
     },
   },
 };

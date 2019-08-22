@@ -10,6 +10,7 @@ export default {
     deleteCategoryName: '',
     updateCategoryId: null,
     updateCategoryName: '',
+    categoriesList: [],
   },
   actions: {
     clearMessage({ commit }) {
@@ -19,8 +20,12 @@ export default {
       axios(rootGetters['auth/token'])({
         method: 'GET',
         url: '/category',
-      }).then(() => {
-        commit('doneGetAllCategories');
+      }).then((response) => {
+        const categoriesList = [];
+        response.data.categories.forEach((category) => {
+          categoriesList.push(category);
+        });
+        commit('doneGetAllCategories', categoriesList);
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
       });
@@ -101,7 +106,9 @@ export default {
       state.errorMessage = '';
       state.doneMessage = '';
     },
-    doneGetAllCategories() {},
+    doneGetAllCategories(state, categoriesList) {
+      state.categoriesList = categoriesList;
+    },
     failFetchCategory(state, { message }) {
       state.errorMessage = message;
     },
