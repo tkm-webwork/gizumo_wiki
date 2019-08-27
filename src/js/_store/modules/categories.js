@@ -12,6 +12,9 @@ export default {
     updateCategoryName: '',
     categoriesList: [],
   },
+  getters: {
+    categoryList: state => state.categoriesList,
+  },
   actions: {
     clearMessage({ commit }) {
       commit('clearMessage');
