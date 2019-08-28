@@ -51,8 +51,8 @@ export default {
       return name;
     },
     categoryList() {
-      const { categoryList } = this.$store.state.categories;
-      return categoryList;
+      const { categoriesList } = this.$store.state.categories;
+      return categoriesList;
     },
     loading() {
       return this.$store.state.articles.loading;
