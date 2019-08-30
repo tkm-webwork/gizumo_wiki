@@ -119,6 +119,20 @@ export default {
     displayDoneMessage(state, payload = { message: '成功しました' }) {
       state.doneMessage = payload.message;
     },
+    loadLocalStorage(state, payload) {
+      state.targetArticle = Object.assign(
+        {},
+        { ...state.targetArticle },
+        {
+          title: payload.title,
+          content: payload.content,
+          category: {
+            id: payload.category.id,
+            name: payload.category.name,
+          },
+        },
+      );
+    },
   },
   actions: {
     initPostArticle({ commit }) {
@@ -278,6 +292,7 @@ export default {
         }).then(() => {
           commit('toggleLoading');
           commit('displayDoneMessage', { message: 'ドキュメントを作成しました' });
+          localStorage.removeItem('data');
           resolve();
         }).catch((err) => {
           commit('toggleLoading');
@@ -288,6 +303,23 @@ export default {
     },
     clearMessage({ commit }) {
       commit('clearMessage');
+    },
+    saveLocalStorage({ state }) {
+      const data = {
+        title: state.targetArticle.title,
+        content: state.targetArticle.content,
+        category: {
+          id: state.targetArticle.category.id,
+          name: state.targetArticle.category.name,
+        },
+      };
+      localStorage.setItem('data', JSON.stringify(data));
+    },
+    loadLocalStorage({ commit }) {
+      const data = JSON.parse(localStorage.getItem('data'));
+      if (data) {
+        commit('loadLocalStorage', data);
+      }
     },
   },
 };

@@ -50,9 +50,21 @@ export default {
       return this.$store.state.articles.errorMessage;
     },
   },
+  watch: {
+    categoryName() {
+      this.$store.dispatch('articles/saveLocalStorage');
+    },
+    articleTitle() {
+      this.$store.dispatch('articles/saveLocalStorage');
+    },
+    articleContent() {
+      this.$store.dispatch('articles/saveLocalStorage');
+    },
+  },
   created() {
     this.$store.dispatch('categories/getAllCategories');
     this.$store.dispatch('articles/initPostArticle');
+    this.$store.dispatch('articles/loadLocalStorage');
   },
   methods: {
     newTitle($event) {
