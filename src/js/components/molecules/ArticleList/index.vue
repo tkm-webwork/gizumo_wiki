@@ -16,6 +16,17 @@
     >
       新しいドキュメントを作る
     </app-router-link>
+    <app-router-link
+      to="articles/trashed"
+      key-color
+      white
+      bgDanger
+      round
+      hover-opacity
+      small
+    >
+      削除済み記事一覧
+    </app-router-link>
     <transition-group
       class="article-list__articles"
       name="fade"

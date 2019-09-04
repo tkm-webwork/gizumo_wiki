@@ -17,6 +17,7 @@ import ArticlePost from './ArticlePost';
 import ArticleDetail from './ArticleDetail';
 import DeleteModal from './Modal';
 import Notice from './Notice';
+import ArticleDelete from './ArticleDelete';
 
 export {
   SigninForm,
@@ -38,4 +39,5 @@ export {
   ArticleDetail,
   DeleteModal,
   Notice,
+  ArticleDelete,
 };
