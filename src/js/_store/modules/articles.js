@@ -24,6 +24,7 @@ export default {
       },
     },
     articleList: [],
+    deletedArticleList: [],
     deleteArticleId: null,
     loading: false,
     doneMessage: '',
@@ -132,6 +133,9 @@ export default {
           },
         },
       );
+    },
+    doneGetAllDeletedArticles(state, payload) {
+      state.deletedArticleList = [...payload.articles];
     },
   },
   actions: {
@@ -320,6 +324,19 @@ export default {
       if (data) {
         commit('loadLocalStorage', data);
       }
+    },
+    getAllDeletedArticles({ commit, rootGetters }) {
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: '/article/trashed',
+      }).then((res) => {
+        const payload = {
+          articles: res.data.articles,
+        };
+        commit('doneGetAllDeletedArticles', payload);
+      }).catch((err) => {
+        commit('failRequest', { message: err.message });
+      });
     },
   },
 };
