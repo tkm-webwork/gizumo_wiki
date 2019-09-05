@@ -20,7 +20,7 @@
       to="articles/trashed"
       key-color
       white
-      bgDanger
+      bg-danger
       round
       hover-opacity
       small

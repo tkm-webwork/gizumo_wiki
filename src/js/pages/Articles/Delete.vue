@@ -2,7 +2,7 @@
   <div>
     <app-article-delete
       :target-array="deletedArticleList"
-     />
+    />
   </div>
 </template>
 

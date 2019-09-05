@@ -9,7 +9,7 @@
     >
       <button
         class="article-delete__button"
-        :class="{ 'article-delete__open' : isOpened[index] }"
+        :class="{ 'article-delete__open' : isOpened.includes(index) }"
         @click="accordionToggle(index)"
       >
         <app-text
@@ -27,7 +27,7 @@
         @leave="leave"
       >
         <div
-          v-if="isOpened[index]"
+          v-if="isOpened.includes(index)"
           class="article-delete__content"
         >
           <div class="article-delete__content__box">
@@ -89,16 +89,14 @@ export default {
       isOpened: [],
     };
   },
-  watch: {
-    targetArray() {
-      for (let i = 0; i < this.targetArray.length; i += 1) {
-        this.isOpened.push(false);
-      }
-    },
-  },
   methods: {
     accordionToggle(index) {
-      this.$set(this.isOpened, index, !this.isOpened[index]);
+      if (!this.isOpened.includes(index)) {
+        this.isOpened.push(index);
+      } else {
+        const num = this.isOpened.indexOf(index);
+        this.isOpened.splice(num, 1);
+      }
     },
     beforeEnter(el) {
       const status = el;
@@ -124,6 +122,7 @@ export default {
 .article-delete {
   &__list {
     display: block;
+    overflow: hidden;
   }
   &__button {
     position: relative;
@@ -170,33 +169,6 @@ export default {
       transform: rotateX(180deg);
       margin-top: -10px;
     }
-  }
-}
-.content-enter-active {
-  animation-duration: .4s;
-  animation-fill-mode: both;
-  animation-timing-function: ease-in;
-  animation-name: content-opend;
-}
-.content-leave-active {
-  animation-duration: .2s;
-  animation-fill-mode: both;
-  animation-name: content-closed;
-}
-@keyframes content-opend {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-@keyframes content-closed {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
   }
 }
 </style>
