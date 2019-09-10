@@ -3,6 +3,9 @@
     <div v-if="doneMessage" class="article-list__notice--create">
       <app-text bg-success>{{ doneMessage }}</app-text>
     </div>
+    <div v-if="errorMessage" class="article-list__notice--create">
+      <app-text bg-error>{{ errorMessage }}</app-text>
+    </div>
     <app-heading :level="1">{{ articleTitle }}</app-heading>
     <app-router-link
       to="articles/post"
@@ -92,6 +95,60 @@
         削除
       </app-button>
     </app-modal>
+    <div class="article-list__pagination">
+      <app-router-link
+        v-if="!isFirstPage"
+        key-color
+        white
+        bg-lightgreen
+        small
+        round
+        hover-opacity
+        :to="'/articles/?page=1'"
+        class="article-list__pagination--margin"
+      >
+        最初
+      </app-router-link>
+      <app-router-link
+        v-if="!isFirstPage"
+        key-color
+        white
+        bg-lightgreen
+        small
+        round
+        hover-opacity
+        :to="`/articles/?page=${currentPage - 1}`"
+        class="article-list__pagination--margin"
+      >
+        前
+      </app-router-link>
+      <app-router-link
+        v-if="!isLastPage"
+        key-color
+        white
+        bg-lightgreen
+        small
+        round
+        hover-opacity
+        :to="`/articles?page=${currentPage + 1}`"
+        class="article-list__pagination--margin"
+      >
+        次
+      </app-router-link>
+      <app-router-link
+        v-if="!isLastPage"
+        key-color
+        white
+        bg-lightgreen
+        small
+        round
+        hover-opacity
+        :to="`/articles?page=${lastPage}`"
+        class="article-list__pagination--margin"
+      >
+        最後
+      </app-router-link>
+    </div>
   </div>
 </template>
 
@@ -133,9 +190,21 @@ export default {
       type: String,
       default: '',
     },
+    errorMessage: {
+      type: String,
+      default: '',
+    },
     access: {
       type: Object,
       default: () => ({}),
+    },
+    currentPage: {
+      type: Number,
+      default: () => 0,
+    },
+    lastPage: {
+      type: Number,
+      default: null,
     },
   },
   computed: {
@@ -144,6 +213,12 @@ export default {
     },
     buttonText() {
       return this.access.delete ? '削除' : '削除権限がありません';
+    },
+    isFirstPage() {
+      return this.currentPage === 1;
+    },
+    isLastPage() {
+      return this.currentPage === this.lastPage;
     },
   },
   methods: {
@@ -179,6 +254,16 @@ export default {
     }
     &__notice--create {
       margin-bottom: 16px;
+    }
+    &__pagination {
+      margin-top: 20px;
+      text-align: center;
+      &--margin {
+        margin-left: 15px;
+      }
+      &--margin:first-child {
+        margin-left: 0;
+      }
     }
   }
 </style>

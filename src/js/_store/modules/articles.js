@@ -29,6 +29,8 @@ export default {
     loading: false,
     doneMessage: '',
     errorMessage: '',
+    currentPage: null,
+    lastPage: null,
   },
   getters: {
     transformedArticles(state) {
@@ -137,20 +139,32 @@ export default {
     doneGetAllDeletedArticles(state, payload) {
       state.deletedArticleList = [...payload.articles];
     },
+    setLastPage(state, payload) {
+      state.lastPage = payload;
+    },
+    setCurrentPage(state, payload) {
+      state.currentPage = payload;
+    },
   },
   actions: {
     initPostArticle({ commit }) {
       commit('initPostArticle');
     },
-    getAllArticles({ commit, rootGetters }) {
+    getAllArticles({ commit, rootGetters }, pageNum) {
       axios(rootGetters['auth/token'])({
         method: 'GET',
-        url: '/article',
+        url: `/article?page=${pageNum}`,
       }).then((res) => {
+        if (res.data.articles.length === 0) throw new Error('記事一覧が取得できませんでした。');
+
         const payload = {
           articles: res.data.articles,
+          lastPage: res.data.meta.last_page,
+          currentPage: res.data.meta.current_page,
         };
         commit('doneGetAllArticles', payload);
+        commit('setCurrentPage', payload.currentPage);
+        commit('setLastPage', payload.lastPage);
       }).catch((err) => {
         commit('failRequest', { message: err.message });
       });

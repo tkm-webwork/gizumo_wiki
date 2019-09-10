@@ -4,7 +4,10 @@
       :title="title"
       :target-array="articlesList"
       :done-message="doneMessage"
+      :error-message="errorMessage"
       :access="access"
+      :current-page="currentPage"
+      :last-page="lastPage"
       border-gray
       @openModal="openModal"
       @handleClick="handleClick"
@@ -22,7 +25,8 @@ export default {
   },
   mixins: [Mixins],
   beforeRouteUpdate(to, from, next) {
-    this.fetchArticles();
+    const pageNum = to.query.page;
+    this.fetchArticles(pageNum);
     next();
   },
   data() {
@@ -37,12 +41,22 @@ export default {
     doneMessage() {
       return this.$store.state.articles.doneMessage;
     },
+    errorMessage() {
+      return this.$store.state.articles.errorMessage;
+    },
     access() {
       return this.$store.getters['auth/access'];
     },
+    currentPage() {
+      return this.$store.state.articles.currentPage;
+    },
+    lastPage() {
+      return this.$store.state.articles.lastPage;
+    },
   },
   created() {
-    this.fetchArticles();
+    const pageNum = this.$route.query.page ? this.$route.query.page : 1;
+    this.fetchArticles(pageNum);
   },
   methods: {
     openModal(articleId) {
@@ -67,7 +81,7 @@ export default {
         this.$store.dispatch('articles/getAllArticles');
       }
     },
-    fetchArticles() {
+    fetchArticles(pageNum) {
       if (this.$route.query.category) {
         const { category } = this.$route.query;
         this.title = category;
@@ -80,7 +94,7 @@ export default {
             // console.log(err);
           });
       } else {
-        this.$store.dispatch('articles/getAllArticles');
+        this.$store.dispatch('articles/getAllArticles', pageNum);
       }
     },
   },
