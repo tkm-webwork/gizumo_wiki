@@ -200,7 +200,7 @@ export default {
     },
     currentPage: {
       type: Number,
-      default: () => 0,
+      default: 0,
     },
     lastPage: {
       type: Number,
