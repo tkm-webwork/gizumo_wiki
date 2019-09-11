@@ -104,7 +104,7 @@
         small
         round
         hover-opacity
-        :to="'/articles/?page=1'"
+        :to="{ path: '/articles', query: { page: 1, category: category }}"
         class="article-list__pagination--margin"
       >
         最初
@@ -117,7 +117,7 @@
         small
         round
         hover-opacity
-        :to="`/articles/?page=${currentPage - 1}`"
+        :to="{ path: '/articles', query: { page: currentPage - 1, category: category }}"
         class="article-list__pagination--margin"
       >
         前
@@ -130,7 +130,7 @@
         small
         round
         hover-opacity
-        :to="`/articles?page=${currentPage + 1}`"
+        :to="{ path: '/articles', query: { page: currentPage + 1, category: category }}"
         class="article-list__pagination--margin"
       >
         次
@@ -143,7 +143,7 @@
         small
         round
         hover-opacity
-        :to="`/articles?page=${lastPage}`"
+        :to="{ path: '/articles', query: { page: lastPage, category: category }}"
         class="article-list__pagination--margin"
       >
         最後
@@ -205,6 +205,10 @@ export default {
     lastPage: {
       type: Number,
       default: null,
+    },
+    category: {
+      type: String,
+      default: undefined,
     },
   },
   computed: {

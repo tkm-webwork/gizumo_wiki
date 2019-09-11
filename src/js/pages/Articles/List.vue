@@ -8,6 +8,7 @@
       :access="access"
       :current-page="currentPage"
       :last-page="lastPage"
+      :category="selectedCategory"
       border-gray
       @openModal="openModal"
       @handleClick="handleClick"
@@ -53,6 +54,9 @@ export default {
     lastPage() {
       return this.$store.state.articles.lastPage;
     },
+    selectedCategory() {
+      return this.$store.state.articles.selectedCategory;
+    },
   },
   created() {
     const pageNum = this.$route.query.page ? this.$route.query.page : 1;
@@ -85,7 +89,7 @@ export default {
       if (this.$route.query.category) {
         const { category } = this.$route.query;
         this.title = category;
-        this.$store.dispatch('articles/filteredArticles', category)
+        this.$store.dispatch('articles/getAllArticles', { pageNum, category })
           .then(() => {
             if (this.$store.state.articles.articleList.length === 0) {
               this.$router.push({ path: '/notfound' });
@@ -94,7 +98,8 @@ export default {
             // console.log(err);
           });
       } else {
-        this.$store.dispatch('articles/getAllArticles', pageNum);
+        const category = undefined;
+        this.$store.dispatch('articles/getAllArticles', { pageNum, category });
       }
     },
   },

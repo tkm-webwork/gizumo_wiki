@@ -31,6 +31,7 @@ export default {
     errorMessage: '',
     currentPage: null,
     lastPage: null,
+    selectedCategory: '',
   },
   getters: {
     transformedArticles(state) {
@@ -145,28 +146,45 @@ export default {
     setCurrentPage(state, payload) {
       state.currentPage = payload;
     },
+    setSelectedCategory(state, payload) {
+      state.selectedCategory = payload;
+    },
   },
   actions: {
     initPostArticle({ commit }) {
       commit('initPostArticle');
     },
-    getAllArticles({ commit, rootGetters }, pageNum) {
-      axios(rootGetters['auth/token'])({
-        method: 'GET',
-        url: `/article?page=${pageNum}`,
-      }).then((res) => {
-        if (res.data.articles.length === 0) throw new Error('記事一覧が取得できませんでした。');
+    getAllArticles({ commit, rootGetters }, { pageNum, category }) {
+      return new Promise((resolve, reject) => {
+        axios(rootGetters['auth/token'])({
+          method: 'GET',
+          url: '/article',
+          params: {
+            page: pageNum,
+            category,
+          },
+        }).then((res) => {
+          if (res.data.articles.length === 0) throw new Error('記事一覧が取得できませんでした。');
 
-        const payload = {
-          articles: res.data.articles,
-          lastPage: res.data.meta.last_page,
-          currentPage: res.data.meta.current_page,
-        };
-        commit('doneGetAllArticles', payload);
-        commit('setCurrentPage', payload.currentPage);
-        commit('setLastPage', payload.lastPage);
-      }).catch((err) => {
-        commit('failRequest', { message: err.message });
+          const payload = {
+            articles: res.data.articles,
+            lastPage: res.data.meta.last_page,
+            currentPage: res.data.meta.current_page,
+            category,
+          };
+          commit('setCurrentPage', payload.currentPage);
+          commit('setLastPage', payload.lastPage);
+          commit('setSelectedCategory', payload.category);
+          if (category) {
+            commit('doneFilteredArticles', payload);
+          } else {
+            commit('doneGetAllArticles', payload);
+          }
+          resolve();
+        }).catch((err) => {
+          commit('failRequest', { message: err.message });
+          reject(new Error('エラーが発生しました'));
+        });
       });
     },
     getArticleDetail({ commit, rootGetters }, articleId) {
@@ -207,25 +225,6 @@ export default {
       commit({
         type: 'editedContent',
         content,
-      });
-    },
-    filteredArticles({ commit, rootGetters }, category) {
-      return new Promise((resolve, reject) => {
-        axios(rootGetters['auth/token'])({
-          method: 'GET',
-          url: '/article',
-        }).then((res) => {
-          const payload = {
-            category,
-            articles: res.data.articles,
-          };
-          commit('doneFilteredArticles', payload);
-          resolve();
-        }).catch((err) => {
-          console.log(err);
-          commit('failRequest', { message: err.message });
-          reject(new Error('エラーが発生しました'));
-        });
       });
     },
     selectedArticleCategory({ commit, rootGetters }, categoryName) {
