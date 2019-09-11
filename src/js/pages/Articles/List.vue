@@ -70,37 +70,33 @@ export default {
     handleClick() {
       this.$store.dispatch('articles/deleteArticle');
       this.toggleModal();
-      if (this.$route.query.category) {
-        const { category } = this.$route.query;
-        this.title = category;
-        this.$store.dispatch('articles/filteredArticles', category)
-          .then(() => {
-            if (this.$store.state.articles.articleList.length === 0) {
-              this.$router.push({ path: '/notfound' });
-            }
-          }).catch(() => {
-            // console.log(err);
-          });
-      } else {
-        this.$store.dispatch('articles/getAllArticles');
-      }
+      const pageNum = this.$route.query.page;
+      const category = this.$route.query.category
+        ? this.$route.query.category
+        : undefined;
+      if (category) this.title = category;
+      this.$store.dispatch('articles/getAllArticles', { pageNum, category })
+        .then(() => {
+          if (this.$store.state.articles.articleList.length === 0) {
+            this.$router.push({ path: '/notfound' });
+          }
+        }).catch(() => {
+          // console.log(err);
+        });
     },
     fetchArticles(pageNum) {
-      if (this.$route.query.category) {
-        const { category } = this.$route.query;
-        this.title = category;
-        this.$store.dispatch('articles/getAllArticles', { pageNum, category })
-          .then(() => {
-            if (this.$store.state.articles.articleList.length === 0) {
-              this.$router.push({ path: '/notfound' });
-            }
-          }).catch(() => {
-            // console.log(err);
-          });
-      } else {
-        const category = undefined;
-        this.$store.dispatch('articles/getAllArticles', { pageNum, category });
-      }
+      const category = this.$route.query.category
+        ? this.$route.query.category
+        : undefined;
+      if (category) this.title = category;
+      this.$store.dispatch('articles/getAllArticles', { pageNum, category })
+        .then(() => {
+          if (this.$store.state.articles.articleList.length === 0) {
+            this.$router.push({ path: '/notfound' });
+          }
+        }).catch(() => {
+          // console.log(err);
+        });
     },
   },
 };
