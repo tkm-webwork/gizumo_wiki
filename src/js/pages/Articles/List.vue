@@ -27,7 +27,8 @@ export default {
   mixins: [Mixins],
   beforeRouteUpdate(to, from, next) {
     const pageNum = to.query.page;
-    this.fetchArticles(pageNum);
+    const { category } = to.query;
+    this.fetchArticles(pageNum, category);
     next();
   },
   data() {
@@ -60,7 +61,10 @@ export default {
   },
   created() {
     const pageNum = this.$route.query.page ? this.$route.query.page : 1;
-    this.fetchArticles(pageNum);
+    const category = this.$route.query.category
+      ? this.$route.query.category
+      : undefined;
+    this.fetchArticles(pageNum, category);
   },
   methods: {
     openModal(articleId) {
@@ -84,10 +88,7 @@ export default {
           // console.log(err);
         });
     },
-    fetchArticles(pageNum) {
-      const category = this.$route.query.category
-        ? this.$route.query.category
-        : undefined;
+    fetchArticles(pageNum, category) {
       if (category) this.title = category;
       this.$store.dispatch('articles/getAllArticles', { pageNum, category })
         .then(() => {
