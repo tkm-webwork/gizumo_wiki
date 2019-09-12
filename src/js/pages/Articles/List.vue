@@ -4,7 +4,11 @@
       :title="title"
       :target-array="articlesList"
       :done-message="doneMessage"
+      :error-message="errorMessage"
       :access="access"
+      :current-page="currentPage"
+      :last-page="lastPage"
+      :category="selectedCategory"
       border-gray
       @openModal="openModal"
       @handleClick="handleClick"
@@ -22,12 +26,14 @@ export default {
   },
   mixins: [Mixins],
   beforeRouteUpdate(to, from, next) {
-    this.fetchArticles();
+    const pageNum = to.query.page;
+    const { category } = to.query;
+    this.fetchArticles(pageNum, category);
     next();
   },
   data() {
     return {
-      title: 'すべて',
+      title: '',
     };
   },
   computed: {
@@ -37,12 +43,26 @@ export default {
     doneMessage() {
       return this.$store.state.articles.doneMessage;
     },
+    errorMessage() {
+      return this.$store.state.articles.errorMessage;
+    },
     access() {
       return this.$store.getters['auth/access'];
     },
+    currentPage() {
+      return this.$store.state.articles.currentPage;
+    },
+    lastPage() {
+      return this.$store.state.articles.lastPage;
+    },
+    selectedCategory() {
+      return this.$store.state.articles.selectedCategory;
+    },
   },
   created() {
-    this.fetchArticles();
+    const pageNum = this.$route.query.page || 1;
+    const category = this.$route.query.category || undefined;
+    this.fetchArticles(pageNum, category);
   },
   methods: {
     openModal(articleId) {
@@ -52,36 +72,29 @@ export default {
     handleClick() {
       this.$store.dispatch('articles/deleteArticle');
       this.toggleModal();
-      if (this.$route.query.category) {
-        const { category } = this.$route.query;
-        this.title = category;
-        this.$store.dispatch('articles/filteredArticles', category)
-          .then(() => {
-            if (this.$store.state.articles.articleList.length === 0) {
-              this.$router.push({ path: '/notfound' });
-            }
-          }).catch(() => {
-            // console.log(err);
-          });
-      } else {
-        this.$store.dispatch('articles/getAllArticles');
-      }
+      const pageNum = this.$route.query.page;
+      const category = this.$route.query.category || undefined;
+      if (category) this.title = category;
+      this.$store.dispatch('articles/getAllArticles', { pageNum, category })
+        .then(() => {
+          if (this.$store.state.articles.articleList.length === 0) {
+            this.$router.push({ path: '/notfound' });
+          }
+        }).catch(() => {
+          // console.log(err);
+        });
     },
-    fetchArticles() {
-      if (this.$route.query.category) {
-        const { category } = this.$route.query;
-        this.title = category;
-        this.$store.dispatch('articles/filteredArticles', category)
-          .then(() => {
-            if (this.$store.state.articles.articleList.length === 0) {
-              this.$router.push({ path: '/notfound' });
-            }
-          }).catch(() => {
-            // console.log(err);
-          });
-      } else {
-        this.$store.dispatch('articles/getAllArticles');
-      }
+    fetchArticles(pageNum, category) {
+      const categoryTitle = category || 'すべて';
+      this.title = categoryTitle;
+      this.$store.dispatch('articles/getAllArticles', { pageNum, category })
+        .then(() => {
+          if (this.$store.state.articles.articleList.length === 0) {
+            this.$router.push({ path: '/notfound' });
+          }
+        }).catch(() => {
+          // console.log(err);
+        });
     },
   },
 };
