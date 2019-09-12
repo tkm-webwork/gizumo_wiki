@@ -158,7 +158,6 @@ export default {
             category,
           },
         }).then((res) => {
-          console.log(res.data.articles);
           if (res.data.articles.length === 0) throw new Error('記事一覧が取得できませんでした。');
 
           const payload = {

@@ -33,7 +33,7 @@ export default {
   },
   data() {
     return {
-      title: 'すべて',
+      title: '',
     };
   },
   computed: {
@@ -60,10 +60,8 @@ export default {
     },
   },
   created() {
-    const pageNum = this.$route.query.page ? this.$route.query.page : 1;
-    const category = this.$route.query.category
-      ? this.$route.query.category
-      : undefined;
+    const pageNum = this.$route.query.page || 1;
+    const category = this.$route.query.category || undefined;
     this.fetchArticles(pageNum, category);
   },
   methods: {
@@ -75,9 +73,7 @@ export default {
       this.$store.dispatch('articles/deleteArticle');
       this.toggleModal();
       const pageNum = this.$route.query.page;
-      const category = this.$route.query.category
-        ? this.$route.query.category
-        : undefined;
+      const category = this.$route.query.category || undefined;
       if (category) this.title = category;
       this.$store.dispatch('articles/getAllArticles', { pageNum, category })
         .then(() => {
@@ -89,7 +85,8 @@ export default {
         });
     },
     fetchArticles(pageNum, category) {
-      if (category) this.title = category;
+      const categoryTitle = category || 'すべて';
+      this.title = categoryTitle;
       this.$store.dispatch('articles/getAllArticles', { pageNum, category })
         .then(() => {
           if (this.$store.state.articles.articleList.length === 0) {
