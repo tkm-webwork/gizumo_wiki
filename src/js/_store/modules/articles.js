@@ -85,12 +85,6 @@ export default {
         content: payload.content,
       });
     },
-    doneFilteredArticles(state, payload) {
-      const filteredArticles = payload.articles.filter(
-        article => article.category && article.category.name === payload.category,
-      );
-      state.articleList = [...filteredArticles];
-    },
     doneGetAllArticles(state, payload) {
       state.articleList = [...payload.articles];
     },
@@ -164,6 +158,7 @@ export default {
             category,
           },
         }).then((res) => {
+          console.log(res.data.articles);
           if (res.data.articles.length === 0) throw new Error('記事一覧が取得できませんでした。');
 
           const payload = {
@@ -175,11 +170,7 @@ export default {
           commit('setCurrentPage', payload.currentPage);
           commit('setLastPage', payload.lastPage);
           commit('setSelectedCategory', payload.category);
-          if (category) {
-            commit('doneFilteredArticles', payload);
-          } else {
-            commit('doneGetAllArticles', payload);
-          }
+          commit('doneGetAllArticles', payload);
           resolve();
         }).catch((err) => {
           commit('failRequest', { message: err.message });
