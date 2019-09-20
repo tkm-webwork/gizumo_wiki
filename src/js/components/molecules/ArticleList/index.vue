@@ -30,6 +30,17 @@
     >
       削除済み記事一覧
     </app-router-link>
+    <app-router-link
+      to="articles/sort"
+      key-color
+      white
+      bg-lightgreen
+      round
+      hover-opacity
+      small
+    >
+      ソート記事一覧
+    </app-router-link>
     <transition-group
       class="article-list__articles"
       name="fade"

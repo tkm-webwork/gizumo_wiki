@@ -19,6 +19,7 @@ import ArticleDetail from '@Pages/Articles/Detail';
 import ArticleEdit from '@Pages/Articles/Edit';
 import ArticlePost from '@Pages/Articles/Post';
 import ArticleDelete from '@Pages/Articles/Delete';
+import ArticleSort from '@Pages/Articles/Sort';
 
 // 自分のアカウントページ
 import Profile from '@Pages/Profile';
@@ -105,6 +106,11 @@ const router = new VueRouter({
           name: 'articleDelete',
           path: 'trashed',
           component: ArticleDelete,
+        },
+        {
+          name: 'articleSort',
+          path: 'sort',
+          component: ArticleSort,
         },
         {
           name: 'articleDetail',
