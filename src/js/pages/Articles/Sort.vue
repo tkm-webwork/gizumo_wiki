@@ -6,6 +6,8 @@
       :filter-article-list="filterArticleList"
       :year="searchResult.year"
       :user="searchResult.user"
+      :error-message="errorMessage"
+      :component-name="componentName"
       @selectedYear="selectedYear"
       @selectedUser="selectedUser"
       @handleSubmit="handleSubmit"
@@ -28,16 +30,18 @@ export default {
         year: '',
         user: '',
       },
+      componentName: '',
+      errorMessage: '',
       filterArticleList: [],
     };
   },
   computed: {
     creationYear() {
-      const years = this.$store.state.articles.articleList;
+      const articleYear = this.$store.state.articles.articleList;
       const array = [];
-      years.forEach((val) => {
-        const year = new Date(val.user.created_at).getFullYear();
-        array.push(year);
+      articleYear.forEach((val) => {
+        const years = new Date(val.user.created_at).getFullYear();
+        array.push(years);
       });
       const newArray = array.filter((v, i, a) => a.indexOf(v) === i);
       return newArray;
@@ -64,19 +68,29 @@ export default {
       this.user = $event.target.value;
     },
     handleSubmit() {
+      this.searchResult.year = '';
+      this.searchResult.user = '';
+      if (!this.year && !this.user) {
+        this.errorMessage = '作成年・ユーザーどちらか選択必須です';
+        this.filterArticleList = [];
+        return;
+      }
+      this.errorMessage = '';
       this.searchResult.year = this.year;
       this.searchResult.user = this.user;
       const newArticleList = this.articleList.slice();
       const newUserList = this.userList.slice();
       const newCreationYear = this.creationYear.slice();
       const filterYear = newArticleList.filter((val) => {
-        const year = new Date(val.created_at).getFullYear();
-        return year === Number(this.year);
+        const articleYear = new Date(val.created_at).getFullYear();
+        return articleYear === Number(this.year);
       });
       if (this.year && this.user) {
+        this.componentName = 'both';
         const filterUser = filterYear.filter(val => this.user === val.user.full_name);
         this.filterArticleList = filterUser;
       } else if (this.year) {
+        this.componentName = 'year';
         const filteringYear = newUserList.reduce((acc, value) => {
           const obj = {};
           obj.user = value;
@@ -85,8 +99,10 @@ export default {
           acc.push(obj);
           return acc;
         }, []);
-        this.filterArticleList = filteringYear;
+        const creatorHasArticle = filteringYear.filter(val => val.articles.length);
+        this.filterArticleList = creatorHasArticle;
       } else {
+        this.componentName = 'user';
         const filteringUser = newCreationYear.reduce((acc, value) => {
           const obj = {};
           obj.year = value;

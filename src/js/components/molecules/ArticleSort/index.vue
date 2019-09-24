@@ -29,9 +29,6 @@
         {{ users }}
       </option>
     </app-select>
-    <div>
-      {{ userList }}
-    </div>
     <app-button
       class="article-sort__button"
       round
@@ -40,96 +37,23 @@
       検索
     </app-button>
     <div class="article-sort__box">
-      <div v-if="year && user">
-        <app-text>
-          {{ year }}
-        </app-text>
-        <app-text>
-          {{ user }}
-        </app-text>
-        <app-list-item
-          v-for="article in filterArticleList"
-          :key="article.id"
-          flex
-          beetween
-          align-items
-          bg-white
-          large
-          border-bottom-gray
-        >
-          <app-text>
-            {{ article.title }}
-          </app-text>
-        </app-list-item>
-      </div>
-      <div
-        v-else-if="year"
-        class="article-sort__box"
+      <app-text
+        v-if="errorMessage"
+        bg-error
       >
-        <app-text>
-          {{ year }}
-        </app-text>
-        <app-list-item
-          v-for="article in filterArticleList"
-          :key="article.id"
-          beetween
-          align-items
-          flex
-          bg-white
-          large
-          border-bottom-gray
-        >
-          <app-text class="article-sort__box__user">
-            {{ article.user }}
-          </app-text>
-          <app-list-item
-            v-for="articleTitle in article.articles"
-            :key="articleTitle.id"
-            beetween
-            flex
-            bg-white
-            large
-          >
-            <app-text class="article-sort__box__title">
-              {{ articleTitle.title }}
-            </app-text>
-          </app-list-item>
-        </app-list-item>
-      </div>
-      <div
-        v-else
-        class="article-sort__box"
+        {{ errorMessage }}
+      </app-text>
+      <transition
+        name="fade"
+        mode="out-in"
       >
-        <app-text>
-          {{ user }}
-        </app-text>
-        <app-list-item
-          v-for="article in filterArticleList"
-          :key="article.id"
-          beetween
-          align-items
-          flex
-          bg-white
-          large
-          border-bottom-gray
-        >
-          <app-text class="article-sort__box__user">
-            {{ article.year }}
-          </app-text>
-          <app-list-item
-            v-for="articleTitle in article.articles"
-            :key="articleTitle.id"
-            beetween
-            flex
-            bg-white
-            large
-          >
-            <app-text class="article-sort__box__title">
-              {{ articleTitle.title }}
-            </app-text>
-          </app-list-item>
-        </app-list-item>
-      </div>
+        <component
+          :is="componentName"
+          :filter-article-list="filterArticleList"
+          :year="year"
+          :user="user"
+        />
+      </transition>
     </div>
   </div>
 </template>
@@ -142,6 +66,9 @@ import {
   ListItem,
   Text,
 } from '@Components/atoms';
+import both from './both';
+import year from './year';
+import user from './user';
 
 export default {
   components: {
@@ -150,6 +77,9 @@ export default {
     appButton: Button,
     appListItem: ListItem,
     appText: Text,
+    both,
+    year,
+    user,
   },
   props: {
     creationYear: {
@@ -172,6 +102,14 @@ export default {
       type: String,
       default: '',
     },
+    componentName: {
+      type: String,
+      default: '',
+    },
+    errorMessage: {
+      type: String,
+      default: '',
+    },
   },
 };
 </script>
@@ -186,5 +124,11 @@ export default {
       display: block;
     }
   }
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .3s ease;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 </style>

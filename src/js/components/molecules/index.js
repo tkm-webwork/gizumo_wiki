@@ -19,6 +19,9 @@ import DeleteModal from './Modal';
 import Notice from './Notice';
 import ArticleDelete from './ArticleDelete';
 import ArticleSort from './ArticleSort';
+import both from './ArticleSort/both';
+import year from './ArticleSort/year';
+import user from './ArticleSort/user';
 
 export {
   SigninForm,
@@ -42,4 +45,7 @@ export {
   Notice,
   ArticleDelete,
   ArticleSort,
+  both,
+  year,
+  user,
 };
