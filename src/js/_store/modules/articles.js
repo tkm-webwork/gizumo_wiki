@@ -198,14 +198,14 @@ export default {
     },
     selectedArticleCategory({ commit, rootGetters }, categoryName) {
       const categoryList = rootGetters['categories/categoryList'];
-      let matches = categoryList.find(category => category.name === categoryName);
+      const matches = categoryList.find(category => category.name === categoryName);
       // カテゴリーが空のときのidとnameは下記をセット
-      if (!matches) {
-        matches = {
-          id: null,
-          name: '',
-        };
-      }
+      // if (!matches) {
+      //   matches = {
+      //     id: null,
+      //     name: '',
+      //   };
+      // }
       const payload = {
         category: matches,
       };

@@ -81,6 +81,7 @@ export default {
     },
     selectedArticleCategory($event) {
       const categoryName = $event.target.value;
+      console.log(categoryName);
       this.$store.dispatch('articles/selectedArticleCategory', categoryName);
     },
   },
