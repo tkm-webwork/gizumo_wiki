@@ -52,6 +52,27 @@ export default {
         });
       });
     },
+    addCategory({ commit, rootGetters }, categoryName) {
+      commit('toggleLoading'); // ローディングエフェクト発動
+      const data = new URLSearchParams(); // クエリストリング作成
+      data.append('name', categoryName); // 追加するカテゴリー名追加
+      return new Promise((resolve) => {
+        axios(rootGetters['auth/token'])({ // auth storeからtokenを引っ張ってくる
+          method: 'POST',
+          url: '/category',
+          data,
+        }).then((response) => {
+          if (response.data.code === 0) throw new Error(response.data.message);
+
+          commit('doneAddCategory');
+          commit('toggleLoading'); // ローディングエフェクト停止
+          resolve();
+        }).catch((err) => {
+          commit('failFetchCategory', { message: err.message });
+          commit('toggleLoading'); // ローディングエフェクト停止
+        });
+      });
+    },
   },
   mutations: {
     clearMessage(state) {
@@ -76,5 +97,9 @@ export default {
       state.deleteCategoryName = '';
       state.doneMessage = 'カテゴリーの削除が完了しました。';
     },
+    doneAddCategory(state) {
+      state.doneMessage = 'カテゴリーの追加が完了しました。';
+    }
+
   },
 };
