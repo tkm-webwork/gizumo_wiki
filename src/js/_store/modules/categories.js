@@ -1,5 +1,4 @@
 import axios from '@Helpers/axiosDefault';
-import {categories} from "./index";
 
 export default {
   namespaced: true,
