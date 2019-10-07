@@ -88,7 +88,6 @@ export default {
       this.$validator.validate().then((valid) => {
         if (valid) this.$emit('handleSubmit');
       });
-      // this.$emit('handleSubmit');
     },
   },
 };

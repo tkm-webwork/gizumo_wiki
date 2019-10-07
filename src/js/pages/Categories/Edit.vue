@@ -57,8 +57,6 @@ export default {
       this.$store.dispatch('categories/editCategoryName', $event.target.value);
     },
     updateCategory() {
-      console.log(this.updateCategoryId);
-      console.log(this.updateCategoryName);
       if (this.loading) return;
       this.$store.dispatch('categories/updateCategory');
     },

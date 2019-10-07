@@ -77,22 +77,12 @@ export default {
       });
     },
     setUpdateCategory({ commit, rootGetters }, categoryId) {
-      // const category = rootGetters['categories/categoryList'].find(item => item.id === parseInt(categoryId, 10));
-      // console.log(category);
-      // // commit('setUpdateCategory', categoryId);
       axios(rootGetters['auth/token'])({
         method: 'GET',
         url: '/category',
       }).then((response) => {
-        console.log(response.data.categories);
         const category = response.data.categories.find(item => item.id === parseInt(categoryId, 10));
-        console.log(category);
         commit('setUpdateCategory', { category });
-        // const payload = { categories: [] };
-        // response.data.categories.forEach((val) => {
-        //   payload.categories.push(val);
-        // });
-        // commit('doneGetAllCategories', payload);
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
       });
@@ -109,7 +99,6 @@ export default {
         url: `/category/${rootGetters['categories/updateCategoryId']}`,
         data,
       }).then((response) => {
-        console.log(response);
         if (response.data.code === 0) throw new Error(response.data.message);
 
         commit('doneUpdateCategory');
