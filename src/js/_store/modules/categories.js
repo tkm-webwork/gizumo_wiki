@@ -16,28 +16,50 @@ export default {
     categoryList: state => state.categoryList,
     updateCategoryId: state => state.updateCategoryId,
     updateCategoryName: state => state.updateCategoryName,
+    deleteCategoryId: state => state.deleteCategoryId,
+    deleteCategoryName: state => state.deleteCategoryName,
   },
   actions: {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
-    getAllCategories({ commit }) {
-      const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
-      commit('doneGetAllCategories', payload);
+    getAllCategories({ commit, rootGetters }) {
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: '/category',
+      }).then((response) => {
+        const categoryList = response.data.categories;
+        // const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
+        const payload = { categories: [] }; // 値消し
+        categoryList.forEach((el) => {
+          payload.categories.push(el);
+        });
+        commit('doneGetAllCategories', payload);
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+      });
+    },
+    setDeleteCategory({ commit }, { categoryId, categoryName }) {
+      return new Promise((resolve) => {
+        commit('setDeleteCategory', { categoryId, categoryName });
+        resolve();
+      });
     },
     deleteCategory({ commit, rootGetters }, categoryId) {
+      commit('toggleLoading');
       return new Promise((resolve) => {
         axios(rootGetters['auth/token'])({
           method: 'DELETE',
           url: `/category/${categoryId}`,
         }).then((response) => {
-          // NOTE: エラー時はresponse.data.codeが0で返ってくる。
           if (response.data.code === 0) throw new Error(response.data.message);
 
           commit('doneDeleteCategory');
+          commit('toggleLoading');
           resolve();
         }).catch((err) => {
           commit('failFetchCategory', { message: err.message });
+          commit('toggleLoading');
         });
       });
     },
@@ -67,7 +89,8 @@ export default {
         method: 'GET',
         url: '/category',
       }).then((response) => {
-        const category = response.data.categories.find(item => item.id === parseInt(categoryId, 10));
+        const category = response.data.categories
+          .find(item => item.id === parseInt(categoryId, 10));
         commit('setUpdateCategory', { category });
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
@@ -109,9 +132,13 @@ export default {
     toggleLoading(state) {
       state.loading = !state.loading;
     },
+    setDeleteCategory(state, { categoryId, categoryName }) {
+      state.deleteCategoryId = categoryId;
+      state.deleteCategoryName = categoryName;
+    },
     doneDeleteCategory(state) {
-      state.deleteCategoryId = null;
-      state.deleteCategoryName = '';
+      // state.deleteCategoryId = null;
+      // state.deleteCategoryName = '';
       state.doneMessage = 'カテゴリーの削除が完了しました。';
     },
     doneAddCategory(state) {

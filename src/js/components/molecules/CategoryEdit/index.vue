@@ -73,7 +73,7 @@ export default {
     updateCategoryName: {
       type: String,
       default: '',
-    }
+    },
   },
   computed: {
     buttonText() {
