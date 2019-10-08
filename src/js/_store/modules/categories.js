@@ -14,6 +14,8 @@ export default {
   },
   getters: {
     categoryList: state => state.categoryList,
+    updateCategoryId: state => state.updateCategoryId,
+    updateCategoryName: state => state.updateCategoryName,
   },
   actions: {
     clearMessage({ commit }) {
@@ -73,6 +75,38 @@ export default {
         });
       });
     },
+    setUpdateCategory({ commit, rootGetters }, categoryId) {
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: '/category',
+      }).then((response) => {
+        const category = response.data.categories.find(item => item.id === parseInt(categoryId, 10));
+        commit('setUpdateCategory', { category });
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+      });
+    },
+    editCategoryName({ commit }, categoryName) {
+      commit('editCategoryName', categoryName);
+    },
+    updateCategory({ commit, rootGetters }) {
+      commit('toggleLoading');
+      const data = new URLSearchParams();
+      data.append('name', rootGetters['categories/updateCategoryName']);
+      axios(rootGetters['auth/token'])({
+        method: 'PUT',
+        url: `/category/${rootGetters['categories/updateCategoryId']}`,
+        data,
+      }).then((response) => {
+        if (response.data.code === 0) throw new Error(response.data.message);
+
+        commit('doneUpdateCategory');
+        commit('toggleLoading');
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+        commit('toggleLoading');
+      });
+    },
   },
   mutations: {
     clearMessage(state) {
@@ -99,7 +133,16 @@ export default {
     },
     doneAddCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました。';
-    }
-
+    },
+    setUpdateCategory(state, { category }) {
+      state.updateCategoryId = category.id;
+      state.updateCategoryName = category.name;
+    },
+    editCategoryName(state, categoryName) {
+      state.updateCategoryName = categoryName;
+    },
+    doneUpdateCategory(state) {
+      state.doneMessage = 'カテゴリーの更新が完了しました。';
+    },
   },
 };
