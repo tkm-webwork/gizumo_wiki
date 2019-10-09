@@ -65,6 +65,7 @@ export default {
     },
   },
   created() {
+    this.$store.dispatch('articles/clearMessage');
     this.$store.dispatch('categories/getAllCategories');
     this.$store.dispatch('articles/getArticleDetail', parseInt(this.articleId, 10));
   },
