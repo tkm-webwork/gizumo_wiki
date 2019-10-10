@@ -99,6 +99,15 @@ const router = new VueRouter({
           name: 'articlePost',
           path: 'post',
           component: ArticlePost,
+          beforeEnter(to, from, next) {
+            const isReload = from.name === null;
+            if (isReload) {
+              next();
+            } else {
+              localStorage.removeItem('targetArticle');
+              next();
+            }
+          },
         },
         {
           name: 'articleDetail',
