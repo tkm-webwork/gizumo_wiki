@@ -50,11 +50,28 @@ export default {
     access() {
       return this.$store.getters['auth/access'];
     },
+    targetArticle() {
+      return this.$store.state.articles.targetArticle;
+    },
+  },
+  watch: {
+    targetArticle: {
+      handler(newArticle) {
+        localStorage.setItem('targetArticle', JSON.stringify(newArticle));
+      },
+      deep: true,
+    },
   },
   created() {
+    this.$store.dispatch('categories/getAllCategories');
     this.$store.dispatch('articles/clearMessage');
     this.$store.dispatch('articles/initPostArticle');
-    this.$store.dispatch('categories/getAllCategories');
+  },
+  mounted() {
+    if (localStorage.getItem('targetArticle')) {
+      this.$store.dispatch('articles/setTargetArticle',
+        JSON.parse(localStorage.getItem('targetArticle')));
+    }
   },
   methods: {
     selectedArticleCategory($event) {
@@ -69,6 +86,7 @@ export default {
     handleSubmit() {
       if (this.loading) return;
       this.$store.dispatch('articles/postArticle').then(() => {
+        localStorage.removeItem('targetArticle');
         this.$router.push({
           path: '/articles',
           query: { redirect: this.$route.fullPath },

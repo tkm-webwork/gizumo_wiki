@@ -74,6 +74,9 @@ export default {
     doneGetArticles(state, payload) {
       state.articleList = [...payload.articles];
     },
+    setTargetArticle(state, payload) {
+      state.targetArticle = Object.assign({}, state.targetArticle, payload);
+    },
     editedTitle(state, payload) {
       state.targetArticle = Object.assign({}, { ...state.targetArticle }, {
         title: payload.title,
@@ -271,6 +274,9 @@ export default {
     },
     clearMessage({ commit }) {
       commit('clearMessage');
+    },
+    setTargetArticle({ commit }, targetArticle) {
+      commit('setTargetArticle', targetArticle);
     },
   },
 };
