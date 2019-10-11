@@ -73,31 +73,6 @@ export default {
     },
   },
   actions: {
-    checkAuth({ commit }, { token }) {
-      return new Promise((resolve, reject) => {
-        if (!token) {
-          commit('signInFailure');
-          reject(new Error('認証に失敗しました'));
-        } else {
-          axios(token)({
-            method: 'GET',
-            url: '/me',
-          }).then((response) => {
-            if (response.data.code === 0) {
-              commit('signInFailure');
-              return reject();
-            }
-
-            const payload = { token, user: response.data.user };
-            commit('signInSuccess', payload);
-            return resolve();
-          }).catch(() => {
-            commit('signInFailure', { errorMessage: 'エラーが発生しました。' });
-            reject(new Error('エラーが発生しました'));
-          });
-        }
-      });
-    },
     signIn({ commit }, { email, password }) {
       commit('sendRequest');
       return new Promise((resolve, reject) => {
