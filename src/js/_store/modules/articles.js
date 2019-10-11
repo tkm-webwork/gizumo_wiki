@@ -24,6 +24,7 @@ export default {
       },
     },
     articleList: [],
+    deletedArticleList: [],
     deleteArticleId: null,
     loading: false,
     doneMessage: '',
@@ -45,6 +46,7 @@ export default {
     },
     targetArticle: state => state.targetArticle,
     deleteArticleId: state => state.deleteArticleId,
+    deletedArticleList: state => state.deletedArticleList,
   },
   mutations: {
     initPostArticle(state) {
@@ -115,6 +117,9 @@ export default {
     },
     displayDoneMessage(state, payload = { message: '成功しました' }) {
       state.doneMessage = payload.message;
+    },
+    doneGetDeletedArticle(state, payload) {
+      state.deletedArticleList = [...payload.articles];
     },
   },
   actions: {
@@ -277,6 +282,19 @@ export default {
     },
     setTargetArticle({ commit }, targetArticle) {
       commit('setTargetArticle', targetArticle);
+    },
+    getDeletedArticle({ commit, rootGetters }) {
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: '/article/trashed',
+      }).then((res) => {
+        const payload = {
+          articles: res.data.articles,
+        };
+        commit('doneGetDeletedArticle', payload);
+      }).catch((err) => {
+        commit('failRequest', { message: err.message });
+      });
     },
   },
 };
