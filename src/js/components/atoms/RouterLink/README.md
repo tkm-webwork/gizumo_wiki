@@ -28,7 +28,7 @@
 ## 種別の変更
 
 |props|type|デフォルト|指定できる値|説明|
-|---|---|---|---|
+|---|---|---|---|---|
 |bgThemeColor|Boolean|false|true or false|`true`だと背景色にテーマカラー(<span style="color: #17abe6;">17abe6</span>)を適用します|
 |bgDanger|Boolean|false|true or false|`true`だと背景色に赤(<span style="color: #e61717;">e61717</span>)を適用します(主にリソースの削除やエラー表示系に使用)|
 |bgLightGreen|Boolean|false|true or false|`true`だと背景色に緑(<span style="color: #59994d">59994d</span>)を適用します(主にリソースの作成に使用)|

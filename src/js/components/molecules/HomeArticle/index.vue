@@ -10,8 +10,11 @@
           hover-opacity
           hover-underline
         >
-          <span class="home-article__list__category">
+          <span v-if="article.category" class="home-article__list__category">
             {{ article.category.name }}
+          </span>
+          <span v-else class="home-article__list__category">
+            カテゴリー:未設定
           </span>
           <p class="home-article__list__title">
             {{ article.title }}
