@@ -17,6 +17,18 @@
       新しいドキュメントを作る
     </app-router-link>
     <app-router-link
+      to="articles/author_list"
+      key-color
+      white
+      bg-lightgreen
+      small
+      round
+      hover-opacity
+      class="article-list__create-link"
+    >
+      作成者ごとに表示
+    </app-router-link>
+    <app-router-link
       to="articles/trashed"
       key-color
       white
