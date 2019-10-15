@@ -11,6 +11,11 @@ export default {
     deleteCategoryName: '',
     updateCategoryId: null,
     updateCategoryName: '',
+    // 追記
+    targetTodo:{
+      inputCategoryName:'',
+      id: null,
+    }
   },
   getters: {
     categoryList: state => state.categoryList,
@@ -18,6 +23,20 @@ export default {
   actions: {
     clearMessage({ commit }) {
       commit('clearMessage');
+    },
+    registerCategoryName({ commit },registerCategoryName){
+      commit('doneRegisterCategoryName',{registerCategoryName});
+    },
+    handleSubmit({ commit, rootGetters }){
+      axios(rootGetters['auth/token'])({
+        method: 'POST',
+        url: `/category`,
+      }).then((response) => {
+        console.log(response);
+        commit('doneRegister');
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+      });
     },
     getAllCategories({ commit, rootGetters }) {
       axios(rootGetters['auth/token'])({
@@ -44,7 +63,6 @@ export default {
         }).then((response) => {
           // NOTE: エラー時はresponse.data.codeが0で返ってくる。
           if (response.data.code === 0) throw new Error(response.data.message);
-
           commit('doneDeleteCategory');
           resolve();
         }).catch((err) => {
@@ -68,8 +86,8 @@ export default {
     },
     updateCategory({ commit, rootGetters }) {
       commit('toggleLoading');
-      const data = new URLSearchParams();
-      data.append('id', this.state.categories.updateCategoryId);
+      const data = new URLSearchParams(); // 編集するカテゴリーによってURLを用意するAPI
+      data.append('id', this.state.categories.updateCategoryId); // 恐らくdata内のidに対しリアクティブプロパティのupdateCategoryIdをappendしてる
       data.append('name', this.state.categories.updateCategoryName);
       axios(rootGetters['auth/token'])({
         method: 'PUT',
@@ -89,6 +107,15 @@ export default {
     clearMessage(state) {
       state.errorMessage = '';
       state.doneMessage = '';
+    },
+    doneRegisterCategoryName(state,{registerCategoryName}){
+      state.targetTodo.inputCategoryName = registerCategoryName;
+      console.log(registerCategoryName);
+      console.log(state.targetTodo);
+    },
+    doneRegister(state){
+      console.log('mutations : doneRegister')
+      state.doneMessage = 'カテゴリーの登録が完了しました。';
     },
     doneGetAllCategories(state, { categories }) {
       state.categoryList = [...categories];
