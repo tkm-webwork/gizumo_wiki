@@ -15,7 +15,7 @@
 [https://github.com/Teddy-Zhu/vue-smoothscroll](https://github.com/Teddy-Zhu/vue-smoothscroll)
 
 |key|valueのtype|説明|
-|---|---|---|
+|---|---|---|---|
 |tagName|String|見出しのhtmlタグのレベルを指定します|
 |val|String|スクロール先の対象要素のid属性の値を指定します|
 |title|String|見出しのテキストを指定します|
