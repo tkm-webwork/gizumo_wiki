@@ -7,9 +7,10 @@
         :error-message="errorMessage"
         :done-message="doneMessage"
         :access="access"
+        :input-category-name="inputCategoryName"
         @udpateValue="updateValue"
         @clearMessage="clearMessage"
-        @handleSubmit="handleSubmit"
+        @handleSubmit="registerCategory"
       />
     </section>
     <section class="category-management-list">
@@ -42,6 +43,9 @@ export default {
     };
   },
   computed: {
+    inputCategoryName() {
+      return this.$store.state.categories.inputCategoryName;
+    },
     access() {
       return this.$store.getters['auth/access'];
     },
@@ -71,13 +75,16 @@ export default {
   methods: {
     updateValue($event) {
       this[$event.target.name] = $event.target.value;
-      this.$store.dispatch('categories/registerCategoryName',$event.target.value);
+      this.$store.dispatch('categories/inputCategoryName', $event.target.value);
     },
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
     },
-    handleSubmit(){
-      this.$store.dispatch('categories/handleSubmit');
+    registerCategory() {
+      this.$store.dispatch('categories/registerCategory')
+        .then(() => {
+          this.$store.dispatch('categories/getAllCategories');
+        });
     },
     openModal(categoryId, categoryName) {
       this.toggleModal();

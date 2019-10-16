@@ -11,11 +11,7 @@ export default {
     deleteCategoryName: '',
     updateCategoryId: null,
     updateCategoryName: '',
-    // 追記
-    targetTodo:{
-      inputCategoryName:'',
-      id: null,
-    }
+    inputCategoryName: '',
   },
   getters: {
     categoryList: state => state.categoryList,
@@ -24,19 +20,8 @@ export default {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
-    registerCategoryName({ commit },registerCategoryName){
-      commit('doneRegisterCategoryName',{registerCategoryName});
-    },
-    handleSubmit({ commit, rootGetters }){
-      axios(rootGetters['auth/token'])({
-        method: 'POST',
-        url: `/category`,
-      }).then((response) => {
-        console.log(response);
-        commit('doneRegister');
-      }).catch((err) => {
-        commit('failFetchCategory', { message: err.message });
-      });
+    inputCategoryName({ commit }, registerCategoryName) {
+      commit('doneInputCategoryName', { registerCategoryName });
     },
     getAllCategories({ commit, rootGetters }) {
       axios(rootGetters['auth/token'])({
@@ -48,6 +33,23 @@ export default {
           payload.categories.push(val);
         });
         commit('doneGetAllCategories', payload);
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+      });
+    },
+    registerCategory({ commit, rootGetters }) {
+      commit('toggleLoading');
+      axios(rootGetters['auth/token'])({
+        method: 'POST',
+        url: '/category',
+        data: {
+          name: this.state.categories.inputCategoryName,
+        },
+      }).then((response) => {
+        const payload = { registerCategories: [] };
+        payload.registerCategories.push(response.data.category);
+        commit('doneRegisterCategory', payload);
+        commit('toggleLoading');
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
       });
@@ -86,8 +88,8 @@ export default {
     },
     updateCategory({ commit, rootGetters }) {
       commit('toggleLoading');
-      const data = new URLSearchParams(); // 編集するカテゴリーによってURLを用意するAPI
-      data.append('id', this.state.categories.updateCategoryId); // 恐らくdata内のidに対しリアクティブプロパティのupdateCategoryIdをappendしてる
+      const data = new URLSearchParams();
+      data.append('id', this.state.categories.updateCategoryId);
       data.append('name', this.state.categories.updateCategoryName);
       axios(rootGetters['auth/token'])({
         method: 'PUT',
@@ -108,17 +110,15 @@ export default {
       state.errorMessage = '';
       state.doneMessage = '';
     },
-    doneRegisterCategoryName(state,{registerCategoryName}){
-      state.targetTodo.inputCategoryName = registerCategoryName;
-      console.log(registerCategoryName);
-      console.log(state.targetTodo);
-    },
-    doneRegister(state){
-      console.log('mutations : doneRegister')
-      state.doneMessage = 'カテゴリーの登録が完了しました。';
-    },
     doneGetAllCategories(state, { categories }) {
       state.categoryList = [...categories];
+    },
+    doneInputCategoryName(state, { registerCategoryName }) {
+      state.inputCategoryName = registerCategoryName;
+    },
+    doneRegisterCategory(state, { registerCategories }) {
+      state.categoryList = [...registerCategories];
+      state.doneMessage = 'カテゴリーの登録が完了しました。';
     },
     failFetchCategory(state, { message }) {
       state.errorMessage = message;
