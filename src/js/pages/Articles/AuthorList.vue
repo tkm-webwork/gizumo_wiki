@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
   <app-article-author-list
     :article-list="articleList"
   />
@@ -13,7 +13,6 @@ export default {
   },
   computed: {
     articleList() {
-      console.log(this.$store.state.articles.articleList);
       return this.$store.state.articles.articleList;
     },
   },
@@ -22,7 +21,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-
-</style>
