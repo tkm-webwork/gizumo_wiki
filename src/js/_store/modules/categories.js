@@ -33,6 +33,27 @@ export default {
         commit('failFetchCategory', { message: err.message });
       });
     },
+    registerCategory({ commit, rootGetters }) {
+      return new Promise((resolve) => {
+        commit('toggleLoading');
+        axios(rootGetters['auth/token'])({
+          method: 'POST',
+          url: '/category',
+          data: {
+            name: this.state.categories.updateCategoryName,
+          },
+        }).then((response) => {
+          const payload = { registerCategories: [] };
+          payload.registerCategories.push(response.data.category);
+          commit('doneRegisterCategory', payload);
+          commit('toggleLoading');
+          resolve();
+        }).catch((err) => {
+          commit('failFetchCategory', { message: err.message });
+          commit('toggleLoading');
+        });
+      });
+    },
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
       commit('confirmDeleteCategory', { categoryId, categoryName });
     },
@@ -44,7 +65,6 @@ export default {
         }).then((response) => {
           // NOTE: エラー時はresponse.data.codeが0で返ってくる。
           if (response.data.code === 0) throw new Error(response.data.message);
-
           commit('doneDeleteCategory');
           resolve();
         }).catch((err) => {
@@ -92,6 +112,10 @@ export default {
     },
     doneGetAllCategories(state, { categories }) {
       state.categoryList = [...categories];
+    },
+    doneRegisterCategory(state, { registerCategories }) {
+      state.categoryList = [...registerCategories];
+      state.doneMessage = 'カテゴリーの追加が完了しました。';
     },
     failFetchCategory(state, { message }) {
       state.errorMessage = message;
