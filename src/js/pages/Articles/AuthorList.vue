@@ -1,6 +1,6 @@
 <template lang="html">
   <app-article-author-list
-    :article-list="articleList"
+    :article-by-author="articleByAuthor"
   />
 </template>
 
@@ -12,8 +12,8 @@ export default {
     appArticleAuthorList: ArticleAuthorList,
   },
   computed: {
-    articleList() {
-      return this.$store.state.articles.articleList;
+    articleByAuthor() {
+      return this.$store.getters['articles/articleByAuthor'];
     },
   },
   created() {

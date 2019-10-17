@@ -44,6 +44,65 @@ export default {
         return count <= 10;
       });
     },
+    authorList(state) {
+      const authorList = [];
+      let isNullAuthor = false;
+      state.articleList.forEach((el) => {
+        // ユーザがない場合フラグをtrueにしてreturn
+        if (el.user === null) {
+          isNullAuthor = true;
+          return;
+        }
+        // 既にリストに入っている作成者だった場合return
+        if (authorList.find(item => item === el.user.full_name)) return;
+        authorList.push(el.user.full_name);
+      });
+      // 作成者がnullの記事が存在した場合、リストの末尾にunknownを追加
+      if (isNullAuthor) {
+        authorList.push('作者不明');
+      }
+      return authorList; // Array
+    },
+    articleByAuthor(state, getters) {
+      const articleByAuthorList = {}; // 作者ごとの記事リスト
+      getters.authorList.forEach((author) => {
+        const articleList = []; // 記事リスト
+        if (author === '作者不明') {
+          state.articleList.forEach((item) => {
+            if (item.user === null) {
+              let title = '';
+              if (item.title.length >= 30) {
+                title = item.title.substr(0, 30);
+                title += '…';
+              }
+              const article = {
+                articleId: item.id,
+                title: title || item.title,
+              };
+              articleList.push(article);
+            }
+          });
+        } else {
+          state.articleList.forEach((item) => {
+            if (item.user === null) return;
+            if (item.user.full_name === author) {
+              let title = '';
+              if (item.title.length >= 30) {
+                title = item.title.substr(0, 30);
+                title += '…';
+              }
+              const article = {
+                articleId: item.id,
+                title: title || item.title,
+              };
+              articleList.push(article);
+            }
+          });
+        }
+        articleByAuthorList[author] = articleList;
+      });
+      return articleByAuthorList;
+    },
     targetArticle: state => state.targetArticle,
     deleteArticleId: state => state.deleteArticleId,
     deletedArticleList: state => state.deletedArticleList,
