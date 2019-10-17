@@ -43,13 +43,14 @@ export default {
             name: this.state.categories.updateCategoryName,
           },
         }).then((response) => {
-          commit('toggleLoading');
           const payload = { registerCategories: [] };
           payload.registerCategories.push(response.data.category);
           commit('doneRegisterCategory', payload);
+          commit('toggleLoading');
           resolve();
         }).catch((err) => {
           commit('failFetchCategory', { message: err.message });
+          commit('toggleLoading');
         });
       });
     },
