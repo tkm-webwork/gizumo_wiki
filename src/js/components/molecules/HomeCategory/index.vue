@@ -3,7 +3,7 @@
     <app-heading>カテゴリー</app-heading>
 
     <ul class="home-category__list">
-      <li v-for="category in categoryList" :key="category.id">
+      <li v-for="category in categoryList" :key="genUniqueKey(category)">
         <app-router-link
           :to="{ path: '/articles', query: { category: category.name } }"
           underline
@@ -30,12 +30,14 @@
 
 <script>
 import { Heading, RouterLink } from '@Components/atoms';
+import Mixins from '@Helpers/mixins';
 
 export default {
   components: {
     appHeading: Heading,
     appRouterLink: RouterLink,
   },
+  mixins: [Mixins],
   props: {
     categoryList: {
       type: Array,

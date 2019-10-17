@@ -1,3 +1,4 @@
+import Accordion from './Accordion';
 import Button from './Button';
 import Heading from './Heading';
 import Input from './Input';
@@ -11,6 +12,7 @@ import Modal from './Modal';
 import MarkdownIndex from './MarkdownIndex';
 
 export {
+  Accordion,
   Button,
   Heading,
   Input,
