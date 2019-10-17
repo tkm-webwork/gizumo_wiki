@@ -11,7 +11,6 @@ export default {
     deleteCategoryName: '',
     updateCategoryId: null,
     updateCategoryName: '',
-    inputCategoryName: '',
   },
   getters: {
     categoryList: state => state.categoryList,
@@ -19,9 +18,6 @@ export default {
   actions: {
     clearMessage({ commit }) {
       commit('clearMessage');
-    },
-    inputCategoryName({ commit }, registerCategoryName) {
-      commit('doneInputCategoryName', { registerCategoryName });
     },
     getAllCategories({ commit, rootGetters }) {
       axios(rootGetters['auth/token'])({
@@ -38,20 +34,23 @@ export default {
       });
     },
     registerCategory({ commit, rootGetters }) {
-      commit('toggleLoading');
-      axios(rootGetters['auth/token'])({
-        method: 'POST',
-        url: '/category',
-        data: {
-          name: this.state.categories.inputCategoryName,
-        },
-      }).then((response) => {
-        const payload = { registerCategories: [] };
-        payload.registerCategories.push(response.data.category);
-        commit('doneRegisterCategory', payload);
+      return new Promise((resolve) => {
         commit('toggleLoading');
-      }).catch((err) => {
-        commit('failFetchCategory', { message: err.message });
+        axios(rootGetters['auth/token'])({
+          method: 'POST',
+          url: '/category',
+          data: {
+            name: this.state.categories.updateCategoryName,
+          },
+        }).then((response) => {
+          commit('toggleLoading');
+          const payload = { registerCategories: [] };
+          payload.registerCategories.push(response.data.category);
+          commit('doneRegisterCategory', payload);
+          resolve();
+        }).catch((err) => {
+          commit('failFetchCategory', { message: err.message });
+        });
       });
     },
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
@@ -113,12 +112,9 @@ export default {
     doneGetAllCategories(state, { categories }) {
       state.categoryList = [...categories];
     },
-    doneInputCategoryName(state, { registerCategoryName }) {
-      state.inputCategoryName = registerCategoryName;
-    },
     doneRegisterCategory(state, { registerCategories }) {
       state.categoryList = [...registerCategories];
-      state.doneMessage = 'カテゴリーの登録が完了しました。';
+      state.doneMessage = 'カテゴリーの追加が完了しました。';
     },
     failFetchCategory(state, { message }) {
       state.errorMessage = message;

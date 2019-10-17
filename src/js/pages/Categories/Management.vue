@@ -7,7 +7,7 @@
         :error-message="errorMessage"
         :done-message="doneMessage"
         :access="access"
-        :input-category-name="inputCategoryName"
+        :update-category-name="updateCategoryName"
         @udpateValue="updateValue"
         @clearMessage="clearMessage"
         @handleSubmit="registerCategory"
@@ -43,8 +43,8 @@ export default {
     };
   },
   computed: {
-    inputCategoryName() {
-      return this.$store.state.categories.inputCategoryName;
+    updateCategoryName() {
+      return this.$store.state.categories.updateCategoryName;
     },
     access() {
       return this.$store.getters['auth/access'];
@@ -75,7 +75,7 @@ export default {
   methods: {
     updateValue($event) {
       this[$event.target.name] = $event.target.value;
-      this.$store.dispatch('categories/inputCategoryName', $event.target.value);
+      this.$store.dispatch('categories/editedCategoryName', this[$event.target.name]);
     },
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
