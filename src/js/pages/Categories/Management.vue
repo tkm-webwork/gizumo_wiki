@@ -7,7 +7,6 @@
         :error-message="errorMessage"
         :done-message="doneMessage"
         :access="access"
-        :update-category-name="updateCategoryName"
         @udpateValue="updateValue"
         @clearMessage="clearMessage"
         @handleSubmit="registerCategory"
@@ -43,9 +42,6 @@ export default {
     };
   },
   computed: {
-    updateCategoryName() {
-      return this.$store.state.categories.updateCategoryName;
-    },
     access() {
       return this.$store.getters['auth/access'];
     },
@@ -84,6 +80,7 @@ export default {
       this.$store.dispatch('categories/registerCategory')
         .then(() => {
           this.$store.dispatch('categories/getAllCategories');
+          this.category = '';
         });
     },
     openModal(categoryId, categoryName) {
