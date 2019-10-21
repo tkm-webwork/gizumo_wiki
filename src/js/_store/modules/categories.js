@@ -40,10 +40,8 @@ export default {
           data: {
             name: this.state.categories.updateCategoryName,
           },
-        }).then((response) => {
-          const payload = { registerCategories: [] };
-          payload.registerCategories.push(response.data.category);
-          commit('doneRegisterCategory', payload);
+        }).then(() => {
+          commit('doneRegisterCategory');
           commit('toggleLoading');
           resolve();
         }).catch((err) => {
@@ -111,8 +109,7 @@ export default {
     doneGetAllCategories(state, { categories }) {
       state.categoryList = [...categories];
     },
-    doneRegisterCategory(state, { registerCategories }) {
-      state.categoryList = [...registerCategories];
+    doneRegisterCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました。';
     },
     failFetchCategory(state, { message }) {
