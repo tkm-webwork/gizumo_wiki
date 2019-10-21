@@ -72,7 +72,7 @@ export default {
   props: {
     page: {
       type: Object,
-      default: () => {},
+      required: true,
     },
   },
   computed: {

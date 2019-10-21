@@ -153,7 +153,7 @@ export default {
     },
     page: {
       type: Object,
-      default: () => {},
+      required: true,
     },
     access: {
       type: Object,
