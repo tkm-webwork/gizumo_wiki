@@ -7,7 +7,7 @@ storiesOf('ATOMS|Modal', module)
   .addDecorator(withKnobs)
   .add('default', () => {
     return {
-      template: 
+      template:
         `
           <div>
             <app-button
