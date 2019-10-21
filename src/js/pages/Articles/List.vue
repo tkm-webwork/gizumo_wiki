@@ -4,6 +4,7 @@
       :title="title"
       :target-array="articlesList"
       :done-message="doneMessage"
+      :page="page"
       :access="access"
       border-gray
       @openModal="openModal"
@@ -22,8 +23,8 @@ export default {
   },
   mixins: [Mixins],
   beforeRouteUpdate(to, from, next) {
-    const categoryName = to.query.category ? to.query.category : null;
-    this.fetchArticles(categoryName);
+    const query = Object.assign({}, to.query);
+    this.fetchArticles(query);
     next();
   },
   data() {
@@ -38,13 +39,16 @@ export default {
     doneMessage() {
       return this.$store.state.articles.doneMessage;
     },
+    page() {
+      return this.$store.state.articles.page;
+    },
     access() {
       return this.$store.getters['auth/access'];
     },
   },
   created() {
-    const categoryName = this.$route.query.category ? this.$route.query.category : null;
-    this.fetchArticles(categoryName);
+    const query = Object.assign({}, this.$route.query);
+    this.fetchArticles(query);
   },
   methods: {
     openModal(articleId) {
@@ -60,8 +64,8 @@ export default {
           this.$store.dispatch('articles/getArticles', categoryName);
         });
     },
-    fetchArticles(categoryName) {
-      this.$store.dispatch('articles/getArticles', categoryName)
+    fetchArticles(query) {
+      this.$store.dispatch('articles/getArticles', query)
         .then(() => {
           if (this.$store.state.articles.articleList.length === 0) {
             this.$router.push({ path: '/notfound' });
