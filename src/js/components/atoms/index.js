@@ -5,6 +5,7 @@ import Input from './Input';
 import ListItem from './ListItem';
 import Text from './Text';
 import Textarea from './Textarea';
+import PagenationArticleList from './PagenationArticleList';
 import RouterLink from './RouterLink';
 import MarkdownPreview from './MarkdownPreview';
 import Select from './Select';
@@ -19,6 +20,7 @@ export {
   ListItem,
   Text,
   Textarea,
+  PagenationArticleList,
   RouterLink,
   MarkdownPreview,
   MarkdownIndex,

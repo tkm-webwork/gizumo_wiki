@@ -24,6 +24,10 @@ export default {
       },
     },
     articleList: [],
+    page: {
+      last: '',
+      current: '',
+    },
     deletedArticleList: [],
     deleteArticleId: null,
     loading: false,
@@ -135,6 +139,9 @@ export default {
     doneGetArticles(state, payload) {
       state.articleList = [...payload.articles];
     },
+    insertPageInfo(state, payload) {
+      state.page = Object.assign({}, state.page, payload);
+    },
     setTargetArticle(state, payload) {
       state.targetArticle = Object.assign({}, state.targetArticle, payload);
     },
@@ -185,16 +192,34 @@ export default {
     initPostArticle({ commit }) {
       commit('initPostArticle');
     },
-    getArticles({ commit, rootGetters }, categoryName) {
+    getArticles({ commit, rootGetters }, query = {}) {
       return new Promise((resolve, reject) => {
+        let url = '/article';
+        if (Object.keys(query).length > 0) {
+          url += '?';
+          let cnt = 0;
+          Object.keys(query).forEach((key) => {
+            cnt += 1;
+            if (cnt >= 2) {
+              url += '&';
+            }
+            const val = query[key];
+            url += `${key}=${val}`;
+          });
+        }
         axios(rootGetters['auth/token'])({
           method: 'GET',
-          url: categoryName ? `/article?category=${categoryName}` : '/article',
+          url,
         }).then((res) => {
           const payload = {
             articles: res.data.articles,
           };
+          const page = {
+            last: res.data.meta.last_page,
+            current: res.data.meta.current_page,
+          };
           commit('doneGetArticles', payload);
+          commit('insertPageInfo', page);
           resolve();
         }).catch((err) => {
           commit('failRequest', { message: err.message });

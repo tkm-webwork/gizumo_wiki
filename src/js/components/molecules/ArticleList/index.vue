@@ -105,6 +105,9 @@
         削除
       </app-button>
     </app-modal>
+    <app-pagenation-article-list
+      :page="page"
+    />
   </div>
 </template>
 
@@ -112,6 +115,7 @@
 import {
   Heading,
   ListItem,
+  PagenationArticleList,
   RouterLink,
   Button,
   Text,
@@ -121,6 +125,7 @@ export default {
   components: {
     appHeading: Heading,
     appListItem: ListItem,
+    appPagenationArticleList: PagenationArticleList,
     appRouterLink: RouterLink,
     appButton: Button,
     appText: Text,
@@ -145,6 +150,10 @@ export default {
     doneMessage: {
       type: String,
       default: '',
+    },
+    page: {
+      type: Object,
+      default: () => {},
     },
     access: {
       type: Object,
