@@ -19,9 +19,17 @@ export default {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
-    getAllCategories({ commit }) {
-      const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
-      commit('doneGetAllCategories', payload);
+    getAllCategories({ commit, rootGetters }) {
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: '/category',
+      }).then((response) => {
+        const payload = { categories: [] };
+        response.data.categories.forEach((val) => {
+          payload.categories.push(val);
+        });
+        commit('doneGetAllCategories', payload);
+      });
     },
     registerCategory({ commit, rootGetters }) {
       return new Promise((resolve) => {
@@ -32,10 +40,8 @@ export default {
           data: {
             name: this.state.categories.updateCategoryName,
           },
-        }).then((response) => {
-          const payload = { registerCategories: [] };
-          payload.registerCategories.push(response.data.category);
-          commit('doneRegisterCategory', payload);
+        }).then(() => {
+          commit('doneRegisterCategory');
           commit('toggleLoading');
           resolve();
         }).catch((err) => {
@@ -43,6 +49,9 @@ export default {
           commit('toggleLoading');
         });
       });
+    },
+    openModal({ commit }, { categoryId, categoryName }) {
+      commit('doneOpenModal', { categoryId, categoryName });
     },
     deleteCategory({ commit, rootGetters }, categoryId) {
       return new Promise((resolve) => {
@@ -100,8 +109,7 @@ export default {
     doneGetAllCategories(state, { categories }) {
       state.categoryList = [...categories];
     },
-    doneRegisterCategory(state, { registerCategories }) {
-      state.categoryList = [...registerCategories];
+    doneRegisterCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました。';
     },
     failFetchCategory(state, { message }) {
@@ -109,6 +117,10 @@ export default {
     },
     toggleLoading(state) {
       state.loading = !state.loading;
+    },
+    doneOpenModal(state, { categoryId, categoryName }) {
+      state.deleteCategoryId = categoryId;
+      state.deleteCategoryName = categoryName;
     },
     doneDeleteCategory(state) {
       state.deleteCategoryId = null;
