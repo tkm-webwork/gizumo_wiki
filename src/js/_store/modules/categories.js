@@ -28,6 +28,7 @@ export default {
         response.data.categories.forEach((val) => {
           payload.categories.push(val);
         });
+        // push = 配列の末尾に配列の末尾に要素を追加するメソッド
         commit('doneGetAllCategories', payload);
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
@@ -84,6 +85,25 @@ export default {
         commit('toggleLoading');
       });
     },
+    addCategory({ commit, rootGetters }, category) {
+      const data = new URLSearchParams();
+      data.append('name', category);
+      return new Promise((resolve) => {
+        axios(rootGetters['auth/token'])({
+          method: 'POST',
+          url: '/category',
+          data,
+        }).then((response) => {
+          const payload = response.data.category;
+          if (response.data.code === 0) throw new Error(response.data.message);
+
+          commit('doneAddCategory', payload);
+          resolve();
+        }).catch((err) => {
+          commit('failFetchCategory', { message: err.message });
+        });
+      });
+    },
   },
   mutations: {
     clearMessage(state) {
@@ -119,6 +139,10 @@ export default {
       state.updateCategoryId = payload.id;
       state.updateCategoryId = payload.name;
       state.doneMessage = 'カテゴリーの更新が完了しました。';
+    },
+    doneAddCategory(state, payload) {
+      state.categoryList.push(payload);
+      state.doneMessage = 'カテゴリーの追加が完了しました。';
     },
   },
 };
