@@ -135,6 +135,10 @@ export default {
       type: String,
       default: '',
     },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     buttonText() {

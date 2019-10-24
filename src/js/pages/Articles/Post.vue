@@ -7,6 +7,7 @@
     :article-content="articleContent"
     :access="access"
     :markdown-content="markdownContent"
+    :loading="loading"
     @selectedArticleCategory="selectedArticleCategory"
     @editedTitle="editedTitle"
     @editedContent="editedContent"
@@ -45,6 +46,9 @@ export default {
     },
     markdownContent() {
       return `# ${this.articleTitle}\n${this.articleContent}`;
+    },
+    loading() {
+      return this.$store.state.articles.loading;
     },
   },
   created() {
