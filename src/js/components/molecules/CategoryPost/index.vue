@@ -74,7 +74,7 @@ export default {
       if (!this.access.create) return;
       this.$emit('clearMessage');
       this.$validator.validate().then((valid) => {
-        if (valid) this.$emit('handleSubmit');
+        if (valid) this.$emit('handleSubmit'); // 入力の値がある場合は、trueない場合は、falseが帰ってくる。valid
       });
     },
   },

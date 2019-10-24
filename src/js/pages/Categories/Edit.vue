@@ -9,7 +9,7 @@
       @udpateValue="updateValue"
       @clearMessage="clearMessage"
       @handleSubmit="updateCategory"
-    />
+    /> <!--resisterValueを追加@resiterValue="resisterValue"-->
   </div>
 </template>
 

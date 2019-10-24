@@ -20,14 +20,14 @@
       data-vv-as="カテゴリー名"
       :error-messages="errors.collect('updateCategory')"
       :value="updateCategoryName"
-      @updateValue="$emit('udpateValue', $event)"
+      @updateValue="$emit('updateValue', $event)"
     />
     <app-button
       class="category-management-edit__submit"
       button-type="submit"
       round
       :disabled="disabled || !access.edit"
-    >
+    ><!--作成ボタンを押した際のクリックイベントを追加-->
       {{ buttonText }}
     </app-button>
 

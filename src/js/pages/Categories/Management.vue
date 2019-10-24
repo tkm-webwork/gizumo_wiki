@@ -9,7 +9,8 @@
         :access="access"
         @udpateValue="updateValue"
         @clearMessage="clearMessage"
-      />
+        @handleSubmit="resisterCategory"
+      /><!--hundlesubmitでresisterCategoryを追加-->
     </section>
     <section class="category-management-list">
       <app-category-list
@@ -69,8 +70,11 @@ export default {
   },
   methods: {
     updateValue($event) {
-      this[$event.target.name] = $event.target.value;
-    },
+      // console.log($event.target.name);
+      // console.log(this['category']);
+      // console.log($event.target.value);
+      this[$event.target.name] = $event.target.value; // ここでは、categoryPostでemitの際に渡している値。これは、valueなので、categoryである。
+    }, // [$event.target.name]の[]は配列ではなく、変数として適宜使用するためにしようしている。$event.target.nameでもしようできるが、違うinputタグが出てきた場合にも汎用性高く使えるためこの表記でやっている。
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
     },
@@ -86,6 +90,15 @@ export default {
           this.$store.dispatch('categories/getAllCategories');
         });
       this.toggleModal();
+    },
+    resisterCategory() {
+      // console.log('handleSubmit');
+      this.$store.dispatch('categories/resisterCategory', {
+        category: this.category, // 渡す要素を指定している。カテゴリーには、入力したデータが入っている。
+      }).then(() => {
+        this.$store.dispatch('categories/getAllCategories');
+      });
+      this.category = '';
     },
   },
 };
