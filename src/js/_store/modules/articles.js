@@ -260,7 +260,6 @@ export default {
           data,
         }).then(() => {
           commit('toggleLoading');
-          commit('displayDoneMessage', { message: 'ドキュメントを作成しました' });
           resolve();
         }).catch((err) => {
           commit('toggleLoading');
@@ -268,6 +267,9 @@ export default {
           reject();
         });
       });
+    },
+    postArticleSuccesMessage({ commit }) {
+      commit('displayDoneMessage', { message: 'ドキュメントを作成しました' });
     },
     clearMessage({ commit }) {
       commit('clearMessage');
