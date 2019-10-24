@@ -28,7 +28,6 @@ export default {
         response.data.categories.forEach((val) => {
           payload.categories.push(val);
         });
-        // push = 配列の末尾に配列の末尾に要素を追加するメソッド
         commit('doneGetAllCategories', payload);
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
@@ -86,7 +85,7 @@ export default {
       });
     },
     addCategory({ commit, rootGetters }, category) {
-      commit('applyRequest');
+      commit('toggleLoading');
       const data = new URLSearchParams();
       data.append('name', category);
       return new Promise((resolve) => {
@@ -141,11 +140,8 @@ export default {
       state.updateCategoryId = payload.name;
       state.doneMessage = 'カテゴリーの更新が完了しました。';
     },
-    applyRequest(state) {
-      state.loading = true;
-    },
     doneAddCategory(state, payload) {
-      state.categoryList.push(payload);
+      state.categoryList = [...state.categoryList, payload];
       state.loading = false;
       state.doneMessage = 'カテゴリーの追加が完了しました。';
     },
