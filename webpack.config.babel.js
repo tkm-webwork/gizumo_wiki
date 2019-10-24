@@ -118,7 +118,7 @@ if (isDev) {
   config.plugins.push(
     new webpack.DefinePlugin({
       'API_BASE_URL': JSON.stringify('http://api.wiki.gizumo-inc.work/api'),
-      // これが後ろにaxiousのurlがつく
+      // これの後ろにaxiousのurlがつく
       'MY_SESSION_STORAGE_KEY': JSON.stringify('dev_gizumo_wiki'),
     })
   );
