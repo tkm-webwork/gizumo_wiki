@@ -94,10 +94,9 @@ export default {
           url: '/category',
           data,
         }).then((response) => {
-          const payload = response.data.category;
           if (response.data.code === 0) throw new Error(response.data.message);
 
-          commit('doneAddCategory', payload);
+          commit('doneAddCategory');
           resolve();
         }).catch((err) => {
           commit('failFetchCategory', { message: err.message });
@@ -140,9 +139,7 @@ export default {
       state.updateCategoryId = payload.name;
       state.doneMessage = 'カテゴリーの更新が完了しました。';
     },
-    doneAddCategory(state, payload) {
-      state.categoryList = [...state.categoryList, payload];
-      state.loading = false;
+    doneAddCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました。';
     },
   },

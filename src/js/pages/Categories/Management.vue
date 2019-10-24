@@ -92,6 +92,7 @@ export default {
     addCategory() {
       this.$store.dispatch('categories/addCategory', this.category)
         .then(() => {
+          this.$store.dispatch('categories/getAllCategories');
           this.category = '';
         });
     },
