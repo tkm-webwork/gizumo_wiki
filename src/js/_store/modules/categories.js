@@ -86,6 +86,7 @@ export default {
       });
     },
     addCategory({ commit, rootGetters }, category) {
+      commit('applyRequest');
       const data = new URLSearchParams();
       data.append('name', category);
       return new Promise((resolve) => {
@@ -140,8 +141,12 @@ export default {
       state.updateCategoryId = payload.name;
       state.doneMessage = 'カテゴリーの更新が完了しました。';
     },
+    applyRequest(state) {
+      state.loading = true;
+    },
     doneAddCategory(state, payload) {
       state.categoryList.push(payload);
+      state.loading = false;
       state.doneMessage = 'カテゴリーの追加が完了しました。';
     },
   },
