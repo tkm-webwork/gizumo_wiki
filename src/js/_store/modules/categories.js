@@ -83,27 +83,28 @@ export default {
         commit('toggleLoading');
       });
     },
-    resisterCategory({ commit, rootGetters }, { category }) { // 指定したvalueデータを受け取っている。
-      commit('toggleLoading');
-      const data = new URLSearchParams();
-      // console.log(this.state.categories.updateCategoryId);何も値が入っていなかった。
-      // console.log(category); // 入力されたcategoryに値が入ってくる。
-      data.append('name', category); // 登録の際は、nameのみとAPIに書いてあるので、nameのみ。ここでは、categoryが入力された値のため、
-      // console.log(data);
-      axios(rootGetters['auth/token'])({
-        method: 'POST',
-        url: '/category',
-        data,
-      }).then((response) => {
-        const payload = { categories: [] }; // 空の配列が入っているため、一件しか表示されていない？
-        payload.categories.push(response.data.category); // リストにpushして表示している。更新の際にも使用できるかも。
-        commit('AddDoneMessage');
+    resisterCategory({ commit, rootGetters }, { category }) {
+      return new Promise((resolve) => { // 指定したvalueデータを受け取っている。
         commit('toggleLoading');
-        commit('resisterCategory', payload);
-      }).catch((err) => {
-        // console.log('通信失敗');
-        commit('failFetchCategory', { message: err.message });
-        commit('toggleLoading');
+        const data = new URLSearchParams();
+        // console.log(this.state.categories.updateCategoryId);何も値が入っていなかった。
+        // console.log(category); // 入力されたcategoryに値が入ってくる。
+        data.append('name', category); // 登録の際は、nameのみとAPIに書いてあるので、nameのみ。ここでは、categoryが入力された値のため、
+        axios(rootGetters['auth/token'])({
+          method: 'POST',
+          url: '/category',
+          data,
+        }).then((response) => {
+          const payload = { categories: [] }; // 空の配列が入っているため、一件しか表示されていない？
+          payload.categories.push(response.data.category); // リストにpushして表示している。更新の際にも使用できるかも。
+          commit('AddDoneMessage');
+          commit('toggleLoading');
+          resolve();
+        }).catch((err) => {
+          // console.log('通信失敗');
+          commit('failFetchCategory', { message: err.message });
+          commit('toggleLoading');
+        });
       });
     },
   },
@@ -147,10 +148,6 @@ export default {
     AddDoneMessage(state) {
       state.errorMessage = '';
       state.doneMessage = 'カテゴリーの追加が完了しました';
-    },
-    resisterCategory(state, payload) {
-      // console.log(payload);
-      state.categoryList = [...state.categoryList, ...payload.categories];
     },
   },
 };

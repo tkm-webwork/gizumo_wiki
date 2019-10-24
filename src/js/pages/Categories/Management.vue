@@ -95,6 +95,8 @@ export default {
       // console.log('handleSubmit');
       this.$store.dispatch('categories/resisterCategory', {
         category: this.category, // 渡す要素を指定している。カテゴリーには、入力したデータが入っている。
+      }).then(() => {
+        this.$store.dispatch('categories/getAllCategories');
       });
       this.category = '';
     },
