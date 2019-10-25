@@ -11,12 +11,22 @@
       :value="category"
       @updateValue="$emit('udpateValue', $event)"
     />
+    <!--
+      ここで指定したnameと同名のプロパティが親側で紐づけられ、valueが代入される。今回はcategory
+      $eventにはイベントのデータが入っている。特定の属性値を取り出したければ
+      「$event.target.属性」。inputの変化で@updateValueが発火。
+    -->
     <app-button
       class="category-management-post__submit"
-      button-type="submit"
       round
       :disabled="disabled || !access.create"
+      button-type="submit"
     >
+      <!--
+        disable属性→ボタンが非活性になる
+        不要だと判断しbutton-type="submit"を削除。代わりに@click="addCategory"
+        :disableは、処理中か否か/権限の有無 で属性に真偽値を与えている
+      -->
       {{ buttonText }}
     </app-button>
 
@@ -65,8 +75,8 @@ export default {
   },
   computed: {
     buttonText() {
-      if (!this.access.create) return '作成権限がありません';
-      return this.disabled ? '作成中...' : '作成';
+      if (!this.access.create) return '作成権限がありません'; // 権限無しのボタンテキスト
+      return this.disabled ? '作成中...' : '作成'; // loading中か否かで切り替わるボタンのテキスト
     },
   },
   methods: {

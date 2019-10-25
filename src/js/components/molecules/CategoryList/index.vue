@@ -15,6 +15,7 @@
       </thead>
       <transition-group name="fade" tag="tbody" class="category-list__table__body">
         <tr v-for="category in categories" :key="category.id">
+          <!-- ここで繰り返し処理を命令 -->
           <td>
             <app-text tag="span">
               {{ category.name }}
@@ -94,14 +95,14 @@ export default {
     appButton: Button,
     appText: Text,
   },
-  props: {
+  props: { // これらpropsはどこからきている？→カスタムタグとしてこのコンポーネントを呼び出し
     theads: {
       type: Array,
       default() {
         return [];
       },
     },
-    categories: {
+    categories: { // Manegement.vueでcategorylistが代入されている
       type: Array,
       default() {
         return [];
@@ -111,19 +112,19 @@ export default {
       type: String,
       default: '',
     },
-    access: {
+    access: { // ユーザーの権限を表す
       type: Object,
       default: () => ({}),
     },
   },
   methods: {
-    openModal(categoryId, categoryName) {
-      if (!this.access.delete) return;
-      this.$emit('openModal', categoryId, categoryName);
+    openModal(categoryId, categoryName) { // 削除ボタンにより発火。
+      if (!this.access.delete) return; // ユーザーにdeleteの権限がないなら終了
+      this.$emit('openModal', categoryId, categoryName); // あるならManegement.vueのopenModalメソッドを発火
     },
-    handleClick() {
+    handleClick() { // モーダルの削除するボタンにより発火
       if (!this.access.delete) return;
-      this.$emit('handleClick');
+      this.$emit('handleClick'); // 別コンポーネントのhandleClickメソッドを発火
     },
   },
 };

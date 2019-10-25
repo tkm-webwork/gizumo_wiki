@@ -9,7 +9,14 @@
         :access="access"
         @udpateValue="updateValue"
         @clearMessage="clearMessage"
+        @handleSubmit="pushCategory"
       />
+      <!--
+        pushCaategoryを定義。
+        disabledは文字通り利用できない状態で適用する。上のcategory-postでは、
+        loadingの真偽値で属性を与えるため、あらかじめpropsとして渡しているが、
+        下のcategory-listはアクセス権の有無で値を切り替えるため、直接定義している
+      -->
     </section>
     <section class="category-management-list">
       <app-category-list
@@ -36,56 +43,63 @@ export default {
   mixins: [Mixins],
   data() {
     return {
-      category: '',
-      theads: ['カテゴリー名', '', '', ''],
+      category: '', // 追加欄に入力されたタイトル。しかし、リアクティブではない
+      theads: ['カテゴリー名', '', '', ''], // 見出し
     };
   },
   computed: {
-    access() {
+    access() { // ユーザーの権限を表す。deleteなど、各操作ごとに存在する
       return this.$store.getters['auth/access'];
     },
-    loading() {
+    loading() { // 処理中か否かを表す。属性disabledが依存している
       return this.$store.state.categories.loading;
     },
-    errorMessage() {
+    errorMessage() { // エラーメッセージ監視
       return this.$store.state.categories.errorMessage;
     },
-    doneMessage() {
+    doneMessage() { // doneメッセージ監視
       return this.$store.state.categories.doneMessage;
     },
-    categoryList() {
+    categoryList() { // カテゴリーリスト更新
       return this.$store.state.categories.categoryList;
     },
-    deleteCategoryId() {
+    deleteCategoryId() { // confirmDeleteCategoryミューテーションの監視。
       return this.$store.state.categories.deleteCategoryId;
     },
-    deleteCategoryName() {
+    deleteCategoryName() { // 同上
       return this.$store.state.categories.deleteCategoryName;
     },
   },
-  created() {
+  created() { // まずメッセージリセットと全カテゴリー取得
     this.$store.dispatch('categories/clearMessage');
     this.$store.dispatch('categories/getAllCategories');
   },
-  methods: {
-    updateValue($event) {
-      this[$event.target.name] = $event.target.value;
-    },
-    clearMessage() {
+  methods: { // こっちでも親のmutationsやactionsが使えるように。
+    updateValue($event) { // 追加対象のカテゴリーのvalue(題名)を取り出す
+      this[$event.target.name] = $event.target.value; // 今回は[$event.target.name] = category。つまり、リアクティブプロパティへの代入
+    }, // オブジェクトは、必要なvalueを「オブジェクト名.プロパティ名」という型だけではなく「オブジェクト名[プロパティ名]」と取り出せる。
+    clearMessage() { // CategoryPost.vueで処理が成功した後に発火
       this.$store.dispatch('categories/clearMessage');
     },
-    openModal(categoryId, categoryName) {
+    openModal(categoryId, categoryName) { // 削除ボタンと紐づいた@openModalにより発火
       this.toggleModal();
       this.$store.dispatch('categories/clearMessage');
       this.$store.dispatch('categories/confirmDeleteCategory',
         { categoryId, categoryName });
     },
-    deleteCategory() {
+    deleteCategory() { // モーダルの削除ボタンと紐づいた@handleClickにより発火
       this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId)
         .then(() => {
           this.$store.dispatch('categories/getAllCategories');
         });
       this.toggleModal();
+    },
+    pushCategory() { // 作成。
+      this.$store.dispatch('categories/pushCategory', { category: this.category }) // 入力欄と連動したdataのcategory
+        .then(() => { // 追加成功後のリスト更新。app-category-listによる再描画が行われる
+          this.$store.dispatch('categories/getAllCategories');
+          this.category = ''; // 入力欄リセット
+        });
     },
   },
 };

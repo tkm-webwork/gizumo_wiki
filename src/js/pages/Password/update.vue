@@ -15,7 +15,7 @@ import { PasswordForm } from '@Components/molecules';
 export default {
   components: { appPasswordForm: PasswordForm },
   computed: {
-    loading() {
+    loading() { // stateをこのコンポーネント内で使用できるリアクティブプロパティ化
       return this.$store.state.auth.loading;
     },
     buttonText() {
@@ -29,9 +29,9 @@ export default {
     },
   },
   methods: {
-    setPassword(data) {
-      if (this.loading) return;
-      this.$store.dispatch('auth/changePassword', data).then(() => {
+    setPassword(data) { // dataには{password:newPassword: confirmNewPassword: '',}の値が入る。
+      if (this.loading) return; // loadingがtrueだったら以下の処理は行わない
+      this.$store.dispatch('auth/changePassword', data).then(() => { //  「ファイル名/アクション名」でdataを渡して実行
         this.$router.push('/');
       });
     },
