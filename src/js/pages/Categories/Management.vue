@@ -71,7 +71,6 @@ export default {
   methods: {
     updateValue($event) {
       this[$event.target.name] = $event.target.value;
-      // category = 入力内容
     },
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');

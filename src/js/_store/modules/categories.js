@@ -97,6 +97,7 @@ export default {
           if (response.data.code === 0) throw new Error(response.data.message);
 
           commit('doneAddCategory');
+          commit('toggleLoading');
           resolve();
         }).catch((err) => {
           commit('failFetchCategory', { message: err.message });
