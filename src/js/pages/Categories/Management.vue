@@ -98,6 +98,7 @@ export default {
       this.$store.dispatch('categories/pushCategory', { category: this.category }) // 入力欄と連動したdataのcategory
         .then(() => { // 追加成功後のリスト更新。app-category-listによる再描画が行われる
           this.$store.dispatch('categories/getAllCategories');
+          this.category = ''; // 入力欄リセット
         });
     },
   },
