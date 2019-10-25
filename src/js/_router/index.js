@@ -7,7 +7,7 @@ import Signout from '@Pages/Signout';
 import NotFound from '@Pages/NotFound';
 import Home from '@Pages/Home';
 
-// カテゴリー
+// カテゴリー エイリアス @pages='./src/js/pages'
 import Categories from '@Pages/Categories';
 import CategoryManagement from '@Pages/Categories/Management';
 import CategoryEdit from '@Pages/Categories/Edit';
@@ -36,7 +36,7 @@ import Store from '../_store';
 
 Vue.use(VueRouter);
 const router = new VueRouter({
-  mode: 'history',
+  mode: 'history', // urlから#の省略
   routes: [
     {
       name: 'signin',

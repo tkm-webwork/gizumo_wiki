@@ -1,3 +1,4 @@
+// 記事全般に関する処理
 import axios from '@Helpers/axiosDefault';
 // import Cookies from 'js-cookie';
 

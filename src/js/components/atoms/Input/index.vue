@@ -8,7 +8,9 @@
       :value="value"
       @input="$emit('updateValue', $event)"
     >
-
+    <!--
+      inputイベント（バリューの変化）にバインド。$eventでvalueを渡す
+    -->
     <transition name="shake">
       <ul v-if="errorMessages.length" class="error">
         <li
