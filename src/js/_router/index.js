@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import Cookies from 'js-cookie';
 
 import Signin from '@Pages/Signin';
 import Signout from '@Pages/Signout';
@@ -178,6 +179,47 @@ const router = new VueRouter({
       },
     },
   ],
+});
+
+router.beforeEach((to, from, next) => {
+  const cookie = Cookies.get('user-token') || null;
+  const isPublic = to.matched.some(record => record.meta.isPublic);
+  const isSignIn = to.matched.some(route => route.path === '/signin');
+  const isSignOut = to.matched.some(route => route.path === '/signout');
+  const isPasswordInit = to.matched.some(route => route.path === '/password/init');
+  if (!isPublic && !Store.state.auth.signedIn) {
+    // signinが必要なページに、stateのsigninフラグがfalseのままアクセスしようとした時
+    // tokenはあるけどリロードしたときもココ
+    // tokenを持ってる持ってないにかかわらずcheckauth
+    Store.dispatch('auth/checkAuth', cookie).then(() => {
+      // returnしてるのは次のnext()を呼ばせないため
+      if (Store.state.auth.user.password_reset_flg) return next('/');
+      return next('/password/init');
+    }).catch(() => {
+      next('/signin');
+    });
+  } else if (isSignIn) {
+    // signinページにアクセスしようとした時に
+    // token認証済みならルートに飛ばす。
+    // さらにパスワード初期化前ならpassword init
+    // 未認証ならそのままsigninを表示
+    Store.dispatch('auth/checkAuth', cookie)
+      .then(() => {
+        if (Store.state.auth.user.password_reset_flg) return next('/');
+        return next('/password/init');
+      }).catch(() => next());
+  } else if ((!Store.state.auth.user.password_reset_flg && !isPasswordInit)
+    && !isSignOut) {
+    // パスワードリセットフラグが0なのに、他のページに行こうとした時
+    // ただしsignoutすることはできる
+    next('/password/init');
+  } else if (!cookie && !isSignOut) {
+    // そもそもtokenがなく、次の遷移先がsignoutじゃない時
+    next('/signout');
+  } else {
+    // すべての条件にあてはまらなかった時
+    next();
+  }
 });
 
 export default router;
