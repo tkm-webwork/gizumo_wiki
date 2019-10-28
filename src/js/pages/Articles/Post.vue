@@ -59,7 +59,6 @@ export default {
   },
   created() {
     this.$store.dispatch('categories/getAllCategories');
-    this.$store.dispatch('articles/initPostArticle');
   },
   methods: {
     editedTitle($event) {
@@ -79,6 +78,7 @@ export default {
           path: '/articles',
           query: { redirect: '/article/post' },
         });
+        this.$store.dispatch('articles/initPostArticle');
       });
     },
   },
