@@ -25,7 +25,6 @@
         :delete-category-name="deleteCategoryName"
         :access="access"
         @openModal="openModal"
-        @handleClick="deleteCategory"
         @sendEditData="sendEditData"
       />
     </section>
@@ -82,18 +81,9 @@ export default {
     clearMessage() { // CategoryPost.vueで処理が成功した後に発火
       this.$store.dispatch('categories/clearMessage');
     },
-    openModal(categoryId, categoryName) { // 削除ボタンと紐づいた@openModalにより発火
+    openModal() { // 削除ボタンと紐づいた@openModalにより発火
       this.toggleModal();
       this.$store.dispatch('categories/clearMessage');
-      this.$store.dispatch('categories/confirmDeleteCategory',
-        { categoryId, categoryName });
-    },
-    deleteCategory() { // モーダルの削除ボタンと紐づいた@handleClickにより発火
-      this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId)
-        .then(() => {
-          this.$store.dispatch('categories/getAllCategories');
-        });
-      this.toggleModal();
     },
     pushCategory() { // 作成。
       this.$store.dispatch('categories/pushCategory', { category: this.category }) // 入力欄と連動したdataのcategory
