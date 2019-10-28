@@ -4,7 +4,7 @@ import axios from '@Helpers/axiosDefault';
   → axios.create()で「設定が組み込まれた別のインスタンス」として定義すればいい。
     それを呼び出せば毎回の記入を省略してaxiosのリクエストが飛ばせる！！
 */
-export default {
+export default { // stateはmutationの処理でしか変更できません。
   namespaced: true,
   state: {
     loading: false, // manegement.vue → :disabled="loading ? true : false"
@@ -16,7 +16,7 @@ export default {
     updateCategoryId: null,
     updateCategoryName: '',
   },
-  getters: {
+  getters: { // "ゲッター" はストアの算出プロパティ。ゲッターの結果はその依存関係に基づいて計算され、依存関係の一部が変更されたとき
     categoryList: state => state.categoryList,
   },
   actions: {
@@ -77,11 +77,35 @@ export default {
         });
       });
     },
+    sendEditData({ commit }, { categoryId, categoryName }) { // 追加
+      commit('clearMessage'); // 前ページのメッセージをリセット
+      commit('sendEditData', { categoryId, categoryName });
+    },
+    editCategory({ commit, rootGetters }, { categoryId, newCategoryName }) {
+      commit('toggleLoading'); // 処理後に反転させる。
+      const data = new URLSearchParams(); // URLSearchParamsのインスタンス
+      data.append('name', newCategoryName);
+      axios(rootGetters['auth/token'])({ // 1つ目の()でトークンを渡し、２つ目でaxiosインスタンスを呼び出す。
+        url: `/category/${categoryId}`,
+        method: 'PUT',
+        data, // 上で定義したインスタンス（オブジェクト）を組み込む。
+      }).then(() => {
+        commit('doneEditCategory', { newCategoryName }); // 完了メッセージの登録
+        commit('toggleLoading'); // リスト追加後に反転させる。
+      }).catch((err) => { // 通信そのものが失敗した場合の処理
+        commit('failFetchCategory', { message: err.message });
+        commit('toggleLoading'); // 反転させ正常に戻す
+      });
+    },
   },
   mutations: {
     clearMessage(state) { // メッセージのリセット
       state.errorMessage = '';
       state.doneMessage = '';
+    },
+    sendEditData(state, { categoryId, categoryName }) { // 追加
+      state.updateCategoryId = categoryId;
+      state.updateCategoryName = categoryName;
     },
     doneGetAllCategories(state, { categories }) { // getAllCategoriesアクションで発火
       state.categoryList = [...categories]; // categoriesは通信で取得したカテゴリー達
@@ -92,7 +116,7 @@ export default {
     toggleLoading(state) { // loadhingの切り替え
       state.loading = !state.loading;
     },
-    confirmDeleteCategory(state, { categoryId, categoryName }) {
+    confirmDeleteCategory(state, { categoryId, categoryName }) { //
       state.deleteCategoryId = categoryId;
       state.deleteCategoryName = categoryName;
     },
@@ -103,6 +127,10 @@ export default {
     },
     doneAddCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました。'; // 作成。
+    },
+    doneEditCategory(state, { newCategoryName }) { // 追加
+      state.updateCategoryName = newCategoryName;
+      state.doneMessage = 'カテゴリーの更新が完了しました。';
     },
   },
 };

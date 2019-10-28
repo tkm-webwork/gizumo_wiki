@@ -26,6 +26,7 @@
         :access="access"
         @openModal="openModal"
         @handleClick="deleteCategory"
+        @sendEditData="sendEditData"
       />
     </section>
   </div>
@@ -100,6 +101,10 @@ export default {
           this.$store.dispatch('categories/getAllCategories');
           this.category = ''; // 入力欄リセット
         });
+    },
+    sendEditData(categoryId, categoryName) { // stateはmutationの処理でしか変更できません
+      this.$store.dispatch('categories/sendEditData',
+        { categoryId, categoryName });
     },
   },
 };

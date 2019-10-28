@@ -12,12 +12,22 @@
       カテゴリー一覧へ戻る
     </app-router-link>
     <app-input
+      v-validate="'required'"
       class="category-management-edit__input"
       name="updateCategory"
       type="text"
       placeholder="カテゴリー名を入力してください"
-      data-vv-as=""
+      data-vv-as="カテゴリー名"
+      :error-messages="errors.collect('updateCategory')"
+      :value="updateCategory"
+      @updateValue="$emit('updateValue', $event)"
     />
+    <!--
+
+     required:記入必須の指定
+     data-vv-as:name属性をかえることなく、エラー表示に使われるフィールド名を設定できる。
+     :error-messages="errors.collect('name属性')"で紐づけ
+    -->
     <app-button
       class="category-management-edit__submit"
       button-type="submit"
@@ -28,11 +38,21 @@
     </app-button>
 
     <div class="category-management-edit__notice">
-      <app-text bg-error>ここにエラー時のメッセージが入ります</app-text>
+      <app-text
+        v-if="errorMessage"
+        bg-error
+      >
+        {{ errorMessage }}
+      </app-text>
     </div>
 
     <div class="category-management-edit__notice">
-      <app-text bg-success>ここに更新成功時のメッセージが入ります</app-text>
+      <app-text
+        v-if="doneMessage"
+        bg-success
+      >
+        {{ doneMessage }}
+      </app-text>
     </div>
   </form>
 </template>
@@ -50,6 +70,10 @@ export default {
     appText: Text,
   },
   props: {
+    updateCategory: { // valueにバインディング。親にはemitで反映。
+      type: String,
+      default: '',
+    },
     disabled: {
       type: Boolean,
       default: false,
@@ -57,6 +81,14 @@ export default {
     access: {
       type: Object,
       default: () => ({}),
+    },
+    errorMessage: {
+      type: String,
+      default: '',
+    },
+    doneMessage: {
+      type: String,
+      default: '',
     },
   },
   computed: {
@@ -70,7 +102,7 @@ export default {
       if (!this.access.edit) return;
       this.$emit('clearMessage');
       this.$validator.validate().then((valid) => {
-        if (valid) this.$emit('エミットするイベント名が入ります');
+        if (valid) this.$emit('editCategory');
       });
     },
   },
