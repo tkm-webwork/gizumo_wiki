@@ -71,6 +71,7 @@ export default {
         .then(() => {
           this.$router.push({ path: '/articles' });
           this.$store.dispatch('articles/postArticleSuccesMessage');
+          this.$store.dispatch('articles/initPostArticle');
         });
     },
   },
