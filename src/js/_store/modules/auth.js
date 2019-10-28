@@ -73,6 +73,31 @@ export default {
     },
   },
   actions: {
+    checkAuth({ commit }, token) {
+      commit('sendRequest');
+      return new Promise((resolve, reject) => {
+        if (!token) {
+          commit('signInFailure');
+          reject();
+        }
+        axios(token)({
+          method: 'GET',
+          url: '/me',
+        }).then((response) => {
+          if (response.data.code === 0) {
+            commit('signInFailure');
+            reject();
+          }
+          commit('signInSuccess', { token, user: response.data.user });
+          resolve();
+        }).catch(() => {
+          commit('signInFailure', {
+            errorMessage: 'ログインに失敗しました。メールアドレスとパスワードを確認して再度ログインし直してみてください。',
+          });
+          reject();
+        });
+      });
+    },
     signIn({ commit }, { email, password }) {
       commit('sendRequest');
       return new Promise((resolve, reject) => {
