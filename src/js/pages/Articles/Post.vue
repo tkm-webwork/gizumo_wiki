@@ -72,11 +72,6 @@ export default {
           this.$router.push({ path: '/articles' });
           this.$store.dispatch('articles/postArticleSuccesMessage');
         });
-<<<<<<< HEAD
-=======
-        this.$store.dispatch('articles/initPostArticle');
-      });
->>>>>>> feature/updata_category
     },
   },
 };
