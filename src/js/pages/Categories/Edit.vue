@@ -22,7 +22,7 @@ export default {
   },
   data() {
     return {
-      updateCategory: this.$store.state.categories.editCategoryName, // 新しいカテゴリーネームがupdateValueメソッドにより代入される。
+      updateCategory: this.$store.state.categories.updateCategoryName, // 新しいカテゴリーネームがupdateValueメソッドにより代入される。
     };
   },
   computed: { // 対象stateの変化で実行される。子コンポーネントにpropsとして渡す。
@@ -32,8 +32,8 @@ export default {
     loading() {
       return this.$store.state.categories.loading;
     },
-    editCategoryId() { // 対象カテゴリーのidを取得
-      return this.$store.state.categories.editCategoryId;
+    updateCategoryId() { // 対象カテゴリーのidを取得
+      return this.$store.state.categories.updateCategoryId;
     },
     errorMessage() {
       return this.$store.state.categories.errorMessage;
@@ -51,7 +51,7 @@ export default {
     },
     editCategory() {
       this.$store.dispatch('categories/editCategory',
-        { categoryId: this.editCategoryId, newCategoryName: this.updateCategory });
+        { categoryId: this.updateCategoryId, newCategoryName: this.updateCategory });
     },
   },
 };

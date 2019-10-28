@@ -15,8 +15,6 @@ export default { // stateはmutationの処理でしか変更できません。
     deleteCategoryName: '',
     updateCategoryId: null,
     updateCategoryName: '',
-    editCategoryId: null, // 追加。CategoryList.vueから値を取得。
-    editCategoryName: '',
   },
   getters: { // "ゲッター" はストアの算出プロパティ。ゲッターの結果はその依存関係に基づいて計算され、依存関係の一部が変更されたとき
     categoryList: state => state.categoryList,
@@ -106,8 +104,8 @@ export default { // stateはmutationの処理でしか変更できません。
       state.doneMessage = '';
     },
     sendEditData(state, { categoryId, categoryName }) { // 追加
-      state.editCategoryId = categoryId;
-      state.editCategoryName = categoryName;
+      state.updateCategoryId = categoryId;
+      state.updateCategoryName = categoryName;
     },
     doneGetAllCategories(state, { categories }) { // getAllCategoriesアクションで発火
       state.categoryList = [...categories]; // categoriesは通信で取得したカテゴリー達
@@ -131,7 +129,7 @@ export default { // stateはmutationの処理でしか変更できません。
       state.doneMessage = 'カテゴリーの追加が完了しました。'; // 作成。
     },
     doneEditCategory(state, { newCategoryName }) { // 追加
-      state.editCategoryName = newCategoryName;
+      state.updateCategoryName = newCategoryName;
       state.doneMessage = 'カテゴリーの更新が完了しました。';
     },
   },

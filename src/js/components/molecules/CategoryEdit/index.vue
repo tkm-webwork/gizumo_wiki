@@ -23,8 +23,10 @@
       @updateValue="$emit('updateValue', $event)"
     />
     <!--
+
+     required:記入必須の指定
      data-vv-as:name属性をかえることなく、エラー表示に使われるフィールド名を設定できる。
-     :error-messages="errors.collect('name')"で紐づけ
+     :error-messages="errors.collect('name属性')"で紐づけ
     -->
     <app-button
       class="category-management-edit__submit"
