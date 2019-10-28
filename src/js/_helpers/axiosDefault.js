@@ -8,4 +8,5 @@ export default (token = null) => {
     baseURL: API_BASE_URL,
     headers,
   });
+  // createで新たにインスタンスを生成している
 };
