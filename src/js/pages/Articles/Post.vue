@@ -53,7 +53,6 @@ export default {
   },
   created() {
     this.$store.dispatch('categories/getAllCategories');
-    this.$store.dispatch('articles/initPostArticle');
   },
   methods: {
     selectedArticleCategory($event) {
@@ -72,6 +71,7 @@ export default {
         .then(() => {
           this.$router.push({ path: '/articles' });
           this.$store.dispatch('articles/postArticleSuccesMessage');
+          this.$store.dispatch('articles/initPostArticle');
         });
     },
   },
