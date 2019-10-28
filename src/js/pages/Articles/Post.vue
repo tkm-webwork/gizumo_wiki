@@ -53,7 +53,6 @@ export default {
   },
   created() {
     this.$store.dispatch('categories/getAllCategories');
-    this.$store.dispatch('articles/initPostArticle');
   },
   methods: {
     selectedArticleCategory($event) {
@@ -73,6 +72,11 @@ export default {
           this.$router.push({ path: '/articles' });
           this.$store.dispatch('articles/postArticleSuccesMessage');
         });
+<<<<<<< HEAD
+=======
+        this.$store.dispatch('articles/initPostArticle');
+      });
+>>>>>>> feature/updata_category
     },
   },
 };
