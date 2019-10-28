@@ -12,6 +12,7 @@
       @updateValue="$emit('udpateValue', $event)"
     />
     <!--
+      data-vv-as:name属性をかえることなく、エラー表示に使われるフィールド名を設定できる。
       ここで指定したnameと同名のプロパティが親側で紐づけられ、valueが代入される。今回はcategory
       $eventにはイベントのデータが入っている。特定の属性値を取り出したければ
       「$event.target.属性」。inputの変化で@updateValueが発火。

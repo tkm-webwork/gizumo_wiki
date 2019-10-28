@@ -15,7 +15,7 @@
       </thead>
       <transition-group name="fade" tag="tbody" class="category-list__table__body">
         <tr v-for="category in categories" :key="category.id">
-          <!-- ここで繰り返し処理を命令 -->
+          <!-- ここで繰り返し処理を命令。propsのcaegoriesの各categoryからはname,idを取り出せる -->
           <td>
             <app-text tag="span">
               {{ category.name }}
@@ -37,9 +37,11 @@
               underline
               hover-opacity
               :to="`/categories/${category.id}`"
+              :disabled="!access.edit"
             >
-              更新
+              <span @click="sendEditData(category.id, category.name)">更新</span>
             </app-router-link>
+            <!-- .nativeではメソッドの$emitが反応しなかった。spanで解決。-->
           </td>
           <td>
             <app-button
@@ -125,6 +127,10 @@ export default {
     handleClick() { // モーダルの削除するボタンにより発火
       if (!this.access.delete) return;
       this.$emit('handleClick'); // 別コンポーネントのhandleClickメソッドを発火
+    },
+    sendEditData(categoryId, categoryName) { // 追加
+      if (!this.access.edit) return;
+      this.$emit('sendEditData', categoryId, categoryName); // あるならManegement.vueのopenModalメソッドを発火
     },
   },
 };
