@@ -51,6 +51,7 @@ export default {
         });
       });
     },
+    // -------------------------カテゴリー作成時に追加したもの。-----------------------------------------
     resisterCategory({ commit, rootGetters }, { category }) {
       return new Promise((resolve) => { // 指定したvalueデータを受け取っている。
         commit('toggleLoading');
@@ -75,6 +76,40 @@ export default {
         });
       });
     },
+    // -------------------------カテゴリー更新時に追加したもの。-----------------------------------------
+    getCategoryDetail({ commit, rootGetters }, categoryId) { // 更新ボタンを押した際にカテゴリー詳細を取ってくる処理。
+      axios(rootGetters['auth/token'])({
+        method: 'GET', // 取得しているからget
+        url: `/category/${categoryId}`,
+      }).then((response) => {
+        const payload = response.data.category;
+        commit('doneGetCategoryDetail', payload);
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+      });
+    },
+    editUpdateCategoryName({ commit }, categoryName) {
+      // console.log(categoryName);undefinedと出てしまう。
+      commit('editUpdateCategoryName', { categoryName });
+    },
+    updateCategory({ commit, rootGetters }) {
+      commit('toggleLoading');
+      const data = new URLSearchParams();
+      data.append('id', this.state.categories.updateCategoryId);
+      data.append('name', this.state.categories.updateCategoryName);
+      axios(rootGetters['auth/token'])({
+        method: 'PUT',
+        url: `/category/${this.state.categories.updateCategoryId}`, // 更新の際には、更新すべきIdが必要なためつけている。
+        data,
+      }).then((response) => {
+        const payload = response.data.category;
+        commit('doneUpdateCategory', payload);
+        commit('toggleLoading');
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+        commit('toggleLoading');
+      });
+    },
   },
   mutations: {
     clearMessage(state) {
@@ -83,7 +118,6 @@ export default {
     },
     doneGetAllCategories(state, { categories }) {
       state.categoryList = [...categories];
-      // console.log(categories);
     },
     failFetchCategory(state, { message }) {
       state.errorMessage = message;
@@ -100,10 +134,25 @@ export default {
       state.deleteCategoryName = '';
       state.doneMessage = 'カテゴリーの削除が完了しました。';
     },
-    // -------------------------追加したもの。-----------------------------------------
+    // -------------------------カテゴリー作成時に追加したもの。-----------------------------------------
     AddDoneMessage(state) {
       state.errorMessage = '';
       state.doneMessage = 'カテゴリーの追加が完了しました';
+    },
+    // -------------------------カテゴリー更新時に追加したもの。-----------------------------------------
+    doneGetCategoryDetail(state, payload) {
+      // console.log(payload);
+      state.updateCategoryId = payload.id;
+      state.updateCategoryName = payload.name;
+    },
+    editUpdateCategoryName(state, { categoryName }) {
+      // console.log(categoryName);
+      state.updateCategoryName = categoryName;
+    },
+    doneUpdateCategory(state, payload) {
+      state.updateCategoryId = payload.id;
+      state.updateCategoryName = payload.name;
+      state.doneMessage = 'カテゴリーの更新が完了しました';
     },
   },
 };
