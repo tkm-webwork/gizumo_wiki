@@ -26,7 +26,9 @@
               underline
               small
               hover-opacity
+              :to="`/articles?category=${category.name}`"
             >
+              <!-- to属性を変数idにリアクティブにさせるには、バインド「:」が必要 -->
               このカテゴリーの記事
             </app-router-link>
           </td>
@@ -36,6 +38,7 @@
               underline
               hover-opacity
               :disabled="!access.edit"
+              :to="`/categories/${category.id}`"
             >
               <span @click="sendEditData(category.id, category.name)">更新</span>
             </app-router-link>
@@ -47,7 +50,7 @@
               small
               round
               :disabled="!access.delete"
-              @click="openModal()"
+              @click="openModal(category.id, category.name)"
             >
               削除
             </app-button>
@@ -69,7 +72,7 @@
           theme-color
           tag="p"
         >
-          ここに削除するカテゴリー名が入ります
+          {{ deleteCategoryName }}
         </app-text>
         <app-button
           class="category-list__modal__button"
@@ -118,13 +121,13 @@ export default {
     },
   },
   methods: {
-    openModal() { // 削除ボタンにより発火。
+    openModal(categoryId, categoryName) { // 削除ボタンにより発火。
       if (!this.access.delete) return; // ユーザーにdeleteの権限がないなら終了
-      this.$emit('openModal');// あるならManegement.vueのopenModalメソッドを発火
+      this.$emit('openModal', categoryId, categoryName);// あるならManegement.vueのopenModalメソッドを発火
     },
     handleClick() { // モーダルの削除するボタンにより発火
       if (!this.access.delete) return;
-      this.$emit('ここにエミットするイベント名が入ります'); // 別コンポーネントのhandleClickメソッドを発火
+      this.$emit('handleClick'); // 別コンポーネントのhandleClickメソッドを発火
     },
     sendEditData(categoryId, categoryName) { // 追加
       if (!this.access.edit) return;

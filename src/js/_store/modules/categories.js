@@ -23,9 +23,23 @@ export default { // stateはmutationの処理でしか変更できません。
     clearMessage({ commit }) {
       commit('clearMessage');
     },
-    getAllCategories({ commit }) {
-      const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
-      commit('doneGetAllCategories', payload);
+    getAllCategories({ commit, rootGetters }) {
+      const payload = { categories: [{ id: '', name: '' }] }; // 中の記入は必要ないが、中身が分かりやすい
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: '/category',
+      }).then((response) => {
+        // NOTE: エラー時はresponse.data.codeが0で返ってくる。
+        if (response.data.code === 0) throw new Error(response.data.message);
+        payload.categories = response.data.categories;// payloadにdata.categoriesを代入
+        // console.log(response);
+        commit('doneGetAllCategories', payload);
+      }).catch((err) => { // 通信そのものが失敗した場合の処理
+        commit('failFetchCategory', { message: err.message });
+      });
+    },
+    confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
+      commit('confirmDeleteCategory', { categoryId, categoryName });
     },
     deleteCategory({ commit, rootGetters }, categoryId) {
       return new Promise((resolve) => {
@@ -43,6 +57,7 @@ export default { // stateはmutationの処理でしか変更できません。
         });
       });
     },
+
     pushCategory({ commit, rootGetters }, { category }) { // 作成
       // console.log(category); // このaxiosはaxiosDefaultで定義されたインスタンス。
       return new Promise((resolve) => { // application/x-www-form-urlencoded形式で送る。
@@ -93,6 +108,10 @@ export default { // stateはmutationの処理でしか変更できません。
     sendEditData(state, { categoryId, categoryName }) { // 追加
       state.updateCategoryId = categoryId;
       state.updateCategoryName = categoryName;
+    },
+    confirmDeleteCategory(state, { categoryId, categoryName }) {
+      state.deleteCategoryId = categoryId;
+      state.deleteCategoryName = categoryName;
     },
     doneGetAllCategories(state, { categories }) { // getAllCategoriesアクションで発火
       state.categoryList = [...categories]; // categoriesは通信で取得したカテゴリー達

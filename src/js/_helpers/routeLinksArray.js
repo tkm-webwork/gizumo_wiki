@@ -1,4 +1,4 @@
-export default [
+export default [ // サイドバー用。router-linkで:to="item.path"
   {
     id: 1,
     name: 'HOME',

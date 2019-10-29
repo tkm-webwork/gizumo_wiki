@@ -87,7 +87,7 @@ const router = new VueRouter({
              */
             const isArticle = from.name ? from.name.indexOf('article') >= 0 : false;
             const isRedirect = to.query.redirect;
-            if (isArticle && isRedirect) {
+            if (isArticle && isRedirect) { // どちらも存在するなら
               next();
             } else {
               Store.dispatch('articles/clearMessage');
@@ -102,7 +102,7 @@ const router = new VueRouter({
         },
         {
           name: 'articleDetail',
-          path: ':id',
+          path: ':id', // 動的なセグメントは:で指定
           component: ArticleDetail,
         },
         {

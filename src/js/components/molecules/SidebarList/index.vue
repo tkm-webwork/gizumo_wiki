@@ -4,6 +4,10 @@
       v-for="item in targetArray"
       :key="item.id"
     >
+      <!--
+        別ファイルで配列を定義。各オブジェクトにpathプロパティが定義
+        つまり、パスの一部を変数として変化させているわけではない
+      -->
       <app-router-link
         :to="item.path"
         exact-active-class="is-active"
