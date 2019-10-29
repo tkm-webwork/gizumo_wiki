@@ -1,7 +1,7 @@
 export default {
   methods: {
-    toggleModal() {
-      this.$root.$emit('toggleModal');
+    toggleModal() { // $rootでルートインスタンスへアクセス。toggleModalの実行。
+      this.$root.$emit('toggleModal'); // 結局はstoreのカスタムイベントを発火している。
     },
   },
 };

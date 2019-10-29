@@ -19,7 +19,7 @@ export default {
       isOpen: false,
     };
   },
-  beforeMount() {
+  beforeMount() { // ここでtoggleModalを定義
     this.$root.$on('toggleModal', this.handleToggleModal);
   },
   methods: {

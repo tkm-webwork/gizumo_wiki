@@ -26,6 +26,7 @@
         :access="access"
         @openModal="openModal"
         @sendEditData="sendEditData"
+        @handleClick="deleteCategory"
       />
     </section>
   </div>
@@ -81,8 +82,10 @@ export default {
     clearMessage() { // CategoryPost.vueで処理が成功した後に発火
       this.$store.dispatch('categories/clearMessage');
     },
-    openModal() { // 削除ボタンと紐づいた@openModalにより発火
-      this.toggleModal();
+    openModal(categoryId, categoryName) { // 削除ボタンと紐づいた@openModalにより発火
+      this.$store.dispatch('categories/confirmDeleteCategory',
+        { categoryId, categoryName });
+      this.toggleModal(); // mixinsのメソッド→VueインスタンスにtoggleModal`をemit→Modalで定義したイベント実行
       this.$store.dispatch('categories/clearMessage');
     },
     pushCategory() { // 作成。
@@ -95,6 +98,13 @@ export default {
     sendEditData(categoryId, categoryName) { // stateはmutationの処理でしか変更できません
       this.$store.dispatch('categories/sendEditData',
         { categoryId, categoryName });
+    },
+    deleteCategory() {
+      this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId)
+        .then(() => {
+          this.$store.dispatch('categories/getAllCategories');
+          this.toggleModal(); // Modalで定義した真偽値の反転イベント実行
+        });
     },
   },
 };
