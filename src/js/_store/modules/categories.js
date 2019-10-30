@@ -19,13 +19,21 @@ export default {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
-    getAllCategories({ commit }) {
-      const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
-      commit('doneGetAllCategories', payload);
+    getAllCategories({ commit, rootGetters }) {
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: '/category',
+      }).then((response) => {
+        const payload = { categories: [] };
+        // const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
+        response.data.categories.forEach((value) => { // 返ってきて取得してきているデータをforEachで回している。
+          payload.categories.push(value); // リストにpushして表示している。
+          commit('doneGetAllCategories', payload);
+        });
+      });
     },
     postCateogry({ commit, rootGetters }, categoryName) {
       commit('toggleLoading');
-
       const data = new URLSearchParams();
       data.append('name', categoryName);
       return new Promise((resolve) => {
@@ -117,6 +125,9 @@ export default {
         commit('toggleLoading');
       });
     },
+    checkDelete({ commit }, { categoryName, categoryId }) {
+      commit('checkDelete', { categoryName, categoryId });
+    },
   },
   mutations: {
     clearMessage(state) {
@@ -159,6 +170,10 @@ export default {
       state.updateCategoryId = payload.id;
       state.updateCategoryName = payload.name;
       state.doneMessage = 'カテゴリーの更新が完了しました';
+    },
+    checkDelete(state, { categoryName, categoryId }) {
+      state.deleteCategoryName = categoryName;
+      state.deleteCategoryId = categoryId;
     },
   },
 };
