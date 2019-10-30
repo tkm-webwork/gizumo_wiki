@@ -56,7 +56,7 @@ export default {
     },
     // 追加したもの。----------------------------------------
     updateValue($event) { // inputタグに入力された値をstoreのactionsに渡している。
-      // this[$event.target.name] = $event.target.value;
+      // this[$event.target.name] = $event.target.value;・・・computedの中を変えようとしていたからのエラー。
       // console.log($event.target.value);
       // console.log($event.target.name);=updateCategoryName
       this.$store.dispatch('categories/editUpdateCategoryName', $event.target.value);

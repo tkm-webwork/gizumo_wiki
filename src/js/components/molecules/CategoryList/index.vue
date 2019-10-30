@@ -48,7 +48,6 @@
               :disabled="!access.delete"
               @click="openModal(category.name, category.id)"
             >
-            <!-- @click="openModal()"ではなく、@click="openModal"ではないのはなぜか？ -->
               削除
             </app-button>
           </td>

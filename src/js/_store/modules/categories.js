@@ -24,12 +24,12 @@ export default {
         method: 'GET',
         url: '/category',
       }).then((response) => {
-        const payload = { categories: [] };
-        // const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
-        response.data.categories.forEach((value) => { // 返ってきて取得してきているデータをforEachで回している。
-          payload.categories.push(value); // リストにpushして表示している。
-          commit('doneGetAllCategories', payload);
+        const categories = [];
+        response.data.categories.map((value) => {
+          categories.push(value);
+          return categories;
         });
+        commit('doneGetAllCategories', { categories });
       });
     },
     postCateogry({ commit, rootGetters }, categoryName) {
