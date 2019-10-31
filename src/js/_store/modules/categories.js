@@ -24,11 +24,13 @@ export default {
         method: 'GET',
         url: '/category',
       }).then((response) => {
-        const categories = [];
-        response.data.categories.map((value) => {
-          categories.push(value);
-          return categories;
-        });
+        const { categories } = response.data;
+        // const categories = response.data.categories;と同義
+
+        // response.data.categories.forEach((value) => {
+        //   categories.push(value);
+        // });
+        // response.data.categories.map((value) => value);
         commit('doneGetAllCategories', { categories });
       });
     },
