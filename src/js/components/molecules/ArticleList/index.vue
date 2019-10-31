@@ -101,7 +101,7 @@ export default {
     appButton: Button,
     appText: Text,
   },
-  props: {
+  props: { // 直接HTMLで使用することも、computedでそれに基づいたプロパティを定義することも可
     className: {
       type: String,
       default: '',
@@ -127,7 +127,7 @@ export default {
       default: () => ({}),
     },
   },
-  computed: {
+  computed: { // 孫はpropsの監視をして必要な処理を行う
     articleTitle() {
       return `${this.title}の一覧`;
     },

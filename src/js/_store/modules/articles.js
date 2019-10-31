@@ -24,17 +24,17 @@ export default {
         updated_at: '',
       },
     },
-    articleList: [],
+    articleList: [], // ここに入ったものがリストに表示される。全てorカテゴリ名で選別
     deleteArticleId: null,
     loading: false,
     doneMessage: '',
     errorMessage: '',
   },
-  getters: {
-    transformedArticles(state) {
-      return state.articleList.map(article => ({
-        id: article.id,
-        content: `${article.title + article.content}`,
+  getters: { // getter は state のデータに何らかの変換を通したものを取り出せるようにするもの
+    transformedArticles(state) { // getterから記事一覧情報を取得。
+      return state.articleList.map(article => ({ // 必要dataのみの抽出。contentの変形
+        id: article.id, // categoriesは$emitから情報を取得してきた。今回はカテゴリーの選択とinputのvalueでそれらが完結する。
+        content: `${article.title + article.content}`, // 変更はstateが常に反映しているので、gettersから直接通信に引用。
       }));
     },
     tenNewArticleList(state) {
@@ -44,8 +44,8 @@ export default {
         return count <= 10;
       });
     },
-    targetArticle: state => state.targetArticle,
-    deleteArticleId: state => state.deleteArticleId,
+    targetArticle: state => state.targetArticle, // 更新や作成などの通信で利用できるように
+    deleteArticleId: state => state.deleteArticleId, // 削除の通信で利用できるように
   },
   mutations: {
     initPostArticle(state) {
@@ -92,7 +92,7 @@ export default {
       state.targetArticle.category = Object.assign(
         {},
         { ...state.targetArticle.category },
-        { ...payload.category },
+        { ...payload.category }, // リストで選ばれた対象のカテゴリーに上書きする
       );
     },
     updateArticle(state, { article }) {
@@ -122,7 +122,7 @@ export default {
     getArticles({ commit, rootGetters }, categoryName) {
       return new Promise((resolve, reject) => {
         axios(rootGetters['auth/token'])({
-          method: 'GET',
+          method: 'GET', // nameが渡されていれば対象の記事のみ。なければ全て取得。
           url: categoryName ? `/article?category=${categoryName}` : '/article',
         }).then((res) => {
           const payload = {
@@ -177,16 +177,16 @@ export default {
       });
     },
     selectedArticleCategory({ commit, rootGetters }, categoryName) {
-      const categoryList = rootGetters['categories/categoryList'];
-      const matches = categoryList.find(category => category.name === categoryName);
-      // カテゴリーが空のときのidとnameは下記をセット
+      const categoryList = rootGetters['categories/categoryList']; // リストを取得し、カテゴリ名から対象を取得
+      const matches = categoryList.find(category => category.name === categoryName); // 対象のオブジェクトを代入
+      // カテゴリーが空のときのidとnameは下記をセットmatchesをletに変更
       // if (!matches) {
       //   matches = {
       //     id: null,
       //     name: '',
       //   };
       // }
-      const payload = {
+      const payload = { // nameから特定したカテゴリーを代入してstateの書き換えを行う
         category: matches,
       };
       commit('selectedArticleCategory', payload);
@@ -266,7 +266,7 @@ export default {
         }).catch((err) => {
           commit('toggleLoading');
           commit('failRequest', { message: err.message });
-          reject();
+          reject(err);
         });
       });
     },
