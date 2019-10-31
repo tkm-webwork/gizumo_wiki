@@ -87,7 +87,6 @@ export default {
     },
     failRequest(state, { message }) {
       state.errorMessage = message;
-      console.log('aaa');
     },
     selectedArticleCategory(state, payload) {
       state.targetArticle.category = Object.assign(

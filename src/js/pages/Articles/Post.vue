@@ -73,8 +73,6 @@ export default {
       this.$store.dispatch('articles/postArticle').then(() => { //
         // this.$store.dispatch('articles/getArticles'); // 記事一覧の取得
         this.$router.push({ path: '/articles' }); // 遷移先のpush
-      }).catch((err) => {
-        console.log(err);
       });
     },
     selectedArticleCategory($event) { // リストからカテゴリーが選択されたら実行。
