@@ -60,7 +60,7 @@ export default {
           this.$store.dispatch('articles/getArticles', categoryName);
         });
     },
-    fetchArticles(categoryName) { // 対象カテゴリーの記事が存在しなかった場合、notFoundパスに移動
+    fetchArticles(categoryName) { // そもそも記事が存在しなかった場合、notFoundパスに移動
       this.$store.dispatch('articles/getArticles', categoryName)
         .then(() => {
           if (this.$store.state.articles.articleList.length === 0) {

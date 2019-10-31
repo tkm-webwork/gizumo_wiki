@@ -50,9 +50,9 @@ export default {
     },
     existsMarkdownIndexes() {
       const isExsits = this.markdownIndexes.length > 0;
-      return isExsits;
+      return isExsits; // 真偽値が返される
     },
-    marked() {
+    marked() { // 入力されたテキストをhtml形式に変換しv-htmlで組み込む
       const renderer = new marked.Renderer();
       renderer.code = (code, lang) => `<pre class="hljs"><code class="language-${lang}">${hljs.highlightAuto(code, [lang]).value}</code></pre>`;
       renderer.em = text => `<span class="attention">${text}</span>`;

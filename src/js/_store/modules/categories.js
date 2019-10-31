@@ -17,7 +17,7 @@ export default { // stateはmutationの処理でしか変更できません。
     updateCategoryName: '',
   },
   getters: { // "ゲッター" はストアの算出プロパティ。ゲッターの結果はその依存関係に基づいて計算され、依存関係の一部が変更されたとき
-    categoryList: state => state.categoryList,
+    categoryList: state => state.categoryList, // rootGetters['categories/categoryList']で他storeも取得可能
   },
   actions: {
     clearMessage({ commit }) {

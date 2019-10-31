@@ -20,6 +20,7 @@
           :error-messages="errors.collect('category')"
           @updateValue="$emit('selectedArticleCategory', $event)"
         >
+          <!-- optionで選択肢を追加。selectedは初期表示の属性 -->
           <option
             value=""
             selected
@@ -33,6 +34,7 @@
             :value="category.name"
             :selected="currentCategoryName === category.name ? true : false "
           >
+            <!-- カテゴリーリストから対象のカテゴリのnameを探し、初期表示させる -->
             {{ category.name }}
           </option>
         </app-select>
@@ -108,7 +110,7 @@ export default {
       type: Number,
       default: 0,
     },
-    articleTitle: {
+    articleTitle: { // stateから引っ張る
       type: String,
       default: '',
     },
@@ -116,8 +118,8 @@ export default {
       type: String,
       default: '',
     },
-    markdownContent: {
-      type: String,
+    markdownContent: { // タイトルと内容をpagesに渡し、まとめたものをpropsで取得
+      type: String, // moleculesは受け取ることに徹する。変更の監視はpagesで
       default: '',
     },
     currentCategoryName: {
