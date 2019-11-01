@@ -1,5 +1,8 @@
 <template lang="html">
-  <li :class="classes">
+  <li
+    :id="id"
+    :class="classes"
+  >
     <slot />
   </li>
 </template>
@@ -30,6 +33,10 @@ export default {
     borderBottomGray: {
       type: Boolean,
       default: false,
+    },
+    id: {
+      type: String,
+      default: '',
     },
   },
   computed: {

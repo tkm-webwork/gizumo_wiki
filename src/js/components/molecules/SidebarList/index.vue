@@ -2,6 +2,7 @@
   <ul :class="className">
     <app-list-item
       v-for="item in targetArray"
+      :id="item.selector"
       :key="item.id"
     >
       <app-router-link
