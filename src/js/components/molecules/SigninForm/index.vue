@@ -1,6 +1,6 @@
 <template lang="html">
   <form class="login" @submit.prevent="handleSubmit">
-    <div class="login-form">
+    <div id="mail" class="login-form">
       <app-input
         v-validate="'required|email'"
         name="email"
@@ -12,7 +12,7 @@
         @updateValue="updateValue"
       />
     </div>
-    <div class="login-form">
+    <div id="pass" class="login-form">
       <app-input
         v-validate="'required'"
         name="password"
