@@ -65,6 +65,7 @@ export default {
     },
   },
   created() { // まずすべてのリストを取得。リストに反映させる
+    this.$store.dispatch('articles/clearMessage'); // 既存の内容を反映
     this.$store.dispatch('categories/getAllCategories'); // 既存の内容を反映
     this.$store.dispatch('articles/getArticleDetail', parseInt(this.articleId, 10));
   }, // ↑ articleIdで識別。通信してdataを取得しtargetArticleを更新。

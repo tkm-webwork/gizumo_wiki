@@ -60,6 +60,7 @@ export default {
       marked.setOptions({
         renderer,
         /* renderer: new marked.Renderer(), */
+        sanitize: true,
         highlight: (code, lang) => hljs.highlightAuto(code, [lang]).value,
         breaks: false,
         smartLists: true,
