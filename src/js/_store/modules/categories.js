@@ -76,9 +76,9 @@ export default {
     getCategory({ commit, rootGetters }, categoryId) {
       axios(rootGetters['auth/token'])({
         method: 'GET',
-        url: '/category',
+        url: `/category/${categoryId}`,
       }).then((response) => {
-        const payload = response.data.categories.filter(array => array.id === categoryId);
+        const payload = response.data.category;
         commit('getCategory', payload);
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
@@ -133,7 +133,7 @@ export default {
       state.doneMessage = 'カテゴリーの追加が完了しました。';
     },
     getCategory(state, payload) {
-      state.updateCategoryName = payload[0].name;
+      state.updateCategoryName = payload.name;
     },
     editedCategory(state, categoryName) {
       state.updateCategoryName = categoryName;
