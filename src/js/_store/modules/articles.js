@@ -135,6 +135,23 @@ export default {
         });
       });
     },
+    getTrashedArticles({ commit, rootGetters }) {
+      return new Promise((resolve, reject) => {
+        axios(rootGetters['auth/token'])({
+          method: 'GET',
+          url: '/article/trashed',
+        }).then((res) => {
+          const payload = {
+            articles: res.data.articles,
+          };
+          commit('doneGetArticles', payload);
+          resolve();
+        }).catch((err) => {
+          commit('failRequest', { message: err.message });
+          reject();
+        });
+      });
+    },
     getArticleDetail({ commit, rootGetters }, articleId) {
       return new Promise((resolve, reject) => {
         axios(rootGetters['auth/token'])({
