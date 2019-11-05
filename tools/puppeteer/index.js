@@ -1,7 +1,12 @@
 const puppeteer = require('puppeteer');
+const fs = require('fs');
 
 const TARGET_URL = 'http://localhost:8000';
 const CAPTURE_PATH = 'tools/puppeteer/screenshot/';
+// スクリーンショット保存ディレクトリがなければ作成
+if (!fs.existsSync(CAPTURE_PATH)) {
+  fs.mkdirSync(CAPTURE_PATH);
+}
 const user = process.env.USER || null;
 const pass = process.env.PASS || null;
 

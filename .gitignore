@@ -4,6 +4,7 @@ coverage/
 public/js/
 public/css/
 
+tools/puppeteer/screenshot/
 
 .Trash-*
 .DS_Store
