@@ -196,7 +196,8 @@ router.beforeEach((to, from, next) => {
       if (Store.state.auth.user.password_reset_flg) return next();
       return next('/password/init');
     }).catch(() => {
-      next('/signin');
+      const query = isSignOut || isPasswordInit ? {} : { redirect: to.fullPath };
+      next({ path: '/signin', query });
     });
   } else if (isSignIn) {
     // signinページにアクセスしようとした時に
@@ -205,7 +206,7 @@ router.beforeEach((to, from, next) => {
     // 未認証ならそのままsigninを表示
     Store.dispatch('auth/checkAuth', cookie)
       .then(() => {
-        if (Store.state.auth.user.password_reset_flg) return next();
+        if (Store.state.auth.user.password_reset_flg) return next('/');
         return next('/password/init');
       }).catch(() => next());
   } else if ((!Store.state.auth.user.password_reset_flg && !isPasswordInit)
