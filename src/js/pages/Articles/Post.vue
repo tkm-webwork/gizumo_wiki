@@ -48,6 +48,10 @@ export default {
       const { name } = this.$store.state.articles.targetArticle.category;
       return name;
     },
+    currentCategoryId() {
+      const { id } = this.$store.state.articles.targetArticle.category;
+      return id;
+    },
     loading() {
       return this.$store.state.articles.loading;
     },
@@ -59,7 +63,21 @@ export default {
     },
   },
   created() { // まずすべてのリストを取得。リストに反映させる
-    this.$store.dispatch('categories/getAllCategories');
+    this.$store.dispatch('categories/getAllCategories'); // リストの取得
+    if (localStorage.getItem('ReEditData')) { // もしデータが存在すれば、つまり編集途中であれば
+      const ReEditData = JSON.parse(localStorage.getItem('ReEditData'));
+      this.$store.dispatch('articles/getReEditData', ReEditData); // stateを更新する
+    } else {
+      this.$store.dispatch('articles/initPostArticle'); // 新規作成であれば項目のリセット
+    }
+  },
+  updated() { // ページ再描画時にデータをローカルストレージに保存
+    localStorage.setItem('ReEditData', JSON.stringify({
+      categoryName: this.currentCategoryName,
+      categoryId: this.currentCategoryId,
+      articleTitle: this.articleTitle,
+      articleContent: this.articleContent,
+    })); // 送信できている
   },
   methods: { // stateの更新→computedに反映→markdownContentに反映
     editedTitle($event) { // getterへの反映もこの段階で行い、通信時参照データを作成
@@ -70,9 +88,9 @@ export default {
     },
     postArticle() { // 新規作成のaxios通信を発火
       if (this.loading) return;
-      this.$store.dispatch('articles/postArticle').then(() => { //
-        // this.$store.dispatch('articles/getArticles'); // 記事一覧の取得
+      this.$store.dispatch('articles/postArticle').then(() => {
         this.$router.push({ path: '/articles' }); // 遷移先のpush
+        localStorage.removeItem('ReEditData');
       });
     },
     selectedArticleCategory($event) { // リストからカテゴリーが選択されたら実行。

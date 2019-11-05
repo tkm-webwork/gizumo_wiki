@@ -32,6 +32,7 @@
             v-for="(category) in categoryList"
             :key="category.id"
             :value="category.name"
+            :selected="currentCategoryName === category.name ? true : false "
           >
             {{ category.name }}
           </option>

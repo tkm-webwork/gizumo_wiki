@@ -5,10 +5,10 @@ import axios from '@Helpers/axiosDefault';
 export default {
   namespaced: true,
   state: {
-    targetArticle: {
-      id: null,
-      title: '',
-      content: '',
+    targetArticle: { // 更新画面→新規画面と遷移すると更新画面のtargetArticle
+      id: null, // が残っているためinitPostArticleでstateの初期化をする。
+      title: '', // postページのcreatedで発火させる。
+      content: '', // このリセット後に
       category: {
         id: null,
         name: '',
@@ -69,7 +69,13 @@ export default {
         },
       });
     },
-    doneGetArticle(state, payload) {
+    getReEditData(state, ReEditData) {
+      state.targetArticle.category.name = ReEditData.categoryName;
+      state.targetArticle.category.id = ReEditData.categoryId;
+      state.targetArticle.title = ReEditData.articleTitle;
+      state.targetArticle.content = ReEditData.articleContent;
+    },
+    doneGetArticle(state, payload) { // ここでarticleIdで識別した
       state.targetArticle = Object.assign({}, state.targetArticle, payload.article);
     },
     doneGetArticles(state, payload) {
@@ -118,6 +124,9 @@ export default {
   actions: {
     initPostArticle({ commit }) {
       commit('initPostArticle');
+    },
+    getReEditData({ commit }, ReEditData) { // 作成
+      commit('getReEditData', ReEditData);
     },
     getArticles({ commit, rootGetters }, categoryName) {
       return new Promise((resolve, reject) => {

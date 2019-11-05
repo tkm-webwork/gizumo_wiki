@@ -65,9 +65,10 @@ export default {
     },
   },
   created() { // まずすべてのリストを取得。リストに反映させる
+    this.$store.dispatch('articles/clearMessage'); // 既存の内容を反映
     this.$store.dispatch('categories/getAllCategories'); // 既存の内容を反映
     this.$store.dispatch('articles/getArticleDetail', parseInt(this.articleId, 10));
-  },
+  }, // ↑ articleIdで識別。通信してdataを取得しtargetArticleを更新。
   methods: { // stateの更新→computedに反映→markdownContentに反映
     editedTitle($event) { // →子のpropsに反映→孫のatomsに反映→プレビューに内容が表示
       this.$store.dispatch('articles/editedTitle', $event.target.value);
