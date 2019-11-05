@@ -53,7 +53,7 @@
             round
             hover-opacity
           >
-            更新
+            <span style="margin:0" @click="$emit('clearMessage')">更新</span>
           </app-router-link>
           <app-button
             bg-danger

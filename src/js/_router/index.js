@@ -80,7 +80,7 @@ const router = new VueRouter({
           name: 'articleList',
           path: '',
           component: ArticleList,
-          beforeEnter(to, from, next) {
+          beforeEnter(to, from, next) { // 遷移する前に実行する処理
             /**
              * 記事作成、記事更新、記事削除からリダイレクトするときは?redirect=リダイレクト元のurlのパラメータを
              * 渡してリダイレクト、パラメータが存在する場合はclearMessageアクションを通知しない
@@ -159,8 +159,7 @@ const router = new VueRouter({
     },
   ],
 });
-
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => { // 対象ページにルーティングする前に発火
   const token = Cookies.get('user-token') || null;
   const isPublic = to.matched.some(page => page.meta.isPublic);
   const isSignIn = to.matched.some(page => page.path === '/signin');

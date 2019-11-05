@@ -8,6 +8,7 @@
       border-gray
       @openModal="openModal"
       @handleClick="handleClick"
+      @clearMessage="clearMessage"
     />
   </div>
 </template>
@@ -21,7 +22,7 @@ export default {
     appArticleList: ArticleList,
   },
   mixins: [Mixins],
-  beforeRouteUpdate(to, from, next) {
+  beforeRouteUpdate(to, from, next) { // urlの遷移で発火させる画面の再描画を定義。
     const categoryName = to.query.category ? to.query.category : null;
     this.fetchArticles(categoryName);
     next();
@@ -47,6 +48,9 @@ export default {
     this.fetchArticles(categoryName);
   },
   methods: {
+    clearMessage() {
+      this.$store.dispatch('articles/clearMessage');
+    },
     openModal(articleId) {
       this.$store.dispatch('articles/confirmDeleteArticle', articleId);
       this.toggleModal();
