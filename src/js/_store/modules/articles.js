@@ -25,6 +25,7 @@ export default {
       },
     },
     articleList: [], // ここに入ったものがリストに表示される。全てorカテゴリ名で選別
+    trashedArticleList: [], // 追加
     deleteArticleId: null,
     loading: false,
     doneMessage: '',
@@ -48,6 +49,9 @@ export default {
     deleteArticleId: state => state.deleteArticleId, // 削除の通信で利用できるように
   },
   mutations: {
+    doneGetTrashedArticles(state, payload) { // 追加
+      state.trashedArticleList = [...payload.trashedArticles];
+    },
     initPostArticle(state) {
       state.targetArticle = Object.assign({}, {
         id: null,
@@ -122,6 +126,17 @@ export default {
     },
   },
   actions: {
+    getTrashedArticles({ commit, rootGetters }) { // 追加
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: '/article/trashed',
+      }).then((res) => {
+        const payload = {
+          trashedArticles: res.data.articles,
+        };
+        commit('doneGetTrashedArticles', payload);
+      });
+    },
     initPostArticle({ commit }) {
       commit('initPostArticle');
     },
