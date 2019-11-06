@@ -215,8 +215,9 @@ export default {
           },
         };
         commit('updateArticle', payload);
-        commit('toggleLoading');
+        // console.log(payload);
         commit('displayDoneMessage', { message: 'ドキュメントを更新しました' });
+        commit('toggleLoading');
       }).catch(() => {
         commit('toggleLoading');
       });
