@@ -215,8 +215,9 @@ export default {
           },
         };
         commit('updateArticle', payload);
-        commit('toggleLoading');
+        // console.log(payload);
         commit('displayDoneMessage', { message: 'ドキュメントを更新しました' });
+        commit('toggleLoading');
       }).catch(() => {
         commit('toggleLoading');
       });
@@ -272,5 +273,30 @@ export default {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
+    // resisterArticle({ commit }) {
+    //   commit('toggleLoading');
+    //   const data = new URLSearchParams();
+    //   data.append('title', rootGetters['articles/targetArticle'].title);
+    //   data.append('content', rootGetters['articles/targetArticle'].content);
+    //   data.append('category_id', rootGetters['articles/targetArticle'].category.id);
+    //   console.log(data);
+    //   axious(rootGetters['auth/token'])({
+    //     method: 'POST',
+    //     url:'/article',
+    //     data,
+    //   }).then(response)(() => {
+    //     // const payload = {
+    //     //   id: response.data.article.id,
+    //     //   title: response.data.article.title,
+    //     //   content: response.data.article.content,
+    //     // const payload = {articles = []};
+    //     // payload.articles.push(response.data.article);
+    //     // commit('', payload);
+    //     commit('displayDoneMessage', { message: 'ドキュメントを更新しました' });
+    //     commit('toggleLoading');
+    //   }).catch(error)(() => {
+    //     commit('toggleLoading');
+    //   });
+    // },
   },
 };
