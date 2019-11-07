@@ -50,16 +50,8 @@ export default {
         });
       });
     },
-    confirmDeleteCategory({ commit, rootGetters }, categoryId) {
-      axios(rootGetters['auth/token'])({
-        method: 'GET',
-        url: `/category/${categoryId}`,
-      }).then((response) => {
-        const payload = response.data.category;
-        commit('confirmDeleteCategory', payload);
-      }).catch((err) => {
-        commit('failFetchCategory', { message: err.message });
-      });
+    confirmDeleteCategory({ commit }, category) {
+      commit('confirmDeleteCategory', category);
     },
     deleteCategory({ commit, rootGetters }, categoryId) {
       return new Promise((resolve) => {
@@ -145,9 +137,9 @@ export default {
     toggleLoading(state) {
       state.loading = !state.loading;
     },
-    confirmDeleteCategory(state, payload) {
-      state.deleteCategoryName = payload.name;
-      state.deleteCategoryId = payload.id;
+    confirmDeleteCategory(state, category) {
+      state.deleteCategoryName = category.categoryName;
+      state.deleteCategoryId = category.categoryId;
     },
     doneDeleteCategory(state) {
       state.deleteCategoryId = null;

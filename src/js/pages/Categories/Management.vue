@@ -83,10 +83,10 @@ export default {
           this.$store.dispatch('categories/getAllCategories');
         });
     },
-    openModal(categoryId) {
+    openModal(category) {
       this.toggleModal();
       this.$store.dispatch('categories/clearMessage');
-      this.$store.dispatch('categories/confirmDeleteCategory', categoryId);
+      this.$store.dispatch('categories/confirmDeleteCategory', category);
     },
     deleteCategory() {
       this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId)

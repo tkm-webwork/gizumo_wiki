@@ -37,7 +37,7 @@
               underline
               hover-opacity
             >
-                更新
+              更新
             </app-router-link>
           </td>
           <td>
@@ -46,7 +46,7 @@
               small
               round
               :disabled="!access.delete"
-              @click="openModal(category.id)"
+              @click="openModal(category.id, category.name)"
             >
               削除
             </app-button>
@@ -117,9 +117,9 @@ export default {
     },
   },
   methods: {
-    openModal(categoryId) {
+    openModal(categoryId, categoryName) {
       if (!this.access.delete) return;
-      this.$emit('openModal', categoryId);
+      this.$emit('openModal', { categoryId, categoryName });
     },
     handleClick() {
       if (!this.access.delete) return;
