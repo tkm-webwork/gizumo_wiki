@@ -15,8 +15,10 @@ import CategoryEdit from './CategoryEdit';
 import ArticleEdit from './ArticleEdit';
 import ArticlePost from './ArticlePost';
 import ArticleDetail from './ArticleDetail';
+import ArticleTrashed from './ArticleTrashed'; // 追加
 import DeleteModal from './Modal';
 import Notice from './Notice';
+
 
 export {
   SigninForm,
@@ -36,6 +38,7 @@ export {
   ArticleEdit,
   ArticlePost,
   ArticleDetail,
+  ArticleTrashed, // 追加
   DeleteModal,
   Notice,
 };
