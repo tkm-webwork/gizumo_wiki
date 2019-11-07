@@ -71,25 +71,21 @@ export default {
       return val;
     },
     editDate(val) { // 日付の表記の変更
-      return val.substr(0, 10);
+      return new Date(val).toLocaleString('ja-JP',
+        {
+          era: 'long', year: 'numeric', month: 'numeric', day: 'numeric',
+        });
     },
   },
   props: { // 直接HTMLで使用することも、computedでそれに基づいたプロパティを定義することも可
-    className: {
-      type: String,
-      default: '',
-    },
     targetArray: { // 削除済みの記事一覧
       type: Array,
       default: () => [],
     },
-    borderGray: {
-      type: Boolean,
-      default: false,
-    },
     title: {
       type: String,
       default: '削除済み記事',
+      required: true,
     },
   },
   computed: { // 孫はpropsの監視をして必要な処理を行う

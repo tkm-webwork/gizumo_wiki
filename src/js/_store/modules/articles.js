@@ -34,8 +34,8 @@ export default {
   getters: { // getter は state のデータに何らかの変換を通したものを取り出せるようにするもの
     transformedArticles(state) { // getterから記事一覧情報を取得。
       return state.articleList.map(article => ({ // 必要dataのみの抽出。contentの変形
-        id: article.id, // categoriesは$emitから情報を取得してきた。今回はカテゴリーの選択とinputのvalueでそれらが完結する。
-        content: `${article.title + article.content}`, // 変更はstateが常に反映しているので、gettersから直接通信に引用。
+        id: article.id,
+        content: `${article.title + article.content}`,
       }));
     },
     tenNewArticleList(state) {
@@ -135,6 +135,8 @@ export default {
           trashedArticles: res.data.articles,
         };
         commit('doneGetTrashedArticles', payload);
+      }).catch((err) => {
+        commit('failRequest', { message: err.message });
       });
     },
     initPostArticle({ commit }) {
