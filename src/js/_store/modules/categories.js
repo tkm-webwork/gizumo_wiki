@@ -24,8 +24,9 @@ export default {
         method: 'GET',
         url: '/category',
       }).then((response) => {
-        const payload = [];
-        response.data.categories.map(val => payload.push(val));
+        const array = [];
+        response.data.categories.map(val => array.push(val));
+        const payload = { category: array };
         commit('doneGetAllCategories', payload);
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
@@ -130,7 +131,7 @@ export default {
       state.doneMessage = '';
     },
     doneGetAllCategories(state, payload) {
-      state.categoryList = payload;
+      state.categoryList = payload.category;
     },
     failFetchCategory(state, { message }) {
       state.errorMessage = message;
