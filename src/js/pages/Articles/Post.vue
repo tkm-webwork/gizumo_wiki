@@ -33,28 +33,22 @@ export default {
   },
   computed: {
     articleId() {
-      let { id } = this.$route.params;
-      id = parseInt(id, 10);
-      return id;
+      return parseInt(this.$route.params.id, 10);
     },
     articleTitle() {
-      const { title } = this.$store.state.articles.targetArticle;
-      return title;
+      return this.$store.state.articles.targetArticle.title;
     },
     articleContent() {
-      const { content } = this.$store.state.articles.targetArticle;
-      return content;
+      return this.$store.state.articles.targetArticle.content;
     },
     markdownContent() {
       return `# ${this.articleTitle}\n${this.articleContent}`;
     },
     currentCategoryName() {
-      const { name } = this.$store.state.articles.targetArticle.category;
-      return name;
+      return this.$store.state.articles.targetArticle.category.name;
     },
     categoryList() {
-      const { categoryList } = this.$store.state.categories;
-      return categoryList;
+      return this.$store.state.categories.categoryList;
     },
     loading() {
       return this.$store.state.articles.loading;
@@ -68,9 +62,29 @@ export default {
     access() {
       return this.$store.getters['auth/access'];
     },
+    targetArticle() {
+      return this.$store.state.articles.targetArticle;
+    },
+  },
+  watch: {
+    targetArticle: {
+      handler(newArticle) {
+        localStorage.setItem('targetArticle', JSON.stringify(newArticle));
+      },
+      deep: true,
+    },
   },
   created() {
     this.$store.dispatch('categories/getAllCategories'); // 表示がされる際に登録されているカテゴリーを取得してきている。ドロップダウンメニューに表示するため。
+    this.$store.dispatch('articles/initPostArticle');
+  },
+  mounted() {
+    if (localStorage.getItem('targetArticle')) {
+      this.$store.dispatch(
+        'articles/saveTargetArticle',
+        JSON.parse(localStorage.getItem('targetArticle')),
+      );
+    }
   },
   methods: {
     selectedArticleCategory($event) {
@@ -86,6 +100,7 @@ export default {
     handleSubmit() {
       if (this.loading) return;
       this.$store.dispatch('articles/postArticle').then(() => { // postArticleが終了したら.thne以下を行う。
+        localStorage.removeItem('targetArticle');
         this.$router.push({ // 使用しているRouterLinkにpushしている。表示が変わる。
           path: '/articles',
           query: { redirect: '/article/post' },

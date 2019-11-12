@@ -113,6 +113,9 @@ export default {
     displayDoneMessage(state, payload = { message: '成功しました' }) {
       state.doneMessage = payload.message;
     },
+    saveTargetArticle(state, payload) {
+      state.targetArticle = Object.assign({}, state.targetArticle, payload);
+    },
   },
   actions: {
     initPostArticle({ commit }) {
@@ -272,6 +275,9 @@ export default {
     },
     clearMessage({ commit }) {
       commit('clearMessage');
+    },
+    saveTargetArticle({ commit }, targetArticle) {
+      commit('saveTargetArticle', targetArticle);
     },
   },
 };
