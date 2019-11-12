@@ -116,10 +116,6 @@ export default {
     saveTargetArticle(state, payload) {
       state.targetArticle = Object.assign({}, state.targetArticle, payload);
     },
-    clearTargetArticle(state) {
-      state.targetArticle.title = '';
-      state.targetArticle.content = '';
-    },
   },
   actions: {
     initPostArticle({ commit }) {
@@ -282,9 +278,6 @@ export default {
     },
     saveTargetArticle({ commit }, targetArticle) {
       commit('saveTargetArticle', targetArticle);
-    },
-    clearTargetArticle({ commit }) {
-      commit('clearTargetArticle');
     },
   },
 };

@@ -33,28 +33,22 @@ export default {
   },
   computed: {
     articleId() {
-      let { id } = this.$route.params;
-      id = parseInt(id, 10);
-      return id;
+      return parseInt(this.$route.params.id, 10);
     },
     articleTitle() {
-      const { title } = this.$store.state.articles.targetArticle;
-      return title;
+      return this.$store.state.articles.targetArticle.title;
     },
     articleContent() {
-      const { content } = this.$store.state.articles.targetArticle;
-      return content;
+      return this.$store.state.articles.targetArticle.content;
     },
     markdownContent() {
       return `# ${this.articleTitle}\n${this.articleContent}`;
     },
     currentCategoryName() {
-      const { name } = this.$store.state.articles.targetArticle.category;
-      return name;
+      return this.$store.state.articles.targetArticle.category.name;
     },
     categoryList() {
-      const { categoryList } = this.$store.state.categories;
-      return categoryList;
+      return this.$store.state.categories.categoryList;
     },
     loading() {
       return this.$store.state.articles.loading;
@@ -86,8 +80,10 @@ export default {
   },
   mounted() {
     if (localStorage.getItem('targetArticle')) {
-      this.$store.dispatch('articles/saveTargetArticle',
-        JSON.parse(localStorage.getItem('targetArticle')));
+      this.$store.dispatch(
+        'articles/saveTargetArticle',
+        JSON.parse(localStorage.getItem('targetArticle')),
+      );
     }
   },
   methods: {
