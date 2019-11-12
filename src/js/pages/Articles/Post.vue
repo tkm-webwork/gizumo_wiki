@@ -68,9 +68,27 @@ export default {
     access() {
       return this.$store.getters['auth/access'];
     },
+    targetArticle() {
+      return this.$store.state.articles.targetArticle;
+    },
+  },
+  watch: {
+    targetArticle: {
+      handler(newArticle) {
+        localStorage.setItem('targetArticle', JSON.stringify(newArticle));
+      },
+      deep: true,
+    },
   },
   created() {
     this.$store.dispatch('categories/getAllCategories'); // 表示がされる際に登録されているカテゴリーを取得してきている。ドロップダウンメニューに表示するため。
+    this.$store.dispatch('articles/initPostArticle');
+  },
+  mounted() {
+    if (localStorage.getItem('targetArticle')) {
+      this.$store.dispatch('articles/saveTargetArticle',
+        JSON.parse(localStorage.getItem('targetArticle')));
+    }
   },
   methods: {
     selectedArticleCategory($event) {
@@ -86,6 +104,7 @@ export default {
     handleSubmit() {
       if (this.loading) return;
       this.$store.dispatch('articles/postArticle').then(() => { // postArticleが終了したら.thne以下を行う。
+        localStorage.removeItem('targetArticle');
         this.$router.push({ // 使用しているRouterLinkにpushしている。表示が変わる。
           path: '/articles',
           query: { redirect: '/article/post' },
