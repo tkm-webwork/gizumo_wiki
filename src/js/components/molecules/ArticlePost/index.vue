@@ -20,12 +20,12 @@
           name="category"
           data-vv-as="カテゴリー"
           :error-messages="errors.collect('category')"
+          :value="currentCategoryName"
           @updateValue="$emit('selectedArticleCategory', $event)"
         >
           <option
             value=""
             selected
-            disabled
           >
             ---
           </option>
@@ -58,15 +58,29 @@
         <div class="article-post-form">
           <app-textarea
             v-validate="'required'"
-            name="text"
+            name="content"
             type="text"
             placeholder="記事の本文をマークダウン記法で入力してください。"
             data-vv-as="記事の本文"
-            :error-messages="errors.collect('text')"
+            :error-messages="errors.collect('content')"
             :value="articleContent"
+            @updateValue="$emit('editedContent', $event)"
           />
         </div>
+        <app-button
+          class="article-post-submit"
+          button-type="submit"
+          @click="handleSubmit"
+        >
+          {{ buttonText }}
+        </app-button>
       </section>
+
+      <article class="article-post-preview">
+        <app-markdown-preview
+          :markdown-content="markdownContent"
+        />
+      </article>
     </div>
   </div>
 </template>
@@ -83,8 +97,14 @@ export default {
     appSelect: Select,
     appInput: Input,
     appTextarea: Textarea,
+    appButton: Button,
+    appMarkdownPreview: MarkdownPreview,
   },
   props: {
+    currentCategoryName: {
+      type: String,
+      default: '',
+    },
     doneMessage: {
       type: String,
       default: '',
@@ -105,6 +125,30 @@ export default {
       type: String,
       default: '',
     },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+    markdownContent: {
+      type: String,
+      default: '',
+    },
+    access: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+  computed: {
+    buttonText() {
+      return this.loading ? '作成中...' : '作成';
+    },
+  },
+  methods: {
+    handleSubmit() {
+      this.$validator.validate().then((valid) => {
+        if (valid) this.$emit('handleSubmit');
+      });
+    },
   },
 };
 </script>
@@ -124,7 +168,16 @@ export default {
     }
   }
   &-form {
-      margin-top: 20px;
+    margin-top: 20px;
     }
+  &-submit {
+    margin-top: 16px;
+  }
+  &-preview {
+    margin-left: 2%;
+    width: 48%;
+    overflow-y: scroll;
+    background-color: #fff;
+  }
 }
 </style>
