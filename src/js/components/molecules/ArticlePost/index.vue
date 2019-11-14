@@ -142,11 +142,11 @@ export default {
   },
   computed: {
     buttonText() {
-      if (!this.access.edit) return '更新権限がありません';
+      if (!this.access.create) return '作成権限がありません';
       return this.loading ? '作成中...' : '作成';
     },
     disabled() {
-      return this.access.edit && !this.loading;
+      return this.access.create && !this.loading;
     },
   },
   methods: {
