@@ -8,6 +8,7 @@
     :article-content="articleContent"
     :loading="loading"
     :markdown-content="markdownContent"
+    :access="access"
     @selectedArticleCategory="selectedArticleCategory"
     @editedTitle="editedTitle"
     @editedContent="editedContent"
@@ -51,8 +52,12 @@ export default {
     markdownContent() {
       return `# ${this.articleTitle}\n${this.articleContent}`;
     },
+    access() {
+      return this.$store.getters['auth/access'];
+    },
   },
   created() {
+    this.$store.dispatch('articles/initPostArticle');
     this.$store.dispatch('categories/getAllCategories');
   },
   methods: {

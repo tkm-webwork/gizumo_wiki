@@ -26,6 +26,7 @@
           <option
             value=""
             selected
+            disabled
           >
             ---
           </option>
@@ -70,6 +71,7 @@
         <app-button
           class="article-post-submit"
           button-type="submit"
+          :disabled="!disabled"
           @click="handleSubmit"
         >
           {{ buttonText }}
@@ -133,10 +135,18 @@ export default {
       type: String,
       default: '',
     },
+    access: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   computed: {
     buttonText() {
+      if (!this.access.edit) return '更新権限がありません';
       return this.loading ? '作成中...' : '作成';
+    },
+    disabled() {
+      return this.access.edit && !this.loading;
     },
   },
   methods: {
