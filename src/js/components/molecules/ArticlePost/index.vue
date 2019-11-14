@@ -133,10 +133,6 @@ export default {
       type: String,
       default: '',
     },
-    access: {
-      type: Object,
-      default: () => ({}),
-    },
   },
   computed: {
     buttonText() {
