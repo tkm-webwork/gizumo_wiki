@@ -71,10 +71,9 @@ export default {
       return val;
     },
     editDate(val) { // 日付の表記の変更
-      return new Date(val).toLocaleString('ja-JP',
-        {
-          era: 'long', year: 'numeric', month: 'numeric', day: 'numeric',
-        });
+      return new Date(val).toLocaleString('ja-JP', {
+        era: 'long', year: 'numeric', month: 'numeric', day: 'numeric',
+      });
     },
   },
   props: { // 直接HTMLで使用することも、computedでそれに基づいたプロパティを定義することも可

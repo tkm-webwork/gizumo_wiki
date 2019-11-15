@@ -8,6 +8,7 @@ import RouterLink from './RouterLink';
 import MarkdownPreview from './MarkdownPreview';
 import Select from './Select';
 import Modal from './Modal';
+import Accordion from './Accordion';
 import MarkdownIndex from './MarkdownIndex';
 
 export {
@@ -22,4 +23,5 @@ export {
   MarkdownIndex,
   Select,
   Modal,
+  Accordion,
 };
