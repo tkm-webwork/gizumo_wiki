@@ -45,6 +45,11 @@ export default {
         return count <= 10;
       });
     },
+    editedAuthorList(state) { // 追加。重複もそのままの作者一覧
+      const noEditArr = state.articleList.map(article => article.user.account_name);
+      const set = new Set(noEditArr); // getterの配列から重複を取り除いた配列の作成
+      return Array.from(set);
+    },
     targetArticle: state => state.targetArticle, // 更新や作成などの通信で利用できるように
     deleteArticleId: state => state.deleteArticleId, // 削除の通信で利用できるように
   },
@@ -74,10 +79,14 @@ export default {
       });
     },
     getReEditData(state, ReEditData) {
-      state.targetArticle.category.name = ReEditData.categoryName;
-      state.targetArticle.category.id = ReEditData.categoryId;
-      state.targetArticle.title = ReEditData.articleTitle;
-      state.targetArticle.content = ReEditData.articleContent;
+      state.targetArticle = Object.assign({}, { ...state.targetArticle }, {
+        title: ReEditData.articleTitle,
+        content: ReEditData.articleContent,
+        category: {
+          id: ReEditData.categoryId,
+          name: ReEditData.categoryName,
+        },
+      });
     },
     doneGetArticle(state, payload) { // ここでarticleIdで識別した
       state.targetArticle = Object.assign({}, state.targetArticle, payload.article);

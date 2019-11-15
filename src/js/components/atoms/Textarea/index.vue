@@ -47,12 +47,12 @@ export default {
       type: String,
       default: '',
     },
-    whiteBg: {
+    whiteBg: { // 渡されていればcomputedでclassと連動する
       type: Boolean,
       default: false,
     },
   },
-  computed: {
+  computed: { // propsが渡されていればmoleculesスタイル適用
     classes() {
       return {
         textarea: true,

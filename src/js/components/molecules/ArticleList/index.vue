@@ -24,10 +24,23 @@
       small
       round
       hover-opacity
-      class="article-list__trashed-link"
+      class="article-list__add-link"
     >
       削除済み記事一覧
     </app-router-link>
+    <app-router-link
+      to="articles/author_list"
+      key-color
+      white
+      bg-lightgreen
+      small
+      round
+      hover-opacity
+      class="article-list__add-link"
+    >
+      作者ごとのドキュメント一覧
+    </app-router-link>
+
     <transition-group
       class="article-list__articles"
       name="fade"
@@ -173,7 +186,7 @@ export default {
     &__create-link {
       margin-top: 16px;
     }
-    &__trashed-link {
+    &__add-link {
       margin-top: 16px;
       margin-left: 16px;
     }

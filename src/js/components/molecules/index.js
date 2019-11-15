@@ -12,6 +12,7 @@ import UserList from './UserList';
 import CategoryPost from './CategoryPost';
 import CategoryList from './CategoryList';
 import CategoryEdit from './CategoryEdit';
+import ArticleAuthorList from './ArticlesAuthorList'; // 追加
 import ArticleEdit from './ArticleEdit';
 import ArticlePost from './ArticlePost';
 import ArticleDetail from './ArticleDetail';
@@ -35,6 +36,7 @@ export {
   CategoryPost,
   CategoryList,
   CategoryEdit,
+  ArticleAuthorList, // 追加
   ArticleEdit,
   ArticlePost,
   ArticleDetail,
