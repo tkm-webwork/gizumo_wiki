@@ -4,7 +4,7 @@
     <!-- v-forのように同時に描画したいリストのアイテムがある場合、transition-groupコンポーネントを使うと良い -->
     <app-accordion
       v-for="author in editedAuthorList"
-      :key="author"
+      :key="author.name"
       flex
       beetween
       align-items
@@ -13,11 +13,11 @@
       border-bottom-theme-color
     >
       <template v-slot:title>
-        {{ author }}
+        {{ author.name }}
       </template>
       <template v-slot:body>
         <div
-          v-for="article in targetArray"
+          v-for="article in author.articles"
           :key="article.id"
         >
           <app-list-item
@@ -27,8 +27,6 @@
             bg-white
             large
             border-bottom-gray
-            :class="{ 'article-author-list__omit-article'
-            :article.user.account_name !== author }"
           >
             <app-text
               class="article-author-list__content"
@@ -84,10 +82,6 @@ export default {
     },
   },
   props: { // 直接HTMLで使用することも、computedでそれに基づいたプロパティを定義することも可
-    targetArray: {
-      type: Array,
-      default: () => [],
-    },
     editedAuthorList: { // 重複を取り除いた作者の取得
       type: Array,
       default: () => [],

@@ -45,10 +45,14 @@ export default {
         return count <= 10;
       });
     },
-    editedAuthorList(state) { // 追加。重複もそのままの作者一覧
-      const noEditArr = state.articleList.map(article => article.user.account_name);
-      const set = new Set(noEditArr); // getterの配列から重複を取り除いた配列の作成
-      return Array.from(set);
+    editedAuthorList(state) {
+      const noEditArr = state.articleList.map(article => article.user.account_name); // 重複そのままの作者一覧
+      const newArray = Array.from(new Set(noEditArr)); // getterの配列から重複を取り除いた配列の作成
+      return newArray.map(author => ({
+        name: author,
+        articles: state.articleList
+          .filter(article => article.user.account_name === author),
+      }));
     },
     targetArticle: state => state.targetArticle, // 更新や作成などの通信で利用できるように
     deleteArticleId: state => state.deleteArticleId, // 削除の通信で利用できるように

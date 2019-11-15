@@ -1,7 +1,6 @@
 <template lang="html">
   <div class="authorList">
     <app-article-author-list
-      :target-array="articlesList"
       :edited-author-list="editedAuthorList"
       :title="title"
     />
@@ -21,15 +20,9 @@ export default {
     };
   },
   computed: {
-    articlesList() {
-      return this.$store.state.articles.articleList;
-    },
     editedAuthorList() {
       return this.$store.getters['articles/editedAuthorList'];
     },
-  },
-  created() { // ページ更新時も初期表示をさせたい
-    this.$store.dispatch('articles/getArticles');
   },
 };
 </script>
