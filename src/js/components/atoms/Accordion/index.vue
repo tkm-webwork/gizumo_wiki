@@ -141,6 +141,7 @@ export default {
   }
   /* --------------ここまでclasses---------------------- */
   .accordion {
+    overflow: hidden;
     cursor: pointer;
     opacity: 0.5;
     transition: opacity .8s;
@@ -172,14 +173,15 @@ export default {
   }
   /* -------------ここから変化のcss---------------------- */
   .accordion-target-enter-active{
-    animation-duration: .6s;
+    animation-duration: .5s;
     animation-fill-mode: both;
     animation-name: accordion--anime__opend;
   }
   .accordion-target-leave-active{
-    animation-duration: .6s;
+    animation-duration: .5s;
     animation-fill-mode: both;
-    animation-name: accordion--anime__closed;
+    animation-name: accordion--anime__opend;
+    animation-direction: reverse;
   }
   @keyframes accordion--anime__opend {
     0% {
@@ -187,15 +189,6 @@ export default {
     }
     100% {
       opacity: 1;
-    }
-  }
-  @keyframes accordion--anime__closed {
-    0% {
-      opacity: 1;
-    }
-
-    100% {
-      opacity: 0;
     }
   }
 </style>

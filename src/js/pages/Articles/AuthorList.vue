@@ -19,6 +19,9 @@ export default {
       title: '作者別記事',
     };
   },
+  created() {
+    this.$store.dispatch('articles/getArticles');
+  },
   computed: {
     editedAuthorList() {
       return this.$store.getters['articles/editedAuthorList'];
