@@ -116,6 +116,9 @@ export default {
     saveTargetArticle(state, payload) {
       state.targetArticle = Object.assign({}, state.targetArticle, payload);
     },
+    doneGetDeletedArticles(state, payload) {
+      state.articleList = [...payload.articles];
+    },
   },
   actions: {
     initPostArticle({ commit }) {
@@ -278,6 +281,20 @@ export default {
     },
     saveTargetArticle({ commit }, targetArticle) {
       commit('saveTargetArticle', targetArticle);
+    },
+    getDeletedArticles({ commit, rootGetters }) {
+      return new Promise((resolve) => {
+        axios(rootGetters['auth/token'])({
+          method: 'GET',
+          url: 'article/trashed',
+        }).then((res) => {
+          const payload = {
+            articles: res.data.articles,
+          };
+          commit('doneGetDeletedArticles', payload);
+          resolve();
+        });
+      });
     },
   },
 };
