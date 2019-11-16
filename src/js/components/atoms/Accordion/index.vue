@@ -171,7 +171,7 @@ export default {
       align-items: center;
     }
   }
-  /* -------------ここから変化のcss---------------------- */
+  /* -------------濃淡変化のcss---------------------- */
   .accordion-target-enter-active{
     animation-duration: .5s;
     animation-fill-mode: both;

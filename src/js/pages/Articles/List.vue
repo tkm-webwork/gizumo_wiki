@@ -2,13 +2,18 @@
   <div class="articles">
     <app-article-list
       :title="title"
-      :target-array="articlesList"
+      :target-array="currentArticlesList"
+      :current-article-page="currentArticlePage"
       :done-message="doneMessage"
       :access="access"
+      :last-page="lastPage"
       border-gray
       @openModal="openModal"
       @handleClick="handleClick"
       @clearMessage="clearMessage"
+      @changeArticlePage="changeArticlePage"
+      @minusArticlePage="minusArticlePage"
+      @plusArticlePage="plusArticlePage"
     />
   </div>
 </template>
@@ -33,8 +38,11 @@ export default {
     };
   },
   computed: {
-    articlesList() {
-      return this.$store.state.articles.articleList;
+    currentArticlesList() {
+      return this.$store.state.articles.currentArticlesList;
+    },
+    currentArticlePage() {
+      return this.$store.state.articles.currentArticlePage;
     },
     doneMessage() {
       return this.$store.state.articles.doneMessage;
@@ -42,12 +50,33 @@ export default {
     access() {
       return this.$store.getters['auth/access'];
     },
+    lastPage() {
+      return this.$store.state.articles.lastPage;
+    },
   },
   created() {
     const categoryName = this.$route.query.category ? this.$route.query.category : null;
     this.fetchArticles(categoryName);
   },
   methods: {
+    changeArticlePage(page) { // 追加。ページ番号更新後にリストを通信で取得
+      this.$store.dispatch('articles/updatePageNumber', page)
+        .then(() => {
+          this.$store.dispatch('articles/changeArticleList');
+        });
+    },
+    plusArticlePage() { // 追加。ページ番号更新後にリストを通信で取得
+      this.$store.dispatch('articles/updatePageNumber', this.currentArticlePage + 1)
+        .then(() => {
+          this.$store.dispatch('articles/changeArticleList');
+        });
+    },
+    minusArticlePage() { // 追加。ページ番号更新後にリストを通信で取得
+      this.$store.dispatch('articles/updatePageNumber', this.currentArticlePage - 1)
+        .then(() => {
+          this.$store.dispatch('articles/changeArticleList');
+        });
+    },
     clearMessage() {
       this.$store.dispatch('articles/clearMessage');
     },

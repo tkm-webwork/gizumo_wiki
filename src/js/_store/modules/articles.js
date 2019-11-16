@@ -9,6 +9,7 @@ export default {
       id: null, // が残っているためinitPostArticleでstateの初期化をする。
       title: '', // postページのcreatedで発火させる。
       content: '', // このリセット後に
+      lastPage: null,
       category: {
         id: null,
         name: '',
@@ -24,7 +25,8 @@ export default {
         updated_at: '',
       },
     },
-    articleList: [], // ここに入ったものがリストに表示される。全てorカテゴリ名で選別
+    currentArticlePage: null, // 追加。ページ遷移ボタンプッシュ時に値が更新され、通信に用いられる。
+    currentArticlesList: [], // ここに入ったものがリストに表示される。全てorカテゴリ名で選別
     trashedArticleList: [], // 追加
     deleteArticleId: null,
     loading: false,
@@ -33,29 +35,31 @@ export default {
   },
   getters: { // getter は state のデータに何らかの変換を通したものを取り出せるようにするもの
     transformedArticles(state) { // getterから記事一覧情報を取得。
-      return state.articleList.map(article => ({ // 必要dataのみの抽出。contentの変形
+      return state.currentArticlesList.map(article => ({ // 必要dataのみの抽出。contentの変形
         id: article.id,
         content: `${article.title + article.content}`,
       }));
     },
     tenNewArticleList(state) {
       let count = 0;
-      return state.articleList.filter(() => {
+      return state.currentArticlesList.filter(() => {
         count += 1;
         return count <= 10;
       });
     },
     editedAuthorList(state) {
-      const noEditArr = state.articleList.map(article => article.user.account_name); // 重複そのままの作者一覧
+      const noEditArr = state.currentArticlesList
+        .map(article => article.user.account_name); // 重複そのままの作者一覧
       const newArray = Array.from(new Set(noEditArr)); // getterの配列から重複を取り除いた配列の作成
       return newArray.map(author => ({
         name: author,
-        articles: state.articleList
+        articles: state.currentArticlesList
           .filter(article => article.user.account_name === author),
       }));
     },
     targetArticle: state => state.targetArticle, // 更新や作成などの通信で利用できるように
     deleteArticleId: state => state.deleteArticleId, // 削除の通信で利用できるように
+    currentArticlePage: state => state.currentArticlePage, // 記事取得のHTTP通信で使用する
   },
   mutations: {
     doneGetTrashedArticles(state, payload) { // 追加
@@ -96,7 +100,11 @@ export default {
       state.targetArticle = Object.assign({}, state.targetArticle, payload.article);
     },
     doneGetArticles(state, payload) {
-      state.articleList = [...payload.articles];
+      state.currentArticlesList = [...payload.articles];
+      state.lastPage = payload.lastPage;
+    },
+    updatePageNumber(state, page) { // 追加。ページ番号の更新
+      state.currentArticlePage = page;
     },
     editedTitle(state, payload) {
       state.targetArticle = Object.assign({}, { ...state.targetArticle }, {
@@ -139,6 +147,22 @@ export default {
     },
   },
   actions: {
+    updatePageNumber({ commit }, page) { // ページ番号の更新
+      commit('updatePageNumber', page);
+    },
+    changeArticleList({ commit, rootGetters }) { // 遷移ページの記事取得
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: `/article?page=${rootGetters['articles/currentArticlePage']}`,
+      }).then((res) => {
+        const payload = {
+          articles: res.data.articles,
+        };
+        commit('doneGetArticles', payload);
+      }).catch((err) => {
+        commit('failRequest', { message: err.message });
+      });
+    },
     getTrashedArticles({ commit, rootGetters }) { // 追加
       axios(rootGetters['auth/token'])({
         method: 'GET',
@@ -166,8 +190,10 @@ export default {
         }).then((res) => {
           const payload = {
             articles: res.data.articles,
+            lastPage: res.data.meta.last_page,
           };
-          commit('doneGetArticles', payload);
+          commit('updatePageNumber', 1); // 基準となるページ番号のセット
+          commit('doneGetArticles', payload); // リストに取得データを反映
           resolve();
         }).catch((err) => {
           commit('failRequest', { message: err.message });

@@ -26,7 +26,7 @@
       hover-opacity
       class="article-list__add-link"
     >
-      削除済み記事一覧
+      削除済みドキュメント一覧
     </app-router-link>
     <app-router-link
       to="articles/author_list"
@@ -106,6 +106,26 @@
         削除
       </app-button>
     </app-modal>
+    <div class="pageNation clearfix">
+      <button
+        class="pageNation__button pageNation__button-back"
+        type="button"
+        :disabled="currentArticlePage === 1"
+        :class="{ disable: currentArticlePage === 1 }"
+        @click="$emit('minusArticlePage')"
+      >
+        <i class="fas fa-arrow-circle-left" />前へ
+      </button>
+      <button
+        class="pageNation__button pageNation__button-next"
+        type="button"
+        :disabled="currentArticlePage === lastPage"
+        :class="{ disable: currentArticlePage === lastPage }"
+        @click="$emit('plusArticlePage')"
+      >
+        次へ<i class="fas fa-arrow-circle-right" />
+      </button>
+    </div>
   </div>
 </template>
 
@@ -131,17 +151,21 @@ export default {
       type: String,
       default: '',
     },
+    title: {
+      type: String,
+      default: 'すべて',
+    },
     targetArray: {
       type: Array,
       default: () => [],
     },
+    currentArticlePage: {
+      type: Number,
+      default: 1,
+    },
     borderGray: {
       type: Boolean,
       default: false,
-    },
-    title: {
-      type: String,
-      default: 'すべて',
     },
     doneMessage: {
       type: String,
@@ -150,6 +174,10 @@ export default {
     access: {
       type: Object,
       default: () => ({}),
+    },
+    lastPage: {
+      type: Number,
+      default: null,
     },
   },
   computed: { // 孫はpropsの監視をして必要な処理を行う
@@ -170,6 +198,11 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
+  .clearfix::after {
+      clear:both;
+      display: block;
+      content: "";
+  }
   .article-list {
     &__articles {
       margin-top: 16px;
@@ -198,5 +231,22 @@ export default {
     &__notice--create {
       margin-bottom: 16px;
     }
+  }
+  .pageNation {
+    margin: 0 auto;
+    &__button {
+      font-size: 20px;
+      color: var(--themeColor);
+    }
+    &__button-back {
+      float: left;
+    }
+    &__button-next {
+      float: right;
+    }
+  }
+  .disable{
+    color: var(--disabledColor);
+    cursor: default;
   }
 </style>
