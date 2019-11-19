@@ -19,9 +19,19 @@ export default {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
-    getAllCategories({ commit }) {
-      const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
-      commit('doneGetAllCategories', payload);
+    getAllCategories({ commit, rootGetters }) {
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: '/category',
+      }).then((response) => {
+        const payload = { categories: response.data.categories };
+        // response.data.categories.forEach((val) => {
+        //   payload.categories.push(val);
+        // });
+        commit('doneGetAllCategories', payload);
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+      });
     },
     deleteCategory({ commit, rootGetters }, categoryId) {
       return new Promise((resolve) => {
@@ -92,6 +102,9 @@ export default {
         });
       });
     },
+    setDeleteCategory({ commit }, deleteCategory) {
+      commit('setDeleteCategory', deleteCategory);
+    },
   },
   mutations: {
     clearMessage(state) {
@@ -127,6 +140,10 @@ export default {
     },
     updateCategory(state) {
       state.doneMessage = ('カテゴリーの更新完了しました。');
+    },
+    setDeleteCategory(state, deleteCategory) {
+      state.deleteCategoryId = deleteCategory.categoryId;
+      state.deleteCategoryName = deleteCategory.categoryName;
     },
   },
 };
