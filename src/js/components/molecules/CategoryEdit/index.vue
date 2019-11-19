@@ -19,8 +19,8 @@
       placeholder="カテゴリー名を入力してください"
       data-vv-as="カテゴリー名"
       :value="updateCategoryName"
-      @updateValue="$emit('updateValue', $event)"
       :error-messages="errors.collect('updateCategory')"
+      @updateValue="$emit('updateValue', $event)"
     />
     <app-button
       class="category-management-edit__submit"
@@ -58,7 +58,7 @@ export default {
   props: {
     updateCategoryName: {
       type: String,
-      defaout: '',
+      default: '',
     },
     disabled: {
       type: Boolean,
