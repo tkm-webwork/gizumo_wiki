@@ -28,6 +28,7 @@
               hover-opacity
               :to="`/articles?category=${category.name}`"
             >
+              <!-- このタイミングでarticlesのcreatedが発火する -->
               <!-- to属性を変数idにリアクティブにさせるには、バインド「:」が必要 -->
               このカテゴリーの記事
             </app-router-link>

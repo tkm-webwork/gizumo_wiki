@@ -7,13 +7,11 @@
       :done-message="doneMessage"
       :access="access"
       :last-page="lastPage"
+      :category-name="categoryName"
       border-gray
       @openModal="openModal"
       @handleClick="handleClick"
       @clearMessage="clearMessage"
-      @changeArticlePage="changeArticlePage"
-      @minusArticlePage="minusArticlePage"
-      @plusArticlePage="plusArticlePage"
     />
   </div>
 </template>
@@ -27,14 +25,18 @@ export default {
     appArticleList: ArticleList,
   },
   mixins: [Mixins],
-  beforeRouteUpdate(to, from, next) { // urlの遷移で発火させる画面の再描画を定義。
+  beforeRouteUpdate(to, from, next) { // コンポーネントが再利用される際に呼ばれる
+    // this.$route,fromが遷移元、toが遷移先。queryから抜き出した状態はstring型なので、numberに変換する
+    const page = to.query.page ? parseInt(to.query.page, 10) : 1;
     const categoryName = to.query.category ? to.query.category : null;
-    this.fetchArticles(categoryName);
+    this.categoryName = categoryName;
+    this.changeArticlePage(page, categoryName);
     next();
   },
   data() {
     return {
       title: 'すべて',
+      categoryName: '',
     };
   },
   computed: {
@@ -44,37 +46,33 @@ export default {
     currentArticlePage() {
       return this.$store.state.articles.currentArticlePage;
     },
+    lastPage() {
+      return this.$store.state.articles.lastPage;
+    },
     doneMessage() {
       return this.$store.state.articles.doneMessage;
     },
     access() {
       return this.$store.getters['auth/access'];
     },
-    lastPage() {
-      return this.$store.state.articles.lastPage;
-    },
   },
-  created() {
-    const categoryName = this.$route.query.category ? this.$route.query.category : null;
-    this.fetchArticles(categoryName);
+  created() { // ページを更新しても前回の画面が表示されるように、既存のURLから取得
+    const page = this.$route.query.page ? parseInt(this.$route.query.page, 10) : 1;
+    const categoryName = this.$route.query.category ? this.$route.query.category : null; // クエリストリングを参照
+    this.categoryName = categoryName;
+    this.changeArticlePage(page, categoryName);
   },
   methods: {
-    changeArticlePage(page) { // 追加。ページ番号更新後にリストを通信で取得
-      this.$store.dispatch('articles/updatePageNumber', page)
+    changeArticlePage(page, categoryName) { // 子のクエリストリングから取得したページ数と（あれば）カテゴリ名も渡す
+      this.$store.dispatch('articles/updatePageNumber', page) // ページ数をstateに反映=>子のpropsが更新される
         .then(() => {
-          this.$store.dispatch('articles/changeArticleList');
-        });
-    },
-    plusArticlePage() { // 追加。ページ番号更新後にリストを通信で取得
-      this.$store.dispatch('articles/updatePageNumber', this.currentArticlePage + 1)
-        .then(() => {
-          this.$store.dispatch('articles/changeArticleList');
-        });
-    },
-    minusArticlePage() { // 追加。ページ番号更新後にリストを通信で取得
-      this.$store.dispatch('articles/updatePageNumber', this.currentArticlePage - 1)
-        .then(() => {
-          this.$store.dispatch('articles/changeArticleList');
+          this.$store.dispatch('articles/changeArticleList', { page, categoryName }); // 記事取得のHTTP通信
+        }).then(() => {
+          if (this.$store.state.articles.articleList.length === 0) {
+            this.$router.push({ path: '/notfound' });
+          }
+        }).catch(() => {
+          // console.log(err);
         });
     },
     clearMessage() {
@@ -91,16 +89,6 @@ export default {
           const categoryName = this.$route.query.category
             ? this.$route.query.category : null;
           this.$store.dispatch('articles/getArticles', categoryName);
-        });
-    },
-    fetchArticles(categoryName) { // そもそも記事が存在しなかった場合、notFoundパスに移動
-      this.$store.dispatch('articles/getArticles', categoryName)
-        .then(() => {
-          if (this.$store.state.articles.articleList.length === 0) {
-            this.$router.push({ path: '/notfound' });
-          }
-        }).catch(() => {
-          // console.log(err);
         });
     },
   },

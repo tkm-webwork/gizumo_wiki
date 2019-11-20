@@ -107,24 +107,23 @@
       </app-button>
     </app-modal>
     <div class="pageNation clearfix">
-      <button
+      <app-router-link
         class="pageNation__button pageNation__button-back"
-        type="button"
-        :disabled="currentArticlePage === 1"
+        :to="categoryName ? `/articles?category=${categoryName}&page=${backPage}`
+          : `/articles?page=${backPage}`"
         :class="{ disable: currentArticlePage === 1 }"
-        @click="$emit('minusArticlePage')"
       >
         <i class="fas fa-arrow-circle-left" />前へ
-      </button>
-      <button
+      </app-router-link>
+      <app-router-link
         class="pageNation__button pageNation__button-next"
-        type="button"
-        :disabled="currentArticlePage === lastPage"
+        :to="categoryName ? `/articles?category=${categoryName}&page=${nextPage}`
+          : `/articles?page=${nextPage}`"
         :class="{ disable: currentArticlePage === lastPage }"
-        @click="$emit('plusArticlePage')"
       >
         次へ<i class="fas fa-arrow-circle-right" />
-      </button>
+      </app-router-link>
+      <!-- urlを見ればわかるように、初期値はnull → これをpage=1にできないか？ -->
     </div>
   </div>
 </template>
@@ -161,7 +160,7 @@ export default {
     },
     currentArticlePage: {
       type: Number,
-      default: 1,
+      default: null,
     },
     borderGray: {
       type: Boolean,
@@ -179,13 +178,26 @@ export default {
       type: Number,
       default: null,
     },
+    categoryName: {
+      type: String,
+      default: '',
+    },
   },
   computed: { // 孫はpropsの監視をして必要な処理を行う
-    articleTitle() {
+    articleTitle() { // カテゴリ名の有無で表示を変える
+      if (this.categoryName) {
+        return `${this.categoryName}の一覧`;
+      }
       return `${this.title}の一覧`;
     },
     buttonText() {
       return this.access.delete ? '削除' : '削除権限がありません';
+    },
+    nextPage() { // 次ページ遷移のクエリ
+      return this.currentArticlePage + 1;
+    },
+    backPage() { // 前ページ遷移のクエリ
+      return this.currentArticlePage - 1;
     },
   },
   methods: {
@@ -248,6 +260,7 @@ export default {
   }
   .disable{
     color: var(--disabledColor);
+    pointer-events: none;
     cursor: default;
   }
 </style>

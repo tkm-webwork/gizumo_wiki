@@ -5,11 +5,10 @@ import axios from '@Helpers/axiosDefault';
 export default {
   namespaced: true,
   state: {
-    targetArticle: { // 更新画面→新規画面と遷移すると更新画面のtargetArticle
+    targetArticle: { // 更新画面→新規作成画面と遷移すると更新画面のtargetArticle
       id: null, // が残っているためinitPostArticleでstateの初期化をする。
       title: '', // postページのcreatedで発火させる。
-      content: '', // このリセット後に
-      lastPage: null,
+      content: '',
       category: {
         id: null,
         name: '',
@@ -25,8 +24,9 @@ export default {
         updated_at: '',
       },
     },
+    lastPage: null, // 追加
     currentArticlePage: null, // 追加。ページ遷移ボタンプッシュ時に値が更新され、通信に用いられる。
-    currentArticlesList: [], // ここに入ったものがリストに表示される。全てorカテゴリ名で選別
+    currentArticlesList: [], // ここに入ったものがリストに表示される
     trashedArticleList: [], // 追加
     deleteArticleId: null,
     loading: false,
@@ -150,19 +150,6 @@ export default {
     updatePageNumber({ commit }, page) { // ページ番号の更新
       commit('updatePageNumber', page);
     },
-    changeArticleList({ commit, rootGetters }) { // 遷移ページの記事取得
-      axios(rootGetters['auth/token'])({
-        method: 'GET',
-        url: `/article?page=${rootGetters['articles/currentArticlePage']}`,
-      }).then((res) => {
-        const payload = {
-          articles: res.data.articles,
-        };
-        commit('doneGetArticles', payload);
-      }).catch((err) => {
-        commit('failRequest', { message: err.message });
-      });
-    },
     getTrashedArticles({ commit, rootGetters }) { // 追加
       axios(rootGetters['auth/token'])({
         method: 'GET',
@@ -182,23 +169,47 @@ export default {
     getReEditData({ commit }, ReEditData) { // 作成
       commit('getReEditData', ReEditData);
     },
-    getArticles({ commit, rootGetters }, categoryName) {
-      return new Promise((resolve, reject) => {
-        axios(rootGetters['auth/token'])({
-          method: 'GET', // nameが渡されていれば対象の記事のみ。なければ全て取得。
-          url: categoryName ? `/article?category=${categoryName}` : '/article',
-        }).then((res) => {
-          const payload = {
-            articles: res.data.articles,
-            lastPage: res.data.meta.last_page,
-          };
-          commit('updatePageNumber', 1); // 基準となるページ番号のセット
-          commit('doneGetArticles', payload); // リストに取得データを反映
-          resolve();
-        }).catch((err) => {
-          commit('failRequest', { message: err.message });
-          reject();
-        });
+    // getArticles({ commit, rootGetters }, categoryName) { // 複数データを渡すため、オブジェクトに変更
+    //   return new Promise((resolve, reject) => {
+    //     axios(rootGetters['auth/token'])({
+    //       method: 'GET', // nameが渡されていれば対象の記事のみ。なければ全て取得。
+    //       url: categoryName ? `/article?category=${categoryName}` : '/article',
+    //     }).then((res) => {
+    //       const payload = {
+    //         articles: res.data.articles,
+    //         lastPage: res.data.meta.last_page,
+    //       };
+    //       commit('updatePageNumber', 1); // 基準となるページ番号のセット
+    //       commit('doneGetArticles', payload); // リストに取得データを反映
+    //       resolve();
+    //     }).catch((err) => {
+    //       commit('failRequest', { message: err.message });
+    //       reject();
+    //     });
+    //   });
+    // },
+    changeArticleList({ commit, rootGetters }, { categoryName, page }) { // ページ取得の処理をまとめた
+      let variableURL = '';
+      if (categoryName && page) {
+        variableURL = `/article?category=${categoryName}&page=${page}`;
+      } else if (!categoryName && page) {
+        variableURL = `/article?page=${page}`;
+      } else if (categoryName && !page) {
+        variableURL = `/article?category=${categoryName}`;
+      } else {
+        variableURL = '/article';
+      }
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: variableURL,
+      }).then((res) => {
+        const payload = {
+          articles: res.data.articles,
+          lastPage: res.data.meta.last_page,
+        };
+        commit('doneGetArticles', payload);
+      }).catch((err) => {
+        commit('failRequest', { message: err.message });
       });
     },
     getArticleDetail({ commit, rootGetters }, articleId) {
