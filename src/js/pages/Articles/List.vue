@@ -3,10 +3,9 @@
     <app-article-list
       :title="title"
       :target-array="currentArticlesList"
-      :current-article-page="currentArticlePage"
+      :page="page"
       :done-message="doneMessage"
       :access="access"
-      :last-page="lastPage"
       :category-name="categoryName"
       border-gray
       @openModal="openModal"
@@ -43,11 +42,8 @@ export default {
     currentArticlesList() {
       return this.$store.state.articles.currentArticlesList;
     },
-    currentArticlePage() {
-      return this.$store.state.articles.currentArticlePage;
-    },
-    lastPage() {
-      return this.$store.state.articles.lastPage;
+    page() {
+      return this.$store.state.articles.page;
     },
     doneMessage() {
       return this.$store.state.articles.doneMessage;

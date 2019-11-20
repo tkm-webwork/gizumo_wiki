@@ -110,15 +110,15 @@
       <!-- paramsでクエリとして付けられる。router-link :toのvalueをオブジェクトで指定すると見やすい -->
       <app-router-link
         class="pageNation__button pageNation__button-back"
-        :class="{ disable: currentArticlePage === 1 }"
-        :to="{ path: 'articles', query: backQuery }"
+        :class="{ disable: page.currentArticlePage === 1 }"
+        :to="{ path: 'articles', query: prevQuery }"
       >
         <i class="fas fa-arrow-circle-left" />前へ
       </app-router-link>
       <app-router-link
         class="pageNation__button pageNation__button-next"
+        :class="{ disable: page.currentArticlePage === page.lastPage }"
         :to="{ path: 'articles', query: nextQuery }"
-        :class="{ disable: currentArticlePage === lastPage }"
       >
         次へ<i class="fas fa-arrow-circle-right" />
       </app-router-link>
@@ -157,9 +157,9 @@ export default {
       type: Array,
       default: () => [],
     },
-    currentArticlePage: {
-      type: Number,
-      default: null,
+    page: {
+      type: Object,
+      default: () => ({}),
     },
     borderGray: {
       type: Boolean,
@@ -173,10 +173,6 @@ export default {
       type: Object,
       default: () => ({}),
     },
-    lastPage: {
-      type: Number,
-      default: null,
-    },
     categoryName: {
       type: String,
       default: '',
@@ -189,30 +185,30 @@ export default {
       }
       return `${this.title}の一覧`;
     },
-    nextQuery() {
-      if (this.categoryName) {
-        return {
-          category: this.categoryName,
-          page: this.currentArticlePage + 1,
-        };
-      }
-      return {
-        page: this.currentArticlePage + 1,
-      };
-    },
-    backQuery() {
-      if (this.categoryName) {
-        return {
-          category: this.categoryName,
-          page: this.currentArticlePage - 1,
-        };
-      }
-      return {
-        page: this.currentArticlePage - 1,
-      };
-    },
     buttonText() {
       return this.access.delete ? '削除' : '削除権限がありません';
+    },
+    nextQuery() {
+      const query = {
+        page: this.page.currentArticlePage + 1,
+      };
+      if (this.categoryName) {
+        Object.assign(query, {
+          category: this.categoryName,
+        });
+      }
+      return query;
+    },
+    prevQuery() {
+      const query = {
+        page: this.page.currentArticlePage - 1,
+      };
+      if (this.categoryName) {
+        Object.assign(query, {
+          category: this.categoryName,
+        });
+      }
+      return query;
     },
   },
   methods: {

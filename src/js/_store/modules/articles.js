@@ -24,8 +24,10 @@ export default {
         updated_at: '',
       },
     },
-    lastPage: null, // 追加
-    currentArticlePage: null, // 追加。ページ遷移ボタンプッシュ時に値が更新され、通信に用いられる。
+    page: {
+      currentArticlePage: null, // 追加。ページ遷移ボタンプッシュ時に値が更新され、通信に用いられる。
+      lastPage: null, // 追加
+    },
     currentArticlesList: [], // ここに入ったものがリストに表示される
     trashedArticleList: [], // 追加
     deleteArticleId: null,
@@ -59,7 +61,7 @@ export default {
     },
     targetArticle: state => state.targetArticle, // 更新や作成などの通信で利用できるように
     deleteArticleId: state => state.deleteArticleId, // 削除の通信で利用できるように
-    currentArticlePage: state => state.currentArticlePage, // 記事取得のHTTP通信で使用する
+    currentArticlePage: state => state.page.currentArticlePage, // 記事取得のHTTP通信で使用する
   },
   mutations: {
     doneGetTrashedArticles(state, payload) { // 追加
@@ -101,10 +103,10 @@ export default {
     },
     doneGetArticles(state, payload) {
       state.currentArticlesList = [...payload.articles];
-      state.lastPage = payload.lastPage;
+      state.page.lastPage = payload.lastPage;
     },
     updatePageNumber(state, page) { // 追加。ページ番号の更新
-      state.currentArticlePage = page;
+      state.page.currentArticlePage = page;
     },
     editedTitle(state, payload) {
       state.targetArticle = Object.assign({}, { ...state.targetArticle }, {
@@ -189,17 +191,21 @@ export default {
     //   });
     // },
     getArticles({ commit, rootGetters }, { categoryName, page }) { // ページ取得の処理をまとめた
-      let variableURL = '';
-      if (categoryName && page) {
-        variableURL = `?category=${categoryName}&page=${page}`;
-      } else if (!categoryName && page) {
-        variableURL = `?page=${page}`;
-      } else if (categoryName && !page) {
-        variableURL = `?category=${categoryName}`;
+      const params = {};
+      if (categoryName) {
+        Object.assign(params, {
+          category: categoryName,
+        });
+      }
+      if (page) {
+        Object.assign(params, {
+          page,
+        });
       }
       axios(rootGetters['auth/token'])({
         method: 'GET',
-        url: `/article${variableURL}`,
+        url: '/article',
+        params, // クエリストリングをkey:valueで定義
       }).then((res) => {
         const payload = {
           articles: res.data.articles,
