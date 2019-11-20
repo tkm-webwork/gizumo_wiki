@@ -74,36 +74,11 @@ export default {
     },
   },
   actions: {
-    checkAuth({ commit }, { token }) {
+    signIn({ commit }, { email, password }) {
+      commit('sendRequest');
       return new Promise((resolve, reject) => {
-        if (!token) {
-          commit('signInFailure');
-          reject(new Error('認証に失敗しました'));
-        } else {
-          axios(token)({
-            method: 'GET',
-            url: '/me',
-          }).then((response) => {
-            if (response.data.code === 0) {
-              commit('signInFailure');
-              return reject();
-            }
-
-            const payload = { token, user: response.data.user }; // dataにオブジェクトで保管されているユーザー全ユーザー
-            commit('signInSuccess', payload);
-            return resolve();
-          }).catch(() => {
-            commit('signInFailure', { errorMessage: 'エラーが発生しました。' });
-            reject(new Error('エラーが発生しました'));
-          });
-        }
-      });
-    },
-    signIn({ commit }, { email, password }) { // dispatchにより渡された値
-      commit('sendRequest'); // muatationの発火。loadingがtrueに
-      return new Promise((resolve, reject) => { // プロミスインスタンス作成
-        const data = new URLSearchParams(); // URLSearchParamsのインスタンス
-        data.append('email', email); // の最後に追加
+        const data = new URLSearchParams();
+        data.append('email', email);
         data.append('password', password);
         axios()({ // axiosにはpromiseが入っており、thenが実行される。
           url: '/me',
