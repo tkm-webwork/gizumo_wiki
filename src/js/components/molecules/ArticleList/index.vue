@@ -3,7 +3,7 @@
     <div v-if="doneMessage" class="article-list__notice--create">
       <app-text bg-success>{{ doneMessage }}</app-text>
     </div>
-    <app-heading :level="1">{{ articleTitle }}</app-heading>
+    <app-heading :level="1">{{ pageTitle }}</app-heading>
     <app-router-link
       to="articles/post"
       key-color
@@ -26,7 +26,7 @@
       hover-opacity
       class="article-list__add-link"
     >
-      削除済み記事一覧
+      削除済みドキュメント一覧
     </app-router-link>
     <app-router-link
       to="articles/author_list"
@@ -106,6 +106,24 @@
         削除
       </app-button>
     </app-modal>
+    <div class="pageNation clearfix">
+      <!-- paramsでクエリとして付けられる。router-link :toのvalueをオブジェクトで指定すると見やすい -->
+      <app-router-link
+        class="pageNation__button pageNation__button-back"
+        :class="{ disable: page.currentArticlePage === 1 }"
+        :to="{ path: 'articles', query: prevQuery }"
+      >
+        <i class="fas fa-arrow-circle-left" />前へ
+      </app-router-link>
+      <app-router-link
+        class="pageNation__button pageNation__button-next"
+        :class="{ disable: page.currentArticlePage === page.lastPage }"
+        :to="{ path: 'articles', query: nextQuery }"
+      >
+        次へ<i class="fas fa-arrow-circle-right" />
+      </app-router-link>
+      <!-- urlを見ればわかるように、初期値はnull → これをpage=1にできないか？ -->
+    </div>
   </div>
 </template>
 
@@ -131,17 +149,21 @@ export default {
       type: String,
       default: '',
     },
+    title: {
+      type: String,
+      default: 'すべて',
+    },
     targetArray: {
       type: Array,
       default: () => [],
     },
+    page: {
+      type: Object,
+      default: () => ({}),
+    },
     borderGray: {
       type: Boolean,
       default: false,
-    },
-    title: {
-      type: String,
-      default: 'すべて',
     },
     doneMessage: {
       type: String,
@@ -151,13 +173,42 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    categoryName: {
+      type: String,
+      default: '',
+    },
   },
   computed: { // 孫はpropsの監視をして必要な処理を行う
-    articleTitle() {
+    pageTitle() { // カテゴリ名の有無で表示を変える
+      if (this.categoryName) {
+        return `${this.categoryName}の一覧`;
+      }
       return `${this.title}の一覧`;
     },
     buttonText() {
       return this.access.delete ? '削除' : '削除権限がありません';
+    },
+    nextQuery() {
+      const query = {
+        page: this.page.currentArticlePage + 1,
+      };
+      if (this.categoryName) {
+        Object.assign(query, {
+          category: this.categoryName,
+        });
+      }
+      return query;
+    },
+    prevQuery() {
+      const query = {
+        page: this.page.currentArticlePage - 1,
+      };
+      if (this.categoryName) {
+        Object.assign(query, {
+          category: this.categoryName,
+        });
+      }
+      return query;
     },
   },
   methods: {
@@ -170,9 +221,15 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
+  .clearfix::after {
+      clear:both;
+      display: block;
+      content: "";
+  }
   .article-list {
     &__articles {
       margin-top: 16px;
+      margin-bottom: 16px;
       .fade-enter-active, .fade-leave-active {
         transition: opacity .5s;
       }
@@ -198,5 +255,23 @@ export default {
     &__notice--create {
       margin-bottom: 16px;
     }
+  }
+  .pageNation {
+    margin: 0 auto;
+    &__button {
+      font-size: 20px;
+      color: var(--themeColor);
+    }
+    &__button-back {
+      float: left;
+    }
+    &__button-next {
+      float: right;
+    }
+  }
+  .disable{
+    color: var(--disabledColor);
+    pointer-events: none;
+    cursor: default;
   }
 </style>

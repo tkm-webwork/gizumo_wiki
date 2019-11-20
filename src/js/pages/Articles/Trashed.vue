@@ -16,7 +16,7 @@ export default {
   },
   data() {
     return {
-      title: '削除済み記事',
+      title: '削除済みドキュメント',
     };
   },
   computed: {

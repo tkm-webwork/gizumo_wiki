@@ -83,7 +83,7 @@ export default {
     },
     title: {
       type: String,
-      default: '削除済み記事',
+      default: '削除済みドキュメント',
       required: true,
     },
   },
