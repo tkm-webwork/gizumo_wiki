@@ -20,7 +20,7 @@ export default {
       commit('toggleLoading');
       const data = new URLSearchParams();
       data.append('name', categoryName);
-      return new Promise((resolve) => { //
+      return new Promise((resolve) => {
         axios(rootGetters['auth/token'])({
           method: 'POST',
           url: '/category',
