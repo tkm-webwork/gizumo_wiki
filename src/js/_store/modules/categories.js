@@ -16,6 +16,27 @@ export default {
     categoryList: state => state.categoryList,
   },
   actions: {
+    postCategory({ commit, rootGetters }, categoryName) { // `store.getters` と同じ。ただしモジュール内に限る
+      commit('toggleLoading');
+      // console.log(this.state.categories.loading);
+      const data = new URLSearchParams();
+      data.append('name', categoryName);
+      return new Promise((resolve) => { //
+        axios(rootGetters['auth/token'])({
+          method: 'POST',
+          url: '/category',
+          data,
+        }).then(() => {
+          commit('donePostCategory');
+          resolve();
+          commit('toggleLoading');
+          // console.log(this.state.categories.loading);
+        }).catch((err) => {
+          commit('failFetchCategory', { message: err.message });
+          commit('toggleLoading');
+        });
+      });
+    },
     clearMessage({ commit }) {
       commit('clearMessage');
     },
@@ -44,7 +65,6 @@ export default {
         }).then((response) => {
           // NOTE: エラー時はresponse.data.codeが0で返ってくる。
           if (response.data.code === 0) throw new Error(response.data.message);
-
           commit('doneDeleteCategory');
           resolve();
         }).catch((err) => {
@@ -86,6 +106,9 @@ export default {
     },
   },
   mutations: {
+    donePostCategory(state) {
+      state.doneMessage = 'カテゴリーの追加が完了しました';
+    },
     clearMessage(state) {
       state.errorMessage = '';
       state.doneMessage = '';
