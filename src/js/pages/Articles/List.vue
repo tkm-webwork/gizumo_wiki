@@ -67,7 +67,6 @@ export default {
             this.$router.push({ path: '/notfound' });
           }
         }).catch(() => {
-          // console.log(err);
         });
     },
   },
