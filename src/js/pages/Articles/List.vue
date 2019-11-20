@@ -26,7 +26,7 @@ export default {
   },
   mixins: [Mixins],
   beforeRouteUpdate(to, from, next) { // コンポーネントが再利用される際に呼ばれる
-    // this.$route,fromが遷移元、toが遷移先。queryから抜き出した状態はstring型なので、numberに変換する
+    // this.$route/fromが遷移元、toが遷移先。queryから抜き出した状態はstring型なので、numberに変換する
     const page = to.query.page ? parseInt(to.query.page, 10) : 1;
     const categoryName = to.query.category ? to.query.category : null;
     this.categoryName = categoryName;
@@ -66,7 +66,7 @@ export default {
     changeArticlePage(page, categoryName) { // 子のクエリストリングから取得したページ数と（あれば）カテゴリ名も渡す
       this.$store.dispatch('articles/updatePageNumber', page) // ページ数をstateに反映=>子のpropsが更新される
         .then(() => {
-          this.$store.dispatch('articles/changeArticleList', { page, categoryName }); // 記事取得のHTTP通信
+          this.$store.dispatch('articles/getArticles', { page, categoryName }); // 記事取得のHTTP通信
         }).then(() => {
           if (this.$store.state.articles.articleList.length === 0) {
             this.$router.push({ path: '/notfound' });
@@ -88,7 +88,8 @@ export default {
           this.toggleModal();
           const categoryName = this.$route.query.category
             ? this.$route.query.category : null;
-          this.$store.dispatch('articles/getArticles', categoryName);
+          const page = this.$route.query.page ? parseInt(this.$route.query.page, 10) : 1;
+          this.$store.dispatch('articles/getArticles', { categoryName, page });
         });
     },
   },

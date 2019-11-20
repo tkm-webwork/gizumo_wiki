@@ -188,20 +188,18 @@ export default {
     //     });
     //   });
     // },
-    changeArticleList({ commit, rootGetters }, { categoryName, page }) { // ページ取得の処理をまとめた
+    getArticles({ commit, rootGetters }, { categoryName, page }) { // ページ取得の処理をまとめた
       let variableURL = '';
       if (categoryName && page) {
-        variableURL = `/article?category=${categoryName}&page=${page}`;
+        variableURL = `?category=${categoryName}&page=${page}`;
       } else if (!categoryName && page) {
-        variableURL = `/article?page=${page}`;
+        variableURL = `?page=${page}`;
       } else if (categoryName && !page) {
-        variableURL = `/article?category=${categoryName}`;
-      } else {
-        variableURL = '/article';
+        variableURL = `?category=${categoryName}`;
       }
       axios(rootGetters['auth/token'])({
         method: 'GET',
-        url: variableURL,
+        url: `/article${variableURL}`,
       }).then((res) => {
         const payload = {
           articles: res.data.articles,

@@ -3,7 +3,7 @@
     <div v-if="doneMessage" class="article-list__notice--create">
       <app-text bg-success>{{ doneMessage }}</app-text>
     </div>
-    <app-heading :level="1">{{ articleTitle }}</app-heading>
+    <app-heading :level="1">{{ pageTitle }}</app-heading>
     <app-router-link
       to="articles/post"
       key-color
@@ -107,18 +107,17 @@
       </app-button>
     </app-modal>
     <div class="pageNation clearfix">
+      <!-- paramsでクエリとして付けられる。router-link :toのvalueをオブジェクトで指定すると見やすい -->
       <app-router-link
         class="pageNation__button pageNation__button-back"
-        :to="categoryName ? `/articles?category=${categoryName}&page=${backPage}`
-          : `/articles?page=${backPage}`"
         :class="{ disable: currentArticlePage === 1 }"
+        :to="{ path: 'articles', query: backQuery }"
       >
         <i class="fas fa-arrow-circle-left" />前へ
       </app-router-link>
       <app-router-link
         class="pageNation__button pageNation__button-next"
-        :to="categoryName ? `/articles?category=${categoryName}&page=${nextPage}`
-          : `/articles?page=${nextPage}`"
+        :to="{ path: 'articles', query: nextQuery }"
         :class="{ disable: currentArticlePage === lastPage }"
       >
         次へ<i class="fas fa-arrow-circle-right" />
@@ -184,20 +183,36 @@ export default {
     },
   },
   computed: { // 孫はpropsの監視をして必要な処理を行う
-    articleTitle() { // カテゴリ名の有無で表示を変える
+    pageTitle() { // カテゴリ名の有無で表示を変える
       if (this.categoryName) {
         return `${this.categoryName}の一覧`;
       }
       return `${this.title}の一覧`;
     },
+    nextQuery() {
+      if (this.categoryName) {
+        return {
+          category: this.categoryName,
+          page: this.currentArticlePage + 1,
+        };
+      }
+      return {
+        page: this.currentArticlePage + 1,
+      };
+    },
+    backQuery() {
+      if (this.categoryName) {
+        return {
+          category: this.categoryName,
+          page: this.currentArticlePage - 1,
+        };
+      }
+      return {
+        page: this.currentArticlePage - 1,
+      };
+    },
     buttonText() {
       return this.access.delete ? '削除' : '削除権限がありません';
-    },
-    nextPage() { // 次ページ遷移のクエリ
-      return this.currentArticlePage + 1;
-    },
-    backPage() { // 前ページ遷移のクエリ
-      return this.currentArticlePage - 1;
     },
   },
   methods: {
