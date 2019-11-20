@@ -18,7 +18,6 @@ export default {
   actions: {
     postCategory({ commit, rootGetters }, categoryName) { // `store.getters` と同じ。ただしモジュール内に限る
       commit('toggleLoading');
-      // console.log(this.state.categories.loading);
       const data = new URLSearchParams();
       data.append('name', categoryName);
       return new Promise((resolve) => { //
@@ -30,7 +29,6 @@ export default {
           commit('donePostCategory');
           resolve();
           commit('toggleLoading');
-          // console.log(this.state.categories.loading);
         }).catch((err) => {
           commit('failFetchCategory', { message: err.message });
           commit('toggleLoading');
