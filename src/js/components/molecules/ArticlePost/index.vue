@@ -1,8 +1,5 @@
 <template lang="html">
   <div class="article-post">
-    <div v-if="doneMessage" class="article-post__notice">
-      <app-text bg-success>{{ doneMessage }}</app-text>
-    </div>
     <div v-if="errorMessage" class="article-post__notice">
       <app-text bg-error>{{ errorMessage }}</app-text>
     </div>
@@ -135,10 +132,6 @@ export default {
       default: false,
     },
     errorMessage: {
-      type: String,
-      default: '',
-    },
-    doneMessage: {
       type: String,
       default: '',
     },

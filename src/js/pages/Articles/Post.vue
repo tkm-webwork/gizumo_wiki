@@ -9,7 +9,6 @@
       :category-name="categoryName"
       :loading="loading"
       :error-message="errorMessage"
-      :done-message="doneMessage"
       @editedTitle="editedTitle"
       @editedContent="editedContent"
       @handleSubmit="handleSubmit"
@@ -58,13 +57,11 @@ export default {
     errorMessage() {
       return this.$store.state.articles.errorMessage;
     },
-    doneMessage() {
-      return this.$store.state.articles.doneMessage;
-    },
   },
   created() {
     this.$store.dispatch('categories/getAllCategories');
     this.$store.dispatch('articles/initPostArticle');
+    this.$store.dispatch('articles/clearMessage');
   },
   methods: {
     editedTitle($event) {

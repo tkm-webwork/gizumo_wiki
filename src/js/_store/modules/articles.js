@@ -70,6 +70,7 @@ export default {
     },
     doneGetArticle(state, payload) {
       state.targetArticle = Object.assign({}, state.targetArticle, payload.article);
+      // console.log('article.js action donegetarticle');
     },
     doneGetArticles(state, payload) {
       state.articleList = [...payload.articles];
@@ -93,6 +94,7 @@ export default {
         { ...state.targetArticle.category },
         { ...payload.category },
       );
+      // console.log(state.targetArticle.category);
     },
     updateArticle(state, { article }) {
       state.targetArticle = Object.assign({}, state.targetArticle, { ...article });

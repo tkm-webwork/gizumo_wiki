@@ -1,19 +1,21 @@
 <template lang="html">
-  <app-article-edit
-    :article-id="articleId"
-    :article-title="articleTitle"
-    :article-content="articleContent"
-    :markdown-content="markdownContent"
-    :current-category-name="currentCategoryName"
-    :category-list="categoryList"
-    :loading="loading"
-    :done-message="doneMessage"
-    :access="access"
-    @selectedArticleCategory="selectedArticleCategory"
-    @editedTitle="editedTitle"
-    @editedContent="editedContent"
-    @handleSubmit="handleSubmit"
-  />
+  <div>
+    <app-article-edit
+      :article-id="articleId"
+      :article-title="articleTitle"
+      :article-content="articleContent"
+      :markdown-content="markdownContent"
+      :current-category-name="currentCategoryName"
+      :category-list="categoryList"
+      :loading="loading"
+      :done-message="doneMessage"
+      :access="access"
+      @selectedArticleCategory="selectedArticleCategory"
+      @editedTitle="editedTitle"
+      @editedContent="editedContent"
+      @handleSubmit="handleSubmit"
+    />
+  </div>
 </template>
 
 <script>

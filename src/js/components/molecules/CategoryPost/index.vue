@@ -9,7 +9,7 @@
       data-vv-as="カテゴリー名"
       :error-messages="errors.collect('category')"
       :value="category"
-      @updateValue="$emit('udpateValue', $event)"
+      @updateValue="$emit('updateValue', $event)"
     />
     <app-button
       class="category-management-post__submit"
