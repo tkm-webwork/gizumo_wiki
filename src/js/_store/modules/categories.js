@@ -25,9 +25,6 @@ export default {
         url: '/category',
       }).then((response) => {
         const payload = { categories: response.data.categories };
-        // response.data.categories.forEach((val) => {
-        //   payload.categories.push(val);
-        // });
         commit('doneGetAllCategories', payload);
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
