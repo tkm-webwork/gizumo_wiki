@@ -69,6 +69,9 @@ export default {
     this.$store.dispatch('articles/getArticleDetail', parseInt(this.articleId, 10));
   },
   methods: {
+    updateValue($event) {
+      this.$store.dispatch('categories/editedCategoryName', $event.target.value);
+    },
     editedTitle($event) {
       this.$store.dispatch('articles/editedTitle', $event.target.value);
     },

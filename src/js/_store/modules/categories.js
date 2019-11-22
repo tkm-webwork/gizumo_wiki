@@ -20,6 +20,7 @@ export default {
       commit('toggleLoading');
       const data = new URLSearchParams();
       data.append('name', categoryName);
+      // console.log(data.toString());
       return new Promise((resolve) => {
         axios(rootGetters['auth/token'])({
           method: 'POST',
@@ -37,6 +38,9 @@ export default {
     },
     clearMessage({ commit }) {
       commit('clearMessage');
+    },
+    editedCategoryName({ commit }, categoryName) {
+      commit('editedCategoryName', { categoryName });
     },
     getAllCategories({ commit, rootGetters }) {
       axios(rootGetters['auth/token'])({
@@ -70,6 +74,39 @@ export default {
         });
       });
     },
+    getCategoryDetail({ commit, rootGetters }, categoryId) { //  ここでカテゴリーネームを引っ張ってきて更新ボタン押したときに表示させる
+      const { id } = categoryId; //  ここでオブジェクトをstringに変えてる
+      // console.log(typeof id);
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: `/category/${id}`,
+      }).then((response) => {
+        const responseData = response.data.category;
+        commit('doneGetCategoryDetail', responseData);
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+      });
+    },
+    updateCategory({ commit, rootGetters }) {
+      commit('toggleLoading');
+      const data = new URLSearchParams();
+      data.append('id', this.state.categories.updateCategoryId);
+      data.append('name', this.state.categories.updateCategoryName);
+      axios(rootGetters['auth/token'])({
+        method: 'PUT',
+        url: `/category/${this.state.categories.updateCategoryId}`,
+        data,
+      }).then((response) => {
+        const payload = response.data.category;
+        // console.log(payload);
+        commit('doneUpdateCategory', payload);
+        commit('toggleLoading');
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+        commit('toggleLoading');
+      });
+    },
+
   },
   mutations: {
     donePostCategory(state) {
@@ -96,6 +133,18 @@ export default {
       state.deleteCategoryId = null;
       state.deleteCategoryName = '';
       state.doneMessage = 'カテゴリーの削除が完了しました。';
+    },
+    doneGetCategoryDetail(state, payload) {
+      state.updateCategoryId = payload.id;
+      state.updateCategoryName = payload.name;
+    },
+    editedCategoryName(state, { categoryName }) {
+      state.updateCategoryName = categoryName;
+    },
+    doneUpdateCategory(state, payload) {
+      state.updateCategoryId = payload.id;
+      state.updateCategoryName = payload.name;
+      state.doneMessage = 'カテゴリーの更新が完了しました。';
     },
   },
 };
