@@ -38,7 +38,11 @@
     <div v-if="doneMessage" class="category-management-edit__notice">
       <app-text bg-success>{{ doneMessage }}</app-text>
     </div>
-    <p>{{ updateCategoryName }}</p>
+    <!-- <h1>
+      {{ updateCategoryName }}
+      <br>
+      {{ this.$store.state.categories.updateCategoryId }}
+    </h1> -->
   </form>
 </template>
 <script>

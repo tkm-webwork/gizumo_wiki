@@ -38,8 +38,7 @@ export default {
     },
   },
   created() {
-    const { id } = this.$route.params;
-    this.$store.dispatch('categories/getCategoryDetail', id);
+    this.$store.dispatch('categories/getCategoryDetail', this.$route.params);
     this.$store.dispatch('categories/clearMessage');
   },
   methods: {
@@ -50,7 +49,7 @@ export default {
       this.$store.dispatch('categories/clearMessage');
     },
     updateCategory() {
-      if (this.loading) return;
+      if (this.loading) return; //  loading中の場合dispatchを行わずにここで終了する
       this.$store.dispatch('categories/updateCategory');
     },
   },

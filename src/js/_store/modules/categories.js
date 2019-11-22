@@ -20,6 +20,7 @@ export default {
       commit('toggleLoading');
       const data = new URLSearchParams();
       data.append('name', categoryName);
+      // console.log(data.toString());
       return new Promise((resolve) => {
         axios(rootGetters['auth/token'])({
           method: 'POST',
@@ -74,12 +75,14 @@ export default {
       });
     },
     getCategoryDetail({ commit, rootGetters }, categoryId) { //  ここでカテゴリーネームを引っ張ってきて更新ボタン押したときに表示させる
+      const { id } = categoryId; //  ここでオブジェクトをstringに変えてる
+      // console.log(typeof id);
       axios(rootGetters['auth/token'])({
         method: 'GET',
-        url: `/category/${categoryId}`,
+        url: `/category/${id}`,
       }).then((response) => {
-        const payload = response.data.category;
-        commit('doneGetCategoryDetail', payload);
+        const responseData = response.data.category;
+        commit('doneGetCategoryDetail', responseData);
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
       });
@@ -95,7 +98,7 @@ export default {
         data,
       }).then((response) => {
         const payload = response.data.category;
-        console.log(payload);
+        // console.log(payload);
         commit('doneUpdateCategory', payload);
         commit('toggleLoading');
       }).catch((err) => {
@@ -137,13 +140,11 @@ export default {
     },
     editedCategoryName(state, { categoryName }) {
       state.updateCategoryName = categoryName;
-      console.log('edit categoryName');
     },
     doneUpdateCategory(state, payload) {
       state.updateCategoryId = payload.id;
       state.updateCategoryName = payload.name;
       state.doneMessage = 'カテゴリーの更新が完了しました。';
-      console.log(state.updateCategoryId);
     },
   },
 };
