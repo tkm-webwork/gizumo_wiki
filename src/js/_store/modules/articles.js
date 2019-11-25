@@ -24,6 +24,7 @@ export default {
       },
     },
     articleList: [],
+    articleUsersList: [],
     deleteArticleId: null,
     loading: false,
     doneMessage: '',
@@ -73,6 +74,9 @@ export default {
     },
     doneGetArticles(state, payload) {
       state.articleList = [...payload.articles];
+    },
+    doneGetUsers(state, payload) {
+      state.articleUsersList = [...payload.users];
     },
     editedTitle(state, payload) {
       state.targetArticle = Object.assign({}, { ...state.targetArticle }, {
@@ -145,6 +149,41 @@ export default {
             articles: res.data.articles,
           };
           commit('doneGetArticles', payload);
+          resolve();
+        }).catch((err) => {
+          commit('failRequest', { message: err.message });
+          reject();
+        });
+      });
+    },
+    getArticleUsers({ commit, rootGetters }, categoryName) {
+      return new Promise((resolve, reject) => {
+        axios(rootGetters['auth/token'])({
+          method: 'GET',
+          url: categoryName ? `/article?category=${categoryName}` : '/article',
+        }).then((res) => {
+          const payload = { users: [] };
+          // ドキュメントを作成したユーザー名を全件、取得
+          const userToAll = res.data.articles.map(val => val.user.full_name);
+          // 取得したユーザー名の重複を解消
+          const userToSingle = userToAll.filter((x, i, self) => self.indexOf(x) === i);
+
+          // 取得した単一のユーザー名を１つずつmapで処理
+          userToSingle.map((event) => {
+            const userName = event;
+            const object = { name: userName, title: [], id: '' };
+            // userToSingle内のユーザー名と一致したユーザーが作成したドキュメントのタイトルを取得する処理
+            res.data.articles.map((value) => {
+              if (userName === value.user.full_name) {
+                object.title.push(value.title);
+                object.id = value.user.id;
+              }
+              return value;
+            });
+            payload.users.push(object);
+            return event;
+          });
+          commit('doneGetUsers', payload);
           resolve();
         }).catch((err) => {
           commit('failRequest', { message: err.message });
