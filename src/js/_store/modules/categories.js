@@ -89,6 +89,7 @@ export default {
     },
     updateCategory({ commit, rootGetters }) {
       commit('toggleLoading');
+      console.log(rootGetters['auth/token']);
       const data = new URLSearchParams();
       data.append('id', this.state.categories.updateCategoryId);
       data.append('name', this.state.categories.updateCategoryName);
