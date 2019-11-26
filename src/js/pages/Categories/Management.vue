@@ -9,6 +9,7 @@
         :access="access"
         @udpateValue="updateValue"
         @clearMessage="clearMessage"
+        @addCategory="addCategory"
       />
     </section>
     <section class="category-management-list">
@@ -27,6 +28,7 @@
 <script>
 import { CategoryPost, CategoryList } from '@Components/molecules';
 import Mixins from '@Helpers/mixins';
+import { log } from 'util';
 
 export default {
   components: {
@@ -87,6 +89,9 @@ export default {
         });
       this.toggleModal();
     },
+    addCategory() {
+      this.$store.dispatch('categories/addCategory', this.category)
+    }
   },
 };
 </script>
