@@ -28,7 +28,6 @@
 <script>
 import { CategoryPost, CategoryList } from '@Components/molecules';
 import Mixins from '@Helpers/mixins';
-import { log } from 'util';
 
 export default {
   components: {
