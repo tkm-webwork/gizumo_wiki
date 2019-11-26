@@ -19,6 +19,7 @@
         :delete-category-name="deleteCategoryName"
         :access="access"
         @openModal="openModal"
+        @deleteCategory="deleteCategory"
       />
     </section>
   </div>
@@ -82,15 +83,19 @@ export default {
           this.$store.dispatch('categories/getAllCategories');
         });
     },
-    openModal() {
+    openModal(categoryData) {
+      console.log(categoryData);
       this.toggleModal();
       this.$store.dispatch('categories/clearMessage');
+      this.$store.dispatch('categories/updateDeleteCategory', categoryData);
     },
-    handleSubmit() {
-      this.$store.dispatch('categories/postCategory', this.category)
+    deleteCategory() {
+      if (this.loading) return;
+      this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId)
         .then(() => {
           this.category = '';
           this.$store.dispatch('categories/getAllCategories');
+          this.toggleModal();
         });
     },
   },
