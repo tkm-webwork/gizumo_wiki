@@ -20,7 +20,6 @@ export default {
       commit('toggleLoading');
       const data = new URLSearchParams();
       data.append('name', categoryName);
-      // console.log(data.toString());
       return new Promise((resolve) => {
         axios(rootGetters['auth/token'])({
           method: 'POST',
@@ -61,7 +60,6 @@ export default {
       commit('editedCategoryName', { categoryName });
     },
     deleteCategory({ commit, rootGetters }, categoryId) {
-      // console.log(categoryId);
       return new Promise((resolve) => {
         axios(rootGetters['auth/token'])({
           method: 'DELETE',
@@ -77,12 +75,10 @@ export default {
       });
     },
     updateDeleteCategory({ commit }, categoryData) {
-      // console.log(categoryData.categoryId);
       commit('updateDeleteCategory', categoryData);
     },
     getCategoryDetail({ commit, rootGetters }, categoryId) { //  ここでカテゴリーネームを引っ張ってきて更新ボタン押したときに表示させる
       const { id } = categoryId; //  ここでオブジェクトをstringに変えてる
-      // console.log(typeof id);
       axios(rootGetters['auth/token'])({
         method: 'GET',
         url: `/category/${id}`,
@@ -95,7 +91,6 @@ export default {
     },
     updateCategory({ commit, rootGetters }) {
       commit('toggleLoading');
-      // console.log(rootGetters['auth/token']);
       const data = new URLSearchParams();
       data.append('id', this.state.categories.updateCategoryId);
       data.append('name', this.state.categories.updateCategoryName);
@@ -105,7 +100,6 @@ export default {
         data,
       }).then((response) => {
         const payload = response.data.category;
-        // console.log(payload);
         commit('doneUpdateCategory', payload);
         commit('toggleLoading');
       }).catch((err) => {
@@ -119,8 +113,6 @@ export default {
     updateDeleteCategory(state, payload) {
       state.deleteCategoryId = payload.categoryId;
       state.deleteCategoryName = payload.categoryName;
-      // console.log(state.deleteCategoryId);
-      // console.log(state.deleteCategoryName);
     },
     donePostCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました';

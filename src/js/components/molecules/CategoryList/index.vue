@@ -118,8 +118,6 @@ export default {
   },
   methods: {
     openModal(categoryId, categoryName) {
-      // console.log(categoryName);
-      // console.log(categoryId);
       const categoryData = { categoryId, categoryName };
       if (!this.access.delete) return;
       this.$emit('openModal', categoryData);

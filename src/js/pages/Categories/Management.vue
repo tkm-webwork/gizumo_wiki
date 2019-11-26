@@ -84,7 +84,6 @@ export default {
         });
     },
     openModal(categoryData) {
-      console.log(categoryData);
       this.toggleModal();
       this.$store.dispatch('categories/clearMessage');
       this.$store.dispatch('categories/updateDeleteCategory', categoryData);
