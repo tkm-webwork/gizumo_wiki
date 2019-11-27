@@ -156,11 +156,11 @@ export default {
         });
       });
     },
-    getArticleUsers({ commit, rootGetters }, categoryName) {
+    getArticleUsers({ commit, rootGetters }) {
       return new Promise((resolve, reject) => {
         axios(rootGetters['auth/token'])({
           method: 'GET',
-          url: categoryName ? `/article?category=${categoryName}` : '/article',
+          url: '/article',
         }).then((res) => {
           // ドキュメントを作成したユーザー名を全件、取得
           // const userToAll = res.data.articles.map(val => val.user.full_name);
@@ -185,7 +185,7 @@ export default {
 
           // 取得した単一のユーザー名を１つずつmapで処理
           const users = userToSingle.map((user) => {
-            const { name, id } = user;
+            const { id, name } = user; // オブジェクトを分割代入している 参考 => https://qiita.com/amamamaou/items/1ec21316b8bf05ba9c34#%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88
             // userToSingle内のユーザー名と一致したユーザーが作成したドキュメントのタイトルを取得する処理
             const articles = res.data.articles
               .filter(value => name === value.user.full_name); // returnの条件にあったvalueで新たな配列を作成

@@ -29,13 +29,9 @@ export default {
     },
   },
   created() {
-    const categoryName = this.$route.query.category ? this.$route.query.category : null;
-    this.fetchArticles(categoryName);
+    this.$store.dispatch('articles/getArticleUsers');
   },
   methods: {
-    fetchArticles(categoryName) {
-      this.$store.dispatch('articles/getArticleUsers', categoryName);
-    },
     handleClick(user) {
       if (this.actives.some(val => val === user.id)) {
         this.actives = this.actives.filter(val => val !== user.id);
