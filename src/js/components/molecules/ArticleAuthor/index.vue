@@ -13,25 +13,25 @@
       </thead>
       <transition-group name="fade" tag="tbody" class="article-accordion-table__body">
         <tr
-          v-for="users in targetArray"
-          :key="users.id"
+          v-for="user in targetArray"
+          :key="user.id"
         >
           <td
             class="userName"
-            @click="$emit('handleClick', users.name)"
+            @click="$emit('handleClick', user)"
           >
             <app-text tag="span" small>
-              {{ users.name }}
+              {{ user.name }}
               <a class="arrowMark">▼</a>
             </app-text>
           </td>
-          <div v-if="active === users.name">
+          <div v-if="actives.includes(user.id)">
             <td
-              v-for="userTitle in users.title"
-              :key="userTitle"
+              v-for="article in user.articles"
+              :key="article.title"
               class="userTitle"
             >
-              <app-text tag="span" small>{{ userTitle }}</app-text>
+              <app-text tag="span" small>{{ article.title }}</app-text>
             </td>
           </div>
         </tr>
@@ -62,9 +62,9 @@ export default {
       type: String,
       default: '削除済み記事',
     },
-    active: {
-      type: String,
-      default: '',
+    actives: {
+      type: Array,
+      required: true,
     },
   },
   computed: {

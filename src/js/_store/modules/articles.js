@@ -162,27 +162,36 @@ export default {
           method: 'GET',
           url: categoryName ? `/article?category=${categoryName}` : '/article',
         }).then((res) => {
-          const payload = { users: [] };
           // ドキュメントを作成したユーザー名を全件、取得
-          const userToAll = res.data.articles.map(val => val.user.full_name);
+          // const userToAll = res.data.articles.map(val => val.user.full_name);
           // 取得したユーザー名の重複を解消
-          const userToSingle = userToAll.filter((x, i, self) => self.indexOf(x) === i);
+          // const userToSingle = userToAll.filter((x, i, self) => self.indexOf(x) === i);
+          const userToAll = res.data.articles.map(val => ({
+            id: val.user.id,
+            name: val.user.full_name,
+          }));
+
+          // reduceでarrayにuserを1つずつ代入
+          // arrayの初期値は空の配列 userはuserToAll内の要素
+
+          const userToSingle = userToAll.reduce((array, user) => {
+            // objはarray内のオブジェクト
+            // 配列内のオブジェクトのidと新しく代入されるuser.idが一致した場合 : array.push(user)は行われない
+            if (!array.some(obj => obj.id === user.id)) {
+              array.push(user);
+            }
+            return array;
+          }, []);
 
           // 取得した単一のユーザー名を１つずつmapで処理
-          userToSingle.map((event) => {
-            const userName = event;
-            const object = { name: userName, title: [], id: '' };
+          const users = userToSingle.map((user) => {
+            const { name, id } = user;
             // userToSingle内のユーザー名と一致したユーザーが作成したドキュメントのタイトルを取得する処理
-            res.data.articles.map((value) => {
-              if (userName === value.user.full_name) {
-                object.title.push(value.title);
-                object.id = value.user.id;
-              }
-              return value;
-            });
-            payload.users.push(object);
-            return event;
+            const articles = res.data.articles
+              .filter(value => name === value.user.full_name); // returnの条件にあったvalueで新たな配列を作成
+            return { id, name, articles };
           });
+          const payload = Object.assign({}, { users });
           commit('doneGetUsers', payload);
           resolve();
         }).catch((err) => {

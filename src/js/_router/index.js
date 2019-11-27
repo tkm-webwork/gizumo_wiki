@@ -193,7 +193,7 @@ router.beforeEach((to, from, next) => {
     Store.dispatch('auth/checkAuth', { token })
       .then(() => {
         if (Store.state.auth.user.password_reset_flg) {
-          return next();
+          return next('/');
         }
         return next('/password/init');
       })

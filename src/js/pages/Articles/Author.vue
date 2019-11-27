@@ -3,7 +3,7 @@
     :title="title"
     :target-array="articlesUserList"
     :theads="theads"
-    :active="active"
+    :actives="actives"
     @handleClick="handleClick"
   />
 </template>
@@ -20,7 +20,7 @@ export default {
     return {
       theads: ['ドキュメント作成者'],
       title: 'ドキュメント作成者',
-      active: '',
+      actives: [],
     };
   },
   computed: {
@@ -36,8 +36,12 @@ export default {
     fetchArticles(categoryName) {
       this.$store.dispatch('articles/getArticleUsers', categoryName);
     },
-    handleClick(users) {
-      this.active = this.active === users ? '' : users;
+    handleClick(user) {
+      if (this.actives.some(val => val === user.id)) {
+        this.actives = this.actives.filter(val => val !== user.id);
+      } else {
+        this.actives.push(user.id);
+      }
     },
   },
 };
