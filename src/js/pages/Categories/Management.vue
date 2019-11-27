@@ -9,7 +9,7 @@
         :access="access"
         @udpateValue="updateValue"
         @clearMessage="clearMessage"
-        @addCategory="addCategory"
+        @handleSubmit="addCategory"
       />
     </section>
     <section class="category-management-list">
@@ -89,8 +89,8 @@ export default {
       this.toggleModal();
     },
     addCategory() {
-      this.$store.dispatch('categories/addCategory', this.category)
-    }
+      this.$store.dispatch('categories/addCategory', this.category);
+    },
   },
 };
 </script>

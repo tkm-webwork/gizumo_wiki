@@ -100,7 +100,7 @@ export default {
         commit('failFetchCategory', { message: err.message });
         commit('toggleLoading');
       });
-    }
+    },
   },
   mutations: {
     clearMessage(state) {
@@ -140,6 +140,6 @@ export default {
     addCategory(state, payload) {
       state.categoryList.push(payload);
       state.doneMessage = 'カテゴリーの追加が完了しました';
-    }
+    },
   },
 };
