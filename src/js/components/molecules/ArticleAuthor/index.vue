@@ -1,8 +1,8 @@
 <template lang="html">
-  <div class="article-accordion">
+  <div class="author_list">
     <app-heading :level="1">{{ articleTitle }}</app-heading>
-    <table class="article-accordion-table">
-      <thead class="article-accordion-table__head">
+    <table class="author_list-table">
+      <thead class="author_list-table__head">
         <tr>
           <th v-for="(thead, index) in theads" :key="index">
             <app-text tag="span" theme-color bold>
@@ -11,25 +11,25 @@
           </th>
         </tr>
       </thead>
-      <transition-group name="fade" tag="tbody" class="article-accordion-table__body">
+      <transition-group name="fade" tag="tbody" class="author_list-table__body">
         <tr
           v-for="user in targetArray"
           :key="user.id"
         >
           <td
-            class="userName"
+            class="author_list__userName"
             @click="$emit('handleClick', user)"
           >
             <app-text tag="span" small>
               {{ user.name }}
-              <a class="arrowMark">▼</a>
+              <a class="author_list__arrowMark">▼</a>
             </app-text>
           </td>
           <div v-if="actives.includes(user.id)">
             <td
               v-for="article in user.articles"
               :key="article.title"
-              class="userTitle"
+              class="author_list__userTitle"
             >
               <app-text tag="span" small>{{ article.title }}</app-text>
             </td>
@@ -75,17 +75,17 @@ export default {
 };
 </script>
 <style lang="postcss" scoped>
-.article-accordion-table {
+.author_list-table {
   width: 100%;
   text-align: left;
   background-color: #fff;
   tr {
     border-bottom: 5px solid var(--separatorColor);
     display: block;
-    .userName {
+    .author_list__userName {
       cursor: pointer;
     }
-    .arrowMark{
+    .author_list__arrowMark{
       float: right;
     }
   }
