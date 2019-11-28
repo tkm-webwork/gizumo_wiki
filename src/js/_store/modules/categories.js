@@ -25,7 +25,6 @@ export default {
         url: '/category',
       }).then((response) => {
         const payload = { categories: [] };
-        console.log(response.data);
         response.data.categories.forEach((val) => {
           payload.categories.push(val);
         });
@@ -72,7 +71,6 @@ export default {
       });
     },
     getEditCategoryDetail({ commit, rootGetters }, categoryId) {
-      console.log(categoryId);
       axios(rootGetters['auth/token'])({
         method: 'GET',
         url: `/category/${categoryId}`,
@@ -83,7 +81,6 @@ export default {
       });
     },
     changeEditCategory({ commit }, categoryName) {
-      console.log(categoryName);
       commit('changeEditCategory', { categoryName });
     },
     addCategory({ commit, rootGetters }, categoryName) {
