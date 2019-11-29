@@ -94,7 +94,6 @@ export default {
         { ...state.targetArticle.category },
         { ...payload.category },
       );
-      // console.log(state.targetArticle.category);
     },
     updateArticle(state, { article }) {
       state.targetArticle = Object.assign({}, state.targetArticle, { ...article });
@@ -114,6 +113,23 @@ export default {
     },
     displayDoneMessage(state, payload = { message: '成功しました' }) {
       state.doneMessage = payload.message;
+    },
+    setEditTitle(state, payload) {
+      state.targetArticle = Object.assign(
+        {},
+        { ...state.targetArticle },
+        { title: payload.title },
+      );
+    },
+    setEditContent(state, payload) {
+      state.targetArticle = Object.assign(
+        {},
+        { ...state.targetArticle },
+        { content: payload.content },
+      );
+    },
+    setEditCategoryName(state, payload) {
+      state.targetArticle.category.name = payload.category;
     },
   },
   actions: {
@@ -273,6 +289,24 @@ export default {
     },
     clearMessage({ commit }) {
       commit('clearMessage');
+    },
+    setEditTitle({ commit }, editTitle) {
+      const payload = {
+        title: editTitle,
+      };
+      commit('setEditTitle', payload);
+    },
+    setEditContent({ commit }, editContent) {
+      const payload = {
+        content: editContent,
+      };
+      commit('setEditContent', payload);
+    },
+    setEditCategoryName({ commit }, editCategoryName) {
+      const payload = {
+        category: editCategoryName,
+      };
+      commit('setEditCategoryName', payload);
     },
   },
 };
