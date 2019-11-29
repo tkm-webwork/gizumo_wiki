@@ -38,7 +38,6 @@ export default {
         }).then((response) => {
           // NOTE: エラー時はresponse.data.codeが0で返ってくる。
           if (response.data.code === 0) throw new Error(response.data.message);
-
           commit('doneDeleteCategory');
           resolve();
         }).catch((err) => {
@@ -77,7 +76,7 @@ export default {
     changeEditCategory({ commit }, categoryName) {
       commit('changeEditCategory', { categoryName });
     },
-    addCategory({ commit, rootGetters }, categoryName) {
+    addCategory({ dispatch, commit, rootGetters }, categoryName) {
       commit('toggleLoading');
       const data = new URLSearchParams();
       data.append('name', categoryName);
@@ -85,14 +84,17 @@ export default {
         method: 'POST',
         url: '/category',
         data,
-      }).then((response) => {
-        const payload = response.data.category;
-        commit('addCategory', payload);
+      }).then(() => {
+        dispatch('getAllCategories');
+        commit('addCategory');
         commit('toggleLoading');
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
         commit('toggleLoading');
       });
+    },
+    setDeleteCategory({ commit }, payload) {
+      commit('setDeleteCategory', payload);
     },
   },
   mutations: {
@@ -114,8 +116,7 @@ export default {
       state.deleteCategoryName = '';
       state.doneMessage = 'カテゴリーの削除が完了しました。';
     },
-    addCategory(state, payload) {
-      state.categoryList.push(payload);
+    addCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました';
     },
     doneUpdateCategory(state, payload) {
@@ -129,6 +130,10 @@ export default {
     },
     changeEditCategory(state, { categoryName }) {
       state.updateCategoryName = categoryName;
+    },
+    setDeleteCategory(state, payload) {
+      state.deleteCategoryId = payload.id;
+      state.deleteCategoryName = payload.name;
     },
   },
 };
