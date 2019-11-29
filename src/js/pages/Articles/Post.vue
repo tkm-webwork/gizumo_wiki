@@ -9,13 +9,11 @@
       :current-category-name="currentCategoryName"
       :done-message="doneMessage"
       :error-message="errorMessage"
+      :loading="loading"
       @selectedArticleCategory="selectedArticleCategory"
       @editedTitle="editedTitle"
       @editedContent="editedContent"
       @handleSubmit="handleSubmit"
-      :loading="loading"
-
-
     />
   </div>
 </template>
