@@ -19,6 +19,7 @@ import ArticleDetail from '@Pages/Articles/Detail';
 import ArticleEdit from '@Pages/Articles/Edit';
 import ArticlePost from '@Pages/Articles/Post';
 import ArticleTrashed from '@Pages/Articles/Trashed';
+import ArticleAuthor from '@Pages/Articles/Author';
 
 // 自分のアカウントページ
 import Profile from '@Pages/Profile';
@@ -107,6 +108,11 @@ const router = new VueRouter({
           component: ArticleTrashed,
         },
         {
+          name: 'articleAuthor',
+          path: 'author_list',
+          component: ArticleAuthor,
+        },
+        {
           name: 'articleDetail',
           path: ':id',
           component: ArticleDetail,
@@ -187,7 +193,7 @@ router.beforeEach((to, from, next) => {
     Store.dispatch('auth/checkAuth', { token })
       .then(() => {
         if (Store.state.auth.user.password_reset_flg) {
-          return next();
+          return next('/');
         }
         return next('/password/init');
       })

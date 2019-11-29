@@ -28,6 +28,18 @@
     >
       削除記事一覧
     </app-router-link>
+    <app-router-link
+      to="articles/author_list"
+      key-color
+      white
+      bg-lightgreen
+      small
+      round
+      hover-opacity
+      class="article-list__create-link"
+    >
+      ドキュメント作成者一覧
+    </app-router-link>
     <transition-group
       class="article-list__articles"
       name="fade"

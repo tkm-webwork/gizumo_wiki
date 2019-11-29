@@ -24,6 +24,7 @@ export default {
       },
     },
     articleList: [],
+    articleUsersList: [],
     deleteArticleId: null,
     loading: false,
     doneMessage: '',
@@ -73,6 +74,9 @@ export default {
     },
     doneGetArticles(state, payload) {
       state.articleList = [...payload.articles];
+    },
+    doneGetUsers(state, payload) {
+      state.articleUsersList = [...payload.users];
     },
     editedTitle(state, payload) {
       state.targetArticle = Object.assign({}, { ...state.targetArticle }, {
@@ -145,6 +149,58 @@ export default {
             articles: res.data.articles,
           };
           commit('doneGetArticles', payload);
+          resolve();
+        }).catch((err) => {
+          commit('failRequest', { message: err.message });
+          reject();
+        });
+      });
+    },
+    getArticleUsers({ commit, rootGetters }) {
+      return new Promise((resolve, reject) => {
+        axios(rootGetters['auth/token'])({
+          method: 'GET',
+          url: '/article',
+        }).then((res) => {
+          const userToAll = [];
+          res.data.articles.forEach((val) => {
+            if (val.user !== null) {
+              const object = { id: val.user.id, name: val.user.full_name };
+              userToAll.push(object);
+            } else {
+              const object = { id: 0, name: '作者不詳' };
+              userToAll.push(object);
+            }
+          });
+          // reduceでarrayにuserを1つずつ代入
+          // arrayの初期値は空の配列 userはuserToAll内の要素
+          const userToSingle = userToAll.reduce((array, user) => {
+            // objはarray内のオブジェクト
+            // 配列内のオブジェクトのidと新しく代入されるuser.idが一致した場合 : array.push(user)は行われない
+            if (!array.some(obj => obj.id === user.id)) {
+              array.push(user);
+            }
+            return array;
+          }, []);
+          // 取得した単一のユーザー名を１つずつmapで処理
+          const users = userToSingle.map((user) => {
+            const { id, name } = user; // オブジェクトを分割代入している 参考 => https://qiita.com/amamamaou/items/1ec21316b8bf05ba9c34#%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88
+            // userToSingle内のユーザー名と一致したユーザーが作成したドキュメントのタイトルを取得する処理
+            const articles = [];
+            res.data.articles.forEach((val) => {
+              if (val.user === null) {
+                // val.user === nullの valをname(作者不詳)のオブジェクト内の配列に代入
+                if (name === '作者不詳') {
+                  articles.push(val);
+                }
+              } else if (name === val.user.full_name) {
+                articles.push(val);
+              }
+            });
+            return { id, name, articles };
+          });
+          const payload = Object.assign({}, { users });
+          commit('doneGetUsers', payload);
           resolve();
         }).catch((err) => {
           commit('failRequest', { message: err.message });
