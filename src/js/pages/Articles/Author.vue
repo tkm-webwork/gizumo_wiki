@@ -33,8 +33,8 @@ export default {
   },
   methods: {
     handleClick(user) {
-      if (this.actives.some(val => val === user.id)) {
-        this.actives = this.actives.filter(val => val !== user.id);
+      if (this.actives.some(val => val === user.id)) { // someメソッドで val === user.idになるまで処理実行
+        this.actives = this.actives.filter(val => val !== user.id); // user.idと不一致の要素で新たな配列を作成
       } else {
         this.actives.push(user.id);
       }

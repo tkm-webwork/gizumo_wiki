@@ -26,7 +26,7 @@
                 v-if="actives.includes(user.id)"
                 class="author_list-table__body__arrowMark"
               >
-              ▲
+                ▲
               </a>
               <a v-else class="author_list-table__body__arrowMark">▼</a>
             </app-text>
@@ -106,6 +106,12 @@ export default {
     }
   }
   &__body {
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-to {
+      opacity: 0;
+    }
     td {
       padding: 10px;
       vertical-align: middle;
@@ -120,12 +126,6 @@ export default {
     }
     &__titleLink {
       float: right;
-    }
-    .fade-enter-active, .fade-leave-active {
-      transition: opacity .5s;
-    }
-    .fade-enter, .fade-leave-to {
-      opacity: 0;
     }
   }
 }
