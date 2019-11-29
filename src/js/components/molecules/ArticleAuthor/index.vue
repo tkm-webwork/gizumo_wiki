@@ -17,21 +17,36 @@
           :key="user.id"
         >
           <td
-            class="author_list__userName"
+            class="author_list-table__body__userName"
             @click="$emit('handleClick', user)"
           >
             <app-text tag="span" small>
               {{ user.name }}
-              <a class="author_list__arrowMark">▼</a>
+              <a
+                v-if="actives.includes(user.id)"
+                class="author_list-table__body__arrowMark"
+              >
+              ▲
+              </a>
+              <a v-else class="author_list-table__body__arrowMark">▼</a>
             </app-text>
           </td>
           <div v-if="actives.includes(user.id)">
             <td
               v-for="article in user.articles"
-              :key="article.title"
-              class="author_list__userTitle"
+              :key="article.id"
+              class="author_list-table__body__userTitle"
             >
               <app-text tag="span" small>{{ article.title }}</app-text>
+              <app-router-link
+                :to="`/articles/${article.id}`"
+                class="author_list-table__body__titleLink"
+                theme-color
+                underline
+                hover-opacity
+              >
+                詳細
+              </app-router-link>
             </td>
           </div>
         </tr>
@@ -41,13 +56,14 @@
 </template>
 <script>
 import {
-  Text, Heading,
+  Text, Heading, RouterLink,
 } from '@Components/atoms';
 
 export default {
   components: {
     appText: Text,
     appHeading: Heading,
+    appRouterLink: RouterLink,
   },
   props: {
     targetArray: {
@@ -82,12 +98,6 @@ export default {
   tr {
     border-bottom: 5px solid var(--separatorColor);
     display: block;
-    .author_list__userName {
-      cursor: pointer;
-    }
-    .author_list__arrowMark{
-      float: right;
-    }
   }
   &__head {
     th {
@@ -101,10 +111,15 @@ export default {
       vertical-align: middle;
       display: block;
       border-bottom: 1px solid var(--separatorColor);
-      &.is-disabled {
-        color: var(--disabledColor);
-        font-size: 12px;
-      }
+    }
+    &__userName {
+      cursor: pointer;
+    }
+    &__arrowMark {
+      float: right;
+    }
+    &__titleLink {
+      float: right;
     }
     .fade-enter-active, .fade-leave-active {
       transition: opacity .5s;

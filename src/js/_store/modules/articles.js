@@ -162,17 +162,8 @@ export default {
           method: 'GET',
           url: '/article',
         }).then((res) => {
-          // ドキュメントを作成したユーザー名を全件、取得
-          // const userToAll = res.data.articles.map(val => val.user.full_name);
-          // 取得したユーザー名の重複を解消
-          // const userToSingle = userToAll.filter((x, i, self) => self.indexOf(x) === i);
-
-          // const userToAll = res.data.articles.map(val => ({
-          //   id: val.user.id,
-          //   name: val.user.full_name,
-          // }));
           const userToAll = [];
-          res.data.articles.map((val) => {
+          res.data.articles.forEach((val) => {
             if (val.user !== null) {
               const object = { id: val.user.id, name: val.user.full_name };
               userToAll.push(object);
@@ -180,12 +171,9 @@ export default {
               const object = { id: 0, name: '作者不詳' };
               userToAll.push(object);
             }
-            return val;
           });
-
           // reduceでarrayにuserを1つずつ代入
           // arrayの初期値は空の配列 userはuserToAll内の要素
-
           const userToSingle = userToAll.reduce((array, user) => {
             // objはarray内のオブジェクト
             // 配列内のオブジェクトのidと新しく代入されるuser.idが一致した場合 : array.push(user)は行われない
@@ -197,13 +185,11 @@ export default {
           // 取得した単一のユーザー名を１つずつmapで処理
           const users = userToSingle.map((user) => {
             const { id, name } = user; // オブジェクトを分割代入している 参考 => https://qiita.com/amamamaou/items/1ec21316b8bf05ba9c34#%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88
-
-            // // userToSingle内のユーザー名と一致したユーザーが作成したドキュメントのタイトルを取得する処理
-            // const articles = res.data.articles
-            //   .filter(value => name === value.user.full_name); // returnの条件にあったvalueで新たな配列を作成
+            // userToSingle内のユーザー名と一致したユーザーが作成したドキュメントのタイトルを取得する処理
             const articles = [];
             res.data.articles.forEach((val) => {
               if (val.user === null) {
+                // val.user === nullの valをname(作者不詳)のオブジェクト内の配列に代入
                 if (name === '作者不詳') {
                   articles.push(val);
                 }
@@ -211,7 +197,6 @@ export default {
                 articles.push(val);
               }
             });
-
             return { id, name, articles };
           });
           const payload = Object.assign({}, { users });
