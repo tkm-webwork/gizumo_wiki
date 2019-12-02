@@ -26,16 +26,16 @@ const config = {
       '@Components': path.resolve(__dirname, './src/js/components'),
       '@Helpers': path.resolve(__dirname, './src/js/_helpers'),
       '@Pages': path.resolve(__dirname, './src/js/pages'),
-    }
+    },
   },
   plugins: [
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
-      filename: 'css/[name].css'
+      filename: 'css/[name].css',
     }),
     new WebpackNotifierPlugin({
       excludeWarnings: true,
-      title: 'Gizumo Wiki'
+      title: 'Gizumo Wiki',
     }),
   ],
   devServer: {
@@ -93,14 +93,14 @@ const config = {
               plugins: () => [
                 require('postcss-import')(),
                 require('postcss-mixins')({
-                  mixinsFiles: 'src/css/_helpers/_mixins.css'
+                  mixinsFiles: 'src/css/_helpers/_mixins.css',
                 }),
                 require('postcss-custom-media')({
-                  importFrom: 'src/css/_helpers/_media.css'
+                  importFrom: 'src/css/_helpers/_media.css',
                 }),
                 require('postcss-custom-properties')({
                   preserve: false,
-                  importFrom: 'src/css/_helpers/_variables.css'
+                  importFrom: 'src/css/_helpers/_variables.css',
                 }),
                 require('postcss-color-function')(),
                 require('postcss-nested')(),

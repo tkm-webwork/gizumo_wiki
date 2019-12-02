@@ -25,18 +25,33 @@ new Vue({
   render: h => h(App),
 
   localStorage: {
-    editTitle: {
-      type: String,
-      default: null,
+    editObject: {
+      type: Object,
+      default: {
+        val: null,
+      },
+      // default: {
+      //   id: null,
+      //   title: '',
+      //   content: '',
+      //   category: {
+      //     id: null,
+      //     name: '',
+      //   },
+      // },
     },
-    editCategotyName: {
-      type: String,
-      default: null,
-    },
-    editContent: {
-      type: String,
-      default: null,
-    },
+    // editTitle: {
+    //   type: String,
+    //   default: null,
+    // },
+    // editCategotyName: {
+    //   type: String,
+    //   default: null,
+    // },
+    // editContent: {
+    //   type: String,
+    //   default: null,
+    // },
     noTypeKey: '',
   },
 

@@ -65,27 +65,33 @@ export default {
     this.$store.dispatch('articles/clearMessage');
   },
   mounted() {
-    const editTitle = this.$localStorage.get('editTitle');
-    if (editTitle != null) {
-      this.$store.dispatch('articles/setEditTitle', editTitle);
-    }
-    const editContent = this.$localStorage.get('editContent');
-    if (editContent != null) {
-      this.$store.dispatch('articles/setEditContent', editContent);
-    }
-    const editCategoryName = this.$localStorage.get('editCategoryName');
-    if (editCategoryName != null) {
-      this.$store.dispatch('articles/setEditCategoryName', editCategoryName);
+    // const editTitle = this.$localStorage.get('editTitle');
+    // if (editTitle != null) {
+    //   this.$store.dispatch('articles/setEditTitle', editTitle);
+    // }
+    // const editContent = this.$localStorage.get('editContent');
+    // if (editContent != null) {
+    //   this.$store.dispatch('articles/setEditContent', editContent);
+    // }
+    // const editCategoryName = this.$localStorage.get('editCategoryName');
+    // if (editCategoryName != null) {
+    //   this.$store.dispatch('articles/setEditCategoryName', editCategoryName);
+    // }
+    const editObject = this.$localStorage.get('editObject');
+    if (editObject.val !== null) {
+      this.$store.dispatch('articles/setEditObject', editObject);
     }
   },
   methods: {
     editedTitle($event) {
       this.$store.dispatch('articles/editedTitle', $event.target.value);
-      this.$localStorage.set('editTitle', $event.target.value);
+      // this.$localStorage.set('editTitle', $event.target.value);
+      this.$localStorage.set('editObject', this.$store.state.articles.targetArticle);
     },
     editedContent($event) {
       this.$store.dispatch('articles/editedContent', $event.target.value);
-      this.$localStorage.set('editContent', $event.target.value);
+      // this.$localStorage.set('editContent', $event.target.value);
+      this.$localStorage.set('editObject', this.$store.state.articles.targetArticle);
     },
     handleSubmit() {
       if (this.loading) return;
@@ -94,20 +100,23 @@ export default {
           path: '/articles',
           query: { redirect: '/article/post' },
         });
-        this.$localStorage.remove('editTitle');
-        this.$localStorage.remove('editContent');
-        this.$localStorage.remove('editCategoryName');
+        // this.$localStorage.remove('editTitle');
+        // this.$localStorage.remove('editContent');
+        // this.$localStorage.remove('editCategoryName');
+        this.$localStorage.remove('editObject');
       });
     },
     selectedArticleCategory($event) {
       this.$store.dispatch('articles/selectedArticleCategory', $event.target.value);
-      this.$localStorage.set('editCategoryName', $event.target.value);
+      // this.$localStorage.set('editCategoryName', $event.target.value);
+      this.$localStorage.set('editObject', this.$store.state.articles.targetArticle);
     },
     clearContent() {
       this.$store.dispatch('articles/initPostArticle');
-      this.$localStorage.remove('editTitle');
-      this.$localStorage.remove('editContent');
-      this.$localStorage.remove('editCategoryName');
+      // this.$localStorage.remove('editTitle');
+      // this.$localStorage.remove('editContent');
+      // this.$localStorage.remove('editCategoryName');
+      this.$localStorage.remove('editObject');
     },
   },
 };

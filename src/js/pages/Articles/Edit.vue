@@ -70,47 +70,60 @@ export default {
     this.$store.dispatch('categories/getAllCategories');
     this.$store.dispatch('articles/getArticleDetail', parseInt(this.articleId, 10))
       .then(() => {
-        const editTitle = this.$localStorage.get('editTitle');
-        if (editTitle != null) {
-          this.$store.dispatch('articles/setEditTitle', editTitle);
-        }
-        const editContent = this.$localStorage.get('editContent');
-        if (editContent != null) {
-          this.$store.dispatch('articles/setEditContent', editContent);
-        }
-        const editCategoryName = this.$localStorage.get('editCategoryName');
-        if (editCategoryName != null) {
-          this.$store.dispatch('articles/setEditCategoryName', editCategoryName);
-        }
+        // const editTitle = this.$localStorage.get('editTitle');
+        // if (editTitle != null) {
+        //   this.$store.dispatch('articles/setEditTitle', editTitle);
+        // }
+        // const editContent = this.$localStorage.get('editContent');
+        // if (editContent != null) {
+        //   this.$store.dispatch('articles/setEditContent', editContent);
+        // }
+        // const editCategoryName = this.$localStorage.get('editCategoryName');
+        // if (editCategoryName != null) {
+        //   this.$store.dispatch('articles/setEditCategoryName', editCategoryName);
+        // }
 
-        const { title } = this.$store.state.articles.targetArticle;
-        this.$localStorage.set('editTitle', title);
-        const { content } = this.$store.state.articles.targetArticle;
-        this.$localStorage.set('editContent', content);
-        const categoryname = this.$store.state.articles.targetArticle.category.name;
-        this.$localStorage.set('editCategoryName', categoryname);
+        const editObject = this.$localStorage.get('editObject');
+        console.log(editObject.val);
+        if (editObject.val !== null) {
+          console.log('in if');
+          this.$store.dispatch('articles/setEditObject', editObject);
+        } else {
+          console.log('else');
+        }
+        // const { title } = this.$store.state.articles.targetArticle;
+        // this.$localStorage.set('editTitle', title);
+        // const { content } = this.$store.state.articles.targetArticle;
+        // this.$localStorage.set('editContent', content);
+        // const categoryname = this.$store.state.articles.targetArticle.category.name;
+        // this.$localStorage.set('editCategoryName', categoryname);
       });
   },
   methods: {
     editedTitle($event) {
       this.$store.dispatch('articles/editedTitle', $event.target.value);
-      this.$localStorage.set('editTitle', $event.target.value);
+      // this.$localStorage.set('editTitle', $event.target.value);
+      this.$localStorage.set('editObject', this.$store.state.articles.targetArticle);
     },
     editedContent($event) {
       this.$store.dispatch('articles/editedContent', $event.target.value);
-      this.$localStorage.set('editContent', $event.target.value);
+      // this.$localStorage.set('editContent', $event.target.value);
+      this.$localStorage.set('editObject', this.$store.state.articles.targetArticle);
+      console.log(this.$localStorage.get('editObject'));
     },
     handleSubmit() {
       if (this.loading) return;
       this.$store.dispatch('articles/updateArticle');
-      this.$localStorage.remove('editTitle');
-      this.$localStorage.remove('editContent');
-      this.$localStorage.remove('editCategoryName');
+      // this.$localStorage.remove('editTitle');
+      // this.$localStorage.remove('editContent');
+      // this.$localStorage.remove('editCategoryName');
+      this.$localStorage.remove('editObject');
     },
     selectedArticleCategory($event) {
       const categoryName = $event.target.value;
       this.$store.dispatch('articles/selectedArticleCategory', categoryName);
-      this.$localStorage.set('editCategoryName', $event.target.value);
+      // this.$localStorage.set('editCategoryName', $event.target.value);
+      this.$localStorage.set('editObject', this.$store.state.articles.targetArticle);
     },
   },
 };
