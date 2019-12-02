@@ -35,11 +35,11 @@ export default {
     articlesList() {
       return this.$store.state.articles.articleList;
     },
-    doneMessage() {
-      return this.$store.state.articles.doneMessage;
-    },
     access() {
       return this.$store.getters['auth/access'];
+    },
+    doneMessage() {
+      return this.$store.state.articles.doneMessage;
     },
   },
   created() {
