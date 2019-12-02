@@ -31,6 +31,7 @@
             v-for="(category) in categoryList"
             :key="category.id"
             :value="category.name"
+            :selected="categoryName === category.name ? true : false"
           >
             {{ category.name }}
           </option>
@@ -75,6 +76,13 @@
           @click="handleSubmit"
         >
           {{ buttonText }}
+        </app-button>
+        <app-button
+          class="article-post-clear"
+          round
+          @click="clearContent"
+        >
+          Clear
         </app-button>
       </section>
 
@@ -156,6 +164,9 @@ export default {
         if (valid) this.$emit('handleSubmit');
       });
     },
+    clearContent() {
+      this.$emit('clearContent');
+    },
   },
 };
 </script>
@@ -179,6 +190,7 @@ export default {
     width: 48%;
     overflow-y: scroll;
     background-color: #fff;
+    word-break: break-all;
   }
   &-form {
     margin-top: 20px;
@@ -188,6 +200,9 @@ export default {
   }
   &__notice {
     margin-bottom: 16px;
+  }
+  &-clear {
+    /* margin-left: 280px; */
   }
 }
 </style>

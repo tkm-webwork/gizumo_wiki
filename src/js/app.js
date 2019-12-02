@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import VueLocalStorage from 'vue-localstorage';
 
 import '../css/global';
 import 'highlight.js/styles/gruvbox-dark.css';
@@ -15,10 +16,43 @@ Validator.localize('ja', ja);
 Vue.use(VeeValidate, { locale: ja });
 Vue.use(vueSmoothScroll);
 Vue.component('app-modal', AppModal);
+Vue.use(VueLocalStorage);
 
 new Vue({
   el: '#app',
   router,
   store,
   render: h => h(App),
+
+  localStorage: {
+    editObject: {
+      type: Object,
+      default: {
+        val: null,
+      },
+      // default: {
+      //   id: null,
+      //   title: '',
+      //   content: '',
+      //   category: {
+      //     id: null,
+      //     name: '',
+      //   },
+      // },
+    },
+    // editTitle: {
+    //   type: String,
+    //   default: null,
+    // },
+    // editCategotyName: {
+    //   type: String,
+    //   default: null,
+    // },
+    // editContent: {
+    //   type: String,
+    //   default: null,
+    // },
+    noTypeKey: '',
+  },
+
 });
