@@ -14,7 +14,7 @@
       @editedContent="editedContent"
       @selectedArticleCategory="selectedArticleCategory"
       @handleSubmit="handleSubmit"
-    ></app-article-post>
+    />
   </div>
 </template>
 
@@ -24,11 +24,6 @@ import { ArticlePost } from '@Components/molecules';
 export default {
   components: {
     appArticlePost: ArticlePost,
-  },
-  created() {
-    this.$store.dispatch('categories/getAllCategories');
-    this.$store.dispatch('articles/initPostArticle');
-    this.$store.dispatch('articles/clearMessage');
   },
   computed: {
     getCategoryList() {
@@ -61,6 +56,11 @@ export default {
     currentCategoryName() {
       return this.$store.state.articles.targetArticle.category.name;
     },
+  },
+  created() {
+    this.$store.dispatch('categories/getAllCategories');
+    this.$store.dispatch('articles/initPostArticle');
+    this.$store.dispatch('articles/clearMessage');
   },
   methods: {
     editedTitle(event) {

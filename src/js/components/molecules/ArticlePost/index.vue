@@ -22,7 +22,9 @@
             value=""
             disabled
             selected
-          >---</option>
+          >
+            ---
+          </option>
           <option
             v-for="category in categoryList"
             :key="category.id"
@@ -70,7 +72,7 @@
       <article class="article-post-preview">
         <app-markdown-preview
           :markdown-content="markdownContent"
-        ></app-markdown-preview>
+        />
       </article>
     </div>
   </div>
@@ -129,18 +131,18 @@ export default {
       default: '',
     },
   },
+  computed: {
+    buttonText() {
+      if (!this.access.create) return '作成権限がありません';
+      return this.loading ? '作成中...' : '作成';
+    },
+  },
   methods: {
     handleSubmit() {
       if (!this.access.create) return;
       this.$validator.validate().then((valid) => {
         if (valid) this.$emit('handleSubmit');
       });
-    },
-  },
-  computed: {
-    buttonText() {
-      if (!this.access.create) return '作成権限がありません';
-      return this.loading ? '作成中...' : '作成';
     },
   },
 };
