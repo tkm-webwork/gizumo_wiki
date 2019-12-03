@@ -3,6 +3,9 @@
     <div v-if="doneMessage" class="article-post__notice--update">
       <app-text bg-success>{{ doneMessage }}</app-text>
     </div>
+    <div v-if="errorMessage" class="article-post__notice--update">
+      <app-text bg-error>{{ errorMessage }}</app-text>
+    </div>
     <div class="article-post__columns">
       <section class="article-post-editor">
         <app-heading :level="1">記事の新規作成</app-heading>
