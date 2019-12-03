@@ -62,25 +62,40 @@ export default {
     this.$store.dispatch('articles/initPostArticle');
     this.$store.dispatch('articles/clearMessage');
   },
+  mounted() {
+    const targetArticleObj = JSON.parse(localStorage.getItem('targetArticleObj'));
+    if (targetArticleObj) {
+      this.$store.dispatch('articles/setArticle', targetArticleObj);
+    }
+  },
   methods: {
-    editedTitle(event) {
-      this.$store.dispatch('articles/editedTitle', event.target.value);
+    editedTitle($event) {
+      this.$store.dispatch('articles/editedTitle', $event.target.value);
+      const article = this.$store.state.articles.targetArticle;
+      localStorage.setItem('targetArticleObj', this.parseArticle(article));
     },
-    editedContent(event) {
-      this.$store.dispatch('articles/editedContent', event.target.value);
+    editedContent($event) {
+      this.$store.dispatch('articles/editedContent', $event.target.value);
+      const article = this.$store.state.articles.targetArticle;
+      localStorage.setItem('targetArticleObj', this.parseArticle(article));
+    },
+    selectedArticleCategory($event) {
+      this.$store.dispatch('articles/selectedArticleCategory', $event.target.value);
+      const article = this.$store.state.articles.targetArticle;
+      localStorage.setItem('targetArticleObj', this.parseArticle(article));
+    },
+    parseArticle(article) {
+      return JSON.stringify(article);
     },
     handleSubmit() {
       if (this.loading) return;
       this.$store.dispatch('articles/postArticle').then(() => {
+        localStorage.removeItem('targetArticleObj');
         this.$router.push({
           path: '/articles',
           query: { redirect: 'article' },
         });
       });
-    },
-    selectedArticleCategory($event) {
-      const categoryName = $event.target.value;
-      this.$store.dispatch('articles/selectedArticleCategory', categoryName);
     },
   },
 };

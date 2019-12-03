@@ -269,6 +269,9 @@ export default {
         });
       });
     },
+    setArticle({ commit }, article) {
+      commit('updateArticle', { article });
+    },
     clearMessage({ commit }) {
       commit('clearMessage');
     },
