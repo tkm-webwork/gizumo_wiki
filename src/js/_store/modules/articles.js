@@ -28,6 +28,10 @@ export default {
     loading: false,
     doneMessage: '',
     errorMessage: '',
+    lastPage: 0,
+    currentPage: 0,
+    category: null,
+    page: null,
   },
   getters: {
     transformedArticles(state) {
@@ -71,8 +75,10 @@ export default {
     doneGetArticle(state, payload) {
       state.targetArticle = Object.assign({}, state.targetArticle, payload.article);
     },
-    doneGetArticles(state, payload) {
-      state.articleList = [...payload.articles];
+    doneGetArticles(state, { articles, lastPage, currentPage }) {
+      state.articleList = [...articles];
+      state.lastPage = lastPage;
+      state.currentPage = currentPage;
     },
     editedTitle(state, payload) {
       state.targetArticle = Object.assign({}, { ...state.targetArticle }, {
@@ -113,19 +119,30 @@ export default {
     displayDoneMessage(state, payload = { message: '成功しました' }) {
       state.doneMessage = payload.message;
     },
+    setQuery(state, payload) {
+      state.category = payload.category;
+      state.page = payload.page;
+    },
   },
   actions: {
     initPostArticle({ commit }) {
       commit('initPostArticle');
     },
-    getArticles({ commit, rootGetters }, categoryName) {
+    getArticles({ commit, rootGetters }) {
       return new Promise((resolve, reject) => {
+        const params = {
+          page: this.state.articles.page,
+          category: this.state.articles.category,
+        };
         axios(rootGetters['auth/token'])({
           method: 'GET',
-          url: categoryName ? `/article?category=${categoryName}` : '/article',
+          url: '/article',
+          params,
         }).then((res) => {
           const payload = {
             articles: res.data.articles,
+            lastPage: res.data.meta.last_page,
+            currentPage: res.data.meta.current_page,
           };
           commit('doneGetArticles', payload);
           resolve();
