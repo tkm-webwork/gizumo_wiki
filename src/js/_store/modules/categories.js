@@ -76,21 +76,23 @@ export default {
     changeEditCategory({ commit }, categoryName) {
       commit('changeEditCategory', { categoryName });
     },
-    addCategory({ dispatch, commit, rootGetters }, categoryName) {
-      commit('toggleLoading');
-      const data = new URLSearchParams();
-      data.append('name', categoryName);
-      axios(rootGetters['auth/token'])({
-        method: 'POST',
-        url: '/category',
-        data,
-      }).then(() => {
-        dispatch('getAllCategories');
-        commit('addCategory');
+    addCategory({ commit, rootGetters }, categoryName) {
+      return new Promise((resolve) => {
         commit('toggleLoading');
-      }).catch((err) => {
-        commit('failFetchCategory', { message: err.message });
-        commit('toggleLoading');
+        const data = new URLSearchParams();
+        data.append('name', categoryName);
+        axios(rootGetters['auth/token'])({
+          method: 'POST',
+          url: '/category',
+          data,
+        }).then(() => {
+          commit('addCategory');
+          commit('toggleLoading');
+          resolve();
+        }).catch((err) => {
+          commit('failFetchCategory', { message: err.message });
+          commit('toggleLoading');
+        });
       });
     },
     setDeleteCategory({ commit }, payload) {
