@@ -58,7 +58,6 @@ export default {
     },
     clearNewitemLocal() {
       localStorage.clear('newItem');
-      localStorage.clear('editItem');
     },
     clearEdititemLocal() {
       localStorage.clear('editItem');

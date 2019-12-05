@@ -101,11 +101,11 @@ export default {
             path: '/articles',
             query: { redirect: '/article/post' },
           });
-          this.$store.dispatch('articles/clearNewitemLocal');
         });
     },
     handleSubmitClear() {
       this.$store.dispatch('articles/initPostArticle');
+      this.$store.dispatch('articles/clearNewitemLocal');
     },
   },
 };
