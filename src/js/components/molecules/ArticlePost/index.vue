@@ -65,6 +65,13 @@
         >
           {{ buttonText }}
         </app-button>
+        <app-button
+          class="article-post-submit"
+          button-type="submit"
+          @click="handleSubmitClear"
+        >
+          内容をクリア
+        </app-button>
       </div>
       <div class="article-post-rightcolumn">
         <app-markdown-preview
@@ -157,6 +164,9 @@ export default {
       this.$validator.validate().then((valid) => {
         if (valid) this.$emit('handleSubmit');
       });
+    },
+    handleSubmitClear() {
+      this.$emit('handleSubmitClear');
     },
   },
 

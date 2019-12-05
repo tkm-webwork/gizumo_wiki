@@ -47,6 +47,21 @@ export default {
     deleteArticleId: state => state.deleteArticleId,
   },
   mutations: {
+    setNewitemLocal(state) {
+      const localData = state.targetArticle;
+      localStorage.setItem('newItem', JSON.stringify(localData));
+    },
+    setEdititemLocal(state) {
+      const localData = state.targetArticle;
+      localStorage.setItem('editItem', JSON.stringify(localData));
+    },
+    clearNewitemLocal() {
+      localStorage.clear('newItem');
+      localStorage.clear('editItem');
+    },
+    clearEdititemLocal() {
+      localStorage.clear('editItem');
+    },
     initPostArticle(state) {
       state.targetArticle = Object.assign({}, {
         id: null,
@@ -113,8 +128,34 @@ export default {
     displayDoneMessage(state, payload = { message: '成功しました' }) {
       state.doneMessage = payload.message;
     },
+    getNewEditing(state) {
+      const local = JSON.parse(localStorage.getItem('newItem'));
+      if (local !== null) {
+        state.targetArticle = Object.assign({}, local);
+      }
+    },
+    getEditEditing(state) {
+      const local = JSON.parse(localStorage.getItem('editItem'));
+      if (local.id === state.targetArticle.id) {
+        state.targetArticle = Object.assign({}, local);
+      }
+    },
   },
   actions: {
+    getNewEditing({ commit }) {
+      commit('getNewEditing');
+    },
+    setNewitemLocal({ commit }) {
+      commit('setNewitemLocal');
+    },
+    setEdititemLocal({ commit }) {
+      commit('setEdititemLocal');
+    },
+
+    clearNewitemLocal({ commit }) {
+      commit('clearNewitemLocal');
+    },
+
     initPostArticle({ commit }) {
       commit('initPostArticle');
     },
@@ -157,6 +198,8 @@ export default {
           };
           commit('doneGetArticle', payload);
           resolve();
+        }).then(() => {
+          commit('getEditEditing');
         }).catch((err) => {
           commit('failRequest', { message: err.message });
           reject();
@@ -216,6 +259,7 @@ export default {
         };
         commit('updateArticle', payload);
         commit('toggleLoading');
+        commit('clearEdititemLocal');
         commit('displayDoneMessage', { message: 'ドキュメントを更新しました' });
       }).catch(() => {
         commit('toggleLoading');
