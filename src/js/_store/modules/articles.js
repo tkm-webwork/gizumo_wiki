@@ -24,6 +24,7 @@ export default {
       },
     },
     articleList: [],
+    articleTrashedList: [],
     deleteArticleId: null,
     loading: false,
     doneMessage: '',
@@ -164,6 +165,23 @@ export default {
         axios(rootGetters['auth/token'])({
           method: 'GET',
           url: categoryName ? `/article?category=${categoryName}` : '/article',
+        }).then((res) => {
+          const payload = {
+            articles: res.data.articles,
+          };
+          commit('doneGetArticles', payload);
+          resolve();
+        }).catch((err) => {
+          commit('failRequest', { message: err.message });
+          reject();
+        });
+      });
+    },
+    getTrashedArticles({ commit, rootGetters }, categoryName) {
+      return new Promise((resolve, reject) => {
+        axios(rootGetters['auth/token'])({
+          method: 'GET',
+          url: categoryName ? `/article?category=${categoryName}` : '/article/trashed',
         }).then((res) => {
           const payload = {
             articles: res.data.articles,

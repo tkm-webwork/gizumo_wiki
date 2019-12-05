@@ -5,6 +5,7 @@ import SidebarList from './SidebarList';
 import HomeCategory from './HomeCategory';
 import HomeArticle from './HomeArticle';
 import ArticleList from './ArticleList';
+import ArticleTrashed from './ArticleTrashed';
 import UserCreate from './UserCreate';
 import UserTable from './UserTable';
 import UserDetail from './UserDetail';
@@ -26,6 +27,7 @@ export {
   HomeCategory,
   HomeArticle,
   ArticleList,
+  ArticleTrashed,
   UserCreate,
   UserTable,
   UserDetail,
