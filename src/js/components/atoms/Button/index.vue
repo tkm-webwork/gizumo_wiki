@@ -55,6 +55,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    pagination: {
+      type: Boolean,
+      default: false,
+    },
+    bgWidth: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     classes() {
@@ -70,6 +78,8 @@ export default {
         'button--bg-caution': this.bgCaution,
         'button--bg-white': this.bgWhite,
         'button--pointer': this.pointer,
+        'button--pagination': this.pagination,
+        'button--bg-width': this.bgWidth,
       };
     },
   },
@@ -114,6 +124,24 @@ export default {
 .button--bg-white {
   background-color: #fff;
 }
+.button--pagination {
+  margin: 0 2px;
+  padding: 0;
+  background: var(--themeColor);
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  border-radius: 10px;
+  color: #fff;
+
+  &:hover,
+  &:active {
+    color: var(--themeColor);
+    background: #fff;
+    border: 1px solid var(--themeColor);
+    border-radius: 10px;
+  }
+}
 .button--disabled {
   background-color: var(--disabledColor);
   cursor: default;
@@ -123,5 +151,8 @@ export default {
 }
 .button--pointer {
   cursor: pointer;
+}
+.button--bg-width {
+  width: 80px;
 }
 </style>
