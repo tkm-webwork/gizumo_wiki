@@ -6,8 +6,6 @@
         :target-array="articlesList"
         :done-message="doneMessage"
         :access="access"
-        :current-page="currentPage"
-        :last-page="lastPage"
         border-gray
         @openModal="openModal"
         @handleClick="handleClick"
