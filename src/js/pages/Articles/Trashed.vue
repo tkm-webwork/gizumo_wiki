@@ -6,10 +6,8 @@
         :target-array="articlesList"
         :done-message="doneMessage"
         :access="access"
-        :is-trashed="false"
+        :is-trashed="true"
         border-gray
-        @openModal="openModal"
-        @handleClick="handleClick"
       />
     </section>
     <section class="artciles-list-Pagination">
@@ -74,7 +72,7 @@ export default {
         });
     },
     fetchArticles() {
-      this.$store.dispatch('articles/getArticles')
+      this.$store.dispatch('articles/getArticles', true)
         .then(() => {
           if (this.$store.state.articles.articleList.length === 0) {
             this.$router.push({ path: '/notfound' });
@@ -93,11 +91,8 @@ export default {
       if (page === 0) return;
       const query = {};
       query.page = page;
-      if (this.$store.state.articles.category) {
-        query.category = this.$store.state.articles.category;
-      }
       this.$router.push({
-        path: '/articles',
+        path: '/articles/trashed',
         query,
       });
     },
