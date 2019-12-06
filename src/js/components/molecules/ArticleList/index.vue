@@ -52,20 +52,22 @@
           tag="h3"
           ex-large
         >
-          {{ textFormat(article.title) }}
+          {{ article.title | textFormat }}
         </app-text>
-        <template v-if="isTrashed">
+        <template
+          v-if="isTrashed"
+        >
           <app-text>
-            {{ textFormat(article.content) }}
+            {{ article.content | textFormat }}
           </app-text>
           <app-text
             ex-small
           >
-            {{ dateFormat(article.created_at) }}
+            {{ article.created_at | dateFormat }}
           </app-text>
         </template>
         <div
-          v-if="!isTrashed"
+          v-else
           class="article-list__links"
         >
           <app-router-link
@@ -132,6 +134,16 @@ export default {
     appButton: Button,
     appText: Text,
   },
+  filters: {
+    textFormat(text) {
+      if (text.length <= 30) return text;
+      return `${text.substring(1, 30)}...`;
+    },
+    dateFormat(date) {
+      const dateObj = new Date(date);
+      return `${dateObj.getFullYear()}/${dateObj.getMonth() + 1}/${dateObj.getDate()} ${dateObj.getHours()}:${dateObj.getMinutes()}:${dateObj.getSeconds()}`;
+    },
+  },
   props: {
     className: {
       type: String,
@@ -174,14 +186,6 @@ export default {
     openModal(articleId) {
       if (!this.access.delete) return;
       this.$emit('openModal', articleId);
-    },
-    textFormat(text) {
-      if (text.length <= 30) return text;
-      return `${text.substring(1, 30)}...`;
-    },
-    dateFormat(date) {
-      const dateObj = new Date(date);
-      return `${dateObj.getFullYear()}/${dateObj.getMonth() + 1}/${dateObj.getDate()} ${dateObj.getHours()}:${dateObj.getMinutes()}:${dateObj.getSeconds()}`;
     },
   },
 };
