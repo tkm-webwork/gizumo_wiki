@@ -89,6 +89,7 @@ export default {
       this.fetchArticles();
     },
     toPage(page) {
+      if(page === 0) return;
       const query = {};
       query.page = page;
       if (this.$store.state.articles.category) {
