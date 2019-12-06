@@ -58,10 +58,10 @@ export default {
       localStorage.setItem('editItem', JSON.stringify(localData));
     },
     clearNewitemLocal() {
-      localStorage.clear('newItem');
+      localStorage.removeItem('newItem');
     },
     clearEdititemLocal() {
-      localStorage.clear('editItem');
+      localStorage.removeItem('editItem');
     },
     initPostArticle(state) {
       state.targetArticle = Object.assign({}, {
@@ -292,6 +292,7 @@ export default {
         commit('toggleLoading');
         commit('clearEdititemLocal');
         commit('displayDoneMessage', { message: 'ドキュメントを更新しました' });
+        console.log(JSON.parse(localStorage.getItem('newItem')));
       }).catch(() => {
         commit('toggleLoading');
       });
@@ -335,7 +336,6 @@ export default {
           data,
         }).then(() => {
           commit('toggleLoading');
-          commit('clearNewitemLocal');
           commit('displayDoneMessage', { message: 'ドキュメントを作成しました' });
           resolve();
         }).catch((err) => {

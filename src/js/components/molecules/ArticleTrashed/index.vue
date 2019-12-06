@@ -74,11 +74,12 @@ export default {
       return formatedDate;
     },
     formatedContent(value) {
-      // if (value.length < 29) {
-      const formatedContent = value.slice(0, 29);
-      const dots = '...';
-      return formatedContent + dots;
-      // }
+      if (value.length > 30) {
+        const formatedContent = value.slice(0, 30);
+        const dots = '...';
+        return formatedContent + dots;
+      }
+      return value;
     },
   },
   props: {
