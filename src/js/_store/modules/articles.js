@@ -31,7 +31,7 @@ export default {
     lastPage: 0,
     currentPage: 0,
     category: null,
-    page: null,
+    page: 1,
   },
   getters: {
     transformedArticles(state) {
@@ -75,8 +75,11 @@ export default {
     doneGetArticle(state, payload) {
       state.targetArticle = Object.assign({}, state.targetArticle, payload.article);
     },
-    doneGetArticles(state, { articles, lastPage, currentPage }) {
+    doneGetArticles(state, {
+      articles, isTrashed, lastPage, currentPage,
+    }) {
       state.articleList = [...articles];
+      state.isTrashed = isTrashed;
       state.lastPage = lastPage;
       state.currentPage = currentPage;
     },
@@ -128,7 +131,7 @@ export default {
     initPostArticle({ commit }) {
       commit('initPostArticle');
     },
-    getArticles({ commit, rootGetters }) {
+    getArticles({ commit, rootGetters }, isTrashed = false) {
       return new Promise((resolve, reject) => {
         const params = {
           page: this.state.articles.page,
@@ -136,11 +139,12 @@ export default {
         };
         axios(rootGetters['auth/token'])({
           method: 'GET',
-          url: '/article',
+          url: isTrashed ? '/article/trashed' : '/article',
           params,
         }).then((res) => {
           const payload = {
             articles: res.data.articles,
+            isTrashed,
             lastPage: res.data.meta.last_page,
             currentPage: res.data.meta.current_page,
           };

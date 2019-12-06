@@ -4,18 +4,34 @@
       <app-text bg-success>{{ doneMessage }}</app-text>
     </div>
     <app-heading :level="1">{{ articleTitle }}</app-heading>
-    <app-router-link
-      to="articles/post"
-      key-color
-      white
-      bg-lightgreen
-      small
-      round
-      hover-opacity
-      class="article-list__create-link"
+    <template
+      v-if="!isTrashed"
     >
-      新しいドキュメントを作る
-    </app-router-link>
+      <app-router-link
+        to="/articles/post"
+        key-color
+        white
+        bg-lightgreen
+        small
+        round
+        hover-opacity
+        class="article-list__create-link"
+      >
+        新しいドキュメントを作る
+      </app-router-link>
+      <app-router-link
+        to="/articles/trashed?page=1"
+        key-color
+        white
+        bg-lightgreen
+        small
+        round
+        hover-opacity
+        class="article-list__create-link"
+      >
+        削除済み記事一覧
+      </app-router-link>
+    </template>
     <transition-group
       class="article-list__articles"
       name="fade"
@@ -24,7 +40,7 @@
       <app-list-item
         v-for="article in targetArray"
         :key="article.id"
-        flex
+        :flex="!isTrashed"
         beetween
         align-items
         bg-white
@@ -33,10 +49,27 @@
       >
         <app-text
           class="article-list__title"
+          tag="h3"
+          ex-large
         >
-          {{ article.title }}
+          {{ article.title | textFormat }}
         </app-text>
-        <div class="article-list__links">
+        <template
+          v-if="isTrashed"
+        >
+          <app-text>
+            {{ article.content | textFormat }}
+          </app-text>
+          <app-text
+            ex-small
+          >
+            {{ article.created_at | dateFormat }}
+          </app-text>
+        </template>
+        <div
+          v-else
+          class="article-list__links"
+        >
           <app-router-link
             :to="`/articles/${article.id}`"
             theme-color
@@ -101,6 +134,16 @@ export default {
     appButton: Button,
     appText: Text,
   },
+  filters: {
+    textFormat(text) {
+      if (text.length <= 30) return text;
+      return `${text.substring(1, 30)}...`;
+    },
+    dateFormat(date) {
+      const dateObj = new Date(date);
+      return `${dateObj.getFullYear()}/${dateObj.getMonth() + 1}/${dateObj.getDate()} ${dateObj.getHours()}:${dateObj.getMinutes()}:${dateObj.getSeconds()}`;
+    },
+  },
   props: {
     className: {
       type: String,
@@ -125,6 +168,10 @@ export default {
     access: {
       type: Object,
       default: () => ({}),
+    },
+    isTrashed: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {
