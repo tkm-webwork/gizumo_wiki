@@ -30,7 +30,7 @@ export default {
   },
   computed: {
     articleTrashed() {
-      return this.$store.state.articles.articleList;
+      return this.$store.state.articles.articleTrashed;
     },
     access() {
       return this.$store.getters['auth/access'];
@@ -44,11 +44,12 @@ export default {
     fetchArticles(categoryName) {
       this.$store.dispatch('articles/getTrashedArticles', categoryName)
         .then(() => {
-          if (this.$store.state.articles.articleList.length === 0) {
+          if (this.$store.state.articles.articleTrashed.length === 0) {
             this.$router.push({ path: '/notfound' });
           }
         }).catch(() => {
         });
+      this.$store.dispatch('articles/formatCreatedDate');
     },
   },
 };

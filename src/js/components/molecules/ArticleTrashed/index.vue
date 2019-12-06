@@ -24,16 +24,16 @@
         >
           {{ article.title }}
         </app-text>
-        <div class="article-list__links">
-          <app-router-link
-            :to="`/articles/${article.id}`"
-            theme-color
-            underline
-            hover-opacity
-          >
-            詳細
-          </app-router-link>
-        </div>
+        <app-text
+          class="article-list__contents"
+        >
+          {{ article.content | formatedContent }}
+        </app-text>
+        <app-text
+          class="article-list__date"
+        >
+          {{ article.created_at | formatDate }}
+        </app-text>
       </app-list-item>
     </transition-group>
     <app-modal>
@@ -56,7 +56,6 @@
 import {
   Heading,
   ListItem,
-  RouterLink,
   Button,
   Text,
 } from '@Components/atoms';
@@ -65,9 +64,22 @@ export default {
   components: {
     appHeading: Heading,
     appListItem: ListItem,
-    appRouterLink: RouterLink,
     appButton: Button,
     appText: Text,
+  },
+  filters: {
+    formatDate(value) {
+      let formatedDate = new Date(value);
+      formatedDate = formatedDate.toLocaleString('ja-JP');
+      return formatedDate;
+    },
+    formatedContent(value) {
+      // if (value.length < 29) {
+      const formatedContent = value.slice(0, 29);
+      const dots = '...';
+      return formatedContent + dots;
+      // }
+    },
   },
   props: {
     className: {
@@ -102,7 +114,16 @@ export default {
     buttonText() {
       return this.access.delete ? '削除' : '削除権限がありません';
     },
+    // time() {
+    //   let test = '';
+    //   this.targetArray.array.forEach(element => {
+    //     test = new Date(element.created_at);
+    //   });
+    //   console.log(test);
+    //   return test;
+    // },
   },
+
   methods: {
     openModal(articleId) {
       if (!this.access.delete) return;
@@ -120,11 +141,28 @@ export default {
         transition: opacity .5s;
       }
     }
+    .list-item{
+      flex-direction: column;
+    }
     .fade-enter, .fade-leave-to {
       opacity: 0;
     }
     &__title {
-      width: 60%;
+      width: 100%;
+      font-weight: bold;
+    }
+    &__date {
+      width: 100%;
+      color: #191970;
+      font-size: 10px;
+      opacity: 0.7;
+    }
+    &__contents{
+      width: 100%;
+      color: #696969;
+      border-top: 1px dotted;
+      margin-top: 10px;
+      border-color: #f5f5f5;
     }
     &__create-link {
       margin-top: 16px;
