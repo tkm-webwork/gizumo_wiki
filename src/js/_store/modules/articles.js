@@ -7,7 +7,6 @@ export default {
     targetArticle: {
       id: null,
       title: '',
-      formatedDate: '',
       content: '',
       category: {
         id: null,
@@ -90,17 +89,8 @@ export default {
     doneGetArticles(state, payload) {
       state.articleList = [...payload.articles];
     },
-    // formatDate(state, payload) {
-    //   // state.articleTrashed.updated_at = [...payload.articles];
-    //   console.log(payload.articles);
-    // },
     doneGetTrashedArticles(state, payload) {
       state.articleTrashed = [...payload.articles];
-      // const formatedDate = state.articleTrashed.map
-      // console.log(state.articleTrashed[0].updated_at);
-      console.log(state.articleTrashed);
-      // state.articleTrashed.forEach(function(val) {
-      // });
     },
     editedTitle(state, payload) {
       state.targetArticle = Object.assign({}, { ...state.targetArticle }, {
@@ -199,7 +189,6 @@ export default {
             articles: res.data.articles,
           };
           commit('doneGetTrashedArticles', payload);
-          commit('formatDate', payload);
           resolve();
         }).catch((err) => {
           commit('failRequest', { message: err.message });
@@ -292,7 +281,6 @@ export default {
         commit('toggleLoading');
         commit('clearEdititemLocal');
         commit('displayDoneMessage', { message: 'ドキュメントを更新しました' });
-        console.log(JSON.parse(localStorage.getItem('newItem')));
       }).catch(() => {
         commit('toggleLoading');
       });

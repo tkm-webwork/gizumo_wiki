@@ -22,7 +22,7 @@
         <app-text
           class="article-list__title"
         >
-          {{ article.title }}
+          {{ article.title | formatedTitle }}
         </app-text>
         <app-text
           class="article-list__contents"
@@ -81,6 +81,14 @@ export default {
       }
       return value;
     },
+    formatedTitle(value) {
+      if (value.length > 30) {
+        const formatedTitle = value.slice(0, 30);
+        const dots = '...';
+        return formatedTitle + dots;
+      }
+      return value;
+    },
   },
   props: {
     className: {
@@ -115,14 +123,6 @@ export default {
     buttonText() {
       return this.access.delete ? '削除' : '削除権限がありません';
     },
-    // time() {
-    //   let test = '';
-    //   this.targetArray.array.forEach(element => {
-    //     test = new Date(element.created_at);
-    //   });
-    //   console.log(test);
-    //   return test;
-    // },
   },
 
   methods: {

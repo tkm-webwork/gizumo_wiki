@@ -49,7 +49,6 @@ export default {
           }
         }).catch(() => {
         });
-      this.$store.dispatch('articles/formatCreatedDate');
     },
   },
 };
