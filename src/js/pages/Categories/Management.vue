@@ -81,7 +81,10 @@ export default {
       this.$store.dispatch('categories/setDeleteCategory', category);
     },
     addCategory() {
-      this.$store.dispatch('categories/addCategory', this.category);
+      this.$store.dispatch('categories/addCategory', this.category)
+        .then(() => {
+          this.$store.dispatch('categories/getAllCategories');
+        });
     },
     deleteCategory() {
       this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId)
