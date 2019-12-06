@@ -22,7 +22,7 @@
         <app-text
           class="article-list__title"
         >
-          {{ article.title }}
+          {{ article.title | formatedTitle }}
         </app-text>
         <app-text
           class="article-list__contents"
@@ -32,7 +32,7 @@
         <app-text
           class="article-list__date"
         >
-          {{ article.created_at | formatDate }}
+          {{ article.created_at | formatedDate }}
         </app-text>
       </app-list-item>
     </transition-group>
@@ -68,7 +68,7 @@ export default {
     appText: Text,
   },
   filters: {
-    formatDate(value) {
+    formatedDate(value) {
       let formatedDate = new Date(value);
       formatedDate = formatedDate.toLocaleString('ja-JP');
       return formatedDate;
@@ -78,6 +78,14 @@ export default {
         const formatedContent = value.slice(0, 30);
         const dots = '...';
         return formatedContent + dots;
+      }
+      return value;
+    },
+    formatedTitle(value) {
+      if (value.length > 30) {
+        const formatedTitle = value.slice(0, 30);
+        const dots = '...';
+        return formatedTitle + dots;
       }
       return value;
     },
@@ -115,14 +123,6 @@ export default {
     buttonText() {
       return this.access.delete ? '削除' : '削除権限がありません';
     },
-    // time() {
-    //   let test = '';
-    //   this.targetArray.array.forEach(element => {
-    //     test = new Date(element.created_at);
-    //   });
-    //   console.log(test);
-    //   return test;
-    // },
   },
 
   methods: {
