@@ -4,31 +4,6 @@
       <app-text bg-success>{{ doneMessage }}</app-text>
     </div>
     <app-heading :level="1">{{ articleTitle }}</app-heading>
-    <app-router-link
-      to="articles/post"
-      key-color
-      white
-      bg-lightgreen
-      small
-      round
-      hover-opacity
-      class="article-list__create-link"
-    >
-      新しいドキュメントを作る
-    </app-router-link>
-
-    <app-router-link
-      to="articles/trashed"
-      key-color
-      white
-      bg-lightgreen
-      small
-      round
-      hover-opacity
-      class="article-list__create-link"
-    >
-      削除済み記事一覧を表示
-    </app-router-link>
     <transition-group
       class="article-list__articles"
       name="fade"
@@ -49,36 +24,16 @@
         >
           {{ article.title }}
         </app-text>
-        <div class="article-list__links">
-          <app-router-link
-            :to="`/articles/${article.id}`"
-            theme-color
-            underline
-            hover-opacity
-          >
-            詳細
-          </app-router-link>
-          <app-router-link
-            :to="`/articles/${article.id}/edit`"
-            white
-            bg-lightgreen
-            small
-            round
-            hover-opacity
-          >
-            更新
-          </app-router-link>
-          <app-button
-            bg-danger
-            small
-            round
-            hover-opacity
-            :disabled="!access.delete"
-            @click="openModal(article.id)"
-          >
-            {{ buttonText }}
-          </app-button>
-        </div>
+        <app-text
+          class="article-list__contents"
+        >
+          {{ article.content | formatedContent }}
+        </app-text>
+        <app-text
+          class="article-list__date"
+        >
+          {{ article.created_at | formatDate }}
+        </app-text>
       </app-list-item>
     </transition-group>
     <app-modal>
@@ -101,7 +56,6 @@
 import {
   Heading,
   ListItem,
-  RouterLink,
   Button,
   Text,
 } from '@Components/atoms';
@@ -110,9 +64,23 @@ export default {
   components: {
     appHeading: Heading,
     appListItem: ListItem,
-    appRouterLink: RouterLink,
     appButton: Button,
     appText: Text,
+  },
+  filters: {
+    formatDate(value) {
+      let formatedDate = new Date(value);
+      formatedDate = formatedDate.toLocaleString('ja-JP');
+      return formatedDate;
+    },
+    formatedContent(value) {
+      if (value.length > 30) {
+        const formatedContent = value.slice(0, 30);
+        const dots = '...';
+        return formatedContent + dots;
+      }
+      return value;
+    },
   },
   props: {
     className: {
@@ -147,7 +115,16 @@ export default {
     buttonText() {
       return this.access.delete ? '削除' : '削除権限がありません';
     },
+    // time() {
+    //   let test = '';
+    //   this.targetArray.array.forEach(element => {
+    //     test = new Date(element.created_at);
+    //   });
+    //   console.log(test);
+    //   return test;
+    // },
   },
+
   methods: {
     openModal(articleId) {
       if (!this.access.delete) return;
@@ -165,11 +142,28 @@ export default {
         transition: opacity .5s;
       }
     }
+    .list-item{
+      flex-direction: column;
+    }
     .fade-enter, .fade-leave-to {
       opacity: 0;
     }
     &__title {
-      width: 60%;
+      width: 100%;
+      font-weight: bold;
+    }
+    &__date {
+      width: 100%;
+      color: #191970;
+      font-size: 10px;
+      opacity: 0.7;
+    }
+    &__contents{
+      width: 100%;
+      color: #696969;
+      border-top: 1px dotted;
+      margin-top: 10px;
+      border-color: #f5f5f5;
     }
     &__create-link {
       margin-top: 16px;

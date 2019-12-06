@@ -14,6 +14,7 @@
       @editedTitle="editedTitle"
       @editedContent="editedContent"
       @handleSubmit="handleSubmit"
+      @handleSubmitClear="handleSubmitClear"
     />
   </div>
 </template>
@@ -73,13 +74,16 @@ export default {
   created() {
     this.$store.dispatch('articles/initPostArticle');
     this.$store.dispatch('categories/getAllCategories');
+    this.$store.dispatch('articles/getNewEditing');
   },
   methods: {
     editedTitle($event) {
       this.$store.dispatch('articles/editedTitle', $event.target.value);
+      this.$store.dispatch('articles/setNewitemLocal');
     },
     editedContent($event) {
       this.$store.dispatch('articles/editedContent', $event.target.value);
+      this.$store.dispatch('articles/setNewitemLocal');
     },
     updateValue($event) {
       this.$store.dispatch('categories/editedCategoryName', $event.target.value);
@@ -87,6 +91,7 @@ export default {
     selectedArticleCategory($event) {
       const categoryName = $event.target.value;
       this.$store.dispatch('articles/selectedArticleCategory', categoryName);
+      this.$store.dispatch('articles/setNewitemLocal');
     },
     handleSubmit() {
       if (this.loading) return;
@@ -97,6 +102,10 @@ export default {
             query: { redirect: '/article/post' },
           });
         });
+    },
+    handleSubmitClear() {
+      this.$store.dispatch('articles/initPostArticle');
+      this.$store.dispatch('articles/clearNewitemLocal');
     },
   },
 };

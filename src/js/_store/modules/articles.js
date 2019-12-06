@@ -7,6 +7,7 @@ export default {
     targetArticle: {
       id: null,
       title: '',
+      formatedDate: '',
       content: '',
       category: {
         id: null,
@@ -24,6 +25,7 @@ export default {
       },
     },
     articleList: [],
+    articleTrashed: [],
     deleteArticleId: null,
     loading: false,
     doneMessage: '',
@@ -47,6 +49,20 @@ export default {
     deleteArticleId: state => state.deleteArticleId,
   },
   mutations: {
+    setNewitemLocal(state) {
+      const localData = state.targetArticle;
+      localStorage.setItem('newItem', JSON.stringify(localData));
+    },
+    setEdititemLocal(state) {
+      const localData = state.targetArticle;
+      localStorage.setItem('editItem', JSON.stringify(localData));
+    },
+    clearNewitemLocal() {
+      localStorage.removeItem('newItem');
+    },
+    clearEdititemLocal() {
+      localStorage.removeItem('editItem');
+    },
     initPostArticle(state) {
       state.targetArticle = Object.assign({}, {
         id: null,
@@ -73,6 +89,18 @@ export default {
     },
     doneGetArticles(state, payload) {
       state.articleList = [...payload.articles];
+    },
+    // formatDate(state, payload) {
+    //   // state.articleTrashed.updated_at = [...payload.articles];
+    //   console.log(payload.articles);
+    // },
+    doneGetTrashedArticles(state, payload) {
+      state.articleTrashed = [...payload.articles];
+      // const formatedDate = state.articleTrashed.map
+      // console.log(state.articleTrashed[0].updated_at);
+      console.log(state.articleTrashed);
+      // state.articleTrashed.forEach(function(val) {
+      // });
     },
     editedTitle(state, payload) {
       state.targetArticle = Object.assign({}, { ...state.targetArticle }, {
@@ -113,8 +141,34 @@ export default {
     displayDoneMessage(state, payload = { message: '成功しました' }) {
       state.doneMessage = payload.message;
     },
+    getNewEditing(state) {
+      const local = JSON.parse(localStorage.getItem('newItem'));
+      if (local !== null) {
+        state.targetArticle = Object.assign({}, local);
+      }
+    },
+    getEditEditing(state) {
+      const local = JSON.parse(localStorage.getItem('editItem'));
+      if (local.id === state.targetArticle.id) {
+        state.targetArticle = Object.assign({}, local);
+      }
+    },
   },
   actions: {
+    getNewEditing({ commit }) {
+      commit('getNewEditing');
+    },
+    setNewitemLocal({ commit }) {
+      commit('setNewitemLocal');
+    },
+    setEdititemLocal({ commit }) {
+      commit('setEdititemLocal');
+    },
+
+    clearNewitemLocal({ commit }) {
+      commit('clearNewitemLocal');
+    },
+
     initPostArticle({ commit }) {
       commit('initPostArticle');
     },
@@ -128,6 +182,24 @@ export default {
             articles: res.data.articles,
           };
           commit('doneGetArticles', payload);
+          resolve();
+        }).catch((err) => {
+          commit('failRequest', { message: err.message });
+          reject();
+        });
+      });
+    },
+    getTrashedArticles({ commit, rootGetters }, categoryName) {
+      return new Promise((resolve, reject) => {
+        axios(rootGetters['auth/token'])({
+          method: 'GET',
+          url: categoryName ? `/article?category=${categoryName}` : '/article/trashed',
+        }).then((res) => {
+          const payload = {
+            articles: res.data.articles,
+          };
+          commit('doneGetTrashedArticles', payload);
+          commit('formatDate', payload);
           resolve();
         }).catch((err) => {
           commit('failRequest', { message: err.message });
@@ -157,6 +229,8 @@ export default {
           };
           commit('doneGetArticle', payload);
           resolve();
+        }).then(() => {
+          commit('getEditEditing');
         }).catch((err) => {
           commit('failRequest', { message: err.message });
           reject();
@@ -216,7 +290,9 @@ export default {
         };
         commit('updateArticle', payload);
         commit('toggleLoading');
+        commit('clearEdititemLocal');
         commit('displayDoneMessage', { message: 'ドキュメントを更新しました' });
+        console.log(JSON.parse(localStorage.getItem('newItem')));
       }).catch(() => {
         commit('toggleLoading');
       });

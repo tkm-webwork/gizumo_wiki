@@ -74,9 +74,11 @@ export default {
     },
     editedTitle($event) {
       this.$store.dispatch('articles/editedTitle', $event.target.value);
+      this.$store.dispatch('articles/setEdititemLocal');
     },
     editedContent($event) {
       this.$store.dispatch('articles/editedContent', $event.target.value);
+      this.$store.dispatch('articles/setEdititemLocal');
     },
     handleSubmit() {
       if (this.loading) return;
@@ -85,6 +87,7 @@ export default {
     selectedArticleCategory($event) {
       const categoryName = $event.target.value;
       this.$store.dispatch('articles/selectedArticleCategory', categoryName);
+      this.$store.dispatch('articles/setEdititemLocal');
     },
   },
 };
