@@ -32,7 +32,7 @@
         <app-text
           class="article-list__date"
         >
-          {{ article.created_at | formatDate }}
+          {{ article.created_at | formatedDate }}
         </app-text>
       </app-list-item>
     </transition-group>
@@ -68,7 +68,7 @@ export default {
     appText: Text,
   },
   filters: {
-    formatDate(value) {
+    formatedDate(value) {
       let formatedDate = new Date(value);
       formatedDate = formatedDate.toLocaleString('ja-JP');
       return formatedDate;
