@@ -5,7 +5,6 @@
         :title="title"
         :target-array="articlesList"
         :done-message="doneMessage"
-        :access="access"
         :is-trashed="true"
         border-gray
       />
@@ -36,7 +35,7 @@ export default {
   },
   data() {
     return {
-      title: 'すべて',
+      title: '削除',
     };
   },
   computed: {
@@ -45,9 +44,6 @@ export default {
     },
     doneMessage() {
       return this.$store.state.articles.doneMessage;
-    },
-    access() {
-      return this.$store.getters['auth/access'];
     },
     lastPage() {
       return this.$store.state.articles.lastPage;
