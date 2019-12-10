@@ -31,6 +31,18 @@
       >
         削除済み記事一覧
       </app-router-link>
+      <app-router-link
+        to="/articles/author_list?page=1"
+        key-color
+        white
+        bg-lightgreen
+        small
+        round
+        hover-opacity
+        class="article-list__create-link"
+      >
+        著者別一覧
+      </app-router-link>
     </template>
     <transition-group
       class="article-list__articles"

@@ -1,11 +1,10 @@
 <template lang="html">
   <div class="articles">
     <section>
-      <app-article-list
+      <app-author-list
         :title="title"
         :target-array="articlesList"
         :done-message="doneMessage"
-        :is-trashed="true"
         border-gray
       />
     </section>
@@ -20,12 +19,12 @@
 </template>
 
 <script>
-import { ArticleList, Pagination } from '@Components/molecules';
+import { AuthorList, Pagination } from '@Components/molecules';
 import Mixins from '@Helpers/mixins';
 
 export default {
   components: {
-    appArticleList: ArticleList,
+    appAuthorList: AuthorList,
     appPagination: Pagination,
   },
   mixins: [Mixins],
@@ -35,7 +34,7 @@ export default {
   },
   data() {
     return {
-      title: '削除',
+      title: '著者',
     };
   },
   computed: {
@@ -56,19 +55,8 @@ export default {
     this.getArticles(this.$route);
   },
   methods: {
-    openModal(articleId) {
-      this.$store.dispatch('articles/confirmDeleteArticle', articleId);
-      this.toggleModal();
-    },
-    handleClick() {
-      this.$store.dispatch('articles/deleteArticle')
-        .then(() => {
-          this.toggleModal();
-          this.$store.dispatch('articles/getArticles');
-        });
-    },
     fetchArticles() {
-      this.$store.dispatch('articles/getArticles', true)
+      this.$store.dispatch('articles/getArticles')
         .then(() => {
           if (this.$store.state.articles.articleList.length === 0) {
             this.$router.push({ path: '/notfound' });
@@ -87,8 +75,11 @@ export default {
       if (page === 0) return;
       const query = {};
       query.page = page;
+      if (this.$store.state.articles.category) {
+        query.category = this.$store.state.articles.category;
+      }
       this.$router.push({
-        path: '/articles/trashed',
+        path: '/articles/author_list',
         query,
       });
     },

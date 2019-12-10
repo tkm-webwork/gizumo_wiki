@@ -18,6 +18,7 @@ import ArticleDetail from './ArticleDetail';
 import DeleteModal from './Modal';
 import Notice from './Notice';
 import Pagination from './Pagination';
+import AuthorList from './AuthorList';
 
 export {
   SigninForm,
@@ -40,4 +41,5 @@ export {
   DeleteModal,
   Notice,
   Pagination,
+  AuthorList,
 };
