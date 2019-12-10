@@ -33,7 +33,7 @@
     >
       <app-accordion
         v-for="[authorName, articleTitles] in authorMap"
-        :key="authorName"
+        :key="createUniqueKey(authorName)"
         bg-white
         large
         border-bottom-gray
@@ -47,7 +47,7 @@
           <ul>
             <li
               v-for="article in articleTitles"
-              :key="article"
+              :key="createUniqueKey(article)"
             >
               {{ article }}
             </li>
@@ -65,6 +65,7 @@ import {
   Text,
   Accordion,
 } from '@Components/atoms';
+import Mixins from '@Helpers/mixins';
 
 export default {
   components: {
@@ -79,6 +80,7 @@ export default {
       return `${text.substring(1, 30)}...`;
     },
   },
+  mixins: [Mixins],
   props: {
     className: {
       type: String,
