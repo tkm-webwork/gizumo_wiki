@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import Cookies from 'js-cookie';
 
 import Signin from '@Pages/Signin';
 import Signout from '@Pages/Signout';
@@ -46,12 +47,20 @@ const router = new VueRouter({
       meta: {
         isPublic: true,
       },
+      beforeEnter: (to, from, next) => {
+        const token = Cookies.get('user-token') || null;
+        return token ? next('/') : next();
+      },
     },
     {
       name: 'signout',
       path: '/signout',
       component: Signout,
       props: true,
+      beforeEnter: (to, from, next) => {
+        const token = Cookies.get('user-token') || null;
+        return token ? next() : next('/signin');
+      },
     },
     {
       name: 'home',
@@ -62,6 +71,20 @@ const router = new VueRouter({
       name: 'passwordInit',
       path: '/password/init',
       component: PasswordInit,
+      beforeEnter: (to, from, next) => {
+        const token = Cookies.get('user-token') || null;
+        if (token) {
+          Store.dispatch('auth/checkAuth', token)
+            .then(() => {
+              // パスワードの初期化が完了していない場合
+              if (!Store.state.auth.user.password_reset_flg) {
+                return next();
+              }
+              return next('/');
+            });
+        }
+        return next('/signin');
+      },
     },
     {
       name: 'passwordUpdate',
@@ -169,6 +192,37 @@ const router = new VueRouter({
       },
     },
   ],
+});
+
+router.beforeEach((to, from, next) => {
+  const token = Cookies.get('user-token') || null;
+  const isPublic = to.matched.some(page => page.meta.isPublic);
+  const toSignOut = to.matched.some(page => page.path === '/signout');
+  const toPasswordInit = to.matched.some(page => page.path === '/password/init');
+  let nextUrl = '';
+
+  // パブリック、サインアウト、初期化の場合
+  if (isPublic || toSignOut || toPasswordInit) {
+    return next();
+  }
+
+  // ログインしている場合
+  if (token) {
+    // tokenのチェック
+    Store.dispatch('auth/checkAuth', token)
+      .then(() => {
+        // パスワードの初期化が完了していない場合
+        if (!Store.state.auth.user.password_reset_flg) {
+          nextUrl = '/password/init';
+        }
+      }).catch(() => {
+        nextUrl = '/signin';
+      });
+  } else {
+    // それ以外の場合
+    nextUrl = '/signin';
+  }
+  return nextUrl ? next(nextUrl) : next();
 });
 
 export default router;

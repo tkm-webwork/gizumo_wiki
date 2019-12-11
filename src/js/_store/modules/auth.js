@@ -131,6 +131,28 @@ export default {
         });
       });
     },
+    checkAuth({ commit }, token) {
+      return new Promise((resolve, reject) => {
+        axios(token)({
+          method: 'GET',
+          url: '/me',
+        }).then((response) => {
+          if (response.data.code === 0) {
+            commit('signInFailure');
+            return reject();
+          }
+          const payload = {
+            token,
+            user: response.data.user,
+          };
+          commit('signInSuccess', payload);
+          return resolve();
+        }).catch((err) => {
+          commit('signInFailure', { message: err.message });
+          return reject(new Error({ message: err.message }));
+        });
+      });
+    },
     clearMessage({ commit }) {
       commit('clearMessage');
     },
