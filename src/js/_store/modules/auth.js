@@ -131,7 +131,7 @@ export default {
         });
       });
     },
-    checkAuth({ commit }, token) {
+    checkAuth({ commit }, { token }) {
       return new Promise((resolve, reject) => {
         axios(token)({
           method: 'GET',
@@ -139,7 +139,7 @@ export default {
         }).then((response) => {
           if (response.data.code === 0) {
             commit('signInFailure');
-            return reject();
+            reject();
           }
           const payload = {
             token,
@@ -149,7 +149,7 @@ export default {
           return resolve();
         }).catch((err) => {
           commit('signInFailure', { message: err.message });
-          return reject(new Error({ message: err.message }));
+          reject(new Error(err.message));
         });
       });
     },

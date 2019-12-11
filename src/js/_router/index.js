@@ -71,20 +71,6 @@ const router = new VueRouter({
       name: 'passwordInit',
       path: '/password/init',
       component: PasswordInit,
-      beforeEnter: (to, from, next) => {
-        const token = Cookies.get('user-token') || null;
-        if (token) {
-          Store.dispatch('auth/checkAuth', token)
-            .then(() => {
-              // パスワードの初期化が完了していない場合
-              if (!Store.state.auth.user.password_reset_flg) {
-                return next();
-              }
-              return next('/');
-            });
-        }
-        return next('/signin');
-      },
     },
     {
       name: 'passwordUpdate',
@@ -199,30 +185,43 @@ router.beforeEach((to, from, next) => {
   const isPublic = to.matched.some(page => page.meta.isPublic);
   const toSignOut = to.matched.some(page => page.path === '/signout');
   const toPasswordInit = to.matched.some(page => page.path === '/password/init');
-  let nextUrl = '';
 
   // パブリック、サインアウト、初期化の場合
-  if (isPublic || toSignOut || toPasswordInit) {
+  if (isPublic || toSignOut) {
     return next();
   }
 
   // ログインしている場合
   if (token) {
     // tokenのチェック
-    Store.dispatch('auth/checkAuth', token)
+    Store.dispatch('auth/checkAuth', { token })
       .then(() => {
         // パスワードの初期化が完了していない場合
-        if (!Store.state.auth.user.password_reset_flg) {
-          nextUrl = '/password/init';
+        if (
+          !Store.state.auth.user.password_reset_flg
+          && !toPasswordInit
+        ) {
+          return next('/password/init');
         }
+        if (
+          Store.state.auth.user.password_reset_flg
+          && toPasswordInit
+        ) {
+          return next('/');
+        }
+        return next();
       }).catch(() => {
-        nextUrl = '/signin';
+        const query = to.fullPath === '/signout'
+        || to.fullPath === '/password/init'
+          ? {}
+          : { redirect: to.fullPath };
+        return next({ path: '/signin', query });
       });
   } else {
     // それ以外の場合
-    nextUrl = '/signin';
+    next('/signin');
   }
-  return nextUrl ? next(nextUrl) : next();
+  return true;
 });
 
 export default router;
