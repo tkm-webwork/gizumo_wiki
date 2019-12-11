@@ -14,7 +14,7 @@
       <ul v-if="errorMessages.length" class="error">
         <li
           v-for="error in errorMessages"
-          :key="error"
+          :key="createUniqueKey(error)"
           class="error__text"
         >
           {{ error }}
@@ -25,7 +25,10 @@
 </template>
 
 <script>
+import Mixins from '@Helpers/mixins';
+
 export default {
+  mixins: [Mixins],
   props: {
     errorMessages: {
       type: Array,

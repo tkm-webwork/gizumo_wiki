@@ -2,7 +2,7 @@
   <table class="user-table">
     <thead class="user-table__head">
       <tr>
-        <th v-for="(thead, index) in theads" :key="index">
+        <th v-for="(thead, index) in theads" :key="createUniqueKey(index)">
           <app-text tag="span" theme-color bold>
             {{ thead }}
           </app-text>
@@ -10,7 +10,7 @@
       </tr>
     </thead>
     <transition-group name="fade" tag="tbody" class="user-table__body">
-      <tr v-for="user in targetArray" :key="user.id">
+      <tr v-for="user in targetArray" :key="createUniqueKey(user.id)">
         <td :class="user.fullName ? '' : 'is-disabled'">
           <app-text tag="span" small>
             {{ user.fullName || '名前未設定' }}
@@ -57,6 +57,7 @@ import {
   Button,
   Text,
 } from '@Components/atoms';
+import Mixins from '@Helpers/mixins';
 
 export default {
   components: {
@@ -64,6 +65,7 @@ export default {
     appButton: Button,
     appText: Text,
   },
+  mixins: [Mixins],
   props: {
     targetArray: {
       type: Array,

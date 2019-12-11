@@ -6,7 +6,7 @@
         v-for="index in markdownIndexes"
       >
         <a
-          :key="index.val"
+          :key="createUniqueKey(index.val)"
           :class="`markdown-index__anchor is-article-title-${index.tagName}`"
           @click.prevent="handleScroll(index.scrollToY)"
         >
@@ -18,7 +18,10 @@
 </template>
 
 <script>
+import Mixins from '@Helpers/mixins';
+
 export default {
+  mixins: [Mixins],
   props: {
     flex: {
       type: Boolean,

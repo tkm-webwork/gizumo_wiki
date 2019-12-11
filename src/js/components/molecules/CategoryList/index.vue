@@ -5,7 +5,7 @@
         <tr>
           <th
             v-for="(thead, index) in theads"
-            :key="index"
+            :key="createUniqueKey(index)"
           >
             <app-text tag="span" theme-color bold>
               {{ thead }}
@@ -14,7 +14,7 @@
         </tr>
       </thead>
       <transition-group name="fade" tag="tbody" class="category-list__table__body">
-        <tr v-for="category in categories" :key="category.id">
+        <tr v-for="category in categories" :key="createUniqueKey(category.id)">
           <td>
             <app-text tag="span">
               {{ category.name }}
@@ -87,6 +87,7 @@
 import {
   RouterLink, Button, Text,
 } from '@Components/atoms';
+import Mixins from '@Helpers/mixins';
 
 export default {
   components: {
@@ -94,6 +95,7 @@ export default {
     appButton: Button,
     appText: Text,
   },
+  mixins: [Mixins],
   props: {
     theads: {
       type: Array,

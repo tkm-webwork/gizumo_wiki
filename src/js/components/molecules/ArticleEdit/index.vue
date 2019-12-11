@@ -29,7 +29,7 @@
           </option>
           <option
             v-for="(category) in categoryList"
-            :key="category.id"
+            :key="createUniqueKey(category.id)"
             :value="category.name"
             :selected="currentCategoryName === category.name ? true : false "
           >
@@ -92,6 +92,7 @@
 import {
   Heading, MarkdownPreview, Textarea, Input, Button, Select, Text,
 } from '@Components/atoms';
+import Mixins from '@Helpers/mixins';
 
 export default {
   components: {
@@ -103,6 +104,7 @@ export default {
     appSelect: Select,
     appText: Text,
   },
+  mixins: [Mixins],
   props: {
     articleId: {
       type: Number,

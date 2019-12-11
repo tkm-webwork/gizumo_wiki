@@ -51,7 +51,7 @@
     >
       <app-list-item
         v-for="article in targetArray"
-        :key="article.id"
+        :key="createUniqueKey(article.id)"
         :flex="!isTrashed"
         beetween
         align-items
@@ -137,6 +137,7 @@ import {
   Button,
   Text,
 } from '@Components/atoms';
+import Mixins from '@Helpers/mixins';
 
 export default {
   components: {
@@ -156,6 +157,7 @@ export default {
       return `${dateObj.getFullYear()}/${dateObj.getMonth() + 1}/${dateObj.getDate()} ${dateObj.getHours()}:${dateObj.getMinutes()}:${dateObj.getSeconds()}`;
     },
   },
+  mixins: [Mixins],
   props: {
     className: {
       type: String,

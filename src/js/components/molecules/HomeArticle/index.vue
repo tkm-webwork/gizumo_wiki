@@ -3,7 +3,7 @@
     <app-heading>最新記事 10件</app-heading>
 
     <ul class="home-article__list">
-      <li v-for="article in articleList" :key="article.id">
+      <li v-for="article in articleList" :key="createUniqueKey(article.id)">
         <app-router-link
           :to="{ path: `/articles/${article.id}` }"
           block
@@ -39,12 +39,14 @@
 
 <script>
 import { Heading, RouterLink } from '@Components/atoms';
+import Mixins from '@Helpers/mixins';
 
 export default {
   components: {
     appHeading: Heading,
     appRouterLink: RouterLink,
   },
+  mixins: [Mixins],
   props: {
     articleList: {
       type: Array,

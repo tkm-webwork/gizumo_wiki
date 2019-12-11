@@ -26,7 +26,7 @@
     <template v-for="i of lastPage">
       <app-button
         v-if="Math.abs(currentPage - i) <= 3"
-        :key="i"
+        :key="createUniqueKey(i)"
         pagination
         :disabled="i === currentPage"
         @click="$emit('toPage', i === currentPage ? 0 : i)"
@@ -61,11 +61,13 @@
 </template>
 <script>
 import { Button } from '@Components/atoms';
+import Mixins from '@Helpers/mixins';
 
 export default {
   components: {
     appButton: Button,
   },
+  mixins: [Mixins],
   props: {
     lastPage: {
       type: Number,
