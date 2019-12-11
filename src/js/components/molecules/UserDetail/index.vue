@@ -82,7 +82,7 @@
           >
             <option
               v-for="(role, index) in options"
-              :key="index"
+              :key="createUniqueKey(index)"
               :value="role.value"
               :selected="user.role === role.value"
             >
@@ -126,6 +126,7 @@ import {
   Select,
   RouterLink,
 } from '@Components/atoms';
+import Mixins from '@Helpers/mixins';
 
 export default {
   components: {
@@ -136,6 +137,7 @@ export default {
     appSelect: Select,
     appRouterLink: RouterLink,
   },
+  mixins: [Mixins],
   props: {
     cautionMessage: {
       type: String,

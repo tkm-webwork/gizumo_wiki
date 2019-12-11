@@ -16,7 +16,7 @@
         </app-button>
         <transition name="fade">
           <ul v-if="toggleProfile" class="header__profile__list">
-            <li v-for="(route, index) in profileMenu" :key="index">
+            <li v-for="(route, index) in profileMenu" :key="createUniqueKey(index)">
               <app-router-link
                 small
                 hover-underline
@@ -34,6 +34,7 @@
 
 <script>
 import { Heading, Button, RouterLink } from '@Components/atoms';
+import Mixins from '@Helpers/mixins';
 
 export default {
   components: {
@@ -41,6 +42,7 @@ export default {
     appButton: Button,
     appRouterLink: RouterLink,
   },
+  mixins: [Mixins],
   props: {
     signedIn: {
       type: Boolean,

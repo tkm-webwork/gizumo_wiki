@@ -2,7 +2,7 @@
   <ul :class="className">
     <app-list-item
       v-for="item in targetArray"
-      :key="item.id"
+      :key="createUniqueKey(item.id)"
     >
       <app-router-link
         :to="item.path"
@@ -21,12 +21,14 @@
 
 <script>
 import { ListItem, RouterLink } from '@Components/atoms';
+import Mixins from '@Helpers/mixins';
 
 export default {
   components: {
     appListItem: ListItem,
     appRouterLink: RouterLink,
   },
+  mixins: [Mixins],
   props: {
     className: {
       type: String,
