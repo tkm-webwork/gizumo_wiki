@@ -219,7 +219,11 @@ router.beforeEach((to, from, next) => {
       });
   } else {
     // それ以外の場合
-    next('/signin');
+    const query = to.fullPath === '/signout'
+    || to.fullPath === '/password/init'
+      ? {}
+      : { redirect: to.fullPath };
+    return next({ path: '/signin', query });
   }
   return true;
 });
