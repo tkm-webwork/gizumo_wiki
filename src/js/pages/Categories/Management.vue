@@ -7,8 +7,9 @@
         :error-message="errorMessage"
         :done-message="doneMessage"
         :access="access"
-        @udpateValue="updateValue"
+        @updateValue="updateValue"
         @clearMessage="clearMessage"
+        @handleSubmit="handleSubmit"
       />
     </section>
     <section class="category-management-list">
@@ -69,7 +70,16 @@ export default {
   },
   methods: {
     updateValue($event) {
+      console.log($event);
       this[$event.target.name] = $event.target.value;
+    },
+    handleSubmit() {
+      this.$store.dispatch('categories/addCategories', this.category);
+      .then(function(){
+        this.category = '';
+        this.$store.dispatch('categories/getAllCategories');
+      })
+      }
     },
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
