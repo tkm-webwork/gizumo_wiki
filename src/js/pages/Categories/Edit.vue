@@ -4,6 +4,7 @@
       :disabled="loading ? true : false"
       :access="access"
       @clearMessage="clearMessage"
+      @updateCategory="updateCategory"
     />
   </div>
 </template>
@@ -27,6 +28,10 @@ export default {
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
     },
+    updateCategory() {
+      if (this.loading) return;
+      
+    }
   },
 };
 </script>

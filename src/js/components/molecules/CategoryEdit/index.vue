@@ -23,6 +23,7 @@
       button-type="submit"
       round
       :disabled="disabled || !access.edit"
+      @click="handleSubmit"
     >
       {{ buttonText }}
     </app-button>
@@ -70,7 +71,7 @@ export default {
       if (!this.access.edit) return;
       this.$emit('clearMessage');
       this.$validator.validate().then((valid) => {
-        if (valid) this.$emit('エミットするイベント名が入ります');
+        if (valid) this.$emit('updateCategory');
       });
     },
   },
