@@ -16,7 +16,7 @@
       button-type="submit"
       round
       :disabled="disabled || !access.create"
-      v-on:click="addCategory"
+      @click="addCategory"
     >
       {{ buttonText }}
     </app-button>
