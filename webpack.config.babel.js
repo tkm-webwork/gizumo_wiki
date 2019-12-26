@@ -114,14 +114,14 @@ const config = {
   }
 }
 
-if (isDev) {
+if (isDev) { // isdevelovの開発
   config.plugins.push(
     new webpack.DefinePlugin({
       'API_BASE_URL': JSON.stringify('http://api.wiki.gizumo-inc.work/api'),
       'MY_SESSION_STORAGE_KEY': JSON.stringify('dev_gizumo_wiki'),
     })
   );
-} else if (isProd) {
+} else if (isProd) { // productionで本番用
   config.plugins.push(
     new webpack.DefinePlugin({
       'API_BASE_URL': JSON.stringify(''),

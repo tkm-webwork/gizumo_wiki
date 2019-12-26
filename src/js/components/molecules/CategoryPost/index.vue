@@ -10,12 +10,13 @@
       :error-messages="errors.collect('category')"
       :value="category"
       @updateValue="$emit('udpateValue', $event)"
-    />
+  />
     <app-button
       class="category-management-post__submit"
       button-type="submit"
       round
       :disabled="disabled || !access.create"
+      @chick= "addCategory"
     >
       {{ buttonText }}
     </app-button>
