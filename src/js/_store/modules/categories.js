@@ -53,6 +53,20 @@ export default {
         commit('failFetchCategory', { message: err.message });
       });
     },
+    updateCategory({ commit, rootGetters}, updateInfo) {
+      commit('toggleLoading');
+
+      axios(rootGetters['auth/token']) ({
+        method: 'PUT',
+        url: `/category/${categoryId}`,
+      }).then(() => {
+        commit('toggleLoading');
+        commit('doneUpdateCategories');
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+        commit('toggleLoading');
+      });
+    },
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
       commit('confirmDeleteCategory', { categoryId, categoryName });
     },
@@ -89,6 +103,9 @@ export default {
     },
     doneAddCategories(state) {
       state.doneMessage = 'カテゴリーを追加しました';
+    },
+    doneUpdateCategories(state) {
+      state.doneMessage = 'カテゴリーを更新しました';
     },
     confirmDeleteCategory(state, { categoryId, categoryName }) {
       state.deleteCategoryId = categoryId;

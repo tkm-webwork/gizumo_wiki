@@ -5,6 +5,7 @@
       :access="access"
       @clearMessage="clearMessage"
       @updateCategory="updateCategory"
+      @updateValue="updateValue"
     />
   </div>
 </template>
@@ -13,6 +14,11 @@
 import { CategoryEdit } from '@Components/molecules';
 
 export default {
+  created() {
+    const id = this.$route.params;
+    this.$store.dispatch('categories/getCategoryDetail', id);
+    this.$store.dispatch('categories/clearMessage');
+  },
   components: {
     appCategoryEdit: CategoryEdit,
   },
@@ -30,7 +36,10 @@ export default {
     },
     updateCategory() {
       if (this.loading) return;
-      
+      this.$store.dispatch('categories/updateCategory');
+    },
+    updateValue($event) {
+      this[$event.target.name] = $event.target.value;
     }
   },
 };
