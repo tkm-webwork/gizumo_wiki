@@ -64,7 +64,7 @@ export default {
         commit('failFetchCategory', { message: err.message });
       });
     },
-    editedCategoryName({ commit }, categoryName){
+    editedCategoryName({ commit }, categoryName) {
       commit('editCategoryName', { categoryName });
     },
     updateCategory({ commit, rootGetters }, categoryName) {
@@ -109,11 +109,11 @@ export default {
     doneGetAllCategories(state, { categories }) {
       state.categoryList = [...categories];
     },
-    doneGetRawCategory(state, payload){
+    doneGetRawCategory(state, payload) {
       updateCategoryId = payload.id;
       updateCategoryName = payload.name;
     },
-    editedCategoryName(state, { categoryName }){
+    editedCategoryName(state, { categoryName }) {
       state.updateCategoryName = categoryName;
     },
     failFetchCategory(state, { message }) {
