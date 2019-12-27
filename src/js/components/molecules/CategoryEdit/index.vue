@@ -12,12 +12,13 @@
       カテゴリー一覧へ戻る
     </app-router-link>
     <app-input
+      v-validate="'required'"
       class="category-management-edit__input"
       name="updateCategory"
       type="text"
       placeholder="カテゴリー名を入力してください"
       data-vv-as=""
-      :value="a"
+      :value="updateCategoryName"
       @updateValue="$emit('updateValue', $event)"
     />
     <app-button
@@ -53,6 +54,10 @@ export default {
     appText: Text,
   },
   props: {
+    updateCategoryName: {
+      type: String,
+      default: '',
+    },
     disabled: {
       type: Boolean,
       default: false,
@@ -60,6 +65,14 @@ export default {
     access: {
       type: Object,
       default: () => ({}),
+    },
+    eroorMessage: {
+      type: String,
+      defalt: '',
+    },
+    doneMessage: {
+      type: String,
+      default: '',
     },
   },
   computed: {

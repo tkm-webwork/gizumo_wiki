@@ -24,6 +24,16 @@ export default {
     loading() {
       return this.$store.state.categories.loading;
     },
+    errorMessage() {
+      return this.$store.state.categories.errorMessage;
+    },
+    doneMessage() {
+      return this.$store.state.categories.doneMessage;
+    },
+    updateCategoryName() {
+      return this.$store.state.categories.updateCategoryName;
+    },
+
   },
   created() {
     const id = this.$route.params;
@@ -39,7 +49,7 @@ export default {
       this.$store.dispatch('categories/updateCategory');
     },
     updateValue($event) {
-      this[$event.target.name] = $event.target.value;
+      this.$store.dispatch('categories/editedCategoryName', $event.target.value);
     },
   },
 };
