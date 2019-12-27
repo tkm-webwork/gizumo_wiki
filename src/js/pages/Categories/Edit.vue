@@ -14,11 +14,6 @@
 import { CategoryEdit } from '@Components/molecules';
 
 export default {
-  created() {
-    const id = this.$route.params;
-    this.$store.dispatch('categories/getCategoryDetail', id);
-    this.$store.dispatch('categories/clearMessage');
-  },
   components: {
     appCategoryEdit: CategoryEdit,
   },
@@ -30,6 +25,11 @@ export default {
       return this.$store.state.categories.loading;
     },
   },
+  created() {
+    const id = this.$route.params;
+    this.$store.dispatch('categories/getRawCategory', id);
+    this.$store.dispatch('categories/clearMessage');
+  },
   methods: {
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
@@ -40,7 +40,7 @@ export default {
     },
     updateValue($event) {
       this[$event.target.name] = $event.target.value;
-    }
+    },
   },
 };
 </script>

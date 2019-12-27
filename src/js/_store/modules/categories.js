@@ -53,15 +53,26 @@ export default {
         commit('failFetchCategory', { message: err.message });
       });
     },
-    updateCategory({ commit, rootGetters}, updateInfo) {
+    getRawCategory({ commit, rootGetters }, categoryId) {
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: `/category/${categoryId}`,
+      }).then((response) => {
+        const payload = response.data.category;
+        commit('doneGetRawCategory', payload);
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+      });
+    },
+    updateCategory({ commit, rootGetters }, categoryName) {
       commit('toggleLoading');
 
-      axios(rootGetters['auth/token']) ({
+      axios(rootGetters['auth/token'])({
         method: 'PUT',
         url: `/category/${categoryId}`,
       }).then(() => {
         commit('toggleLoading');
-        commit('doneUpdateCategories');
+        commit('doneUpdateCategory');
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
         commit('toggleLoading');
@@ -95,6 +106,10 @@ export default {
     doneGetAllCategories(state, { categories }) {
       state.categoryList = [...categories];
     },
+    doneGetRawCategory(state, payload){
+      updateCategoryId = payload.id;
+      updateCategoryName = payload.name;
+    },
     failFetchCategory(state, { message }) {
       state.errorMessage = message;
     },
@@ -104,7 +119,9 @@ export default {
     doneAddCategories(state) {
       state.doneMessage = 'カテゴリーを追加しました';
     },
-    doneUpdateCategories(state) {
+    doneUpdateCategory(state, payload) {
+      state.updateCategoryId = payload.id;
+      state.updateCategoryId = payload.name;
       state.doneMessage = 'カテゴリーを更新しました';
     },
     confirmDeleteCategory(state, { categoryId, categoryName }) {
