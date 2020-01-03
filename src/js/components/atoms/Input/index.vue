@@ -6,7 +6,7 @@
       :type="type"
       :placeholder="placeholder"
       :value="value"
-      @input="$emit('updateValue', $event)"
+      @input="$emit('updataValue', $event)"
     >
 
     <transition name="shake">
@@ -37,6 +37,9 @@ export default {
     type: {
       type: String,
       default: 'text',
+    },
+    updataCategoryId: {
+      type: Number,
     },
     placeholder: {
       type: String,

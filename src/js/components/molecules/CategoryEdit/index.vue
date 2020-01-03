@@ -12,17 +12,22 @@
       カテゴリー一覧へ戻る
     </app-router-link>
     <app-input
+      v-validate="'required'"
       class="category-management-edit__input"
       name="updateCategory"
       type="text"
       placeholder="カテゴリー名を入力してください"
+      :error-messages="errors.collect('updateCategory')"
+      :value="updateCategoryName"
       data-vv-as=""
+      @updateValue="$emit('udpateValue', $event)"
     />
     <app-button
       class="category-management-edit__submit"
       button-type="submit"
       round
       :disabled="disabled || !access.edit"
+      @click="handleSubmit"
     >
       {{ buttonText }}
     </app-button>
@@ -58,6 +63,10 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    updateCategoryName: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     buttonText() {
@@ -70,7 +79,7 @@ export default {
       if (!this.access.edit) return;
       this.$emit('clearMessage');
       this.$validator.validate().then((valid) => {
-        if (valid) this.$emit('エミットするイベント名が入ります');
+        if (valid) this.$emit('handleSubmit');
       });
     },
   },
