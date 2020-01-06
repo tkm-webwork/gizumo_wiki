@@ -92,20 +92,17 @@ export default {
       const data = new URLSearchParams();
       data.append('id', this.state.categories.updateCategoryId);
       data.append('name', this.state.categories.updateCategoryName);
-      return new Promise((resolve) => {
-        axios(rootGetters['auth/token'])({
-          method: 'PUT',
-          url: `/category/${this.state.categories.updateCategoryId}`,
-          data,
-        }).then((response) => {
-          const payload = response.data.category;
-          commit('doneUpdateCategory', payload);
-          commit('toggleLoading');
-          resolve();
-        }).catch((err) => {
-          commit('failFetchCategory', { message: err.message });
-          commit('toggleLoading');
-        });
+      axios(rootGetters['auth/token'])({
+        method: 'PUT',
+        url: `/category/${this.state.categories.updateCategoryId}`,
+        data,
+      }).then((response) => {
+        const payload = response.data.category;
+        commit('doneUpdateCategory', payload);
+        commit('toggleLoading');
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+        commit('toggleLoading');
       });
     },
   },
@@ -141,9 +138,11 @@ export default {
       state.updateCategoryName = payload.name;
     },
     editedCategoryName(state, { categoryName }) {
+      console.log(categoryName);
       state.updateCategoryName = categoryName;
     },
     doneUpdateCategory(state, payload) {
+      console.log(payload);
       state.updateCategoryId = payload.id;
       state.updateCategoryName = payload.name;
       state.doneMessage = ('カテゴリーの更新完了しました。');

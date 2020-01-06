@@ -31,11 +31,11 @@
       {{ buttonText }}
     </app-button>
 
-    <div class="category-management-edit__notice">
+    <div v-if="errorMessage" class="category-management-edit__notice">
       <app-text bg-error>{{ errorMessage }}</app-text>
     </div>
 
-    <div class="category-management-edit__notice">
+    <div v-if="doneMessage" class="category-management-edit__notice">
       <app-text bg-success>{{ doneMessage }}</app-text>
     </div>
   </form>
@@ -86,7 +86,7 @@ export default {
       if (!this.access.edit) return;
       this.$emit('clearMessage');
       this.$validator.validate().then((valid) => {
-        if (valid) this.$emit('handleSubmit');
+        if (valid) this.$emit('handleSubmit'); // handleSubmitはアクセス権限があるかないか見てemit.。
       });
     },
   },
