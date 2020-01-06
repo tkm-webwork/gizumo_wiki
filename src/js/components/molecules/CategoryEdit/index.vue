@@ -26,7 +26,6 @@
       button-type="submit"
       round
       :disabled="disabled || !access.edit"
-      @click="handleSubmit"
     >
       {{ buttonText }}
     </app-button>

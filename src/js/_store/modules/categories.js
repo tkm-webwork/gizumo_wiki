@@ -21,7 +21,6 @@ export default {
     },
     addCategories({ commit, rootGetters }, categoryName) {
       commit('toggleLoading');
-
       const data = new URLSearchParams();
       data.append('name', categoryName);
       return new Promise((resolve) => {
@@ -76,8 +75,10 @@ export default {
         method: 'PUT',
         url: `/category/${this.state.categories.updateCategoryId}`,
         data,
-      }).then(() => {
-        commit('doneUpdateCategory');
+      }).then((response) => {
+        commit('toggleLoading');
+        const payload = response.data.category;
+        commit('doneUpdateCategory', payload);
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
         commit('toggleLoading');
