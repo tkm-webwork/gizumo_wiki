@@ -10,7 +10,7 @@
       :error-messages="errors.collect('category')"
       :value="category"
       @updateValue="$emit('udpateValue', $event)"
-  />
+    />
     <app-button
       class="category-management-post__submit"
       button-type="submit"

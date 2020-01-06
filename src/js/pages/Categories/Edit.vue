@@ -4,9 +4,11 @@
       :disabled="loading ? true : false"
       :update-category-name="updateCategoryName"
       :access="access"
+      :done-message="doneMessage"
+      :error-message="errorMessage"
       @clearMessage="clearMessage"
       @handleSubmit="updateCategory"
-      @updataValue="updataValue"
+      @updateValue="updateValue"
     />
   </div>
 </template>
@@ -32,24 +34,23 @@ export default {
       return this.$store.state.categories.doneMessage;
     },
     updateCategoryName() {
-      return this.$store.state.categories.updataCategoryName;
+      return this.$store.state.categories.updateCategoryName;
     },
   },
   created() {
-    const { id } = this.$route.params;
-    this.$store.dispatch('categories/getCategoryDetail', id);
-    this.$store.dispatch('categories/clearMessge');
+    this.$store.dispatch('categories/getCategoryDetail', this.$route.params);
+    this.$store.dispatch('categories/clearMessage');
   },
   methods: {
-    updateValue($event) {
-      this.$store.dispatch('categories/editedCategoryName', $event.target.value);
-    },
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
     },
     updateCategory() {
       if (this.loading) return;
       this.$store.dispatch('categories/updateCategory');
+    },
+    updateValue($event) {
+      this.$store.dispatch('categories/editedCategoryName', $event.target.value);
     },
   },
 };
