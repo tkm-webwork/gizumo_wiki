@@ -15,7 +15,7 @@
 
 <script>
 import { CategoryEdit } from '@Components/molecules';
-import { log } from 'util';
+// import { log } from 'util';
 
 export default {
   components: {

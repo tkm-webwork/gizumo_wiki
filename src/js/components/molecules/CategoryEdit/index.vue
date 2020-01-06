@@ -18,6 +18,7 @@
       type="text"
       placeholder="カテゴリー名を入力してください"
       data-vv-as="カテゴリー名"
+      :error-messages="errors.collect('updateCategory')"
       :value="updateCategoryName"
       @updateValue="$emit('updateValue', $event)"
     />
