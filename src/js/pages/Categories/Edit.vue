@@ -3,8 +3,11 @@
     <app-category-edit
       :disabled="loading ? true : false"
       :access="access"
+      :error-message="errorMessage"
+      :done-message="doneMessage"
+      :update-category-name="updateCategoryName"
       @clearMessage="clearMessage"
-      @updateCategory="updateCategory"
+      @handleSubmit="updateCategory"
       @updateValue="updateValue"
     />
   </div>
@@ -12,6 +15,7 @@
 
 <script>
 import { CategoryEdit } from '@Components/molecules';
+import { log } from 'util';
 
 export default {
   components: {
@@ -33,10 +37,9 @@ export default {
     updateCategoryName() {
       return this.$store.state.categories.updateCategoryName;
     },
-
   },
   created() {
-    const id = this.$route.params;
+    const { id } = this.$route.params;
     this.$store.dispatch('categories/getRawCategory', id);
     this.$store.dispatch('categories/clearMessage');
   },
@@ -49,7 +52,7 @@ export default {
       this.$store.dispatch('categories/updateCategory');
     },
     updateValue($event) {
-      this.$store.dispatch('categories/editedCategoryName', $event.target.value);
+      this.$store.dispatch('categories/editCategoryName', $event.target.value);
     },
   },
 };

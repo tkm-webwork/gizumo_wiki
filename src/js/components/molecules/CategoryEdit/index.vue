@@ -17,7 +17,7 @@
       name="updateCategory"
       type="text"
       placeholder="カテゴリー名を入力してください"
-      data-vv-as=""
+      data-vv-as="カテゴリー名"
       :value="updateCategoryName"
       @updateValue="$emit('updateValue', $event)"
     />
@@ -66,7 +66,7 @@ export default {
       type: Object,
       default: () => ({}),
     },
-    eroorMessage: {
+    errorMessage: {
       type: String,
       defalt: '',
     },
@@ -86,7 +86,7 @@ export default {
       if (!this.access.edit) return;
       this.$emit('clearMessage');
       this.$validator.validate().then((valid) => {
-        if (valid) this.$emit('updateCategory');
+        if (valid) this.$emit('handleSubmit');
       });
     },
   },

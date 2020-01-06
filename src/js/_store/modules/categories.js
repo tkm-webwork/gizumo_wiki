@@ -64,17 +64,19 @@ export default {
         commit('failFetchCategory', { message: err.message });
       });
     },
-    editedCategoryName({ commit }, categoryName) {
+    editCategoryName({ commit }, categoryName) {
       commit('editCategoryName', { categoryName });
     },
-    updateCategory({ commit, rootGetters }, categoryName) {
+    updateCategory({ commit, rootGetters }) {
       commit('toggleLoading');
-
+      const data = new URLSearchParams();
+      data.append('id', this.state.categories.updateCategoryId);
+      data.append('name', this.state.categories.updateCategoryName);
       axios(rootGetters['auth/token'])({
         method: 'PUT',
-        url: `/category/${categoryId}`,
+        url: `/category/${this.state.categories.updateCategoryId}`,
+        data,
       }).then(() => {
-        commit('toggleLoading');
         commit('doneUpdateCategory');
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
@@ -110,10 +112,11 @@ export default {
       state.categoryList = [...categories];
     },
     doneGetRawCategory(state, payload) {
-      updateCategoryId = payload.id;
-      updateCategoryName = payload.name;
+      console.log(payload);
+      state.updateCategoryId = payload.id;
+      state.updateCategoryName = payload.name;
     },
-    editedCategoryName(state, { categoryName }) {
+    editCategoryName(state, { categoryName }) {
       state.updateCategoryName = categoryName;
     },
     failFetchCategory(state, { message }) {
@@ -127,7 +130,7 @@ export default {
     },
     doneUpdateCategory(state, payload) {
       state.updateCategoryId = payload.id;
-      state.updateCategoryId = payload.name;
+      state.updateCategoryName = payload.name;
       state.doneMessage = 'カテゴリーを更新しました';
     },
     confirmDeleteCategory(state, { categoryId, categoryName }) {
