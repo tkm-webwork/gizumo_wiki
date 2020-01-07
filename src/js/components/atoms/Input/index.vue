@@ -38,6 +38,9 @@ export default {
       type: String,
       default: 'text',
     },
+    updataCategoryId: {
+      type: Number,
+    },
     placeholder: {
       type: String,
       default: '入力してください',

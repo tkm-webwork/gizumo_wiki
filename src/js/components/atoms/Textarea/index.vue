@@ -7,7 +7,7 @@
       :required="required"
       :placeholder="placeholder"
       :value="value"
-      @input="$emit('updateValue', $event)"
+      @input="$emit('updataValue', $event)"
     />
 
     <transition name="shake">

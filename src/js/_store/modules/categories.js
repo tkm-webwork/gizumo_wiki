@@ -19,6 +19,9 @@ export default {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
+    editedCategoryName({ commit }, categoryName) {
+      commit('editedCategoryName', { categoryName });
+    },
     getAllCategories({ commit, rootGetters }) {
       axios(rootGetters['auth/token'])({ /**/
         method: 'GET',
@@ -72,6 +75,36 @@ export default {
         });
       });
     },
+    getCategoryDetail({ commit, rootGetters }, categoryId) { // 最初の更新ボタンを押した時に、インプットにカテゴリーネームが表示される処理
+      const { id } = categoryId;
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: `/category/${id}`,
+      }).then((response) => {
+        const responseData = response.data.category;
+        commit('doneGetCategoryDetail', responseData);
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+      });
+    },
+    updateCategory({ commit, rootGetters }) { // 更新したいカテゴリーネームを更新した時の処理。
+      commit('toggleLoading');
+      const data = new URLSearchParams();
+      data.append('id', this.state.categories.updateCategoryId);
+      data.append('name', this.state.categories.updateCategoryName);
+      axios(rootGetters['auth/token'])({
+        method: 'PUT',
+        url: `/category/${this.state.categories.updateCategoryId}`,
+        data,
+      }).then((response) => {
+        const payload = response.data.category;
+        commit('doneUpdateCategory', payload);
+        commit('toggleLoading');
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+        commit('toggleLoading');
+      });
+    },
   },
   mutations: {
     clearMessage(state) {
@@ -98,6 +131,20 @@ export default {
       state.deleteCategoryId = null;
       state.deleteCategoryName = '';
       state.doneMessage = 'カテゴリーの削除が完了しました。';
+    },
+    doneGetCategoryDetail(state, payload) {
+      console.log(payload);
+      state.updateCategoryId = payload.id;
+      state.updateCategoryName = payload.name;
+    },
+    editedCategoryName(state, { categoryName }) {
+      state.updateCategoryName = categoryName;
+    },
+    doneUpdateCategory(state, payload) {
+      console.log(payload);
+      state.updateCategoryId = payload.id;
+      state.updateCategoryName = payload.name;
+      state.doneMessage = 'カテゴリーの更新完了しました。';
     },
   },
 };
