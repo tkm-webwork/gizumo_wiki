@@ -133,7 +133,6 @@ export default {
       state.doneMessage = 'カテゴリーの削除が完了しました。';
     },
     doneGetCategoryDetail(state, payload) {
-      console.log(payload);
       state.updateCategoryId = payload.id;
       state.updateCategoryName = payload.name;
     },
@@ -141,7 +140,6 @@ export default {
       state.updateCategoryName = categoryName;
     },
     doneUpdateCategory(state, payload) {
-      console.log(payload);
       state.updateCategoryId = payload.id;
       state.updateCategoryName = payload.name;
       state.doneMessage = 'カテゴリーの更新完了しました。';
