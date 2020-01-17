@@ -86,7 +86,8 @@ export default {
     openModal(categoryId, categoryName) {
       this.toggleModal();
       this.$store.dispatch('categories/clearMessage');
-      this.$store.dispatch('categories/confirmDeleteCategory', { categoryId, categoryName });/* eslint-disable-line max-len */
+      this.$store.dispatch('categories/confirmDeleteCategory',
+        { categoryId, categoryName });
     },
     deleteCategory() {
       this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId)
