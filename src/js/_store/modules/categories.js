@@ -19,10 +19,6 @@ export default {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
-    getAllCategories({ commit }) {
-      const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
-      commit('doneGetAllCategories', payload);
-    },
     addCategories({ commit, rootGetters }, categoryName) {
       commit('toggleLoading');
       const data = new URLSearchParams();
@@ -40,6 +36,20 @@ export default {
           commit('failFetchCategory', { message: err.message });
           commit('toggleLoading');
         });
+      });
+    },
+    getAllCategories({ commit, rootGetters }) {
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: '/category',
+      }).then((response) => {
+        const payload = { categories: [] };
+        response.data.categories.forEach((val) => {
+          payload.categories.push(val);
+        });
+        commit('doneGetAllCategories', payload);
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
       });
     },
     getRawCategory({ commit, rootGetters }, categoryId) {
@@ -74,6 +84,9 @@ export default {
         commit('toggleLoading');
       });
     },
+    confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
+      commit('confirmDeleteCategory', { categoryId, categoryName });
+    },
     deleteCategory({ commit, rootGetters }, categoryId) {
       return new Promise((resolve) => {
         axios(rootGetters['auth/token'])({
@@ -100,7 +113,6 @@ export default {
       state.categoryList = [...categories];
     },
     doneGetRawCategory(state, payload) {
-      console.log(payload);
       state.updateCategoryId = payload.id;
       state.updateCategoryName = payload.name;
     },
@@ -120,6 +132,10 @@ export default {
       state.updateCategoryId = payload.id;
       state.updateCategoryName = payload.name;
       state.doneMessage = 'カテゴリーを更新しました';
+    },
+    confirmDeleteCategory(state, { categoryId, categoryName }) {
+      state.deleteCategoryId = categoryId;
+      state.deleteCategoryName = categoryName;
     },
     doneDeleteCategory(state) {
       state.deleteCategoryId = null;
