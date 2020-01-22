@@ -1,10 +1,11 @@
 <template lang="html">
-  <div class="article-post">
+  <div class="new-article">
   </div>
-  <div class="article-post__contents">
-    <section class="article">
+  <div class="new-article__contents">
+    <section class="new-article-post">
       <app-heading :level="1">記事の新規作成</app-heading>
       <app-heading
+        class="new-article-post-title"
         :level="2">カテゴリーの選択</app-heading>
       <app-select
         v-validate="'required'"
@@ -27,10 +28,13 @@
         >
           {{ category.name }}
         </option>
-      <app-select>
+      </app-select>
       <app-heading
-        class="article-post-editor-title"
-        :level="2">
+        class="new-article-post-title"
+        :level="2"
+      >
         タイトル・本文
       </app-heading>
     </template>
+
+    <script>
