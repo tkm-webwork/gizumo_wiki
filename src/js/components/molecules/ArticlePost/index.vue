@@ -38,3 +38,7 @@
     </template>
 
     <script>
+    import {
+      Button, Heading, Input, Select, Textarea, 
+    } from '@Components/atoms';
+    </script>
