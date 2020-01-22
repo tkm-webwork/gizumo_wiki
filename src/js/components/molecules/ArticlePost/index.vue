@@ -1,12 +1,13 @@
 <template lang="html">
-  <div class="new-article">
-  </div>
   <div class="new-article__contents">
     <section class="new-article-post">
       <app-heading :level="1">記事の新規作成</app-heading>
       <app-heading
         class="new-article-post-title"
-        :level="2">カテゴリーの選択</app-heading>
+        :level="2"
+      >
+        カテゴリーの選択
+      </app-heading>
       <app-select
         v-validate="'required'"
         name="category"
@@ -53,7 +54,7 @@
           placeholder="記事の本文をマークダウン記法で入力してください。"
           data-vv-as="記事の本文"
           :value="articleContent"
-          @uodateValue="$emit('editContent, &event')"
+          @updateValue="$emit('editContent', $event)"
         />
       </div>
       <app-button
@@ -65,22 +66,34 @@
         ボタン
       </app-button>
     </section>
+  </div>
 </template>
 
-    <script>
-    import {
-      Button, Heading, Input, Select, Textarea, 
-    } from '@Components/atoms';
+<script>
+import {
+  Button, Heading, Input, Select, Textarea,
+} from '@Components/atoms';
 
-    export default {
-      components: {
-        appHeading:  Heading,
-        appInput: Input,
-        appTextarea: Textarea,
-        appButton: Button,
-        appSelect: Select,
-        appText: Text,
-      },
-    };
+export default {
+  components: {
+    appHeading: Heading,
+    appInput: Input,
+    appTextarea: Textarea,
+    appButton: Button,
+    appSelect: Select,
+  },
+  methods:{
+    handleSubmit(){
+      if(!this.access.create) return;
+      this.$validator.validate().then((valid) =>
+      {
+        if(valid) this.$emit('handleSubmit');
+      });
+    },
+  },
+};
+</script>
 
-    </script>
+<style lang="postcss" scoped>
+
+</style>
