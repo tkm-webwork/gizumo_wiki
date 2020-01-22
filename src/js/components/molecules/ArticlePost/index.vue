@@ -35,10 +35,52 @@
       >
         タイトル・本文
       </app-heading>
-    </template>
+      <div class="new-article-post-form">
+        <app-input
+          v-validate="required"
+          name="title"
+          type="text"
+          placeholder="記事のタイトルを入力してください"
+          data-vv-as="記事のタイトル"
+          :value="articleTitle"
+          @updateValue="$emit('editedTitle', $event)"
+        />
+      </div>
+      <div class="new-article-post-form">
+        <app-textarea
+          v-validate="'required'"
+          name="content"
+          placeholder="記事の本文をマークダウン記法で入力してください。"
+          data-vv-as="記事の本文"
+          :value="articleContent"
+          @uodateValue="$emit('editContent, &event')"
+        />
+      </div>
+      <app-button
+        class="article-post-submit"
+        button-type="submit"
+        :disabled="!disabled"
+        @click="handleSubmit"
+      >
+        ボタン
+      </app-button>
+    </section>
+</template>
 
     <script>
     import {
       Button, Heading, Input, Select, Textarea, 
     } from '@Components/atoms';
+
+    export default {
+      components: {
+        appHeading:  Heading,
+        appInput: Input,
+        appTextarea: Textarea,
+        appButton: Button,
+        appSelect: Select,
+        appText: Text,
+      },
+    };
+
     </script>
