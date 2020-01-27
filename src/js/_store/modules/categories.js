@@ -39,6 +39,32 @@ export default {
         commit('failFetchCategory', { message: err.message });
       });
     },
+    postCategoris({ commit, rootGetters }, categoryName) {
+    // "作成"→"作成中"の表示を切り替える
+      commit('toggleLoading');
+      // サーバーサイド側にformのdataを認識させる為の処理を行う
+      const data = new URLSearchParams();
+      // カテゴリーネームを送る
+      data.append('name', categoryName);
+      return new Promise((resolve, reject) => {
+        axios(rootGetters['auth/token'])({
+          method: 'POST',
+          url: '/category',
+          data,
+        }).then(() => {
+          // 作成完了のメッセージを表示
+          commit('doneaPostCategory');
+          // "作成中"→"作成"の表示を切り替える
+          commit('toggleLoading');
+          resolve();
+        }).catch((err) => {
+          // エラーメッセージの表示
+          commit('failFetchCategory', { message: err.message });
+          commit('toggleLoading');
+          reject();
+        });
+      });
+    },
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
       commit('confirmDeleteCategory', { categoryId, categoryName });
     },
@@ -108,6 +134,9 @@ export default {
     confirmDeleteCategory(state, { categoryId, categoryName }) {
       state.deleteCategoryId = categoryId;
       state.deleteCategoryName = categoryName;
+    },
+    doneaPostCategory(state) {
+      state.doneMessage = 'カテゴリーの追加が完了しました。';
     },
     doneDeleteCategory(state) {
       state.deleteCategoryId = null;
