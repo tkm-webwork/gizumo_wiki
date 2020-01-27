@@ -20,16 +20,22 @@ export default {
       commit('clearMessage');
     },
     getAllCategories({ commit, rootGetters }) {
+      // ユーザーのトークを取得
+      // メソッドとエンドポイントを指定
       axios(rootGetters['auth/token'])({
         method: 'GET',
         url: '/category',
       }).then((response) => {
+        // カテゴリーオブジェクトを取得している
         const payload = { categories: [] };
+        // responseからデータをひとつずつ取り出し、payload.categoriesへ代入している
         response.data.categories.forEach((val) => {
           payload.categories.push(val);
         });
+        // mutationsのdoneGetAllCategoriesを実行し、payloadを引き渡している
         commit('doneGetAllCategories', payload);
       }).catch((err) => {
+        // mutationsのfailFetchCategoryを実行し、エラーメッセージを引き渡している
         commit('failFetchCategory', { message: err.message });
       });
     },
