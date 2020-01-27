@@ -87,6 +87,13 @@ export default {
         });
       this.toggleModal();
     },
+    handleSubmit() {
+      this.$store.dispatch('categories/postCategory', this.category)
+        .then(() => {
+          this.category = '';
+          this.$store.dispatch('categories/getAllCategories');
+        });
+    },
   },
 };
 </script>
