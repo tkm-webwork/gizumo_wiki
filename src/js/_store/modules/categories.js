@@ -53,7 +53,7 @@ export default {
           data,
         }).then(() => {
           // 作成完了のメッセージを表示
-          commit('doneaPostCategory');
+          commit('donePostCategory');
           // "作成中"→"作成"の表示を切り替える
           commit('toggleLoading');
           resolve();
@@ -135,7 +135,7 @@ export default {
       state.deleteCategoryId = categoryId;
       state.deleteCategoryName = categoryName;
     },
-    doneaPostCategory(state) {
+    donePostCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました。';
     },
     doneDeleteCategory(state) {
