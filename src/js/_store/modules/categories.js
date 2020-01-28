@@ -14,6 +14,8 @@ export default {
   },
   getters: {
     categoryList: state => state.categoryList,
+    updateCategoryId: state => state.updateCategoryId,
+    updateCategoryName: state => state.updateCategoryName,
   },
   actions: {
     clearMessage({ commit }) {
@@ -72,6 +74,27 @@ export default {
         });
       });
     },
+    updateValue({ commit }, { categoryId, categoryName }) {
+      commit('updateValue', { categoryId, categoryName });
+    },
+    updateCategory({ commit, rootGetters }) {
+      return new Promise((resolve, reject) => {
+        const data = new URLSearchParams();
+        data.append('id', rootGetters['categories/updateCategoryId']);
+        data.append('name', rootGetters['categories/updateCategoryName']);
+        axios(rootGetters['auth/token'])({
+          method: 'PUT',
+          url: `/category/${rootGetters['categories/updateCategoryId']}`,
+          data,
+        }).then(() => {
+          commit('doneUpdateCategory');
+          resolve();
+        }).catch((err) => {
+          commit('failFetchCategory', { message: err.message });
+          reject();
+        });
+      });
+    },
   },
   mutations: {
     clearMessage(state) {
@@ -98,6 +121,13 @@ export default {
     },
     donePostCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました。';
+    },
+    updateValue(state, { categoryId, categoryName }) {
+      if (categoryId) state.updateCategoryId = categoryId;
+      state.updateCategoryName = categoryName;
+    },
+    doneUpdateCategory(state) {
+      state.doneMessage = 'カテゴリーの更新が完了しました。';
     },
   },
 };
