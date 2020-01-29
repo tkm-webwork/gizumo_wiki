@@ -14,6 +14,8 @@ export default {
   },
   getters: {
     categoryList: state => state.categoryList,
+    updateCategoryId: state => state.updateCategoryId,
+    updateCategoryName: state => state.updateCategoryName,
   },
   actions: {
     clearMessage({ commit }) {
@@ -72,6 +74,42 @@ export default {
         });
       });
     },
+    updateCategory({ commit, rootGetters }) {
+      return new Promise((resolve, reject) => {
+        commit('toggleLoading');
+        const data = new URLSearchParams();
+        data.append('id', rootGetters['categories/updateCategoryId']);
+        data.append('name', rootGetters['categories/updateCategoryName']);
+        axios(rootGetters['auth/token'])({
+          method: 'PUT',
+          url: `/category/${rootGetters['categories/updateCategoryId']}`,
+          data,
+        }).then(() => {
+          commit('doneUpdateCategory');
+          commit('toggleLoading');
+          resolve();
+        }).catch((err) => {
+          commit('failFetchCategory', { message: err.message });
+          commit('toggleLoading');
+          reject();
+        });
+      });
+    },
+    updateCategoryName({ commit }, categoryName) {
+      commit('updateCategoryName', categoryName);
+    },
+    getCategoryName({ commit, rootGetters }, categoryId) {
+      commit('updateCategoryId', categoryId);
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: `/category/${categoryId}`,
+      }).then((response) => {
+        const categoryName = response.data.category.name;
+        commit('setCategoryName', categoryName);
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+      });
+    },
   },
   mutations: {
     clearMessage(state) {
@@ -98,6 +136,18 @@ export default {
     },
     donePostCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました。';
+    },
+    doneUpdateCategory(state) {
+      state.doneMessage = 'カテゴリーの更新が完了しました。';
+    },
+    updateCategoryId(state, categoryId) {
+      state.updateCategoryId = categoryId;
+    },
+    updateCategoryName(state, categoryName) {
+      state.updateCategoryName = categoryName;
+    },
+    setCategoryName(state, categoryName) {
+      state.updateCategoryName = categoryName;
     },
   },
 };
