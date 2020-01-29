@@ -35,8 +35,7 @@
               theme-color
               underline
               hover-opacity
-              :to="{ path: `/categories/${category.id}`,
-                     query: { value: `${category.name}` }}"
+              :to="{ path: `/categories/${category.id}`}"
             >
               更新
             </app-router-link>

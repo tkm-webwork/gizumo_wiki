@@ -5,7 +5,7 @@
       :access="access"
       :error-message="errorMessage"
       :done-message="doneMessage"
-      :value="updateCategoryName"
+      :value="setCategoryName"
       @clearMessage="clearMessage"
       @updateValue="updateValue"
       @handleSubmit="handleSubmit"
@@ -33,16 +33,12 @@ export default {
     doneMessage() {
       return this.$store.state.categories.doneMessage;
     },
-    updateCategoryName() {
+    setCategoryName() {
       return this.$store.state.categories.updateCategoryName;
     },
   },
   created() {
-    this.$store.dispatch('categories/updateValue',
-      {
-        categoryName: this.$route.query.value,
-        categoryId: this.$route.params.id,
-      });
+    this.$store.dispatch('categories/setCategoryName', this.$route.params.id);
     this.$store.dispatch('categories/clearMessage');
   },
   methods: {
@@ -50,10 +46,7 @@ export default {
       this.$store.dispatch('categories/clearMessage');
     },
     updateValue($event) {
-      this.$store.dispatch('categories/updateValue',
-        {
-          categoryName: $event.target.value,
-        });
+      this.$store.dispatch('categories/updateCategoryName', $event.target.value);
     },
     handleSubmit() {
       if (this.loading) return;
