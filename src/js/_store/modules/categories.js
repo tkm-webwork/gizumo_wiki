@@ -98,7 +98,7 @@ export default {
     updateCategoryName({ commit }, categoryName) {
       commit('updateCategoryName', categoryName);
     },
-    setCategoryName({ commit, rootGetters }, categoryId) {
+    getCategoryName({ commit, rootGetters }, categoryId) {
       commit('updateCategoryId', categoryId);
       axios(rootGetters['auth/token'])({
         method: 'GET',
