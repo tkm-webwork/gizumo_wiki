@@ -5,7 +5,7 @@
         :class="classes"
         :name="name"
         :value="value"
-        @input="$emit('updataValue', $event)"
+        @input="$emit('updateValue', $event)"
       >
         <slot />
       </select>
