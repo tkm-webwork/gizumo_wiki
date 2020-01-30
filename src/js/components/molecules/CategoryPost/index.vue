@@ -16,7 +16,7 @@
       button-type="submit"
       round
       :disabled="disabled || !access.create"
-      @click= "addCategory"
+      @click="addCategory"
     >
       {{ buttonText }}
     </app-button>

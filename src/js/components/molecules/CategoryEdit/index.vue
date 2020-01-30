@@ -12,7 +12,7 @@
       カテゴリー一覧へ戻る
     </app-router-link>
     <app-input
-      v-validate="'required'"
+      v-validate="'required|email'"
       class="category-management-edit__input"
       name="updateCategory"
       type="text"

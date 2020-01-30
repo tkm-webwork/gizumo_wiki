@@ -22,9 +22,19 @@ export default {
     editedCategoryName({ commit }, categoryName) {
       commit('editedCategoryName', { categoryName });
     },
-    getAllCategories({ commit }) {
-      const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
-      commit('doneGetAllCategories', payload);
+    getAllCategories({ commit, rootGetters }) {
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: '/category',
+      }).then((response) => {
+        const payload = { categories: [] };
+        response.data.categories.forEach((val) => {
+          payload.categories.push(val);
+        });
+        commit('doneGetAllCategories', payload);
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+      });
     },
     postCateogry({ commit, rootGetters }, categoryName) { // rootGettersで全てのGettersが使えるようになる。categoryNameにはインプットに入力した値が入っている。
       commit('toggleLoading'); // 質問
@@ -45,6 +55,9 @@ export default {
           commit('toggleLoding');
         });
       });
+    },
+    confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
+      commit('confirmDeleteCategory', { categoryId, categoryName });
     },
     deleteCategory({ commit, rootGetters }, categoryId) {
       return new Promise((resolve) => {
@@ -107,6 +120,10 @@ export default {
     toggleLoading(state) {
       state.loading = !state.loading;
     },
+    confirmDeleteCategory(state, { categoryId, categoryName }) {
+      state.deleteCategoryId = categoryId;
+      state.deleteCategoryName = categoryName;
+    },
     donePostCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました。';
     },
@@ -116,7 +133,6 @@ export default {
       state.doneMessage = 'カテゴリーの削除が完了しました。';
     },
     doneGetCategoryDetail(state, payload) {
-      console.log(payload);
       state.updateCategoryId = payload.id;
       state.updateCategoryName = payload.name;
     },
@@ -124,7 +140,6 @@ export default {
       state.updateCategoryName = categoryName;
     },
     doneUpdateCategory(state, payload) {
-      console.log(payload);
       state.updateCategoryId = payload.id;
       state.updateCategoryName = payload.name;
       state.doneMessage = 'カテゴリーの更新完了しました。';
