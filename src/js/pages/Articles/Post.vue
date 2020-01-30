@@ -66,11 +66,9 @@ export default {
       this.$store.dispatch('articles/selectedArticleCategory', categoryName);
     },
     editedTitle($event) {
-      console.log($event);
       this.$store.dispatch('articles/editedTitle', $event.target.value);
     },
     editedContent($event) {
-      console.log($event);
       this.$store.dispatch('articles/editedContent', $event.target.value);
     },
     handleSubmit() {
