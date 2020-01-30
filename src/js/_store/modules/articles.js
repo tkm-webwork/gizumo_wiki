@@ -75,13 +75,11 @@ export default {
       state.articleList = [...payload.articles];
     },
     editedTitle(state, payload) {
-      console.log(payload);
       state.targetArticle = Object.assign({}, { ...state.targetArticle }, {
         title: payload.title,
       });
     },
     editedContent(state, payload) {
-      console.log(payload);
       state.targetArticle = Object.assign({}, { ...state.targetArticle }, {
         content: payload.content,
       });
