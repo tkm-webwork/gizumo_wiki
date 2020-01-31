@@ -21,9 +21,15 @@ export default {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
-    getAllCategories({ commit }) {
-      const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
-      commit('doneGetAllCategories', payload);
+    getAllCategories({ commit, rootGetters }) {
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: '/category',
+      }).then((response) => {
+        commit('doneGetAllCategories', { categories: response.data.categories });
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+      });
     },
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
       commit('confirmDeleteCategory', { categoryId, categoryName });
@@ -36,7 +42,6 @@ export default {
         }).then((response) => {
           // NOTE: エラー時はresponse.data.codeが0で返ってくる。
           if (response.data.code === 0) throw new Error(response.data.message);
-
           commit('doneDeleteCategory');
           resolve();
         }).catch((err) => {
@@ -70,7 +75,6 @@ export default {
         const data = new URLSearchParams();
         data.append('id', rootGetters['categories/updateCategoryId']);
         data.append('name', rootGetters['categories/updateCategoryName']);
-
         axios(rootGetters['auth/token'])({
           method: 'PUT',
           url: `/category/${rootGetters['categories/updateCategoryId']}`,
@@ -85,6 +89,9 @@ export default {
           reject();
         });
       });
+    },
+    updateCategoryId({ commit }, categoryId) {
+      commit('updateCategoryId', categoryId);
     },
     updateCategoryName({ commit }, categoryName) {
       commit('updateCategoryName', categoryName);
@@ -123,9 +130,6 @@ export default {
       state.deleteCategoryId = null;
       state.deleteCategoryName = '';
       state.doneMessage = 'カテゴリーの削除が完了しました。';
-    },
-    donePostCategory(state) {
-      state.doneMessage = 'カテゴリーの追加が完了しました。';
     },
     doneUpdateCategory(state) {
       state.doneMessage = 'カテゴリーの更新が完了しました。';
