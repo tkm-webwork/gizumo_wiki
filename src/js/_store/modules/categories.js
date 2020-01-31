@@ -19,25 +19,9 @@ export default {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
-    getAllCategories({ commit, rootGetters }) {
-      // ユーザーのトークンを取得
-      // メソッドとエンドポイントを指定
-      axios(rootGetters['auth/token'])({
-        method: 'GET',
-        url: '/category',
-      }).then((response) => {
-        // カテゴリーオブジェクトを取得している
-        const payload = { categories: [] };
-        // responseからデータをひとつずつ取り出し、payload.categoriesへ代入している
-        response.data.categories.forEach((val) => {
-          payload.categories.push(val);
-        });
-        // mutationsのdoneGetAllCategoriesを実行し、payloadを引き渡している
-        commit('doneGetAllCategories', payload);
-      }).catch((err) => {
-        // mutationsのfailFetchCategoryを実行し、エラーメッセージを引き渡している
-        commit('failFetchCategory', { message: err.message });
-      });
+    getAllCategories({ commit }) {
+      const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
+      commit('doneGetAllCategories', payload);
     },
     postCategoris({ commit, rootGetters }, categoryName) {
     // "作成"→"作成中"の表示を切り替える
@@ -85,9 +69,6 @@ export default {
     },
     updateCategoryName({ commit }, updateValue) {
       commit('updateCategoryName', updateValue);
-    },
-    confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
-      commit('confirmDeleteCategory', { categoryId, categoryName });
     },
     editCategory({ commit, rootGetters, state }) {
       commit('toggleLoading');
@@ -153,10 +134,6 @@ export default {
       state.deleteCategoryId = null;
       state.deleteCategoryName = '';
       state.doneMessage = 'カテゴリーの更新が完了しました。';
-    },
-    confirmDeleteCategory(state, { categoryId, categoryName }) {
-      state.deleteCategoryId = categoryId;
-      state.deleteCategoryName = categoryName;
     },
     donePostCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました。';
