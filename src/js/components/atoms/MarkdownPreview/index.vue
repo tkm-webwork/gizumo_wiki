@@ -63,6 +63,8 @@ export default {
         highlight: (code, lang) => hljs.highlightAuto(code, [lang]).value,
         breaks: false,
         smartLists: true,
+        sanitize: true,
+        sanitizer: escape,
       });
       return marked(this.markdownContent);
     },

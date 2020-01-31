@@ -84,7 +84,6 @@ export default {
       this.$store.dispatch('categories/clearMessage');
     },
     openModal(categoryId, categoryName) {
-      console.log(categoryId);
       this.toggleModal();
       this.$store.dispatch('categories/clearMessage');
       this.$store.dispatch('categories/confirmDeleteCategory',
