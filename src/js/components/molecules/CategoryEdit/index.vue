@@ -12,11 +12,15 @@
       カテゴリー一覧へ戻る
     </app-router-link>
     <app-input
+      v-validate="'required'"
       class="category-management-edit__input"
       name="updateCategory"
       type="text"
       placeholder="カテゴリー名を入力してください"
-      data-vv-as=""
+      data-vv-as="カテゴリー名"
+      :value="updateCategoryName"
+      :error-messages="errors.collect('updateCategory')"
+      @updateValue="$emit('updateValue', $event)"
     />
     <app-button
       class="category-management-edit__submit"
@@ -26,13 +30,11 @@
     >
       {{ buttonText }}
     </app-button>
-
-    <div class="category-management-edit__notice">
-      <app-text bg-error>ここにエラー時のメッセージが入ります</app-text>
+    <div v-if="errorMessage" class="category-management-edit__notice">
+      <app-text bg-error>{{ errorMessage }}</app-text>
     </div>
-
-    <div class="category-management-edit__notice">
-      <app-text bg-success>ここに更新成功時のメッセージが入ります</app-text>
+    <div v-if="doneMessage" class="category-management-edit__notice">
+      <app-text bg-success>{{ doneMessage }}</app-text>
     </div>
   </form>
 </template>
@@ -50,6 +52,18 @@ export default {
     appText: Text,
   },
   props: {
+    doneMessage: {
+      type: String,
+      default: '',
+    },
+    errorMessage: {
+      type: String,
+      default: '',
+    },
+    updateCategoryName: {
+      type: String,
+      default: '',
+    },
     disabled: {
       type: Boolean,
       default: false,
@@ -70,7 +84,7 @@ export default {
       if (!this.access.edit) return;
       this.$emit('clearMessage');
       this.$validator.validate().then((valid) => {
-        if (valid) this.$emit('エミットするイベント名が入ります');
+        if (valid) this.$emit('handleSubmit');
       });
     },
   },
