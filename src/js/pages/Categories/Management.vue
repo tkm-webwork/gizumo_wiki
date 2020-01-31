@@ -18,7 +18,10 @@
         :categories="categoryList"
         :delete-category-name="deleteCategoryName"
         :access="access"
+        :category-name="categoryName"
+        :category-id="categoryId"
         @openModal="openModal"
+        @deleteCategory="deleteCategory"
       />
     </section>
   </div>
@@ -62,6 +65,12 @@ export default {
     deleteCategoryName() {
       return this.$store.state.categories.deleteCategoryName;
     },
+    categoryName() {
+      return this.$store.state.categories.updateCategoryName;
+    },
+    categoryId() {
+      return this.$store.state.categories.updateCategoryId;
+    },
   },
   created() {
     this.$store.dispatch('categories/clearMessage');
@@ -76,20 +85,23 @@ export default {
     },
     handleSubmit() {
       if (this.loading) return;
-      this.$store.dispatch('categories/postCateogry', this.category)
+      this.$store.dispatch('categories/postCategory', this.category)
         .then(() => {
           this.category = '';
           this.$store.dispatch('categories/getAllCategories');
         });
     },
-    openModal() {
+    openModal({ categoryName, categoryId }) {
       this.toggleModal();
       this.$store.dispatch('categories/clearMessage');
+      this.$store.dispatch('categories/updateCategoryName', categoryName);
+      this.$store.dispatch('categories/updateCategoryId', categoryId);
     },
-    handleSubmit() {
-      this.$store.dispatch('categories/postCategory', this.category)
+    deleteCategory() {
+      this.$store.dispatch('categories/deleteCategory',
+        this.$store.state.categories.updateCategoryId)
         .then(() => {
-          this.category = '';
+          this.toggleModal();
           this.$store.dispatch('categories/getAllCategories');
         });
     },
