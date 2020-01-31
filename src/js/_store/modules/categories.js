@@ -94,8 +94,8 @@ export default {
       const editId = state.updateCategoryId;
       const editName = state.updateCategoryName;
       const data = new URLSearchParams();
-      data.append('id', `${editId}`);
-      data.append('name', `${editName}`);
+      data.append('id', editId);
+      data.append('name', editName);
       return new Promise((resolve, reject) => {
         axios(rootGetters['auth/token'])({
           method: 'PUT',
