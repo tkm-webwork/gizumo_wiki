@@ -28,10 +28,9 @@ export default {
           method: 'GET',
           url: '/category',
         }).then((response) => {
-          const payload = { categories: [] };
-          response.data.categories.forEach((value) => {
-            payload.categories.push(value);
-          });
+          const payload = {
+            categories: response.data.categories,
+          };
           commit('doneGetAllCategories', payload);
           resolve();
         }).catch((err) => {
@@ -112,7 +111,6 @@ export default {
     },
     setDeleteValue({ commit }, { categoryId, categoryName }) {
       commit('setDeleteValue', { categoryId, categoryName });
-      console.log(categoryId);
     },
     deleteCategory({ commit, rootGetters }, categoryId) {
       return new Promise((resolve) => {
