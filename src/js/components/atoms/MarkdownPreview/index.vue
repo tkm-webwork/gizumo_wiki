@@ -10,6 +10,7 @@
 <script>
 import marked from 'marked';
 import hljs from 'highlight.js';
+import sanitize from 'sanitize-html';
 
 export default {
   props: {
@@ -56,6 +57,7 @@ export default {
       const renderer = new marked.Renderer();
       renderer.code = (code, lang) => `<pre class="hljs"><code class="language-${lang}">${hljs.highlightAuto(code, [lang]).value}</code></pre>`;
       renderer.em = text => `<span class="attention">${text}</span>`;
+      console.log(renderer.code);
 
       marked.setOptions({
         renderer,
@@ -64,7 +66,10 @@ export default {
         breaks: false,
         smartLists: true,
       });
-      return marked(this.markdownContent);
+      const markedContent = marked(this.markdownContent);
+      return sanitize(markedContent, {
+        allowedTags: sanitize.defaults.allowedTags.concat(['h1', 'h2']),
+      });
     },
   },
   mounted() {

@@ -113,6 +113,15 @@ export default {
     displayDoneMessage(state, payload = { message: '成功しました' }) {
       state.doneMessage = payload.message;
     },
+    updateSelectValue(state, categoryName) {
+      state.targetArticle.category.name = categoryName;
+    },
+    updateInputValue(state, title) {
+      state.targetArticle.title = title;
+    },
+    updateTextareaValue(state, content) {
+      state.targetArticle.content = content;
+    },
   },
   actions: {
     initPostArticle({ commit }) {
@@ -271,6 +280,15 @@ export default {
     },
     clearMessage({ commit }) {
       commit('clearMessage');
+    },
+    updateSelectValue({ commit }, categoryName) {
+      commit('updateSelectValue', categoryName);
+    },
+    updateInputValue({ commit }, title) {
+      commit('updateInputValue', title);
+    },
+    updateTextareaValue({ commit }, content) {
+      commit('updateTextareaValue', content);
     },
   },
 };
