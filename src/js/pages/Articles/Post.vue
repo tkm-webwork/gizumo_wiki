@@ -114,6 +114,6 @@ export default {
 
   .markdown-preview {
     width: 50%;
-    margin-left: 2%;
+    padding-left: 2%;
   }
 </style>
