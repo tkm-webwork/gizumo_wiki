@@ -73,3 +73,9 @@ export default {
   },
 };
 </script>
+
+<style lang="postcss" scopd>
+  .article-text {
+    margin-bottom: 16px;
+  }
+</style>
