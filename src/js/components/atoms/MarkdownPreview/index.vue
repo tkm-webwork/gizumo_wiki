@@ -9,6 +9,7 @@
 
 <script>
 import marked from 'marked';
+import sanitizeHtml from 'sanitize-html';
 import hljs from 'highlight.js';
 
 export default {
@@ -56,16 +57,16 @@ export default {
       const renderer = new marked.Renderer();
       renderer.code = (code, lang) => `<pre class="hljs"><code class="language-${lang}">${hljs.highlightAuto(code, [lang]).value}</code></pre>`;
       renderer.em = text => `<span class="attention">${text}</span>`;
-
       marked.setOptions({
         renderer,
         /* renderer: new marked.Renderer(), */
         highlight: (code, lang) => hljs.highlightAuto(code, [lang]).value,
         breaks: false,
         smartLists: true,
-        sanitize: true,
+        // sanitize: true,
       });
-      return marked(this.markdownContent);
+      const conbertContent = sanitizeHtml(this.markdownContent);
+      return marked(conbertContent);
     },
   },
   mounted() {
