@@ -20,6 +20,7 @@ export default {
     };
   },
   beforeMount() {
+    // ルートのVueインスタンスにtoggleModalのイベントをセットするtoggleModalが発火したらhandleToggleModalが実行される
     this.$root.$on('toggleModal', this.handleToggleModal);
   },
   methods: {

@@ -29,7 +29,7 @@ export default {
           url: '/category',
         }).then((response) => {
           const payload = {
-            categories: response.data.categories,
+            categories: [...response.data.categories],
           };
           commit('doneGetAllCategories', payload);
           resolve();
