@@ -92,6 +92,7 @@ export default {
       if (this.loading) return;
       this.$store.dispatch('categories/postCateogry', this.category).then(() => {
         this.$store.dispatch('categories/getAllCategories');
+        this.category = '';
       });
     },
   },
