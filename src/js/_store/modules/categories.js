@@ -84,11 +84,35 @@ export default {
         commit('toggleLoading');
       });
     },
+    postCategory({ commit, rootGetters }, category) {
+      return new Promise((resolve, reject) => {
+        commit('clearMessage');
+        commit('toggleLoading');
+        const data = new URLSearchParams();
+        data.append('name', category);
+        axios(rootGetters['auth/token'])({
+          method: 'POST',
+          url: '/category',
+          data,
+        }).then(() => {
+          commit('toggleLoading');
+          commit('donePostCategory');
+          resolve();
+        }).catch((err) => {
+          commit('toggleLoading');
+          commit('failFetchCategory', { message: err.message });
+          reject();
+        });
+      });
+    },
   },
   mutations: {
     clearMessage(state) {
       state.errorMessage = '';
       state.doneMessage = '';
+    },
+    donePostCategory(state) {
+      state.doneMessage = 'カテゴリーの作成が完了しました';
     },
     doneGetAllCategories(state, { categories }) {
       state.categoryList = [...categories];
