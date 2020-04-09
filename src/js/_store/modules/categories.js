@@ -14,6 +14,8 @@ export default {
   },
   getters: {
     categoryList: state => state.categoryList,
+    updateCategoryName: state => state.updateCategoryName,
+    updateCategoryId: state => state.updateCategoryId,
   },
   actions: {
     clearMessage({ commit }) {

@@ -5,7 +5,7 @@
       :access="access"
       @clearMessage="clearMessage"
     />
-    <p>{{ $store.state.updateCategoryId }}</p>
+    <p>{{ this.$store.getters['categories/updateCategoryName'] }}</p>
   </div>
 </template>
 
