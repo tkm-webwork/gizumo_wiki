@@ -1,5 +1,5 @@
 import { storiesOf } from '@storybook/vue';
-import { withKnobs, number, select } from '@storybook/addon-knobs';
+import { withKnobs, number, select, text } from '@storybook/addon-knobs';
 import note from './README.md';
 
 const levelDefaultValue = '1';
@@ -19,7 +19,7 @@ storiesOf('ATOMS|Heading', module)
   return {
     template: `<app-heading 
                 :level="level"
-                :class-name="className"
+                :class="className"
               >
                 見出しテキストが入ります
               </app-heading>`,
@@ -30,7 +30,7 @@ storiesOf('ATOMS|Heading', module)
       },
       className: {
         type: String,
-        default: '',
+        default: text('className', ''),
       }
     },
   }

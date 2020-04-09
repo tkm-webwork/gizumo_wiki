@@ -28,7 +28,7 @@ export default {
   },
   created() {
     this.$store.dispatch('categories/getAllCategories');
-    this.$store.dispatch('articles/getAllArticles');
+    this.$store.dispatch('articles/getArticles');
   },
 };
 </script>

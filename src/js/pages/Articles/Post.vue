@@ -7,7 +7,7 @@
     :loading="loading"
     :access="access"
     :error-message="errorMessage"
-    :value="categoryName"
+    :category-name="categoryName"
     @selectedArticleCategory="selectedArticleCategory"
     @editedTitle="editedTitle"
     @editedContent="editedContent"
@@ -69,7 +69,7 @@ export default {
       this.$store.dispatch('articles/editedContent', $event.target.value);
     },
     selectedArticleCategory($event) {
-      const categoryName = $event.target.value ? $event.target.value : '';
+      const categoryName = $event.target.value;
       this.$store.dispatch('articles/selectedArticleCategory', categoryName);
     },
     handleSubmit() {

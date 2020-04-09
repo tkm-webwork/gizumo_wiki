@@ -17,10 +17,16 @@
           name="category"
           data-vv-as="カテゴリー"
           :error-messages="errors.collect('category')"
-          :value="value"
+          :value="categoryName"
           @updateValue="$emit('selectedArticleCategory', $event)"
         >
-          <option value=""> --- </option>
+          <option
+            value=""
+            disabled
+            selected
+          >
+            ---
+          </option>
           <option
             v-for="(category) in categoryList"
             :key="category.id"
@@ -41,7 +47,6 @@
             name="title"
             type="text"
             placeholder="記事のタイトルを入力してください。"
-            required
             white-bg
             data-vv-as="記事のタイトル"
             :error-messages="errors.collect('title')"
@@ -55,7 +60,6 @@
             v-validate="'required'"
             name="content"
             placeholder="記事の本文をマークダウン記法で入力してください。"
-            required
             white-bg
             data-vv-as="記事の本文"
             :error-messages="errors.collect('content')"
@@ -115,7 +119,7 @@ export default {
       type: Array,
       default: () => [],
     },
-    value: {
+    categoryName: {
       type: String,
       default: '',
     },

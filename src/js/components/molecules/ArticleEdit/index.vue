@@ -16,14 +16,22 @@
           v-validate="'required'"
           name="category"
           data-vv-as="カテゴリー"
-          :error-messages="errors.collect('category')"
           :value="currentCategoryName"
+          :error-messages="errors.collect('category')"
           @updateValue="$emit('selectedArticleCategory', $event)"
         >
+          <option
+            value=""
+            selected
+            disabled
+          >
+            ---
+          </option>
           <option
             v-for="(category) in categoryList"
             :key="category.id"
             :value="category.name"
+            :selected="currentCategoryName === category.name ? true : false "
           >
             {{ category.name }}
           </option>

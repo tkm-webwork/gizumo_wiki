@@ -5,6 +5,13 @@ module.exports = async({config, mode}) => {
   //   return test.toString() === '/\\.vue$/'
   // });
 
+  // NOTE: 下記参考
+  // NOTE: https://github.com/storybookjs/storybook/issues/6319#issuecomment-477852640
+  // 既存のcss ruleを削除？？
+  config.module.rules = config.module.rules.filter(
+    f => f.test.toString() !== '/\\.css$/'
+  );
+
   config.module.rules.push({
     test: /\.stories\.jsx?$/,
     loaders: [require.resolve('@storybook/addon-storysource/loader')],
@@ -13,35 +20,30 @@ module.exports = async({config, mode}) => {
 
 
   config.module.rules.push({
-    test: /\.(css|sass|scss)$/,
+    test: /\.((post)?css)$/,
     use: [
-      {
-        loader: 'vue-style-loader',
-      },
-      {
-        loader: 'css-loader',
-      },
+      'vue-style-loader',
+      'css-loader',
       {
         loader: 'postcss-loader',
         options: {
-          plugins: [
-            require('autoprefixer')({
-              grid: true,
-              browsers: [
-                'IE >= 9',
-                'last 2 versions'
-              ]
-            })
-          ]
-        }
-      },
-      {
-        loader: 'sass-loader',
-        options: {
           sourceMap: true,
-          //変数やmixin定義の読み込み
-          data: `@import '_helpers/index.scss';`,
-          includePaths: [path.resolve(__dirname, '../../../src/scss/')],
+          plugins: () => [
+            require('postcss-import')(),
+            require('postcss-mixins')({
+              mixinsFiles: path.resolve(__dirname, '../../../src/css/_helpers/_mixins.css')
+            }),
+            require('postcss-custom-media')({
+              importFrom: path.resolve(__dirname, '../../../src/css/_helpers/_media.css')
+            }),
+            require('postcss-custom-properties')({
+              preserve: false,
+              importFrom: path.resolve(__dirname, '../../../src/css/_helpers/_variables.css')
+            }),
+            require('postcss-color-function')(),
+            require('postcss-nested')(),
+            require('autoprefixer')(),
+          ],
         },
       },
     ]
@@ -51,11 +53,11 @@ module.exports = async({config, mode}) => {
     '@Components': path.resolve(__dirname, '../../../src/js/components'),
     '@Helpers': path.resolve(__dirname, '../../../src/js/_helpers'),
     '@Pages': path.resolve(__dirname, '../../../../src/js/pages'),
-    '@Scss': path.resolve(__dirname, '../../../src/scss'),
+    '@Css': path.resolve(__dirname, '../../../src/css'),
   }
 
   config.resolve.alias = {...config.resolve.alias, ...alias};
-  config.resolve.extensions.push('.scss');
+  config.resolve.extensions.push('.css');
 
   return config;
 }

@@ -71,6 +71,9 @@ export default {
     doneGetArticle(state, payload) {
       state.targetArticle = Object.assign({}, state.targetArticle, payload.article);
     },
+    doneGetArticles(state, payload) {
+      state.articleList = [...payload.articles];
+    },
     editedTitle(state, payload) {
       state.targetArticle = Object.assign({}, { ...state.targetArticle }, {
         title: payload.title,
@@ -80,15 +83,6 @@ export default {
       state.targetArticle = Object.assign({}, { ...state.targetArticle }, {
         content: payload.content,
       });
-    },
-    doneFilteredArticles(state, payload) {
-      const filteredArticles = payload.articles.filter(
-        article => article.category.name === payload.category,
-      );
-      state.articleList = [...filteredArticles];
-    },
-    doneGetAllArticles(state, payload) {
-      state.articleList = [...payload.articles];
     },
     failRequest(state, { message }) {
       state.errorMessage = message;
@@ -124,17 +118,21 @@ export default {
     initPostArticle({ commit }) {
       commit('initPostArticle');
     },
-    getAllArticles({ commit, rootGetters }) {
-      axios(rootGetters['auth/token'])({
-        method: 'GET',
-        url: '/article',
-      }).then((res) => {
-        const payload = {
-          articles: res.data.articles,
-        };
-        commit('doneGetAllArticles', payload);
-      }).catch((err) => {
-        commit('failRequest', { message: err.message });
+    getArticles({ commit, rootGetters }, categoryName) {
+      return new Promise((resolve, reject) => {
+        axios(rootGetters['auth/token'])({
+          method: 'GET',
+          url: categoryName ? `/article?category=${categoryName}` : '/article',
+        }).then((res) => {
+          const payload = {
+            articles: res.data.articles,
+          };
+          commit('doneGetArticles', payload);
+          resolve();
+        }).catch((err) => {
+          commit('failRequest', { message: err.message });
+          reject();
+        });
       });
     },
     getArticleDetail({ commit, rootGetters }, articleId) {
@@ -177,34 +175,16 @@ export default {
         content,
       });
     },
-    filteredArticles({ commit, rootGetters }, category) {
-      return new Promise((resolve, reject) => {
-        axios(rootGetters['auth/token'])({
-          method: 'GET',
-          url: '/article',
-        }).then((res) => {
-          const payload = {
-            category,
-            articles: res.data.articles,
-          };
-          commit('doneFilteredArticles', payload);
-          resolve();
-        }).catch((err) => {
-          commit('failRequest', { message: err.message });
-          reject(new Error('エラーが発生しました'));
-        });
-      });
-    },
     selectedArticleCategory({ commit, rootGetters }, categoryName) {
       const categoryList = rootGetters['categories/categoryList'];
-      let matches = categoryList.find(category => category.name === categoryName);
+      const matches = categoryList.find(category => category.name === categoryName);
       // カテゴリーが空のときのidとnameは下記をセット
-      if (!matches) {
-        matches = {
-          id: null,
-          name: '',
-        };
-      }
+      // if (!matches) {
+      //   matches = {
+      //     id: null,
+      //     name: '',
+      //   };
+      // }
       const payload = {
         category: matches,
       };
@@ -245,18 +225,22 @@ export default {
       commit('confirmDeleteArticle', { articleId });
     },
     deleteArticle({ commit, rootGetters }) {
-      commit('clearMessage');
-      const data = new URLSearchParams();
-      data.append('id', rootGetters['articles/deleteArticleId']);
-      axios(rootGetters['auth/token'])({
-        method: 'DELETE',
-        url: `/article/${rootGetters['articles/deleteArticleId']}`,
-        data,
-      }).then(() => {
-        commit('doneDeleteArticle');
-        commit('displayDoneMessage', { message: 'ドキュメントを削除しました' });
-      }).catch((err) => {
-        commit('failRequest', { message: err.message });
+      return new Promise((resolve, reject) => {
+        commit('clearMessage');
+        const data = new URLSearchParams();
+        data.append('id', rootGetters['articles/deleteArticleId']);
+        axios(rootGetters['auth/token'])({
+          method: 'DELETE',
+          url: `/article/${rootGetters['articles/deleteArticleId']}`,
+          data,
+        }).then(() => {
+          commit('doneDeleteArticle');
+          resolve();
+          commit('displayDoneMessage', { message: 'ドキュメントを削除しました' });
+        }).catch((err) => {
+          commit('failRequest', { message: err.message });
+          reject();
+        });
       });
     },
     postArticle({ commit, rootGetters }) {

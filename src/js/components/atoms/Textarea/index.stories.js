@@ -51,7 +51,7 @@ storiesOf('ATOMS|Textarea', module)
 
 storiesOf('ATOMS|Textarea', module)
   .addDecorator(withKnobs)
-  .add(' whiteBg', () => {
+  .add('whiteBg', () => {
     return {
       template: `<app-textarea
                   name="content"
