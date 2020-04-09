@@ -33,6 +33,17 @@ export default {
         commit('failFetchCategory', { message: err.message });
       });
     },
+    getCategoryDetail({ commit, rootGetters }, categoryId) {
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: `/category/${categoryId}`,
+      }).then((response) => {
+        const payload = response.data.category;
+        commit('doneGetCategory', payload);
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+      });
+    },
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
       commit('confirmDeleteCategory', { categoryId, categoryName });
     },
@@ -81,6 +92,10 @@ export default {
     },
     donePostCategory(state) {
       state.doneMessage = 'カテゴリーの作成が完了しました';
+    },
+    doneGetCategory(state, payload) {
+      state.updateCategoryId = payload.id;
+      state.updateCategoryName = payload.name;
     },
     doneGetAllCategories(state, { categories }) {
       state.categoryList = [...categories];
