@@ -53,6 +53,39 @@ export default {
         });
       });
     },
+    getCategoryDetail({ commit, rootGetters }, categoryId) {
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: `/category/${categoryId}`,
+      }).then((response) => {
+        const categoryDetail = response.data.category;
+        commit('doneGetCategoryDetail', categoryDetail);
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+      });
+    },
+    updateCategory({ commit, rootGetters }) {
+      commit('toggleLoading');
+      const data = new URLSearchParams();
+      data.append('id', this.state.categories.updateCategoryId);
+      data.append('name', this.state.categories.updateCategoryName);
+      axios(rootGetters['auth/token'])({
+        method: 'PUT',
+        url: `/category/${this.state.categories.updateCategoryId}`,
+        data,
+      }).then((response) => {
+        commit('toggleLoading');
+        const categoryDetail = response.data.category;
+        commit('doneGetCategoryDetail', categoryDetail);
+        commit('doneUpdateCategory');
+      }).catch((err) => {
+        commit('toggleLoading');
+        commit('failFetchCategory', { message: err.message });
+      });
+    },
+    editedCategoryName({ commit }, categoryName) {
+      commit('editedCategoryName', { categoryName });
+    },
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
       commit('confirmDeleteCategory', { categoryId, categoryName });
     },
@@ -97,6 +130,17 @@ export default {
       state.deleteCategoryId = null;
       state.deleteCategoryName = '';
       state.doneMessage = 'カテゴリーの削除が完了しました。';
+    },
+    doneUpdateCategory(state) {
+      state.doneMessage = 'カテゴリーの更新が完了しました。';
+    },
+    doneGetCategoryDetail(state, categoryDetail) {
+      state.updateCategoryId = categoryDetail.id;
+      state.updateCategoryName = categoryDetail.name;
+    },
+    editedCategoryName(state, { categoryName }) {
+      // 編集後の値、表示と紐付いている
+      state.updateCategoryName = categoryName;
     },
   },
 };
