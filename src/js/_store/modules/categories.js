@@ -53,6 +53,9 @@ export default {
         });
       });
     },
+    editedCategoryName({ commit }, categoryName) {
+      commit('editedCategoryName', { categoryName });
+    },
     getCategoryDetail({ commit, rootGetters }, categoryId) {
       axios(rootGetters['auth/token'])({
         method: 'GET',
@@ -83,9 +86,6 @@ export default {
         commit('failFetchCategory', { message: err.message });
       });
     },
-    editedCategoryName({ commit }, categoryName) {
-      commit('editedCategoryName', { categoryName });
-    },
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
       commit('confirmDeleteCategory', { categoryId, categoryName });
     },
@@ -110,14 +110,17 @@ export default {
       state.errorMessage = '';
       state.doneMessage = '';
     },
-    doneGetAllCategories(state, { categories }) {
-      state.categoryList = [...categories];
+    toggleLoading(state) {
+      state.loading = !state.loading;
     },
     failFetchCategory(state, { message }) {
       state.errorMessage = message;
     },
-    toggleLoading(state) {
-      state.loading = !state.loading;
+    editedCategoryName(state, { categoryName }) {
+      state.updateCategoryName = categoryName;
+    },
+    doneGetAllCategories(state, { categories }) {
+      state.categoryList = [...categories];
     },
     donePostCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました。';
@@ -131,16 +134,12 @@ export default {
       state.deleteCategoryName = '';
       state.doneMessage = 'カテゴリーの削除が完了しました。';
     },
-    doneUpdateCategory(state) {
-      state.doneMessage = 'カテゴリーの更新が完了しました。';
-    },
     doneGetCategoryDetail(state, categoryDetail) {
       state.updateCategoryId = categoryDetail.id;
       state.updateCategoryName = categoryDetail.name;
     },
-    editedCategoryName(state, { categoryName }) {
-      // 編集後の値、表示と紐付いている
-      state.updateCategoryName = categoryName;
+    doneUpdateCategory(state) {
+      state.doneMessage = 'カテゴリーの更新が完了しました。';
     },
   },
 };

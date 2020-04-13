@@ -38,7 +38,6 @@
     <div v-if="errorMessage" class="category-management-edit__notice">
       <app-text bg-error>{{ errorMessage }}</app-text>
     </div>
-
   </form>
 </template>
 <script>
