@@ -53,6 +53,39 @@ export default {
         });
       });
     },
+    editedCategoryName({ commit }, categoryName) {
+      commit('editedCategoryName', { categoryName });
+    },
+    getCategoryDetail({ commit, rootGetters }, categoryId) {
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: `/category/${categoryId}`,
+      }).then((response) => {
+        const categoryDetail = response.data.category;
+        commit('doneGetCategoryDetail', categoryDetail);
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+      });
+    },
+    updateCategory({ commit, rootGetters }) {
+      commit('toggleLoading');
+      const data = new URLSearchParams();
+      data.append('id', this.state.categories.updateCategoryId);
+      data.append('name', this.state.categories.updateCategoryName);
+      axios(rootGetters['auth/token'])({
+        method: 'PUT',
+        url: `/category/${this.state.categories.updateCategoryId}`,
+        data,
+      }).then((response) => {
+        commit('toggleLoading');
+        const categoryDetail = response.data.category;
+        commit('doneGetCategoryDetail', categoryDetail);
+        commit('doneUpdateCategory');
+      }).catch((err) => {
+        commit('toggleLoading');
+        commit('failFetchCategory', { message: err.message });
+      });
+    },
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
       commit('confirmDeleteCategory', { categoryId, categoryName });
     },
@@ -77,14 +110,17 @@ export default {
       state.errorMessage = '';
       state.doneMessage = '';
     },
-    doneGetAllCategories(state, { categories }) {
-      state.categoryList = [...categories];
+    toggleLoading(state) {
+      state.loading = !state.loading;
     },
     failFetchCategory(state, { message }) {
       state.errorMessage = message;
     },
-    toggleLoading(state) {
-      state.loading = !state.loading;
+    editedCategoryName(state, { categoryName }) {
+      state.updateCategoryName = categoryName;
+    },
+    doneGetAllCategories(state, { categories }) {
+      state.categoryList = [...categories];
     },
     donePostCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました。';
@@ -97,6 +133,13 @@ export default {
       state.deleteCategoryId = null;
       state.deleteCategoryName = '';
       state.doneMessage = 'カテゴリーの削除が完了しました。';
+    },
+    doneGetCategoryDetail(state, categoryDetail) {
+      state.updateCategoryId = categoryDetail.id;
+      state.updateCategoryName = categoryDetail.name;
+    },
+    doneUpdateCategory(state) {
+      state.doneMessage = 'カテゴリーの更新が完了しました。';
     },
   },
 };
