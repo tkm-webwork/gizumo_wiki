@@ -64,14 +64,17 @@ export default {
       state.errorMessage = '';
       state.doneMessage = '';
     },
-    doneGetAllCategories(state, { categories }) {
-      state.categoryList = [...categories];
+    toggleLoading(state) {
+      state.loading = !state.loading;
     },
     failFetchCategory(state, { message }) {
       state.errorMessage = message;
     },
-    toggleLoading(state) {
-      state.loading = !state.loading;
+    editedCategoryName(state, { categoryName }) {
+      state.updateCategoryName = categoryName;
+    },
+    doneGetAllCategories(state, { categories }) {
+      state.categoryList = [...categories];
     },
     donePostCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました。';
@@ -80,6 +83,13 @@ export default {
       state.deleteCategoryId = null;
       state.deleteCategoryName = '';
       state.doneMessage = 'カテゴリーの削除が完了しました。';
+    },
+    doneGetCategoryDetail(state, categoryDetail) {
+      state.updateCategoryId = categoryDetail.id;
+      state.updateCategoryName = categoryDetail.name;
+    },
+    doneUpdateCategory(state) {
+      state.doneMessage = 'カテゴリーの更新が完了しました。';
     },
   },
 };
