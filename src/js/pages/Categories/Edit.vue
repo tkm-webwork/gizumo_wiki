@@ -17,11 +17,6 @@
 import { CategoryEdit } from '@Components/molecules';
 
 export default {
-  data() {
-    return {
-      name: '',
-    };
-  },
   components: {
     appCategoryEdit: CategoryEdit,
   },
