@@ -3,9 +3,13 @@
     <app-category-edit
       :disabled="loading ? true : false"
       :access="access"
+      :current-category-name="currentCategoryName"
+      :error-message="errorMessage"
+      :done-message="doneMessage"
       @clearMessage="clearMessage"
+      @handleSubmit="updateCategory"
+      @editedCategory="editedCategory"
     />
-    <p>{{ this.$store.getters['categories/updateCategoryName'] }}</p>
   </div>
 </template>
 
@@ -33,8 +37,14 @@ export default {
     loading() {
       return this.$store.state.categories.loading;
     },
-    showCategory() {
-      return this.$store.state.updateCategoryId;
+    currentCategoryName() {
+      return this.$store.state.categories.updateCategoryName;
+    },
+    errorMessage() {
+      return this.$store.state.categories.errorMessage;
+    },
+    doneMessage() {
+      return this.$store.state.categories.doneMessage;
     },
   },
   created() {
@@ -43,6 +53,13 @@ export default {
   methods: {
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
+    },
+    updateCategory() {
+      if (this.loading) return;
+      this.$store.dispatch('categories/updateCategory');
+    },
+    editedCategory($event) {
+      this.$store.dispatch('categories/editedCategory', $event.target.value);
     },
   },
 };
