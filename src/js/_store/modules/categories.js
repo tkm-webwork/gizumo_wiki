@@ -19,9 +19,20 @@ export default {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
-    getAllCategories({ commit }) {
-      const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
-      commit('doneGetAllCategories', payload);
+    getAllCategories({ commit, rootGetters }) {
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: '/category',
+      }).then((response) => {
+        if (response.data.code === 0) throw new Error(response.data.message);
+        const payload = { categories: [] };
+        response.data.categories.forEach((value) => {
+          payload.categories.push(value);
+        });
+        commit('doneGetAllCategories', { payload });
+      }).catch((err) => {
+        commit('failRequest', { message: err.message });
+      });
     },
     postCateogry({ commit, rootGetters }, categoryName) {
       commit('toggleLoading');
@@ -73,8 +84,8 @@ export default {
     editedCategoryName(state, { categoryName }) {
       state.updateCategoryName = categoryName;
     },
-    doneGetAllCategories(state, { categories }) {
-      state.categoryList = [...categories];
+    doneGetAllCategories(state, { payload }) {
+      state.categoryList = [...payload.categories];
     },
     donePostCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました。';

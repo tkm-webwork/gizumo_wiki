@@ -22,6 +22,7 @@
           </td>
           <td>
             <app-router-link
+              :to="`/articles?category=${category.name}`"
               underline
               small
               hover-opacity
@@ -31,6 +32,7 @@
           </td>
           <td>
             <app-router-link
+              :to="`/articles?category/${categories.id}`"
               theme-color
               underline
               hover-opacity
