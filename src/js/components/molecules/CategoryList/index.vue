@@ -32,7 +32,7 @@
           </td>
           <td>
             <app-router-link
-              :to="`/articles?category/${categories.id}`"
+              :to="`/categories/${category.id}`"
               theme-color
               underline
               hover-opacity
@@ -46,7 +46,7 @@
               small
               round
               :disabled="!access.delete"
-              @click="openModal()"
+              @click="openModal(category.id)"
             >
               削除
             </app-button>
@@ -74,7 +74,7 @@
           class="category-list__modal__button"
           bg-danger
           round
-          @click="handleClick"
+          @handleClick="handleClick"
         >
           削除する
         </app-button>
@@ -113,13 +113,12 @@ export default {
     },
   },
   methods: {
-    openModal() {
+    openModal(categoryId) {
       if (!this.access.delete) return;
-      this.$emit('openModal');
+      this.$emit('openModal', categoryId);
     },
     handleClick() {
-      if (!this.access.delete) return;
-      this.$emit('ここにエミットするイベント名が入ります');
+      this.$emit('handleClick');
     },
   },
 };

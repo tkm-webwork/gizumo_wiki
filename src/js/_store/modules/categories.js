@@ -19,6 +19,9 @@ export default {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
+    confirmDeleteCategory({ commit }, categoryId) {
+      commit('confirmDeleteCategory', { categoryId });
+    },
     getAllCategories({ commit, rootGetters }) {
       axios(rootGetters['auth/token'])({
         method: 'GET',
@@ -80,6 +83,12 @@ export default {
     },
     failFetchCategory(state, { message }) {
       state.errorMessage = message;
+    },
+    confirmDeleteCategory(state, { categoryId }) {
+      state.deleteCategoryId = categoryId;
+    },
+    deleteCategory(state) {
+      state.deleteArticleId = null;
     },
     editedCategoryName(state, { categoryName }) {
       state.updateCategoryName = categoryName;
