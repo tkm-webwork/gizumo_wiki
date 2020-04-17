@@ -12,11 +12,13 @@
       カテゴリー一覧へ戻る
     </app-router-link>
     <app-input
+      v-validate="'required'"
       class="category-management-edit__input"
       name="updateCategory"
       type="text"
       placeholder="カテゴリー名を入力してください"
-      data-vv-as=""
+      data-vv-as="カテゴリー名"
+      :error-messages="errors.collect('updateCategory')"
       :value="currentCategoryName"
       @updateValue="$emit('editedCategory', $event)"
     />
