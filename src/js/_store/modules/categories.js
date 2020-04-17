@@ -103,9 +103,9 @@ export default {
           commit('doneUpdateCategory');
           commit('toggleLoading');
           resolve();
-        }).catch(() => {
-          commit('errorUpdateCategory');
+        }).catch((err) => {
           commit('toggleLoading');
+          commit('failFetchCategory', { message: err.message });
           reject();
         });
       });
@@ -127,9 +127,6 @@ export default {
     },
     updateCategory(state, payload) {
       state.updateCategoryName = payload.name;
-    },
-    errorUpdateCategory(state) {
-      state.errorMessage = 'カテゴリーの更新に失敗しました';
     },
     doneUpdateCategory(state) {
       state.doneMessage = 'カテゴリーの更新が完了しました';
