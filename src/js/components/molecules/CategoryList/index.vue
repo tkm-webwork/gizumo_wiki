@@ -46,7 +46,7 @@
               small
               round
               :disabled="!access.delete"
-              @click="openModal(category.id)"
+              @click="openModal(category.name, category.id)"
             >
               削除
             </app-button>
@@ -68,13 +68,13 @@
           theme-color
           tag="p"
         >
-          ここに削除するカテゴリー名が入ります
+          {{ deleteCategoryName }}
         </app-text>
         <app-button
           class="category-list__modal__button"
           bg-danger
           round
-          @handleClick="handleClick"
+          @click="$emit('handleClick')"
         >
           削除する
         </app-button>
@@ -101,6 +101,10 @@ export default {
         return [];
       },
     },
+    deleteCategoryName: {
+      type: String,
+      default: '',
+    },
     categories: {
       type: Array,
       default() {
@@ -113,12 +117,9 @@ export default {
     },
   },
   methods: {
-    openModal(categoryId) {
+    openModal(categoryName, categoryId) {
       if (!this.access.delete) return;
-      this.$emit('openModal', categoryId);
-    },
-    handleClick() {
-      this.$emit('handleClick');
+      this.$emit('openModal', categoryName, categoryId);
     },
   },
 };

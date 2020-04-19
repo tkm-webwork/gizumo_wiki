@@ -75,16 +75,25 @@ export default {
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
     },
-    openModal() {
+    handleSubmit() {
+      if (this.loading) return;
+      this.$store.dispatch('categories/postCateogry', this.category)
+        .then(() => {
+          this.category = '';
+          this.$store.dispatch('categories/getAllCategories');
+        });
+    },
+    openModal(categoryName, categoryId) {
       this.toggleModal();
       this.$store.dispatch('categories/clearMessage');
-      this.$store.dispatch('categories/confirmDeleteCategory', categoryId);
+      this.$store.dispatch('categories/confirmDeleteCategory',
+        { categoryName, categoryId });
     },
-    deleteCategory(categoryId) {
-      this.$store.dispatch('articles/deleteCategory')
+    deleteCategory() {
+      this.$store.dispatch('categories/deleteCategory', { id: this.deleteCategoryId })
         .then(() => {
           this.toggleModal();
-          this.$store.dispatch('articles/getAllCategories');
+          this.$store.dispatch('categories/getAllCategories');
         });
     },
   },
