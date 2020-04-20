@@ -18,7 +18,8 @@
         :categories="categoryList"
         :delete-category-name="deleteCategoryName"
         :access="access"
-        @openModal="openModal"
+        @openModal="openDeleteModal"
+        @handleClick="deleteCategory"
       />
     </section>
   </div>
@@ -82,9 +83,10 @@ export default {
           this.$store.dispatch('categories/getAllCategories');
         });
     },
-    openModal() {
+    openDeleteModal(category) {
       this.toggleModal();
       this.$store.dispatch('categories/clearMessage');
+      this.$store.dispatch('categories/openDeleteModal', category);
     },
     addCategory() {
       if (this.loading) return;
@@ -96,6 +98,13 @@ export default {
     },
     clearCategoryName() {
       this.category = '';
+    },
+    deleteCategory() {
+      this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId)
+        .then(() => {
+          this.toggleModal();
+          this.$store.dispatch('categories/getAllCategories');
+        });
     },
   },
 };

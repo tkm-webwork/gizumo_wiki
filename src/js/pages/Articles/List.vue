@@ -45,6 +45,9 @@ export default {
   created() {
     const categoryName = this.$route.query.category ? this.$route.query.category : null;
     this.fetchArticles(categoryName);
+    if (categoryName) {
+      this.title = categoryName;
+    }
   },
   methods: {
     openModal(articleId) {
