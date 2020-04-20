@@ -19,9 +19,19 @@ export default {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
-    getAllCategories({ commit }) {
-      const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
-      commit('doneGetAllCategories', payload);
+    getAllCategories({ commit, rootGetters }) {
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: '/category',
+      }).then((response) => {
+        const payload = { categories: [] };
+        response.data.categories.forEach((val) => {
+          payload.categories.push(val);
+        });
+        commit('doneGetAllCategories', payload);
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+      });
     },
     postCateogry({ commit, rootGetters }, categoryName) {
       commit('toggleLoading');
@@ -43,11 +53,47 @@ export default {
         });
       });
     },
-    deleteCategory({ commit, rootGetters }, categoryId) {
+    getCategoryDetail({ commit, rootGetters }, categoryId) {
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: `/category/${categoryId}`,
+      }).then((response) => {
+        const categoryDetail = response.data.category;
+        commit('doneGetCategoryDetail', categoryDetail);
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+      });
+    },
+    updateCategory({ commit, rootGetters }) {
+      commit('toggleLoading');
+      const data = new URLSearchParams();
+      data.append('id', this.state.categories.updateCategoryId);
+      data.append('name', this.state.categories.updateCategoryName);
+      axios(rootGetters['auth/token'])({
+        method: 'PUT',
+        url: `/category/${this.state.categories.updateCategoryId}`,
+        data,
+      }).then((response) => {
+        commit('toggleLoading');
+        const categoryDetail = response.data.category;
+        commit('doneGetCategoryDetail', categoryDetail);
+        commit('doneUpdateCategory');
+      }).catch((err) => {
+        commit('toggleLoading');
+        commit('failFetchCategory', { message: err.message });
+      });
+    },
+    editedCategoryName({ commit }, categoryName) {
+      commit('editedCategoryName', { categoryName });
+    },
+    confirmDeleteCategory({ commit }, { categoryName, categoryId }) {
+      commit('confirmDeleteCategory', { categoryName, categoryId });
+    },
+    deleteCategory({ commit, rootGetters }, { id }) {
       return new Promise((resolve) => {
         axios(rootGetters['auth/token'])({
           method: 'DELETE',
-          url: `/category/${categoryId}`,
+          url: `/category/${id}`,
         }).then((response) => {
           // NOTE: エラー時はresponse.data.codeが0で返ってくる。
           if (response.data.code === 0) throw new Error(response.data.message);
@@ -64,32 +110,36 @@ export default {
       state.errorMessage = '';
       state.doneMessage = '';
     },
-    toggleLoading(state) {
-      state.loading = !state.loading;
+    doneGetAllCategories(state, { categories }) {
+      state.categoryList = [...categories];
     },
     failFetchCategory(state, { message }) {
       state.errorMessage = message;
     },
-    editedCategoryName(state, { categoryName }) {
-      state.updateCategoryName = categoryName;
-    },
-    doneGetAllCategories(state, { categories }) {
-      state.categoryList = [...categories];
+    toggleLoading(state) {
+      state.loading = !state.loading;
     },
     donePostCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました。';
+    },
+    confirmDeleteCategory(state, { categoryName, categoryId }) {
+      state.deleteCategoryName = categoryName;
+      state.deleteCategoryId = categoryId;
     },
     doneDeleteCategory(state) {
       state.deleteCategoryId = null;
       state.deleteCategoryName = '';
       state.doneMessage = 'カテゴリーの削除が完了しました。';
     },
+    doneUpdateCategory(state) {
+      state.doneMessage = 'カテゴリーの更新が完了しました。';
+    },
     doneGetCategoryDetail(state, categoryDetail) {
       state.updateCategoryId = categoryDetail.id;
       state.updateCategoryName = categoryDetail.name;
     },
-    doneUpdateCategory(state) {
-      state.doneMessage = 'カテゴリーの更新が完了しました。';
+    editedCategoryName(state, { categoryName }) {
+      state.updateCategoryName = categoryName;
     },
   },
 };
