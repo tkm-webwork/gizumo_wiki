@@ -22,6 +22,7 @@
           </td>
           <td>
             <app-router-link
+              :to="`/articles?category=${category.name}`"
               underline
               small
               hover-opacity
@@ -31,6 +32,7 @@
           </td>
           <td>
             <app-router-link
+              :to="`/categories/${category.id}`"
               theme-color
               underline
               hover-opacity
@@ -44,7 +46,7 @@
               small
               round
               :disabled="!access.delete"
-              @click="openModal()"
+              @click="openModal(category)"
             >
               削除
             </app-button>
@@ -66,7 +68,7 @@
           theme-color
           tag="p"
         >
-          ここに削除するカテゴリー名が入ります
+          {{ deleteCategoryName }}
         </app-text>
         <app-button
           class="category-list__modal__button"
@@ -109,15 +111,19 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    deleteCategoryName: {
+      type: String,
+      default: '',
+    },
   },
   methods: {
-    openModal() {
+    openModal(category) {
       if (!this.access.delete) return;
-      this.$emit('openModal');
+      this.$emit('openModal', category);
     },
     handleClick() {
       if (!this.access.delete) return;
-      this.$emit('ここにエミットするイベント名が入ります');
+      this.$emit('handleClick');
     },
   },
 };

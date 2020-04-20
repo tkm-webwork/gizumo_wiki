@@ -21,9 +21,21 @@ export default {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
-    getAllCategories({ commit }) {
-      const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
-      commit('doneGetAllCategories', payload);
+    getAllCategories({ commit, rootGetters }) {
+      // const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: '/category',
+      }).then((res) => {
+        // const payload = { categories: res.data.categories };
+        const payload = { categories: [] };
+        res.data.categories.forEach((value) => {
+          payload.categories.push(value);
+        });
+        commit('doneGetAllCategories', payload);
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+      });
     },
     getCategoryDetail({ commit, rootGetters }, categoryId) {
       axios(rootGetters['auth/token'])({
@@ -44,7 +56,6 @@ export default {
         }).then((response) => {
           // NOTE: エラー時はresponse.data.codeが0で返ってくる。
           if (response.data.code === 0) throw new Error(response.data.message);
-
           commit('doneDeleteCategory');
           resolve();
         }).catch((err) => {
@@ -100,6 +111,9 @@ export default {
     editedCategory({ commit }, category) {
       commit('editedCategory', category);
     },
+    openDeleteModal({ commit }, category) {
+      commit('openDeleteModal', category);
+    },
   },
   mutations: {
     editedCategory(state, category) {
@@ -108,9 +122,6 @@ export default {
     clearMessage(state) {
       state.errorMessage = '';
       state.doneMessage = '';
-    },
-    donePostCategory(state) {
-      state.doneMessage = 'カテゴリーの作成が完了しました';
     },
     updateCategory(state, payload) {
       state.updateCategoryName = payload.name;
@@ -133,6 +144,13 @@ export default {
     },
     donePostCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました。';
+    },
+    openDeleteModal(state, category) {
+      state.deleteCategoryId = category.id;
+      state.deleteCategoryName = category.name;
+    },
+    doneDeleteCategory(state) {
+      state.doneMessage = 'カテゴリーの削除が完了しました。';
     },
   },
 };
