@@ -27,7 +27,6 @@ export default {
         method: 'GET',
         url: '/category',
       }).then((res) => {
-        // const payload = { categories: res.data.categories };
         const payload = { categories: [] };
         res.data.categories.forEach((value) => {
           payload.categories.push(value);
