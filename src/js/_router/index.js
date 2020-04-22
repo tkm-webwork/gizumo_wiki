@@ -7,7 +7,7 @@ import Signout from '@Pages/Signout';
 import NotFound from '@Pages/NotFound';
 import Home from '@Pages/Home';
 
-// カテゴリー
+// カテゴリー   以下ページを構成しているファイルをインポート
 import Categories from '@Pages/Categories';
 import CategoryManagement from '@Pages/Categories/Management';
 import CategoryEdit from '@Pages/Categories/Edit';
@@ -144,7 +144,7 @@ const router = new VueRouter({
         },
         {
           name: 'categoryEdit',
-          path: ':id',
+          path: ':id',　//動的セグメント　に登録されている文字列番号 文字列が入っていた場合コンポーネントが呼ばれる
           component: CategoryEdit,
         },
       ],

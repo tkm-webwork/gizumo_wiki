@@ -24,7 +24,7 @@ import AppModal from '@Components/atoms/Modal/index.vue';
 import AppSelect from '@Components/atoms/Select/index.vue';
 
 Validator.localize('ja', ja);
-Vue.use(VeeValidate, { locale: ja });
+Vue.use(, { locale: ja });
 Vue.use(vueSmoothScroll);
 Vue.use(Vuex);
 

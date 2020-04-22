@@ -11,6 +11,7 @@ export default {
     deleteCategoryName: '',
     updateCategoryId: null,
     updateCategoryName: '',
+    doneMessage: '',
   },
   getters: {
     categoryList: state => state.categoryList,
@@ -18,6 +19,26 @@ export default {
   actions: {
     clearMessage({ commit }) {
       commit('clearMessage');
+    },
+    addCategory({ commit, rootGetters }, { category }) {
+      commit('toggleLoading');
+      return new Promise ((resolve) => {
+        const data = new URLSearchParams();
+        data.append('name', category );
+        axios(rootGetters['auth/token'])({
+          method: 'POST',
+          url: '/category',
+          data,
+        }).then(() => {
+          console.log('added!');
+          commit('doneAddCategory');
+          commit('toggleLoading');
+          resolve();
+        }).catch((err) => {
+          commit('failFetchCategory', { message: err.message });
+          commit('toggleLoading');
+        });
+      });
     },
     getAllCategories({ commit, rootGetters }) {
       axios(rootGetters['auth/token'])({
@@ -119,6 +140,9 @@ export default {
       state.updateCategoryId = payload.id;
       state.updateCategoryId = payload.name;
       state.doneMessage = 'カテゴリーの更新が完了しました。';
+    },
+    doneAddCategory(state) {
+      state.doneMessage = 'カテゴリーの作成が完了しました。';
     },
   },
 };
