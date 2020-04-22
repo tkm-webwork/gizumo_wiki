@@ -115,6 +115,9 @@ export default {
     },
   },
   actions: {
+    clearMessage({ commit }) {
+      commit('clearMessage');
+    },
     initPostArticle({ commit }) {
       commit('initPostArticle');
     },
@@ -268,9 +271,6 @@ export default {
           reject();
         });
       });
-    },
-    clearMessage({ commit }) {
-      commit('clearMessage');
     },
   },
 };
