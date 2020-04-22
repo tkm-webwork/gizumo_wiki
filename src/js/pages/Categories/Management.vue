@@ -71,7 +71,6 @@ export default {
   methods: {
     updateValue($event) {
       this[$event.target.name] = $event.target.value;
-      const addCategoryName = this[$event.target.name];
     },
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
