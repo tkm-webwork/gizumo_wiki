@@ -59,7 +59,7 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.(jsx?|vue)$/,
+        test: /\.(jsx?|vue)$/, 
         enforce: 'pre',
         exclude: /node_modules/,
         loader: 'eslint-loader',
@@ -114,7 +114,7 @@ const config = {
   }
 }
 
-if (isDev) {
+if (isDev) { //環境によって、ソースをいじらず、設定ファイルなので、baseURLを切り替え
   config.plugins.push(
     new webpack.DefinePlugin({
       'API_BASE_URL': JSON.stringify('http://api.wiki.gizumo-inc.work/api'),
