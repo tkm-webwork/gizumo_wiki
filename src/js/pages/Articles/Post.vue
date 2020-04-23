@@ -8,6 +8,7 @@
     :category-list="categoryList"
     :loading="loading"
     :error-message="errorMessage"
+    :done-message="doneMessage"
     :access="access"
     @selectedArticleCategory="selectedArticleCategory"
     @postTitle="postTitle"
@@ -70,7 +71,7 @@ export default {
   created() {
     this.$store.dispatch('articles/clearMessage');
     this.$store.dispatch('categories/getAllCategories');
-    this.$store.dispatch('articles/getArticleDetail', parseInt(this.articleId, 10));
+    this.$store.dispatch('articles/initPostArticle');
   },
   methods: {
     postTitle($event) {
@@ -82,7 +83,8 @@ export default {
     handleSubmit() {
       if (this.loading) return;
       this.$store.dispatch('articles/postArticle')
-      .then(() => this.$router.push('/articles'));
+      .then(() => this.$router.push('/articles'))
+      .then(() => this.$store.dispatch('articles/donePostArticle'));
     },
     selectedArticleCategory($event) {
       const categoryName = $event.target.value;

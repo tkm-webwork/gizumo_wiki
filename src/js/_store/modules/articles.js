@@ -121,6 +121,9 @@ export default {
     initPostArticle({ commit }) {
       commit('initPostArticle');
     },
+    donePostArticle({ commit }) {
+      commit('displayDoneMessage', { message: 'ドキュメントを追加しました' });
+    },
     getArticles({ commit, rootGetters }, categoryName) {
       return new Promise((resolve, reject) => {
         axios(rootGetters['auth/token'])({
