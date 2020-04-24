@@ -69,4 +69,9 @@ export default {
   color: #fff;
   font-weight: var(--bold);
 }
+
+
+/* v-bind tag levelが7 trueなら'h1'/falseなら'h${this.level}付与 */
+
+
 </style>

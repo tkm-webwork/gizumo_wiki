@@ -124,4 +124,8 @@ export default {
 .button--pointer {
   cursor: pointer;
 }
+
+/* $(emit) 親コンポーネントにイベントを送出している
+第一引数に発火させたいイベント名を指定。
+これにより@showmenu が発火し親コンポーネントで定義しているshowmenuが実行され、更新される。 */
 </style>
