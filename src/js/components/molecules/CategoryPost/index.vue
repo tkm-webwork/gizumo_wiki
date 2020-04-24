@@ -75,6 +75,7 @@ export default {
       this.$emit('clearMessage');
       this.$validator.validate().then((valid) => {
         if (valid) this.$emit('handleSubmit');
+        console.log(valid);
       });
     },
   },
