@@ -54,6 +54,7 @@ export default {
         });
       });
     },
+<<<<<<< HEAD
     getCategoryDetail({ commit, rootGetters }, categoryId) {
       axios(rootGetters['auth/token'])({
         method: 'GET',
@@ -106,6 +107,8 @@ export default {
         });
       });
     },
+=======
+>>>>>>> task_update_category
   },
   mutations: {
     // posttest(state, { categoryName }) {
@@ -136,18 +139,6 @@ export default {
       state.deleteCategoryId = null;
       state.deleteCategoryName = '';
       state.doneMessage = 'カテゴリーの削除が完了しました。';
-    },
-    doneGetCategoryDetail(state, payload) {
-      state.updateCategoryId = payload.id;
-      state.updateCategoryName = payload.name;
-    },
-    editedCategoryName(state, { categoryName }) {
-      state.updateCategoryName = categoryName;
-    },
-    doneUpdateCategory(state, payload) {
-      state.updateCategoryId = payload.id;
-      state.updateCategoryId = payload.name;
-      state.doneMessage = 'カテゴリーの更新が完了しました。';
     },
   },
 };
