@@ -35,9 +35,11 @@ export default {
     },
     // 課題1で追加
     postCategory({ commit, rootGetters }, categoryName) {
-      // Promiseを使用する理由はサーバからの応答に時間がかかる場合、処理を止めないようにするため
+      // Promiseを使用する理由はサーバからの応答に時間がかかる場合があり、処理を止めないようにするため
       return new Promise((resolve) => {
         commit('toggleLoading');
+        // By default, axios serializes JavaScript objects to JSON.
+        // To send data in the application / x - www - form - urlencoded format instead, you can use one of the following options.
         const data = new URLSearchParams(); // application/x-www-form-urlencoded形式で送る -> keyとvalueを送る方式
         data.append('name', categoryName); // 指定されたキーと値のペアを新しい検索パラメーターとして追加
         axios(rootGetters['auth/token'])({
