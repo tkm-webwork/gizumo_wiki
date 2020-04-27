@@ -1,6 +1,5 @@
 import axios from '@Helpers/axiosDefault';
 
-// https://gizumo-inc.github.io/gizumo_wiki_api/dist/index.html
 export default {
   namespaced: true,
   state: {
@@ -30,32 +29,31 @@ export default {
           payload.categories.push(val);
         });
         commit('doneGetAllCategories', payload);
-        console.log('AAA');
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
       });
     },
+    // 課題1で追加
     postCategory({ commit, rootGetters }, categoryName) {
-      commit('toggleLoading');
-      // 原因はここから
-      // https://github.com/mzabriskie/axios#using-applicationx-www-form-urlencoded-format
-      const data = new URLSearchParams(); // URLの末尾に付け足す文字列の操作に役立つメソッドを定義
-      data.append('name', categoryName); // 指定されたキー/値のペアを新しい検索パラメーターとして追加
+      // Promiseを使用する理由はサーバからの応答に時間がかかる場合があり、処理を止めないようにするため
       return new Promise((resolve) => {
-        // rootGettersを引数にすることで全てのファイルのgettersを使用することができる
+        commit('toggleLoading');
+        // By default, axios serializes JavaScript objects to JSON.
+        // To send data in the application / x - www - form - urlencoded format instead, you can use one of the following options.
+        const data = new URLSearchParams(); // application/x-www-form-urlencoded形式で送る -> keyとvalueを送る方式
+        data.append('name', categoryName); // 指定されたキーと値のペアを新しい検索パラメーターとして追加
         axios(rootGetters['auth/token'])({
-          method: 'POST',
+          method: 'Post',
           url: '/category',
           data,
         }).then(() => {
+          commit('doneAddCategory');
           commit('toggleLoading');
-          commit('donePostCategory'); // donePostCategory → [state.doneMessage = 'カテゴリーの追加が完了しました。';]
           resolve();
-        }).catch((err) => {
-          console.log(err.response);
-          commit('failFetchCategory', { message: err.message });
-          commit('toggleLoading');
         });
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+        commit('toggleLoading');
       });
     },
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
@@ -116,7 +114,7 @@ export default {
       state.doneMessage = '';
     },
     doneGetAllCategories(state, { categories }) {
-      state.categoryList = [...categories].reverse(); // 配列を逆順に格納
+      state.categoryList = [...categories].reverse();
     },
     failFetchCategory(state, { message }) {
       state.errorMessage = message;
@@ -127,6 +125,9 @@ export default {
     confirmDeleteCategory(state, { categoryId, categoryName }) {
       state.deleteCategoryId = categoryId;
       state.deleteCategoryName = categoryName;
+    },
+    doneAddCategory(state) {
+      state.doneMessage = 'カテゴリーの追加が完了しました。';
     },
     doneDeleteCategory(state) {
       state.deleteCategoryId = null;
