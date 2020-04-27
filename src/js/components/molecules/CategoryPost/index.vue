@@ -1,6 +1,8 @@
 <template lang="html">
   <form @submit.prevent="addCategory">
     <app-heading :level="1">カテゴリー管理</app-heading>
+    <!-- v-validate='' : vee-validateプラグインで指定したいバリデーションのルールを指定 -->
+    <!-- data-vv-as='' : vee-validateプラグインで指定したバリデーションエラーが発生した時のエラー表示に使用するフィールド名を指定 -->
     <app-input
       v-validate="'required'"
       name="category"
@@ -11,6 +13,7 @@
       :value="category"
       @updateValue="$emit('udpateValue', $event)"
     />
+
     <app-button
       class="category-management-post__submit"
       button-type="submit"

@@ -134,17 +134,17 @@ const router = new VueRouter({
       ],
     },
     {
-      path: '/categories',
+      path: '/categories', // カテゴリー項目のネスト
       component: Categories,
-      children: [
+      children: [ // 複数のコンポーネントをネストすることになっても対応できる
         {
-          name: 'categoryManegement',
+          name: 'categoryManagement',
           path: '',
           component: CategoryManagement,
         },
         {
           name: 'categoryEdit',
-          path: ':id',
+          path: ':id', // vue-routerではパスの一部をパラメータとして扱うことができる
           component: CategoryEdit,
         },
       ],

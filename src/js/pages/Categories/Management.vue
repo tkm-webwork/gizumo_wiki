@@ -70,16 +70,26 @@ export default {
   },
   methods: {
     updateValue($event) {
-      this[$event.target.name] = $event.target.value;
+      this[$event.target.name] = $event.target.value; // この記述でinputされた文字列の取得
     },
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
     },
+    // addCategory() { // 追加
+    //   if (this.loading) return;
+    //   this.$store.dispatch('categories/postCateogry', this.category)
+    //     .then(() => {
+    //       this.category = '';
+    //       this.$store.dispatch('categories/getAllCategories');
+    //     });
+    // },
     handleSubmit() {
       if (this.loading) return;
-      this.$store.dispatch('categories/postCateogry', this.category)
+      // console.log('CategoryPostのemitにより動く');
+      this.$store.dispatch('categories/postCategory', this.category)
         .then(() => {
           this.category = '';
+          console.log('AA');
           this.$store.dispatch('categories/getAllCategories');
         });
     },
