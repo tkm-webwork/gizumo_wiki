@@ -128,9 +128,6 @@ export default {
       state.deleteCategoryId = categoryId;
       state.deleteCategoryName = categoryName;
     },
-    donePostCategory(state) {
-      state.doneMessage = 'カテゴリーの追加が完了しました。';
-    },
     doneDeleteCategory(state) {
       state.deleteCategoryId = null;
       state.deleteCategoryName = '';
