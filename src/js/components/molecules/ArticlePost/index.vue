@@ -1,9 +1,5 @@
 <template lang="html">
   <div class="article-post">
-    <div v-if="doneMessage" class="article-post__notice--update">
-      <app-text bg-success>{{ doneMessage }}</app-text>
-    </div>
-
     <div v-if="errorMessage" class="article-post__notice--update">
       <app-text bg-error>{{ errorMessage }}</app-text>
     </div>
@@ -32,7 +28,7 @@
             ---
           </option>
           <option
-            v-for="(category) in categoryList"
+            v-for="category in categoryList"
             :key="category.id"
             :value="category.name"
             :selected="currentCategoryName === category.name ? true : false "
@@ -56,7 +52,7 @@
             data-vv-as="記事のタイトル"
             :error-messages="errors.collect('title')"
             :value="articleTitle"
-            @updateValue="$emit('postTitle', $event)"
+            @updateValue="$emit('editedTitle', $event)"
           />
         </div>
 
@@ -69,7 +65,7 @@
             data-vv-as="記事の本文"
             :error-messages="errors.collect('content')"
             :value="articleContent"
-            @updateValue="$emit('postContent', $event)"
+            @updateValue="$emit('editedContent', $event)"
           />
         </div>
         <app-button
@@ -135,10 +131,6 @@ export default {
     loading: {
       type: Boolean,
       default: false,
-    },
-    doneMessage: {
-      type: String,
-      default: '',
     },
     errorMessage: {
       type: String,

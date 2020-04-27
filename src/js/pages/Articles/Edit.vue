@@ -9,7 +9,6 @@
     :loading="loading"
     :done-message="doneMessage"
     :error-message="errorMessage"
-    @clearMessage="clearMessage"
     :access="access"
     @selectedArticleCategory="selectedArticleCategory"
     @editedTitle="editedTitle"

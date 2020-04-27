@@ -11,8 +11,8 @@
     :done-message="doneMessage"
     :access="access"
     @selectedArticleCategory="selectedArticleCategory"
-    @postTitle="postTitle"
-    @postContent="postContent"
+    @editedTitle="editedTitle"
+    @editedContent="editedContent"
     @handleSubmit="handleSubmit"
   />
 </template>
@@ -74,17 +74,17 @@ export default {
     this.$store.dispatch('articles/initPostArticle');
   },
   methods: {
-    postTitle($event) {
+    editedTitle($event) {
       this.$store.dispatch('articles/editedTitle', $event.target.value);
     },
-    postContent($event) {
+    editedContent($event) {
       this.$store.dispatch('articles/editedContent', $event.target.value);
     },
     handleSubmit() {
       if (this.loading) return;
       this.$store.dispatch('articles/postArticle')
-      .then(() => this.$router.push('/articles'))
-      .then(() => this.$store.dispatch('articles/donePostArticle'));
+        .then(() => this.$router.push('/articles'))
+        .then(() => this.$store.dispatch('articles/donePostArticle'));
     },
     selectedArticleCategory($event) {
       const categoryName = $event.target.value;
