@@ -11,6 +11,7 @@ export default {
     deleteCategoryName: '',
     updateCategoryId: null,
     updateCategoryName: '',
+    category: '',
   },
   getters: {
     categoryList: state => state.categoryList,
@@ -27,6 +28,7 @@ export default {
         const payload = { categories: [] };
         response.data.categories.forEach((val) => {
           payload.categories.push(val);
+          console.log(payload);
         });
         commit('doneGetAllCategories', payload);
       }).catch((err) => {
@@ -84,8 +86,35 @@ export default {
         commit('toggleLoading');
       });
     },
+    postNewCategory({ commit, rootGetters }, categoryName) {
+      return new Promise((resolve, reject) => {
+        commit('toggleLoading');
+        const data = new URLSearchParams();
+        data.append('name', categoryName);
+        axios(rootGetters['auth/token'])({
+          method: 'POST',
+          url: '/category/',
+          data,
+        }).then(() => {
+          commit('toggleLoading');
+          commit('testmessage');
+          resolve();
+        }).catch((err) => {
+          commit('toggleLoading');
+          commit('failFetchCategory', { message: err.message });
+          reject();
+        });
+      });
+    },
   },
   mutations: {
+    // posttest(state, { categoryName }) {
+    //   console.log('ok3');
+    //   state.targetCategoryName = categoryName;
+    // },
+    testmessage(state) {
+      state.doneMessage = 'カテゴリーの追加が完了しました';
+    },
     clearMessage(state) {
       state.errorMessage = '';
       state.doneMessage = '';
