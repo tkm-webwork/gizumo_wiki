@@ -19,7 +19,7 @@
       placeholder="カテゴリー名を入力してください"
       data-vv-as="カテゴリー名"
       :value="updateCategoryName"
-      :error-message="errors.collect('updateCategory')"
+      :error-messages="errors.collect('updateCategory')"
       @updateValue="$emit('updateValue', $event)"
     />
     <app-button
@@ -54,6 +54,10 @@ export default {
     appText: Text,
   },
   props: {
+    updateCategoryName: {
+      type: String,
+      default: '',
+    },
     disabled: {
       type: Boolean,
       default: false,
@@ -61,10 +65,6 @@ export default {
     access: {
       type: Object,
       default: () => ({}),
-    },
-    updateCategoryName: {
-      type: String,
-      default: '',
     },
     errorMessage: {
       type: String,

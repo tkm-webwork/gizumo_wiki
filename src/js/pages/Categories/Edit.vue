@@ -32,9 +32,6 @@ export default {
     loading() {
       return this.$store.state.categories.loading;
     },
-    updateCategoryId() {
-      return this.$store.state.categories.updateCategoryId;
-    },
     updateCategoryName() {
       return this.$store.state.categories.updateCategoryName;
     },
