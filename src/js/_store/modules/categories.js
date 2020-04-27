@@ -1,5 +1,6 @@
 import axios from '@Helpers/axiosDefault';
 
+// https://gizumo-inc.github.io/gizumo_wiki_api/dist/index.html
 export default {
   namespaced: true,
   state: {
@@ -29,8 +30,32 @@ export default {
           payload.categories.push(val);
         });
         commit('doneGetAllCategories', payload);
+        console.log('AAA');
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
+      });
+    },
+    postCategory({ commit, rootGetters }, categoryName) {
+      commit('toggleLoading');
+      // 原因はここから
+      // https://github.com/mzabriskie/axios#using-applicationx-www-form-urlencoded-format
+      const data = new URLSearchParams(); // URLの末尾に付け足す文字列の操作に役立つメソッドを定義
+      data.append('name', categoryName); // 指定されたキー/値のペアを新しい検索パラメーターとして追加
+      return new Promise((resolve) => {
+        // rootGettersを引数にすることで全てのファイルのgettersを使用することができる
+        axios(rootGetters['auth/token'])({
+          method: 'POST',
+          url: '/category',
+          data,
+        }).then(() => {
+          commit('toggleLoading');
+          commit('donePostCategory'); // donePostCategory → [state.doneMessage = 'カテゴリーの追加が完了しました。';]
+          resolve();
+        }).catch((err) => {
+          console.log(err.response);
+          commit('failFetchCategory', { message: err.message });
+          commit('toggleLoading');
+        });
       });
     },
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
@@ -91,7 +116,7 @@ export default {
       state.doneMessage = '';
     },
     doneGetAllCategories(state, { categories }) {
-      state.categoryList = [...categories];
+      state.categoryList = [...categories].reverse(); // 配列を逆順に格納
     },
     failFetchCategory(state, { message }) {
       state.errorMessage = message;
