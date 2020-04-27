@@ -54,61 +54,6 @@ export default {
         });
       });
     },
-<<<<<<< HEAD
-    getCategoryDetail({ commit, rootGetters }, categoryId) {
-      axios(rootGetters['auth/token'])({
-        method: 'GET',
-        url: `/category/${categoryId}`,
-      }).then((response) => {
-        const payload = response.data.category;
-        commit('doneGetCategoryDetail', payload);
-      }).catch((err) => {
-        commit('failFetchCategory', { message: err.message });
-      });
-    },
-    editedCategoryName({ commit }, categoryName) {
-      commit('editedCategoryName', { categoryName });
-    },
-    updateCategory({ commit, rootGetters }) {
-      commit('toggleLoading');
-      const data = new URLSearchParams();
-      data.append('id', this.state.categories.updateCategoryId);
-      data.append('name', this.state.categories.updateCategoryName);
-      axios(rootGetters['auth/token'])({
-        method: 'PUT',
-        url: `/category/${this.state.categories.updateCategoryId}`,
-        data,
-      }).then((response) => {
-        const payload = response.data.category;
-        commit('doneUpdateCategory', payload);
-        commit('toggleLoading');
-      }).catch((err) => {
-        commit('failFetchCategory', { message: err.message });
-        commit('toggleLoading');
-      });
-    },
-    postNewCategory({ commit, rootGetters }, categoryName) {
-      return new Promise((resolve, reject) => {
-        commit('toggleLoading');
-        const data = new URLSearchParams();
-        data.append('name', categoryName);
-        axios(rootGetters['auth/token'])({
-          method: 'POST',
-          url: '/category/',
-          data,
-        }).then(() => {
-          commit('toggleLoading');
-          commit('testmessage');
-          resolve();
-        }).catch((err) => {
-          commit('toggleLoading');
-          commit('failFetchCategory', { message: err.message });
-          reject();
-        });
-      });
-    },
-=======
->>>>>>> task_update_category
   },
   mutations: {
     // posttest(state, { categoryName }) {
