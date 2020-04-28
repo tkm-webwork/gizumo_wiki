@@ -61,6 +61,7 @@ export default {
         renderer,
         /* renderer: new marked.Renderer(), */
         highlight: (code, lang) => hljs.highlightAuto(code, [lang]).value,
+        sanitize: true,
         breaks: false,
         smartLists: true,
       });

@@ -259,10 +259,12 @@ export default {
           url: '/article',
           data,
         }).then(() => {
+          console.log('success');
           commit('toggleLoading');
           commit('displayDoneMessage', { message: 'ドキュメントを作成しました' });
           resolve();
         }).catch((err) => {
+          console.log('fail');
           commit('toggleLoading');
           commit('failRequest', { message: err.message });
           reject();
