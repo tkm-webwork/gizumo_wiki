@@ -266,7 +266,6 @@ export default {
           data,
         }).then(() => {
           commit('toggleLoading');
-          commit('displayDoneMessage', { message: 'ドキュメントを作成しました' });
           resolve();
         }).catch((err) => {
           commit('toggleLoading');
