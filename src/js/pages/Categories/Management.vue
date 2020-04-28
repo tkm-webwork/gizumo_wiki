@@ -102,9 +102,9 @@ export default {
     deleteCategory() {
       this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId)
         .then(() => {
-          this.toggleModal();
           this.$store.dispatch('categories/getAllCategories');
         });
+      this.toggleModal();
     },
   },
 };
