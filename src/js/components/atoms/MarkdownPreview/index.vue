@@ -2,7 +2,7 @@
   <div :class="wrapperClasses">
     <div
       :class="classes"
-      v-html="$sanitize(marked)"
+      v-html="marked"
     />
   </div>
 </template>
@@ -10,6 +10,7 @@
 <script>
 import marked from 'marked';
 import hljs from 'highlight.js';
+import sanitizeHTML from 'sanitize-html';
 
 export default {
   props: {
@@ -64,7 +65,8 @@ export default {
         breaks: false,
         smartLists: true,
       });
-      return marked(this.markdownContent);
+      const convertHtml = marked(this.markdownContent);
+      return sanitizeHTML(convertHtml);
     },
   },
   mounted() {
