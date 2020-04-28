@@ -8,6 +8,7 @@
     :category-list="categoryList"
     :loading="loading"
     :done-message="doneMessage"
+    :error-message="errorMessage"
     :access="access"
     @selectedArticleCategory="selectedArticleCategory"
     @editedTitle="editedTitle"
@@ -59,6 +60,9 @@ export default {
     },
     doneMessage() {
       return this.$store.state.articles.doneMessage;
+    },
+    errorMessage() {
+      return this.$store.state.articles.errorMessage;
     },
     access() {
       return this.$store.getters['auth/access'];

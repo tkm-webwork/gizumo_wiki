@@ -115,8 +115,14 @@ export default {
     },
   },
   actions: {
+    clearMessage({ commit }) {
+      commit('clearMessage');
+    },
     initPostArticle({ commit }) {
       commit('initPostArticle');
+    },
+    donePostArticle({ commit }) {
+      commit('displayDoneMessage', { message: 'ドキュメントを追加しました' });
     },
     getArticles({ commit, rootGetters }, categoryName) {
       return new Promise((resolve, reject) => {
@@ -260,7 +266,6 @@ export default {
           data,
         }).then(() => {
           commit('toggleLoading');
-          commit('displayDoneMessage', { message: 'ドキュメントを作成しました' });
           resolve();
         }).catch((err) => {
           commit('toggleLoading');
@@ -268,9 +273,6 @@ export default {
           reject();
         });
       });
-    },
-    clearMessage({ commit }) {
-      commit('clearMessage');
     },
   },
 };
