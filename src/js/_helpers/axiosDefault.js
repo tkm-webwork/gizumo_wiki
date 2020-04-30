@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export default (token = null) => { //tokenを付与している
+export default (token = null) => {
   const headers = {};
   if (token) Object.assign(headers, { Authorization: `Bearer ${token}` });
 

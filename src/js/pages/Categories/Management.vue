@@ -86,8 +86,7 @@ export default {
     openModal(categoryId, categoryName) {
       this.toggleModal();
       this.$store.dispatch('categories/clearMessage');
-      this.$store.dispatch('categories/confirmDeleteCategory', categoryId, categoryName );
-      // ここでcategoryIdをdeleteCategoryIdに代入してdeleteCategoryで使う？？
+      this.$store.dispatch('categories/confirmDeleteCategory', categoryId, categoryName);
     },
     handleClick() {
       this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId)
