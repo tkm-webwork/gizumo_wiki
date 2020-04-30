@@ -9,7 +9,7 @@
         :access="access"
         @udpateValue="updateValue"
         @clearMessage="clearMessage"
-        @handleSubmit="addCategory"
+        @handleSubmit="handleSubmit"
       />
     </section>
     <section class="category-management-list">
@@ -19,6 +19,7 @@
         :delete-category-name="deleteCategoryName"
         :access="access"
         @openModal="openModal"
+        @handleClick="handleClick"
       />
     </section>
   </div>
@@ -82,9 +83,18 @@ export default {
           this.$store.dispatch('categories/getAllCategories');
         });
     },
-    openModal() {
+    openModal(categoryId, categoryName) {
       this.toggleModal();
       this.$store.dispatch('categories/clearMessage');
+      this.$store.dispatch('categories/confirmDeleteCategory', categoryId, categoryName );
+      // ここでcategoryIdをdeleteCategoryIdに代入してdeleteCategoryで使う？？
+    },
+    handleClick() {
+      this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId)
+        .then(() => {
+          this.$store.dispatch('categories/getAllCategories');
+        });
+      this.toggleModal();
     },
   },
 };
