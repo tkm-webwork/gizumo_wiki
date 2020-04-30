@@ -19,22 +19,44 @@ export default {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
-    getAllCategories({ commit }) {
-      const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
-      commit('doneGetAllCategories', payload);
+    getAllCategories({ commit, rootGetters }) {
+      return new Promise(() => {
+        axios(rootGetters['auth/token'])({
+          method: 'GET',
+          url: '/category',
+        }).then((response) => {
+          const payload = { categories: [] };
+            response.data.categories.forEach((value) => {
+
+              payload.categories.push(value);
+              console.log('get!');
+            });
+
+            // $.each
+            // +=
+
+            //  {
+            //   id: response.data.categories.id,
+            //   name: response.data.categories.name,
+            //   }
+          commit('doneGetAllCategories', payload);
+        }).catch((err) => {
+          commit('failFetchCategory', { message: err.message });
+        });
+      });
     },
     postCateogry({ commit, rootGetters }, categoryName) {
       commit('toggleLoading');
       return new Promise ((resolve) => {
         const data = new URLSearchParams();
-        data.append('name', category );
+        data.append('name', categoryName );
         axios(rootGetters['auth/token'])({
           method: 'POST',
           url: '/category',
           data,
         }).then(() => {
           console.log('added!');
-          commit('doneAddCategory');
+          commit('donePostCategory');
           commit('toggleLoading');
           resolve();
         }).catch((err) => {
@@ -42,6 +64,10 @@ export default {
           commit('toggleLoading');
         });
       });
+    },
+    confirmDeleteCategory({ commit }, { categoryId, categoryName } ) {
+      commit('confirmDeleteCategory', { categoryId, categoryName });
+      console.log('Id => ' + categoryId +　',' + 'Name => ' + categoryName);
     },
     deleteCategory({ commit, rootGetters }, categoryId) {
       return new Promise((resolve) => {
@@ -129,6 +155,10 @@ export default {
       state.updateCategoryId = payload.id;
       state.updateCategoryId = payload.name;
       state.doneMessage = 'カテゴリーの更新が完了しました。';
+    },
+    confirmDeleteCategory(state, { categoryId, categoryName }) {
+      state.deleteCategoryId = categoryId;
+      state.deleteCategoryName = categoryName;
     },
   },
 };
