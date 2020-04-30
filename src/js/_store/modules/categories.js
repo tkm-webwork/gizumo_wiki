@@ -26,19 +26,10 @@ export default {
           url: '/category',
         }).then((response) => {
           const payload = { categories: [] };
-            response.data.categories.forEach((value) => {
-
-              payload.categories.push(value);
-              console.log('get!');
-            });
-
-            // $.each
-            // +=
-
-            //  {
-            //   id: response.data.categories.id,
-            //   name: response.data.categories.name,
-            //   }
+          response.data.categories.forEach((value) => {
+            payload.categories.push(value);
+            console.log('get!');
+          });
           commit('doneGetAllCategories', payload);
         }).catch((err) => {
           commit('failFetchCategory', { message: err.message });
@@ -47,9 +38,9 @@ export default {
     },
     postCateogry({ commit, rootGetters }, categoryName) {
       commit('toggleLoading');
-      return new Promise ((resolve) => {
+      return new Promise((resolve) => {
         const data = new URLSearchParams();
-        data.append('name', categoryName );
+        data.append('name', categoryName);
         axios(rootGetters['auth/token'])({
           method: 'POST',
           url: '/category',
@@ -65,9 +56,8 @@ export default {
         });
       });
     },
-    confirmDeleteCategory({ commit }, { categoryId, categoryName } ) {
+    confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
       commit('confirmDeleteCategory', { categoryId, categoryName });
-      console.log('Id => ' + categoryId +　',' + 'Name => ' + categoryName);
     },
     deleteCategory({ commit, rootGetters }, categoryId) {
       return new Promise((resolve) => {
@@ -85,7 +75,7 @@ export default {
         });
       });
     },
-    getCategoryDetail({ commit, rootGetters }, { id } ) {
+    getCategoryDetail({ commit, rootGetters }, { id }) {
       axios(rootGetters['auth/token'])({
         method: 'GET',
         url: `/category/${id}`,
@@ -98,8 +88,8 @@ export default {
     },
     editedCategoryName({ commit }, categoryName) {
       commit('editedCategoryName', { categoryName });
-      console.log('edited!');
-      console.log(categoryName);
+      // console.log('edited!');
+      // console.log(categoryName);
     },
     updateCategory({ commit, rootGetters }) {
       commit('toggleLoading');
@@ -113,8 +103,8 @@ export default {
       }).then((response) => {
         const payload = response.data.category;
         commit('doneUpdateCategory', payload);
-        console.log('updated!');
-        console.log(payload);
+        // console.log('updated!');
+        // console.log(payload);
         commit('toggleLoading');
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });

@@ -144,7 +144,7 @@ const router = new VueRouter({
         },
         {
           name: 'categoryEdit',
-          path: ':id',　//動的セグメント　に登録されている文字列番号 文字列が入っていた場合コンポーネントが呼ばれる
+          path: ':id',
           component: CategoryEdit,
         },
       ],

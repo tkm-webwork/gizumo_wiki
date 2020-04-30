@@ -20,11 +20,6 @@ export default {
   components: {
     appCategoryEdit: CategoryEdit,
   },
-  // data() {
-  //   return {
-  //     updateCategoryName: 'aaa'
-  //   };
-  // },
   computed: {
     access() {
       return this.$store.getters['auth/access'];
@@ -45,21 +40,18 @@ export default {
   created() {
     const { id } = this.$route.params;
     this.$store.dispatch('categories/getCategoryDetail', { id });
-      // .then(() => {
-      //   this.updateCategoryName = 'aaa';
-      // });
     this.$store.dispatch('categories/clearMessage');
   },
   methods: {
     updateValue($event) {
       this[$event.target.value] = $event.target.value;
-      this.$store.dispatch('categories/editedCategoryName', this[$event.target.value])
+      this.$store.dispatch('categories/editedCategoryName', this[$event.target.value]);
     },
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
     },
     updateCategory() {
-      if(this.loading) return;
+      if (this.loading) return;
       this.$store.dispatch('categories/updateCategory', this.updateCategoryName);
     },
   },
