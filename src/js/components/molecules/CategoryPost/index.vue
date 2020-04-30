@@ -77,10 +77,6 @@ export default {
         if (valid) this.$emit('handleSubmit');
       });
     },
-    // newCategorySubmit() {
-    //   console.log('ok');
-    //   this.$emit('newCategorySubmit');
-    // },
   },
 };
 </script>
