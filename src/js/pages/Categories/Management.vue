@@ -63,9 +63,6 @@ export default {
     deleteCategoryName() {
       return this.$store.state.categories.deleteCategoryName;
     },
-    // category() {
-    //   return this.$store.state.categories.targetCategoryName;
-    // },
   },
   created() {
     this.$store.dispatch('categories/clearMessage');
@@ -74,8 +71,6 @@ export default {
   methods: {
     updateValue($event) {
       this[$event.target.name] = $event.target.value;
-      console.log($event.target.name);
-      console.log($event.target.value);
     },
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
