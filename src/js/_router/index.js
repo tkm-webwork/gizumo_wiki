@@ -143,7 +143,7 @@ const router = new VueRouter({
           component: CategoryManagement,
         },
         {
-          name: 'categoryEdit',
+          name: 'categoryEdit', // @Pages/Categories/Edit
           path: ':id', // vue-routerではパスの一部をパラメータとして扱うことができる
           component: CategoryEdit,
         },
