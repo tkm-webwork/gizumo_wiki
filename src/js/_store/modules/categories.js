@@ -59,6 +59,7 @@ export default {
     // 課題2で追加
     // APIに紐付けたIDからNAMEを取得してupdateCategoryNameに代入する
     getCategoryName({ commit, rootGetters }, categoryId) {
+      console.log(rootGetters['auth/token']);
       axios(rootGetters['auth/token'])({
         method: 'GET',
         url: `/category/${categoryId}`,
@@ -77,8 +78,13 @@ export default {
       commit('editCategoryName', { categoryName });
     },
 
+
+    // 今回の処理でPromise()を使用している理由は、getCategoryNameにてupdateCategoryIdとupdateCategoryNameを取得した後、
+    // updateCategoryでupdateCategoryIdとupdateCategoryNameを書き換える流れだが、
+    // Promiseを使わないとgetCategoryNameの処理が終わる前にupdateCategoryの処理を行うためエラーになる
+    // 変更したものだけが必要な場合はPromiseがいらない
+    // 一箇所削除して、全ての情報が必要な場合にいる
     updateCategory({ commit, rootGetters }) {
-      // 追加
       return new Promise((resolve) => {
         commit('toggleLoading');
         const data = new URLSearchParams();
@@ -92,7 +98,7 @@ export default {
           console.log(response);
           commit('doneUpdateCategory');
           commit('toggleLoading');
-          resolve();
+          resolve(); // どこに返すのか -> edit.vueのthen()に返す
         });
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });

@@ -12,6 +12,7 @@
       カテゴリー一覧へ戻る
     </app-router-link>
     <!-- data-vv-as="" : name属性をかえることなく、エラー表示に使われるフィールド名を設定 -->
+    <!-- errors.collect() : data-vv-nameで定義した名前でエラーメッセージを取得する -->
     <app-input
       v-validate="'required'"
       class="category-management-edit__input"

@@ -37,7 +37,7 @@ export default {
       return this.$store.state.categories.updateCategoryName;
     },
   },
-  created() {
+  created() { // Vueインスタンスが作成された後に同期的に呼ばれる
     this.$store.dispatch('categories/getCategoryName', this.$route.params.id); // 動的セグメントの値は全てのコンポーネント内で this.$route.params として利用可能
   },
   methods: {
@@ -50,8 +50,19 @@ export default {
     },
     handleSubmit() {
       if (this.loading) return;
-      this.$store.dispatch('categories/updateCategory');
+      this.$store.dispatch('categories/updateCategory')
+        .then(() => {
+          this.$store.dispatch('categories/getAllCategories');
+        });
     },
+    // handleSubmit() {
+    //   this.$store.dispatch('categories/getCategoryName', this.$route.params.id)
+    //     .then(() => {
+    //       if (this.loading) return;
+    //       this.$store.dispatch('categories/updateCategory');
+    //     });
+    // },
+
   },
 };
 </script>
