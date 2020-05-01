@@ -47,18 +47,8 @@ export default {
     deleteArticleId: state => state.deleteArticleId,
   },
   mutations: {
-    saveLocalStorage(state) {
-      const parsed = JSON.stringify(state.targetArticle);
-      localStorage.setItem('localTargetArticle', parsed);
-    },
-    loadLocalStorage(state) {
-      if (localStorage.getItem('localTargetArticle')) {
-        const localTargetArticle = JSON.parse(localStorage.getItem('localTargetArticle'));
-        state.targetArticle = Object.assign({}, localTargetArticle);
-      }
-    },
-    deleteLocalStorage() {
-      localStorage.removeItem('localTargetArticle');
+    loadLocalStorage(state, payload) {
+      state.targetArticle = Object.assign({}, payload);
     },
     initPostArticle(state) {
       state.targetArticle = Object.assign({}, {
@@ -128,14 +118,18 @@ export default {
     },
   },
   actions: {
-    saveLocalStorage({ commit }) {
-      commit('saveLocalStorage');
+    saveLocalStorage({ state }) {
+      const parsed = JSON.stringify(state.targetArticle);
+      localStorage.setItem('localTargetArticle', parsed);
     },
     loadLocalStorage({ commit }) {
-      commit('loadLocalStorage');
+      if (localStorage.getItem('localTargetArticle')) {
+        const localTargetArticle = JSON.parse(localStorage.getItem('localTargetArticle'));
+        commit('loadLocalStorage', localTargetArticle);
+      }
     },
-    deleteLocalStorage({ commit }) {
-      commit('deleteLocalStorage');
+    deleteLocalStorage() {
+      localStorage.removeItem('localTargetArticle');
     },
     clearMessage({ commit }) {
       commit('clearMessage');
@@ -245,7 +239,6 @@ export default {
         commit('updateArticle', payload);
         commit('toggleLoading');
         commit('displayDoneMessage', { message: 'ドキュメントを更新しました' });
-        commit('deleteLocalStorage');
       }).catch(() => {
         commit('toggleLoading');
       });
@@ -289,7 +282,6 @@ export default {
           data,
         }).then(() => {
           commit('toggleLoading');
-          commit('deleteLocalStorage');
           resolve();
         }).catch((err) => {
           commit('toggleLoading');

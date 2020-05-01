@@ -86,7 +86,8 @@ export default {
     },
     handleSubmit() {
       if (this.loading) return;
-      this.$store.dispatch('articles/updateArticle');
+      this.$store.dispatch('articles/updateArticle')
+        .then(() => this.$store.dispatch('articles/deleteLocalStorage'));
     },
     selectedArticleCategory($event) {
       const categoryName = $event.target.value;

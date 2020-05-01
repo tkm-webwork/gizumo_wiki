@@ -89,7 +89,8 @@ export default {
       if (this.loading) return;
       this.$store.dispatch('articles/postArticle')
         .then(() => this.$router.push('/articles'))
-        .then(() => this.$store.dispatch('articles/donePostArticle'));
+        .then(() => this.$store.dispatch('articles/donePostArticle'))
+        .then(() => this.$store.dispatch('articles/deleteLocalStorage'));
     },
     selectedArticleCategory($event) {
       const categoryName = $event.target.value;
