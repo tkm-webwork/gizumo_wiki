@@ -46,6 +46,9 @@ export default {
     const categoryName = this.$route.query.category ? this.$route.query.category : null;
     this.fetchArticles(categoryName);
   },
+  mounted() {
+    this.$store.dispatch('articles/deleteLocalStorage');
+  },
   methods: {
     openModal(articleId) {
       this.$store.dispatch('articles/confirmDeleteArticle', articleId);
