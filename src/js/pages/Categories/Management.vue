@@ -7,7 +7,7 @@
         :error-message="errorMessage"
         :done-message="doneMessage"
         :access="access"
-        @udpateValue="updateValue"
+        @updateValue="updateValue"
         @clearMessage="clearMessage"
         @handleSubmit="handleSubmit"
       />
@@ -82,6 +82,9 @@ export default {
           this.category = '';
         });
     },
+    // updateCategory() {
+    //   this.$store.dispatch('categories/updateCategory');
+    // },
     openModal(categoryId, categoryName) {
       this.toggleModal();
       this.$store.dispatch('categories/clearMessage');

@@ -56,6 +56,51 @@ export default {
         commit('toggleLoading');
       });
     },
+    // 課題2で追加
+    // APIに紐付けたIDからNAMEを取得してupdateCategoryNameに代入する
+    getCategoryName({ commit, rootGetters }, categoryId) {
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: `/category/${categoryId}`,
+      }).then((response) => {
+        // 本来、payload = response.data.category と定義して、mutationsに送信したかったが、
+        // 上手くいかなかったので変数を二つ定義して送信
+        const payloadId = response.data.category.id;
+        const payloadName = response.data.category.name; // id と name が格納されている
+        commit('assignCategoryName', { payloadId, payloadName });
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+      });
+    },
+
+    editCategoryName({ commit }, categoryName) {
+      commit('editCategoryName', { categoryName });
+    },
+
+    updateCategory({ commit, rootGetters }) {
+      // 追加
+      return new Promise((resolve) => {
+        commit('toggleLoading');
+        const data = new URLSearchParams();
+        data.append('name', this.state.categories.updateCategoryName);
+        data.append('id', this.state.categories.updateCategoryId);
+        axios(rootGetters['auth/token'])({
+          method: 'PUT',
+          url: `/category/${this.state.categories.updateCategoryId}`,
+          data,
+        }).then((response) => {
+          console.log(response);
+          commit('doneUpdateCategory');
+          commit('toggleLoading');
+          resolve();
+        });
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+        commit('toggleLoading');
+      });
+      // 追加
+    },
+
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
       commit('confirmDeleteCategory', { categoryId, categoryName });
     },
@@ -96,6 +141,17 @@ export default {
     },
     doneAddCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました。';
+    },
+    doneUpdateCategory(state) {
+      state.doneMessage = 'カテゴリーの更新が完了しました';
+    },
+    assignCategoryName(state, { payloadId, payloadName }) {
+      state.updateCategoryName = payloadName;
+      state.updateCategoryId = payloadId;
+    },
+    editCategoryName(state, { categoryName }) {
+      state.updateCategoryName = categoryName; // 新しい名前を格納
+      console.log(state.updateCategoryName);
     },
     doneDeleteCategory(state) {
       state.deleteCategoryId = null;
