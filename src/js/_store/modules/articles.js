@@ -45,6 +45,7 @@ export default {
     },
     targetArticle: state => state.targetArticle,
     deleteArticleId: state => state.deleteArticleId,
+    doneMessage: state => state.doneMessage,
   },
   mutations: {
     initPostArticle(state) {
@@ -168,12 +169,14 @@ export default {
         type: 'editedTitle',
         title,
       });
+      console.log(title);
     },
     editedContent({ commit }, content) {
       commit({
         type: 'editedContent',
         content,
       });
+      console.log(content);
     },
     selectedArticleCategory({ commit, rootGetters }, categoryName) {
       const categoryList = rootGetters['categories/categoryList'];
