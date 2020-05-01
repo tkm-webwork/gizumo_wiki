@@ -1,9 +1,14 @@
 <template>
   <div>
     <app-category-edit
+      :update-category-name="updateCategoryName"
       :disabled="loading ? true : false"
       :access="access"
+      :error-message="errorMessage"
+      :done-message="doneMessage"
       @clearMessage="clearMessage"
+      @updateValue="updateValue"
+      @handleSubmit="updateCategory"
     />
   </div>
 </template>
@@ -22,10 +27,31 @@ export default {
     loading() {
       return this.$store.state.categories.loading;
     },
+    errorMessage() {
+      return this.$store.state.categories.errorMessage;
+    },
+    doneMessage() {
+      return this.$store.state.categories.doneMessage;
+    },
+    updateCategoryName() {
+      return this.$store.state.categories.updateCategoryName;
+    },
+  },
+  created() {
+    const { id } = this.$route.params;
+    this.$store.dispatch('categories/getCategoryDetail', id);
+    this.$store.dispatch('categories/clearMessage');
   },
   methods: {
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
+    },
+    updateValue($event) {
+      this.$store.dispatch('categories/updateValue', $event.target.value);
+    },
+    updateCategory() {
+      if (this.loading) return;
+      this.$store.dispatch('categories/updateCategory');
     },
   },
 };
