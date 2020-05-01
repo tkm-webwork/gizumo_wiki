@@ -69,7 +69,7 @@
           />
         </div>
         <app-button
-          class="article-posy-submit"
+          class="article-post-submit"
           button-type="submit"
           round
           :disabled="!disabled"

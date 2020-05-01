@@ -65,16 +65,9 @@ export default {
     },
     handleSubmit() {
       if (this.loading) return;
-      this.$store.dispatch('articles/postArticle')
-      // ここでdoneMessageが変更される
-        .then(() => {
-          this.$router.push({
-            path: '/articles',
-            // params: { doneMessage: this.doneMessage },
-          });
-          // 記事一覧にリダイレクト、更新された一覧表示、記事一覧で作成したよメッセージ
-          // doneMessage
-        });
+      this.$store.dispatch('articles/postArticle');
+      this.$router.push({ path: '/articles' });
+      this.$store.dispatch('articles/getArticles');
     },
   },
 };
