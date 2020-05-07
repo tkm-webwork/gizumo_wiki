@@ -83,7 +83,7 @@ export default {
         });
     },
     openModal(categoryId, categoryName) {
-      this.toggleModal(); // モーダルをshowにする
+      this.toggleModal(); // モーダルを切り替える
       this.$store.dispatch('categories/confirmDeleteCategory',
         { categoryId, categoryName });
       this.$store.dispatch('categories/clearMessage');
@@ -92,7 +92,7 @@ export default {
       this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId)
         .then(() => {
           this.$store.dispatch('categories/getAllCategories');
-          this.toggleModal(); // モーダルをclosedにする
+          this.toggleModal(); // モーダルを切り替える
         });
     },
   },

@@ -27,7 +27,7 @@
               hover-opacity
               :to="`/articles?category=${category.name}`"
             >
-              <!-- /articles?category=${category.name} は、? 以下がクエリパラメータとなっており、-->
+              <!-- /articles?category=${category.name} は、? 以下が-->
               <!-- 'category' という変数の値として、'category.name'を指定 -->
               このカテゴリーの記事
             </app-router-link>
