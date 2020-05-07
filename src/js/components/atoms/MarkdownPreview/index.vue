@@ -10,6 +10,7 @@
 <script>
 import marked from 'marked';
 import hljs from 'highlight.js';
+import sanitizeHtml from 'sanitize-html';
 
 export default {
   props: {
@@ -52,8 +53,9 @@ export default {
       const isExsits = this.markdownIndexes.length > 0;
       return isExsits;
     },
-    marked() {
-      const renderer = new marked.Renderer();
+    marked() { // ここで引数に対して変換したい文字列を渡す
+      const renderer = new marked.Renderer(); // Renderオブジェクトの作成、これを上書きすることで書き方を拡張できる
+      // ⬇︎code syntax hilightの編集
       renderer.code = (code, lang) => `<pre class="hljs"><code class="language-${lang}">${hljs.highlightAuto(code, [lang]).value}</code></pre>`;
       renderer.em = text => `<span class="attention">${text}</span>`;
 
@@ -64,7 +66,11 @@ export default {
         breaks: false,
         smartLists: true,
       });
-      return marked(this.markdownContent);
+      return marked(this.markdownContent, true);
+    },
+    convertMarkdown() {
+      const convertContent = marked(this.markdownContent);
+      return sanitizeHtml(convertContent);
     },
   },
   mounted() {
