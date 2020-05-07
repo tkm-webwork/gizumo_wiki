@@ -19,6 +19,7 @@
         :delete-category-name="deleteCategoryName"
         :access="access"
         @openModal="openModal"
+        @deleteCategory="deleteCategory"
       />
     </section>
   </div>
@@ -81,9 +82,18 @@ export default {
           this.category = '';
         });
     },
-    openModal() {
-      this.toggleModal();
+    openModal(categoryId, categoryName) {
+      this.toggleModal(); // モーダルをshowにする
+      this.$store.dispatch('categories/confirmDeleteCategory',
+        { categoryId, categoryName });
       this.$store.dispatch('categories/clearMessage');
+    },
+    deleteCategory() {
+      this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId)
+        .then(() => {
+          this.$store.dispatch('categories/getAllCategories');
+          this.toggleModal(); // モーダルをclosedにする
+        });
     },
   },
 };

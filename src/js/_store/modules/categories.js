@@ -19,12 +19,26 @@ export default {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
-    getAllCategories({ commit }) {
-      const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
-      commit('doneGetAllCategories', payload);
+    getAllCategories({ commit, rootGetters }) {
+      // const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
+      // commit('doneGetAllCategories', payload);
+      // console.log(this.state.categories.categoryList);
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: '/category',
+      }).then((response) => { // APIからGETしたデータを'response'で受け取る
+        const payload = { categories: [] }; // ここに一つずつ格納する
+        response.data.categories.forEach((val) => {
+          payload.categories.push(val);
+        });
+        commit('doneGetAllCategories', payload);
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+      });
     },
     // 課題1で追加
     postCategory({ commit, rootGetters }, categoryName) {
+      // console.log(this.state.categories.categoryList);
       // Promiseを使用する理由はサーバからの応答に時間がかかる場合があり、処理を止めないようにするため
       return new Promise((resolve) => {
         commit('toggleLoading');
@@ -68,43 +82,40 @@ export default {
       commit('editCategoryName', { categoryName });
     },
 
-
-    // 今回の処理でPromise()を使用している理由は、getCategoryNameにてupdateCategoryIdとupdateCategoryNameを取得した後、
-    // updateCategoryでupdateCategoryIdとupdateCategoryNameを書き換える流れだが、
-    // Promiseを使わないとgetCategoryNameの処理が終わる前にupdateCategoryの処理を行うためエラーになる
-    // 変更したものだけが必要な場合はPromiseがいらない
-    // 一箇所削除して、全ての情報が必要な場合にいる
+    // updateCategoryではPromise()は必要ない
+    // 変更したものだけが必要な場合はPromise()がいらない -> オブジェクトの個数には変更がない
+    // Promise()が必要になる場合、データを追加や削除して、全ての情報が必要な場合にいる
     updateCategory({ commit, rootGetters }) {
-      return new Promise((resolve) => {
+      commit('toggleLoading');
+      const data = new URLSearchParams();
+      data.append('name', this.state.categories.updateCategoryName);
+      data.append('id', this.state.categories.updateCategoryId);
+      axios(rootGetters['auth/token'])({
+        method: 'PUT',
+        url: `/category/${this.state.categories.updateCategoryId}`,
+        data,
+      }).then((response) => {
+        console.log(response);
+        commit('doneUpdateCategory');
         commit('toggleLoading');
-        const data = new URLSearchParams();
-        data.append('name', this.state.categories.updateCategoryName);
-        data.append('id', this.state.categories.updateCategoryId);
-        axios(rootGetters['auth/token'])({
-          method: 'PUT',
-          url: `/category/${this.state.categories.updateCategoryId}`,
-          data,
-        }).then((response) => {
-          console.log(response);
-          commit('doneUpdateCategory');
+      })
+        .catch((err) => {
+          commit('failFetchCategory', { message: err.message });
           commit('toggleLoading');
-          resolve(); // どこに返すのか -> edit.vueのthen()に返す
         });
-      }).catch((err) => {
-        commit('failFetchCategory', { message: err.message });
-        commit('toggleLoading');
-      });
-      // 追加
     },
-    deleteCategory({ commit, rootGetters }, categoryId) {
+    // 課題3で追加
+    confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
+      commit('confirmDeleteCategory', { categoryId, categoryName });
+    },
+    deleteCategory({ commit, rootGetters }, deleteCategoryId) {
       return new Promise((resolve) => {
         axios(rootGetters['auth/token'])({
           method: 'DELETE',
-          url: `/category/${categoryId}`,
+          url: `/category/${deleteCategoryId}`,
         }).then((response) => {
           // NOTE: エラー時はresponse.data.codeが0で返ってくる。
           if (response.data.code === 0) throw new Error(response.data.message);
-
           commit('doneDeleteCategory');
           resolve();
         }).catch((err) => {
@@ -119,7 +130,7 @@ export default {
       state.doneMessage = '';
     },
     doneGetAllCategories(state, { categories }) {
-      state.categoryList = [...categories].reverse();
+      state.categoryList = [...categories];
     },
     failFetchCategory(state, { message }) {
       state.errorMessage = message;
@@ -140,6 +151,10 @@ export default {
     editCategoryName(state, { categoryName }) {
       state.updateCategoryName = categoryName; // 新しい名前を格納
       console.log(state.updateCategoryName);
+    },
+    confirmDeleteCategory(state, { categoryId, categoryName }) {
+      state.deleteCategoryId = categoryId;
+      state.deleteCategoryName = categoryName;
     },
     doneDeleteCategory(state) {
       state.deleteCategoryId = null;

@@ -50,10 +50,10 @@ export default {
     },
     handleSubmit() {
       if (this.loading) return;
-      this.$store.dispatch('categories/updateCategory')
-        .then(() => {
-          this.$store.dispatch('categories/getAllCategories');
-        });
+      this.$store.dispatch('categories/updateCategory');
+      // .then(() => {
+      //   this.$store.dispatch('categories/getAllCategories');
+      // });
     },
     // handleSubmit() {
     //   this.$store.dispatch('categories/getCategoryName', this.$route.params.id)
