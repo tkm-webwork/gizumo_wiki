@@ -72,7 +72,7 @@ export default {
         // 上手くいかなかったので変数を二つ定義して送信
         const payloadId = response.data.category.id;
         const payloadName = response.data.category.name; // id と name が格納されている
-        commit('assignCategoryName', { payloadId, payloadName });
+        commit('confirmDeleteCategory', { payloadId, payloadName });
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
       });
@@ -144,15 +144,15 @@ export default {
     doneUpdateCategory(state) {
       state.doneMessage = 'カテゴリーの更新が完了しました';
     },
-    assignCategoryName(state, { payloadId, payloadName }) {
-      state.updateCategoryName = payloadName;
-      state.updateCategoryId = payloadId;
-    },
+    // assignCategoryName(state, { payloadId, payloadName }) {
+    //   state.updateCategoryName = payloadName;
+    //   state.updateCategoryId = payloadId;
+    // },
     editCategoryName(state, { categoryName }) {
       state.updateCategoryName = categoryName; // 新しい名前を格納
       console.log(state.updateCategoryName);
     },
-    confirmDeleteCategory(state, { categoryId, categoryName }) {
+    confirmDeleteCategory(state, { categoryId, categoryName }) { // assignCategoryと同じなのでまとめる
       state.deleteCategoryId = categoryId;
       state.deleteCategoryName = categoryName;
     },
