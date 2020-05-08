@@ -19,9 +19,17 @@ export default {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
-    getAllCategories({ commit }) {
-      const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
-      commit('doneGetAllCategories', payload);
+    getAllCategories({ commit, rootGetters }) {
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: '/category',
+      }).then((res) => {
+        if (res.data.code === 0) throw new Error(res.data.message);
+        const payload = res.data;
+        commit('doneGetAllCategories', payload);
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+      });
     },
     deleteCategory({ commit, rootGetters }, categoryId) {
       return new Promise((resolve) => {
@@ -31,13 +39,15 @@ export default {
         }).then((response) => {
           // NOTE: エラー時はresponse.data.codeが0で返ってくる。
           if (response.data.code === 0) throw new Error(response.data.message);
-
           commit('doneDeleteCategory');
           resolve();
         }).catch((err) => {
           commit('failFetchCategory', { message: err.message });
         });
       });
+    },
+    openDeleteModal({ commit }, { categoryId, categoryName }) {
+      commit('openDeleteModal', { categoryId, categoryName });
     },
     getCategoryDetail({ commit, rootGetters }, categoryId) {
       return new Promise((resolve, reject) => {
@@ -75,6 +85,10 @@ export default {
     },
   },
   mutations: {
+    openDeleteModal(state, { categoryId, categoryName }) {
+      state.deleteCategoryId = categoryId;
+      state.deleteCategoryName = categoryName;
+    },
     doneupdatecategory(state, payload) {
       state.updateCategoryId = payload.id;
       state.updateCategoryName = payload.name;
@@ -94,6 +108,9 @@ export default {
     },
     doneGetAllCategories(state, { categories }) {
       state.categoryList = [...categories];
+    },
+    putCategorydetail(state, payload) {
+      state.categoryList = Object.assign({}, state.categoryList, payload.categories);
     },
     failFetchCategory(state, { message }) {
       state.errorMessage = message;
