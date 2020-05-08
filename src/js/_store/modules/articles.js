@@ -47,6 +47,9 @@ export default {
     deleteArticleId: state => state.deleteArticleId,
   },
   mutations: {
+    loadLocalStorage(state, payload) {
+      state.targetArticle = Object.assign({}, payload);
+    },
     initPostArticle(state) {
       state.targetArticle = Object.assign({}, {
         id: null,
@@ -115,6 +118,19 @@ export default {
     },
   },
   actions: {
+    saveLocalStorage({ state }) {
+      const parsed = JSON.stringify(state.targetArticle);
+      localStorage.setItem('localTargetArticle', parsed);
+    },
+    loadLocalStorage({ commit }) {
+      if (localStorage.getItem('localTargetArticle')) {
+        const localTargetArticle = JSON.parse(localStorage.getItem('localTargetArticle'));
+        commit('loadLocalStorage', localTargetArticle);
+      }
+    },
+    deleteLocalStorage() {
+      localStorage.removeItem('localTargetArticle');
+    },
     clearMessage({ commit }) {
       commit('clearMessage');
     },

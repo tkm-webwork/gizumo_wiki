@@ -73,22 +73,29 @@ export default {
     this.$store.dispatch('categories/getAllCategories');
     this.$store.dispatch('articles/initPostArticle');
   },
+  mounted() {
+    this.$store.dispatch('articles/loadLocalStorage');
+  },
   methods: {
     editedTitle($event) {
+      this.$store.dispatch('articles/saveLocalStorage');
       this.$store.dispatch('articles/editedTitle', $event.target.value);
     },
     editedContent($event) {
+      this.$store.dispatch('articles/saveLocalStorage');
       this.$store.dispatch('articles/editedContent', $event.target.value);
     },
     handleSubmit() {
       if (this.loading) return;
       this.$store.dispatch('articles/postArticle')
         .then(() => this.$router.push('/articles'))
-        .then(() => this.$store.dispatch('articles/donePostArticle'));
+        .then(() => this.$store.dispatch('articles/donePostArticle'))
+        .then(() => this.$store.dispatch('articles/deleteLocalStorage'));
     },
     selectedArticleCategory($event) {
       const categoryName = $event.target.value;
       this.$store.dispatch('articles/selectedArticleCategory', categoryName);
+      this.$store.dispatch('articles/saveLocalStorage');
     },
   },
 };

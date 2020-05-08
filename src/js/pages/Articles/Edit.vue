@@ -72,20 +72,27 @@ export default {
     this.$store.dispatch('categories/getAllCategories');
     this.$store.dispatch('articles/getArticleDetail', parseInt(this.articleId, 10));
   },
+  mounted() {
+    this.$store.dispatch('articles/loadLocalStorage');
+  },
   methods: {
     editedTitle($event) {
+      this.$store.dispatch('articles/saveLocalStorage');
       this.$store.dispatch('articles/editedTitle', $event.target.value);
     },
     editedContent($event) {
+      this.$store.dispatch('articles/saveLocalStorage');
       this.$store.dispatch('articles/editedContent', $event.target.value);
     },
     handleSubmit() {
       if (this.loading) return;
-      this.$store.dispatch('articles/updateArticle');
+      this.$store.dispatch('articles/updateArticle')
+        .then(() => this.$store.dispatch('articles/deleteLocalStorage'));
     },
     selectedArticleCategory($event) {
       const categoryName = $event.target.value;
       this.$store.dispatch('articles/selectedArticleCategory', categoryName);
+      this.$store.dispatch('articles/saveLocalStorage');
     },
   },
 };
