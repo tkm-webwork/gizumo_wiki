@@ -25,7 +25,10 @@ export default {
         url: '/category',
       }).then((res) => {
         if (res.data.code === 0) throw new Error(res.data.message);
-        const payload = res.data;
+        const payload = { categories: [] };
+        res.data.categories.forEach((category) => {
+          payload.categories.push(category);
+        });
         commit('doneGetAllCategories', payload);
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
