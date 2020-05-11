@@ -114,8 +114,27 @@ export default {
     displayDoneMessage(state, payload = { message: '成功しました' }) {
       state.doneMessage = payload.message;
     },
+    loadLocalStorage(state) {
+      if (localStorage.title) {
+        state.targetArticle.title = localStorage.title;
+      }
+      if (localStorage.content) {
+        state.targetArticle.content = localStorage.content;
+      }
+    },
+    // deleteLocalStorage() {
+    //   if (localStorage.title) {
+    //     localStorage.removeItem('title');
+    //   }
+    //   if (localStorage.content) {
+    //     localStorage.removeItem('content');
+    //   }
+    // },
   },
   actions: {
+    loadLocalStorage({ commit }) {
+      commit('loadLocalStorage');
+    },
     initPostArticle({ commit }) {
       commit('initPostArticle');
     },
@@ -169,14 +188,16 @@ export default {
         type: 'editedTitle',
         title,
       });
-      console.log(title);
+      console.log(title); // ここで入力欄がリアルタイムで更新されてるのわかる
+      localStorage.setItem('title', title);
     },
     editedContent({ commit }, content) {
       commit({
         type: 'editedContent',
         content,
       });
-      console.log(content);
+      console.log(content); // ここで入力欄がリアルタイムで更新されてるのわかる
+      localStorage.setItem('content', content);
     },
     selectedArticleCategory({ commit, rootGetters }, categoryName) {
       const categoryList = rootGetters['categories/categoryList'];
@@ -264,6 +285,12 @@ export default {
         }).then(() => {
           commit('toggleLoading');
           commit('displayDoneMessage', { message: 'ドキュメントを作成しました' });
+          if (localStorage.title) {
+            localStorage.removeItem('title');
+          }
+          if (localStorage.content) {
+            localStorage.removeItem('content');
+          }
           resolve();
         }).catch((err) => {
           commit('toggleLoading');

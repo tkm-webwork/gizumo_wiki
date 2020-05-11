@@ -50,7 +50,12 @@ export default {
   },
   created() {
     this.$store.dispatch('categories/getAllCategories');
-    this.$store.dispatch('articles/initPostArticle');
+    if (localStorage.title || localStorage.content) {
+      this.$store.dispatch('articles/loadLocalStorage');
+    } else {
+      this.$store.dispatch('articles/initPostArticle');
+    }
+    // this.$store.dispatch('articles/initPostArticle'); // ここでinitPostArticleを渡してinputの中身をからにしてる
   },
   methods: {
     selectedArticleCategory($event) {

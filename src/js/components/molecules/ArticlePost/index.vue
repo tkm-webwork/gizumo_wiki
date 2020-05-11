@@ -136,7 +136,6 @@ export default {
       type: Object,
       default: () => ({}),
     },
-
   },
   computed: {
     buttonText() {
