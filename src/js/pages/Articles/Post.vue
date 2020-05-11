@@ -50,7 +50,7 @@ export default {
   },
   created() {
     this.$store.dispatch('categories/getAllCategories');
-    if (localStorage.title || localStorage.content) {
+    if (localStorage.savedState) {
       this.$store.dispatch('articles/loadLocalStorage');
     } else {
       this.$store.dispatch('articles/initPostArticle');

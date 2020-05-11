@@ -114,22 +114,17 @@ export default {
     displayDoneMessage(state, payload = { message: '成功しました' }) {
       state.doneMessage = payload.message;
     },
+    saveLocalStotage(state) {
+      localStorage.setItem('savedState', JSON.stringify(state));
+    },
     loadLocalStorage(state) {
-      if (localStorage.title) {
-        state.targetArticle.title = localStorage.title;
-      }
-      if (localStorage.content) {
-        state.targetArticle.content = localStorage.content;
+      if (localStorage.getItem('savedState')) {
+        // LocalStorageから取得したJson文字列をパース
+        const store = JSON.parse(localStorage.getItem('savedState'));
+        // stateを置き換えます。
+        state.targetArticle = store.targetArticle;
       }
     },
-    // deleteLocalStorage() {
-    //   if (localStorage.title) {
-    //     localStorage.removeItem('title');
-    //   }
-    //   if (localStorage.content) {
-    //     localStorage.removeItem('content');
-    //   }
-    // },
   },
   actions: {
     loadLocalStorage({ commit }) {
@@ -189,7 +184,7 @@ export default {
         title,
       });
       console.log(title); // ここで入力欄がリアルタイムで更新されてるのわかる
-      localStorage.setItem('title', title);
+      commit('saveLocalStotage');
     },
     editedContent({ commit }, content) {
       commit({
@@ -197,7 +192,7 @@ export default {
         content,
       });
       console.log(content); // ここで入力欄がリアルタイムで更新されてるのわかる
-      localStorage.setItem('content', content);
+      commit('saveLocalStotage');
     },
     selectedArticleCategory({ commit, rootGetters }, categoryName) {
       const categoryList = rootGetters['categories/categoryList'];
@@ -285,11 +280,8 @@ export default {
         }).then(() => {
           commit('toggleLoading');
           commit('displayDoneMessage', { message: 'ドキュメントを作成しました' });
-          if (localStorage.title) {
-            localStorage.removeItem('title');
-          }
-          if (localStorage.content) {
-            localStorage.removeItem('content');
+          if (localStorage.savedState) {
+            localStorage.removeItem('savedState');
           }
           resolve();
         }).catch((err) => {
