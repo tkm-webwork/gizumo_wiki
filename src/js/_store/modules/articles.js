@@ -119,9 +119,7 @@ export default {
     },
     loadLocalStorage(state) {
       if (localStorage.getItem('savedState')) {
-        // LocalStorageから取得したJson文字列をパース
         const store = JSON.parse(localStorage.getItem('savedState'));
-        // stateを置き換えます。
         state.targetArticle = store.targetArticle;
       }
     },
