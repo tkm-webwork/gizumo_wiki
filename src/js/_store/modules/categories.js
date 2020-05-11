@@ -19,9 +19,20 @@ export default {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
-    getAllCategories({ commit }) {
-      const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
-      commit('doneGetAllCategories', payload);
+    getAllCategories({ commit, rootGetters }) {
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: '/category',
+      }).then((response) => {
+        const payload = {
+          categories: response.data.categories,
+        };
+        console.log(response);
+        commit('doneGetAllCategories', payload);
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+        console.log(err);
+      });
     },
     deleteCategory({ commit, rootGetters }, categoryId) {
       return new Promise((resolve) => {
@@ -31,17 +42,16 @@ export default {
         }).then((response) => {
           // NOTE: エラー時はresponse.data.codeが0で返ってくる。
           if (response.data.code === 0) throw new Error(response.data.message);
-
           commit('doneDeleteCategory');
           resolve();
         }).catch((err) => {
+          console.log(categoryId);
           commit('failFetchCategory', { message: err.message });
         });
       });
     },
     postCategory({ commit, rootGetters }, newCategory) {
       commit('toggleLoading');
-
       const data = new URLSearchParams();
       data.append('name', newCategory);
       return new Promise((resolve) => {
@@ -65,7 +75,6 @@ export default {
         url: `category/${categoryId}`,
       }).then((res) => {
         const CategoryObject = res.data.category;
-        console.log(res);
         commit('doneGetCategoryDetail', CategoryObject);
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
@@ -88,11 +97,13 @@ export default {
         const updateCategoryObject = response.data.category;
         commit('doneUpdateCategory', updateCategoryObject);
         commit('toggleLoading');
-        console.log(this.state);
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
         commit('toggleLoading');
       });
+    },
+    openCategory({ commit }, { categoryName, categoryId }) {
+      commit('openCategory', { categoryName, categoryId });
     },
   },
   mutations: {
@@ -123,13 +134,17 @@ export default {
     },
     updateValue(state, { categoryName }) {
       state.updateCategoryName = categoryName;
-      console.log(state.updateCategoryId);
-      console.log(state.updateCategoryName);
     },
     doneUpdateCategory(state, updateCategoryObject) {
       state.updateCategoryId = updateCategoryObject.id;
       state.updateCategoryName = updateCategoryObject.name;
       state.doneMessage = 'カテゴリーの更新が完了しました。';
+    },
+    openCategory(state, { categoryName, categoryId }) {
+      state.deleteCategoryName = categoryName;
+      state.deleteCategoryId = categoryId;
+      console.log(state.deleteCategoryName);
+      console.log(state.deleteCategoryId);
     },
   },
 };
