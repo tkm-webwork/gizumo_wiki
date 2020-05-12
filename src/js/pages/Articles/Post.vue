@@ -64,13 +64,18 @@ export default {
     },
     editedTitle($event) {
       this.$store.dispatch('articles/editedTitle', $event.target.value);
+      this.$store.dispatch('articles/saveLocalStorage');
     },
     editedContent($event) {
       this.$store.dispatch('articles/editedContent', $event.target.value);
+      this.$store.dispatch('articles/saveLocalStorage');
     },
     handleSubmit() {
       if (this.loading) return;
-      this.$store.dispatch('articles/postArticle');
+      this.$store.dispatch('articles/postArticle')
+        .then(() => {
+          this.$store.dispatch('articles/deleteLocalStorage');
+        });
       this.$router.push({ path: '/articles' });
       this.$store.dispatch('articles/getArticles');
     },

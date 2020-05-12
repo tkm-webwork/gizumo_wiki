@@ -114,19 +114,24 @@ export default {
     displayDoneMessage(state, payload = { message: '成功しました' }) {
       state.doneMessage = payload.message;
     },
-    saveLocalStotage(state) {
-      localStorage.setItem('savedState', JSON.stringify(state));
-    },
-    loadLocalStorage(state) {
-      if (localStorage.getItem('savedState')) {
-        const store = JSON.parse(localStorage.getItem('savedState'));
-        state.targetArticle = store.targetArticle;
-      }
+    loadLocalStorage(state, payload) {
+      state.targetArticle = payload.targetArticle;
     },
   },
   actions: {
+    saveLocalStorage({ state }) {
+      localStorage.setItem('savedState', JSON.stringify(state));
+    },
     loadLocalStorage({ commit }) {
-      commit('loadLocalStorage');
+      if (localStorage.getItem('savedState')) {
+        const payload = JSON.parse(localStorage.getItem('savedState'));
+        commit('loadLocalStorage', payload);
+      }
+    },
+    deleteLocalStorage() {
+      if (localStorage.savedState) {
+        localStorage.removeItem('savedState');
+      }
     },
     initPostArticle({ commit }) {
       commit('initPostArticle');
@@ -182,7 +187,7 @@ export default {
         title,
       });
       console.log(title); // ここで入力欄がリアルタイムで更新されてるのわかる
-      commit('saveLocalStotage');
+      // commit('saveLocalStotage');
     },
     editedContent({ commit }, content) {
       commit({
@@ -190,7 +195,7 @@ export default {
         content,
       });
       console.log(content); // ここで入力欄がリアルタイムで更新されてるのわかる
-      commit('saveLocalStotage');
+      // commit('saveLocalStotage');
     },
     selectedArticleCategory({ commit, rootGetters }, categoryName) {
       const categoryList = rootGetters['categories/categoryList'];
@@ -278,9 +283,6 @@ export default {
         }).then(() => {
           commit('toggleLoading');
           commit('displayDoneMessage', { message: 'ドキュメントを作成しました' });
-          if (localStorage.savedState) {
-            localStorage.removeItem('savedState');
-          }
           resolve();
         }).catch((err) => {
           commit('toggleLoading');
