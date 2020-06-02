@@ -73,8 +73,12 @@ export default {
       this[$event.target.name] = $event.target.value;
     },
     handleSubmit() {
+      if (this.loading) return;
       const postCategory = this.category;
-      this.$store.dispatch('categories/postCategory', postCategory);
+      this.$store.dispatch('categories/postCategory', postCategory)
+        .then(() => {
+          this.$store.dispatch('categories/getAllCategories');
+        });
     },
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
