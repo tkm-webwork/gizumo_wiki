@@ -114,8 +114,25 @@ export default {
     displayDoneMessage(state, payload = { message: '成功しました' }) {
       state.doneMessage = payload.message;
     },
+    loadLocalStorage(state, payload) {
+      state.targetArticle = payload.targetArticle;
+    },
   },
   actions: {
+    saveLocalStorage({ state }) {
+      localStorage.setItem('savedState', JSON.stringify(state));
+    },
+    loadLocalStorage({ commit }) {
+      if (localStorage.getItem('savedState')) {
+        const payload = JSON.parse(localStorage.getItem('savedState'));
+        commit('loadLocalStorage', payload);
+      }
+    },
+    deleteLocalStorage() {
+      if (localStorage.savedState) {
+        localStorage.removeItem('savedState');
+      }
+    },
     initPostArticle({ commit }) {
       commit('initPostArticle');
     },
@@ -169,14 +186,16 @@ export default {
         type: 'editedTitle',
         title,
       });
-      console.log(title);
+      console.log(title); // ここで入力欄がリアルタイムで更新されてるのわかる
+      // commit('saveLocalStotage');
     },
     editedContent({ commit }, content) {
       commit({
         type: 'editedContent',
         content,
       });
-      console.log(content);
+      console.log(content); // ここで入力欄がリアルタイムで更新されてるのわかる
+      // commit('saveLocalStotage');
     },
     selectedArticleCategory({ commit, rootGetters }, categoryName) {
       const categoryList = rootGetters['categories/categoryList'];
