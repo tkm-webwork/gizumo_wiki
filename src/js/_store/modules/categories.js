@@ -1,4 +1,5 @@
 import axios from '@Helpers/axiosDefault';
+// import { date } from '@storybook/addon-knobs';
 
 export default {
   namespaced: true,
@@ -7,6 +8,7 @@ export default {
     errorMessage: '',
     doneMessage: '',
     categoryList: [],
+    targetCategory: '',
     deleteCategoryId: null,
     deleteCategoryName: '',
     updateCategoryId: null,
@@ -14,8 +16,36 @@ export default {
   },
   getters: {
     categoryList: state => state.categoryList,
+    targetCategory: state => state.targetCategory,
+    // getterの書き方を確認しておく。
   },
   actions: {
+    targetCategory({ commit }, name) {
+      commit({
+        type: 'taegetCategory',
+        name,
+      });
+    },
+    addCategory({ commit, rootGetters }) {
+      return new Promise((resolve, reject) => {
+        commit('clearMessage');
+        commit('toggleLoading');
+        const data = new URLSearchParams();
+        data.append('categoryName', rootGetters['categories/targetCategory']);
+        // axios(rootGetters['auth/token'])({
+        axios.post('/category', data)
+          .then(() => {
+            commit('toggleLoading');
+            commit('displayDoneMessage', { message: 'カテゴリーを作成しました' });
+            resolve();
+          })
+          .catch((err) => {
+            commit('toggleLoading');
+            commit('failRequest', { message: err.message });
+            reject();
+          });
+      });
+    },
     clearMessage({ commit }) {
       commit('clearMessage');
     },
@@ -86,6 +116,9 @@ export default {
     },
   },
   mutations: {
+    targetCategory(state, { name }) {
+      state.targetCategory = name;
+    },
     clearMessage(state) {
       state.errorMessage = '';
       state.doneMessage = '';
