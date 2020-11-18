@@ -69,9 +69,12 @@ export default {
     this.$store.dispatch('categories/getAllCategories');
   },
   methods: {
-    updateValue($event) {
-      this[$event.target.name] = $event.target.value; // ？？？
-      this.$store.dispatch('categories/targetCategory', $event.target.value);
+    updateValue(event) {
+      console.log(event);
+      this.data.category = event;
+      // this[$event.target.name] = $event.target.value; 
+      // ？？？
+      // this.$store.dispatch('categories/targetCategory', $event.target.value);
     },
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
@@ -90,7 +93,9 @@ export default {
       this.toggleModal();
     },
     handleSubmit() {
+      console.log('aa');
       if (this.loading) return;
+      console.log(this.category);
       this.$store.dispatch('categories/addCategory')
         .then(() => {
           this.$router.push({

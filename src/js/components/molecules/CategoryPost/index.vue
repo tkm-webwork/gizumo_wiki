@@ -8,7 +8,7 @@
       placeholder="追加するカテゴリー名を入力してください"
       data-vv-as="カテゴリー名"
       :error-messages="errors.collect('category')"
-      :value="category"
+      :value="value"    
       @updateValue="$emit('updateValue', $event)"
     />
     <app-button
@@ -16,7 +16,6 @@
       button-type="submit"
       round
       :disabled="disabled || !access.create"
-      @click="addCategory"
     >
       {{ buttonText }}
     </app-button>
@@ -75,6 +74,7 @@ export default {
       if (!this.access.create) return;
       this.$emit('clearMessage');
       this.$validator.validate().then((valid) => {
+        // console.log($emit);
         if (valid) this.$emit('handleSubmit');
       });
     },
