@@ -6,11 +6,11 @@
       :type="type"
       :placeholder="placeholder"
       :value="value" 
-      @input="value = $event.target.value"
+      @input="$emit('updateValue', $event)"
     >
     <!-- :value="value"は必要？ -->
-      <!-- :value="categoryText"
-      @input="$emit('updateValue', $event.target.value)" -->
+      <!-- @input="value = $event.target.value" -->
+      <!-- :value="categoryText" -->
 
     <transition name="shake">
       <ul v-if="errorMessages.length" class="error">

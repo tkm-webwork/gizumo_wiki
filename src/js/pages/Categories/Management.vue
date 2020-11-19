@@ -69,9 +69,9 @@ export default {
     this.$store.dispatch('categories/getAllCategories');
   },
   methods: {
-    updateValue(event) {
-      console.log(event);
-      this.data.category = event;
+    updateValue($event) {
+      console.log($event);
+      this.data.category = $event.target.value;
       // this[$event.target.name] = $event.target.value; 
       // ？？？
       // this.$store.dispatch('categories/targetCategory', $event.target.value);
