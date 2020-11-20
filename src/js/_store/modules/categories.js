@@ -22,7 +22,7 @@ export default {
   actions: {
     targetCategory({ commit }, name) {
       commit({
-        type: 'taegetCategory',
+        type: 'targetCategory',
         name,
       });
     },
@@ -31,17 +31,19 @@ export default {
         commit('clearMessage');
         commit('toggleLoading');
         const data = new URLSearchParams();
-        data.append('categoryName', rootGetters['categories/targetCategory']);
-        // axios(rootGetters['auth/token'])({
-        axios.post('/category', data)
-          .then(() => {
-            commit('toggleLoading');
-            commit('displayDoneMessage', { message: 'カテゴリーを作成しました' });
-            resolve();
-          })
+        data.append('name', rootGetters['categories/targetCategory']);
+        axios(rootGetters['auth/token'])({
+          method: 'POST',
+          url: '/category',
+          data,
+        }).then(() => {
+          commit('toggleLoading');
+          commit('displayDoneMessage', { message: 'カテゴリーを作成しました' });
+          resolve();
+        })
           .catch((err) => {
             commit('toggleLoading');
-            commit('failRequest', { message: err.message });
+            commit('failFetchCategory', { message: err.message });
             reject();
           });
       });
@@ -118,6 +120,9 @@ export default {
   mutations: {
     targetCategory(state, { name }) {
       state.targetCategory = name;
+    },
+    displayDoneMessage(state, { message }) {
+      state.doneMessage = message;
     },
     clearMessage(state) {
       state.errorMessage = '';

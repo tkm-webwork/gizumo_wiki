@@ -54,6 +54,8 @@ export default {
     doneMessage() {
       return this.$store.state.categories.doneMessage;
     },
+    //追加するカテゴリー名を直接storeから取るなら実験
+    
     categoryList() {
       return this.$store.state.categories.categoryList;
     },
@@ -70,12 +72,12 @@ export default {
   },
   methods: {
     updateValue($event) {
-      console.log($event);
-      this.data.category = $event.target.value;
-      // this[$event.target.name] = $event.target.value; 
-      // ？？？
-      // this.$store.dispatch('categories/targetCategory', $event.target.value);
+      this.category = $event.target.value;
+      this.$store.dispatch('categories/targetCategory', $event.target.value);
     },
+    // this[$event.target.name] = $event.target.value;
+    // console.log($event);
+    // ？？？
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
     },
@@ -93,9 +95,7 @@ export default {
       this.toggleModal();
     },
     handleSubmit() {
-      console.log('aa');
       if (this.loading) return;
-      console.log(this.category);
       this.$store.dispatch('categories/addCategory')
         .then(() => {
           this.$router.push({
