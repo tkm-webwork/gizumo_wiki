@@ -2,7 +2,7 @@
   <div class="category-management">
     <section class="category-management-post">
       <app-category-post
-        :category="category"
+        :target-category="targetCategory"
         :disabled="loading ? true : false"
         :error-message="errorMessage"
         :done-message="doneMessage"
@@ -11,6 +11,7 @@
         @clearMessage="clearMessage"
         @handleSubmit="handleSubmit"
       />
+      <!-- :category="category" -->
     </section>
     <section class="category-management-list">
       <app-category-list
@@ -37,7 +38,7 @@ export default {
   mixins: [Mixins],
   data() {
     return {
-      category: '',
+      // category: '',
       theads: ['カテゴリー名', '', '', ''],
     };
   },
@@ -54,8 +55,10 @@ export default {
     doneMessage() {
       return this.$store.state.categories.doneMessage;
     },
-    //追加するカテゴリー名を直接storeから取るなら実験
-    
+    //  追加するカテゴリー名を直接storeから取るなら実験
+    targetCategory() {
+      return this.$store.state.categories.targetCategory;
+    },
     categoryList() {
       return this.$store.state.categories.categoryList;
     },
@@ -72,7 +75,7 @@ export default {
   },
   methods: {
     updateValue($event) {
-      this.category = $event.target.value;
+      // this.category = $event.target.value;
       this.$store.dispatch('categories/targetCategory', $event.target.value);
     },
     // this[$event.target.name] = $event.target.value;

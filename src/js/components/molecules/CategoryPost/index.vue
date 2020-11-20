@@ -3,14 +3,15 @@
     <app-heading :level="1">カテゴリー管理</app-heading>
     <app-input
       v-validate="'required'"
-      name="category"
+      name="targetCategory"
       type="text"
       placeholder="追加するカテゴリー名を入力してください"
       data-vv-as="カテゴリー名"
       :error-messages="errors.collect('category')"
-      :value="category"
+      :value="targetCategory"
       @updateValue="$emit('udpateValue', $event)"
     />
+      <!-- name="category" -->
     <app-button
       class="category-management-post__submit"
       button-type="submit"
@@ -42,10 +43,14 @@ export default {
     appText: Text,
   },
   props: {
-    category: {
+    targetCategory: {
       type: String,
       default: '',
     },
+    // category: {
+    //   type: String,
+    //   default: '',
+    // },
     errorMessage: {
       type: String,
       default: '',
