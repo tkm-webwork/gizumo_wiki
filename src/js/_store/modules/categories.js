@@ -40,12 +40,11 @@ export default {
           commit('toggleLoading');
           commit('displayDoneMessage', { message: 'カテゴリーを作成しました' });
           resolve();
-        })
-          .catch((err) => {
-            commit('toggleLoading');
-            commit('failFetchCategory', { message: err.message });
-            reject();
-          });
+        }).catch((err) => {
+          commit('toggleLoading');
+          commit('failFetchCategory', { message: err.message });
+          reject();
+        });
       });
     },
     clearMessage({ commit }) {

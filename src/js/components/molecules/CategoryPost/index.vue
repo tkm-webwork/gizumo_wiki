@@ -11,7 +11,7 @@
       :value="targetCategory"
       @updateValue="$emit('udpateValue', $event)"
     />
-      <!-- name="category" -->
+    <!-- name="category" -->
     <app-button
       class="category-management-post__submit"
       button-type="submit"

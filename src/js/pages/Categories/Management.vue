@@ -99,12 +99,13 @@ export default {
     },
     handleSubmit() {
       if (this.loading) return;
-      this.$store.dispatch('categories/addCategory')
-        .then(() => {
-          this.$router.push({
-            path: '/categories',
-          });
-        });
+      this.$store.dispatch('categories/addCategory').then(() => {
+        // this.$router.push({
+        //   path: '/categories',
+        //   query: { redirect: '/category/post' },
+        // });
+        this.$store.dispatch('categories/getAllCategories');
+      });
     },
   },
 };
