@@ -105,6 +105,7 @@ export default {
         //   query: { redirect: '/category/post' },
         // });
         this.$store.dispatch('categories/getAllCategories');
+        this.$store.state.categories.targetCategory = '';
       });
     },
   },
