@@ -8,7 +8,6 @@
       :value="value"
       @input="$emit('updateValue', $event)"
     >
-
     <transition name="shake">
       <ul v-if="errorMessages.length" class="error">
         <li

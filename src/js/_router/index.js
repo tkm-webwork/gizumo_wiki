@@ -141,6 +141,16 @@ const router = new VueRouter({
           name: 'categoryManegement',
           path: '',
           component: CategoryManagement,
+          // beforeEnter(to, from, next) {
+          //   const isCategory = from.name ? from.name.indexOf('category') >= 0 : false;
+          //   const isRedirect = to.query.redirect;
+          //   if (isCategory && isRedirect) {
+          //     next();
+          //   } else {
+          //     Store.dispatch('categories/clearMessage');
+          //     next();
+          //   }
+          // },
         },
         {
           name: 'categoryEdit',
