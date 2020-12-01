@@ -156,6 +156,7 @@ const router = new VueRouter({
           name: 'categoryEdit',
           path: ':id',
           component: CategoryEdit,
+          props: true,
         },
       ],
     },

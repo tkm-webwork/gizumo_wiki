@@ -4,6 +4,7 @@
       :disabled="loading ? true : false"
       :access="access"
       @clearMessage="clearMessage"
+      :targetCategoryName="getCategoryName"
     />
   </div>
 </template>
@@ -22,6 +23,24 @@ export default {
     loading() {
       return this.$store.state.categories.loading;
     },
+    categoryId() {
+      let { id } = this.$route.params;
+      id = parseInt(id, 10);
+      return id;
+    },
+    getCategoryName() {
+      const id = this.categoryId;
+      const targetCategory = this.$store.getters['categories/categoryList'].filter(val => {
+        return id === val.id
+      });
+      //帰ってくるものにあった名前
+      return targetCategory[0].name;
+    },
+        // return id === val.
+  },
+  created() {
+    this.getCategoryName;
+    //getters確認して、nカテゴリーリストに何も入ってなかったら、actionでaxiosから全件GETしてくる必要あり。
   },
   methods: {
     clearMessage() {

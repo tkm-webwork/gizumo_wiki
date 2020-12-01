@@ -17,6 +17,7 @@
       type="text"
       placeholder="カテゴリー名を入力してください"
       data-vv-as=""
+      :value="targetCategoryName"
     />
     <app-button
       class="category-management-edit__submit"
@@ -50,6 +51,10 @@ export default {
     appText: Text,
   },
   props: {
+    targetCategoryName: {
+      type: String,
+      default: '',
+    },
     disabled: {
       type: Boolean,
       default: false,
