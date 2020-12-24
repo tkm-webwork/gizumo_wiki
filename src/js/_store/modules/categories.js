@@ -17,6 +17,7 @@ export default {
   getters: {
     categoryList: state => state.categoryList,
     targetCategory: state => state.targetCategory,
+    updateCategoryName: state => state.updateCategoryName,
     // getterの書き方を確認しておく。
   },
   actions: {
@@ -67,6 +68,29 @@ export default {
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
       commit('confirmDeleteCategory', { categoryId, categoryName });
     },
+    editedCategoryName({ commit }, name) {
+      commit({
+        type: 'editedCategoryName',
+        name,
+      });
+    },
+    updateCategory({ commit, rootGetters }, categoryId) {
+      console.log(rootGetters['categories/updateCategoryName']);
+      commit('toggleLoading');
+      const data = new URLSearchParams();
+      data.append('name', rootGetters['categories/updateCategoryName']);
+      axios(rootGetters['auth/token'])({
+        method: 'PUT',
+        url: `/category/${categoryId}`,
+        data,
+      }).then(() => {
+        commit('toggleLoading');
+        commit('displayDoneMessage', { message: 'カテゴリーを更新しました' });
+      }).catch(() => {
+        commit('toggleLoading');
+        commit('failFetchCategory', { message: 'カテゴリーの更新ができませんでした' });
+      });
+    },
     deleteCategory({ commit, rootGetters }, categoryId) {
       return new Promise((resolve) => {
         axios(rootGetters['auth/token'])({
@@ -85,6 +109,9 @@ export default {
     },
   },
   mutations: {
+    editedCategoryName(state, { name }) {
+      state.updateCategoryName = name;
+    },
     targetCategory(state, { name }) {
       state.targetCategory = name;
     },
