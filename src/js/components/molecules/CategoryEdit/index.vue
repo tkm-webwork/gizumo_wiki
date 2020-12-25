@@ -20,7 +20,7 @@
       data-vv-as="カテゴリー"
       :error-messages="errors.collect('updateCategory')"
       :value="targetCategoryName"
-      @updateValue="$emit('editedCategoryName', $event)"
+      @updateValue="$emit('editCategoryName', $event)"
     />
     <app-button
       class="category-management-edit__submit"
@@ -31,11 +31,20 @@
       {{ buttonText }}
     </app-button>
 
-    <div class="category-management-edit__notice">
+    <div
+      :class="[
+        'category-management-edit__notice',
+        errorMessage ? '' : 'msg_hide'
+      ]"
+    >
       <app-text bg-error> {{ errorMessage }}</app-text>
     </div>
-
-    <div class="category-management-edit__notice">
+    <div
+      :class="[
+        'category-management-edit__notice',
+        doneMessage ? '' : 'msg_hide'
+      ]"
+    >
       <app-text bg-success> {{ doneMessage }} </app-text>
     </div>
   </form>
@@ -81,12 +90,24 @@ export default {
       return this.disabled ? '更新中...' : '更新';
     },
   },
+  watch: {
+    doneMessage() {
+      setTimeout(() => {
+        this.$emit('clearMessage');
+      }, 1500);
+    },
+    errorMessage() {
+      setTimeout(() => {
+        this.$emit('clearMessage');
+      }, 1500);
+    },
+  },
   methods: {
     handleSubmit() {
       if (!this.access.edit) return;
       this.$emit('clearMessage');
       this.$validator.validate().then((valid) => {
-        if (valid) this.$emit('editCategory');
+        if (valid) this.$emit('updateCategory');
       });
     },
   },
@@ -109,5 +130,9 @@ export default {
   &__notice {
     margin-top: 16px;
   }
+}
+.msg_hide {
+  position: fixed;
+  top: -60px;
 }
 </style>

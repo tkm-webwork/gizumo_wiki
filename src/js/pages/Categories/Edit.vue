@@ -3,12 +3,12 @@
     <app-category-edit
       :disabled="loading ? true : false"
       :access="access"
-      :target-category-name="getCategoryName"
       :done-message="doneMessage"
       :error-message="errorMessage"
+      :target-category-name="getCategoryName"
       @clearMessage="clearMessage"
-      @editCategory="editCategory"
-      @editedCategoryName="editedCategoryName"
+      @editCategoryName="editCategoryName"
+      @updateCategory="updateCategory"
     />
   </div>
 </template>
@@ -27,20 +27,17 @@ export default {
     loading() {
       return this.$store.state.categories.loading;
     },
-    categoryId() {
-      let { id } = this.$route.params;
-      id = parseInt(id, 10);
-      return id;
-    },
     getCategoryName() {
-      const id = this.categoryId;
-      const targetCategory = this.$store.getters['categories/categoryList'].filter(val => {
-        return id === val.id;
-      });
-      // 帰ってくるものにあった名前
-      return targetCategory[0].name;
+      return this.$store.state.categories.updateCategoryName;
     },
-    // return id === val.
+    // getCategoryName() {
+    //   const id = this.categoryId;
+    //   const targetCategory = this.$store.getters['categories/categoryList']
+    //     .filter(val => {
+    //       return id === val.id;
+    //     });
+    //   return targetCategory[0].name;
+    // },
     doneMessage() {
       return this.$store.state.categories.doneMessage;
     },
@@ -49,20 +46,27 @@ export default {
     },
   },
   created() {
-    this.getCategoryName();
+    const { id } = this.$route.params;
+    this.$store.dispatch('categories/getCategoryName', id);
+    // if ( this.$store.state.categories.errorMessage !== '') {
+
+    // }
+    // this.getCategoryName();
     // getters確認して、nカテゴリーリストに何も入ってなかったら、actionでaxiosから全件GETしてくる必要あり。
   },
   methods: {
-    editedCategoryName($event) {
-      this.$store.dispatch('categories/editedCategoryName', $event.target.value);
+    editCategoryName($event) {
+      this.$store.dispatch('categories/editCategoryName', $event.target.value);
     },
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
     },
-    editCategory() {
+    updateCategory() {
       if (this.loading) return;
       this.$store.dispatch('categories/updateCategory', this.$route.params);
     },
+
+    // this.$store.dispatch('categories/targetCategory', categoryName);
   },
 };
 </script>

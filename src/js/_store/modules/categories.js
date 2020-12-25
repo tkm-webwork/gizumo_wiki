@@ -21,6 +21,14 @@ export default {
     // getterの書き方を確認しておく。
   },
   actions: {
+    getCategoryName({ commit, rootGetters }, id) {
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: `/category/${id}`,
+      }).then((res) => {
+        commit('getCategoryName', res.data.category);
+      });
+    },
     targetCategory({ commit }, name) {
       commit({
         type: 'targetCategory',
@@ -68,14 +76,13 @@ export default {
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
       commit('confirmDeleteCategory', { categoryId, categoryName });
     },
-    editedCategoryName({ commit }, name) {
+    editCategoryName({ commit }, name) {
       commit({
-        type: 'editedCategoryName',
+        type: 'editCategoryName',
         name,
       });
     },
     updateCategory({ commit, rootGetters }, categoryId) {
-      console.log(rootGetters['categories/updateCategoryName']);
       commit('toggleLoading');
       const data = new URLSearchParams();
       data.append('name', rootGetters['categories/updateCategoryName']);
@@ -84,9 +91,11 @@ export default {
         url: `/category/${categoryId}`,
         data,
       }).then(() => {
+        console.log(rootGetters['categories/updateCategoryName']);
         commit('toggleLoading');
         commit('displayDoneMessage', { message: 'カテゴリーを更新しました' });
       }).catch(() => {
+        console.log(rootGetters['categories/updateCategoryName']);
         commit('toggleLoading');
         commit('failFetchCategory', { message: 'カテゴリーの更新ができませんでした' });
       });
@@ -99,7 +108,6 @@ export default {
         }).then((response) => {
           // NOTE: エラー時はresponse.data.codeが0で返ってくる。
           if (response.data.code === 0) throw new Error(response.data.message);
-
           commit('doneDeleteCategory');
           resolve();
         }).catch((err) => {
@@ -109,7 +117,10 @@ export default {
     },
   },
   mutations: {
-    editedCategoryName(state, { name }) {
+    getCategoryName(state, category) {
+      state.updateCategoryName = category.name;
+    },
+    editCategoryName(state, { name }) {
       state.updateCategoryName = name;
     },
     targetCategory(state, { name }) {
