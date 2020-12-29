@@ -64,8 +64,9 @@ export default {
     updateCategory() {
       if (this.loading) return;
       this.$store.dispatch('categories/updateCategory', this.$route.params);
+      console.log(this.$route.params);
     },
-
+    // ,this.$route.params
     // this.$store.dispatch('categories/targetCategory', categoryName);
   },
 };

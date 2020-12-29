@@ -82,18 +82,23 @@ export default {
         name,
       });
     },
-    updateCategory({ commit, rootGetters }, categoryId) {
+    updateCategory({ commit, rootGetters }, { id }) {
       commit('toggleLoading');
       const data = new URLSearchParams();
+      console.log(id);
+      data.append('id', id);
+      // data.append('name', this.state.categories.updateCategoryName);
       data.append('name', rootGetters['categories/updateCategoryName']);
+      console.log(data.toString());
       axios(rootGetters['auth/token'])({
         method: 'PUT',
-        url: `/category/${categoryId}`,
+        url: `/category/${id}`,
         data,
-      }).then(() => {
-        console.log(rootGetters['categories/updateCategoryName']);
+      }).then((res) => {
         commit('toggleLoading');
         commit('displayDoneMessage', { message: 'カテゴリーを更新しました' });
+        commit('doneUpdateCategory', res.data);
+        console.log(res);
       }).catch(() => {
         console.log(rootGetters['categories/updateCategoryName']);
         commit('toggleLoading');
@@ -117,6 +122,10 @@ export default {
     },
   },
   mutations: {
+    doneUpdateCategory(state, category) {
+      state.updateCategoryId = category.id;
+      state.updateCategoryId = category.name;
+    },
     getCategoryName(state, category) {
       state.updateCategoryName = category.name;
     },

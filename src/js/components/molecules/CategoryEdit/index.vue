@@ -17,7 +17,7 @@
       name="updateCategory"
       type="text"
       placeholder="カテゴリー名を入力してください"
-      data-vv-as="カテゴリー"
+      data-vv-as="カテゴリー名"
       :error-messages="errors.collect('updateCategory')"
       :value="targetCategoryName"
       @updateValue="$emit('editCategoryName', $event)"
@@ -94,12 +94,12 @@ export default {
     doneMessage() {
       setTimeout(() => {
         this.$emit('clearMessage');
-      }, 1500);
+      }, 2000);
     },
     errorMessage() {
       setTimeout(() => {
         this.$emit('clearMessage');
-      }, 1500);
+      }, 2000);
     },
   },
   methods: {
