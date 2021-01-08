@@ -17,9 +17,18 @@ export default {
   getters: {
     categoryList: state => state.categoryList,
     targetCategory: state => state.targetCategory,
+    updateCategoryName: state => state.updateCategoryName,
     // getterの書き方を確認しておく。
   },
   actions: {
+    getCategoryName({ commit, rootGetters }, id) {
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: `/category/${id}`,
+      }).then((res) => {
+        commit('getCategoryName', res.data.category);
+      });
+    },
     targetCategory({ commit }, name) {
       commit({
         type: 'targetCategory',
@@ -67,6 +76,35 @@ export default {
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
       commit('confirmDeleteCategory', { categoryId, categoryName });
     },
+    editCategoryName({ commit }, name) {
+      commit({
+        type: 'editCategoryName',
+        name,
+      });
+    },
+    updateCategory({ commit, rootGetters }, { id }) {
+      commit('toggleLoading');
+      const data = new URLSearchParams();
+      console.log(id);
+      data.append('id', id);
+      // data.append('name', this.state.categories.updateCategoryName);
+      data.append('name', rootGetters['categories/updateCategoryName']);
+      console.log(data.toString());
+      axios(rootGetters['auth/token'])({
+        method: 'PUT',
+        url: `/category/${id}`,
+        data,
+      }).then((res) => {
+        commit('toggleLoading');
+        commit('displayDoneMessage', { message: 'カテゴリーを更新しました' });
+        commit('doneUpdateCategory', res.data);
+        console.log(res);
+      }).catch(() => {
+        console.log(rootGetters['categories/updateCategoryName']);
+        commit('toggleLoading');
+        commit('failFetchCategory', { message: 'カテゴリーの更新ができませんでした' });
+      });
+    },
     deleteCategory({ commit, rootGetters }, categoryId) {
       return new Promise((resolve) => {
         axios(rootGetters['auth/token'])({
@@ -75,7 +113,6 @@ export default {
         }).then((response) => {
           // NOTE: エラー時はresponse.data.codeが0で返ってくる。
           if (response.data.code === 0) throw new Error(response.data.message);
-
           commit('doneDeleteCategory');
           resolve();
         }).catch((err) => {
@@ -85,6 +122,16 @@ export default {
     },
   },
   mutations: {
+    doneUpdateCategory(state, category) {
+      state.updateCategoryId = category.id;
+      state.updateCategoryId = category.name;
+    },
+    getCategoryName(state, category) {
+      state.updateCategoryName = category.name;
+    },
+    editCategoryName(state, { name }) {
+      state.updateCategoryName = name;
+    },
     targetCategory(state, { name }) {
       state.targetCategory = name;
     },

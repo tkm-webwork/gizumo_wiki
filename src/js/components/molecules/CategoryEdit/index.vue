@@ -12,11 +12,15 @@
       カテゴリー一覧へ戻る
     </app-router-link>
     <app-input
+      v-validate="'required'"
       class="category-management-edit__input"
       name="updateCategory"
       type="text"
       placeholder="カテゴリー名を入力してください"
-      data-vv-as=""
+      data-vv-as="カテゴリー名"
+      :error-messages="errors.collect('updateCategory')"
+      :value="targetCategoryName"
+      @updateValue="$emit('editCategoryName', $event)"
     />
     <app-button
       class="category-management-edit__submit"
@@ -27,12 +31,21 @@
       {{ buttonText }}
     </app-button>
 
-    <div class="category-management-edit__notice">
-      <app-text bg-error>ここにエラー時のメッセージが入ります</app-text>
+    <div
+      :class="[
+        'category-management-edit__notice',
+        errorMessage ? '' : 'msg_hide'
+      ]"
+    >
+      <app-text bg-error> {{ errorMessage }}</app-text>
     </div>
-
-    <div class="category-management-edit__notice">
-      <app-text bg-success>ここに更新成功時のメッセージが入ります</app-text>
+    <div
+      :class="[
+        'category-management-edit__notice',
+        doneMessage ? '' : 'msg_hide'
+      ]"
+    >
+      <app-text bg-success> {{ doneMessage }} </app-text>
     </div>
   </form>
 </template>
@@ -50,6 +63,10 @@ export default {
     appText: Text,
   },
   props: {
+    targetCategoryName: {
+      type: String,
+      default: '',
+    },
     disabled: {
       type: Boolean,
       default: false,
@@ -58,6 +75,14 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    doneMessage: {
+      type: String,
+      default: '',
+    },
+    errorMessage: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     buttonText() {
@@ -65,12 +90,24 @@ export default {
       return this.disabled ? '更新中...' : '更新';
     },
   },
+  watch: {
+    doneMessage() {
+      setTimeout(() => {
+        this.$emit('clearMessage');
+      }, 2000);
+    },
+    errorMessage() {
+      setTimeout(() => {
+        this.$emit('clearMessage');
+      }, 2000);
+    },
+  },
   methods: {
     handleSubmit() {
       if (!this.access.edit) return;
       this.$emit('clearMessage');
       this.$validator.validate().then((valid) => {
-        if (valid) this.$emit('エミットするイベント名が入ります');
+        if (valid) this.$emit('updateCategory');
       });
     },
   },
@@ -93,5 +130,9 @@ export default {
   &__notice {
     margin-top: 16px;
   }
+}
+.msg_hide {
+  position: fixed;
+  top: -60px;
 }
 </style>
