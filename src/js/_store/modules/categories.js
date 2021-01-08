@@ -59,19 +59,9 @@ export default {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
-    getAllCategories({ commit, rootGetters }) {
-      axios(rootGetters['auth/token'])({
-        method: 'GET',
-        url: '/category',
-      }).then((response) => {
-        const payload = { categories: [] };
-        response.data.categories.forEach((val) => {
-          payload.categories.push(val);
-        });
-        commit('doneGetAllCategories', payload);
-      }).catch((err) => {
-        commit('failFetchCategory', { message: err.message });
-      });
+    getAllCategories({ commit }) {
+      const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
+      commit('doneGetAllCategories', payload);
     },
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
       commit('confirmDeleteCategory', { categoryId, categoryName });
@@ -150,10 +140,6 @@ export default {
     },
     toggleLoading(state) {
       state.loading = !state.loading;
-    },
-    confirmDeleteCategory(state, { categoryId, categoryName }) {
-      state.deleteCategoryId = categoryId;
-      state.deleteCategoryName = categoryName;
     },
     doneDeleteCategory(state) {
       state.deleteCategoryId = null;
