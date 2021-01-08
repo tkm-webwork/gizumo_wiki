@@ -25,6 +25,7 @@
               underline
               small
               hover-opacity
+              :to="{path: '/articles', query:{category: category.name}}"
             >
               このカテゴリーの記事
             </app-router-link>
