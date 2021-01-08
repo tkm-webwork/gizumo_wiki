@@ -59,9 +59,23 @@ export default {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
-    getAllCategories({ commit }) {
-      const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
-      commit('doneGetAllCategories', payload);
+    getAllCategories({ commit, rootGetters }) {
+      return new Promise((resolve, reject) => {
+        axios(rootGetters['auth/token'])({
+          method: 'GET',
+          url: '/category',
+        }).then((res) => {
+          const payload = res.data.categories;
+          console.log(payload);
+          commit('doneGetAllCategories', payload);
+          resolve();
+        }).catch((err) => {
+          commit('failFetchCategory', { message: err.message });
+          reject();
+        });
+      });
+      // const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
+      // commit('doneGetAllCategories', payload);
     },
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
       commit('confirmDeleteCategory', { categoryId, categoryName });
@@ -132,8 +146,8 @@ export default {
       state.errorMessage = '';
       state.doneMessage = '';
     },
-    doneGetAllCategories(state, { categories }) {
-      state.categoryList = [...categories];
+    doneGetAllCategories(state, payload) {
+      state.categoryList = payload;
     },
     failFetchCategory(state, { message }) {
       state.errorMessage = message;
