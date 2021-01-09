@@ -74,7 +74,7 @@
           class="category-list__modal__button"
           bg-danger
           round
-          @click="handleClick"
+          @click="handleClick(deleteCategoryId)"
         >
           削除する
         </app-button>
@@ -115,15 +115,19 @@ export default {
       type: String,
       default: '',
     },
+    deleteCategoryId: {
+      type: Number,
+      default: null,
+    },
   },
   methods: {
-    openModal(categoryId) {
+    openModal(category) {
       if (!this.access.delete) return;
-      this.$emit('openModal', categoryId);
+      this.$emit('openModal', category);
     },
-    handleClick() {
+    handleClick(deleteCategoryId) {
       if (!this.access.delete) return;
-      this.$emit('ここにエミットするイベント名が入ります');
+      this.$emit('deleteCategory', deleteCategoryId);
     },
   },
 };
