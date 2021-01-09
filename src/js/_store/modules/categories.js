@@ -79,6 +79,7 @@ export default {
     },
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
       commit('confirmDeleteCategory', { categoryId, categoryName });
+      console.log(categoryName);
     },
     editCategoryName({ commit }, name) {
       commit({
@@ -126,6 +127,10 @@ export default {
     },
   },
   mutations: {
+    confirmDeleteCategory(state, { categoryId, categoryName }) {
+      state.deleteCategoryId = categoryId;
+      state.deleteCategoryName = categoryName;
+    },
     doneUpdateCategory(state, category) {
       state.updateCategoryId = category.id;
       state.updateCategoryId = category.name;

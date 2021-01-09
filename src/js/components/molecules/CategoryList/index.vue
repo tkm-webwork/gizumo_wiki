@@ -35,6 +35,7 @@
               theme-color
               underline
               hover-opacity
+              :to="{name: 'categoryEdit', params:{ id: category.id }}"
             >
               更新
             </app-router-link>
@@ -45,7 +46,7 @@
               small
               round
               :disabled="!access.delete"
-              @click="openModal()"
+              @click="openModal(category)"
             >
               削除
             </app-button>
@@ -67,7 +68,7 @@
           theme-color
           tag="p"
         >
-          ここに削除するカテゴリー名が入ります
+          {{ deleteCategoryName }}
         </app-text>
         <app-button
           class="category-list__modal__button"
@@ -110,11 +111,15 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    deleteCategoryName: {
+      type: String,
+      default: '',
+    },
   },
   methods: {
-    openModal() {
+    openModal(categoryId) {
       if (!this.access.delete) return;
-      this.$emit('openModal');
+      this.$emit('openModal', categoryId);
     },
     handleClick() {
       if (!this.access.delete) return;
