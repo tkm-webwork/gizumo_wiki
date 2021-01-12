@@ -22,7 +22,6 @@
         :access="access"
         @openModal="openModal"
         @deleteCategory="deleteCategory"
-        @closeModal="closeModal"
       />
     </section>
   </div>
@@ -81,7 +80,7 @@ export default {
         .then(() => {
           this.toggleModal();
           this.$store.dispatch('categories/getAllCategories');
-          //カテゴリーが入れ替わったらどこで描写がおこるの？
+          //  カテゴリーが入れ替わったらどこで描写がおこるの？
         });
     },
     updateValue($event) {
@@ -102,10 +101,6 @@ export default {
       console.log(category.name);
       this.toggleModal();
     },
-    closeModal() {
-
-    },
-
     handleSubmit() {
       if (this.loading) return;
       this.$store.dispatch('categories/addCategory').then(() => {
