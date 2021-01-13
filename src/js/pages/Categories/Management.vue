@@ -18,8 +18,10 @@
         :theads="theads"
         :categories="categoryList"
         :delete-category-name="deleteCategoryName"
+        :delete-category-id="deleteCategoryId"
         :access="access"
         @openModal="openModal"
+        @deleteCategory="deleteCategory"
       />
     </section>
   </div>
@@ -73,6 +75,14 @@ export default {
     this.$store.dispatch('categories/getAllCategories');
   },
   methods: {
+    deleteCategory(deleteCategoryId) {
+      this.$store.dispatch('categories/deleteCategory', deleteCategoryId)
+        .then(() => {
+          this.toggleModal();
+          this.$store.dispatch('categories/getAllCategories');
+          //  カテゴリーが入れ替わったらどこで描写がおこるの？
+        });
+    },
     updateValue($event) {
       // this.category = $event.target.value;
       this.$store.dispatch('categories/targetCategory', $event.target.value);
@@ -83,9 +93,13 @@ export default {
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
     },
-    openModal() {
-      this.toggleModal();
+    openModal(category) {
       this.$store.dispatch('categories/clearMessage');
+      this.$store
+        .dispatch('categories/confirmDeleteCategory',
+          { categoryId: category.id, categoryName: category.name });
+      console.log(category.name);
+      this.toggleModal();
     },
     handleSubmit() {
       if (this.loading) return;
