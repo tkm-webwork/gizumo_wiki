@@ -123,7 +123,9 @@ export default {
   methods: {
     openModal(category) {
       if (!this.access.delete) return;
+      //  JSON web tokenのaccess token(delete/create/editの権限が与えられている)? OR ユーザー情報？に乗っている？で、deleteできる人かを確認している。
       this.$emit('openModal', category);
+      console.log(this);
     },
     handleClick(deleteCategoryId) {
       if (!this.access.delete) return;
