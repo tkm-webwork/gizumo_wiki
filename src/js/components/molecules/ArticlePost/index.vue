@@ -16,6 +16,7 @@
           v-validate="'required'"
           name="category"
           date-vv-as="カテゴリー"
+          :value="currentCategoryName"
           :error-messages="errors.collect('category')"
           @updateValue="$emit('selectedArticleCategory', $event)"
         >
@@ -70,7 +71,7 @@
           class="article-post-submit"
           button-type="submit"
           round
-          :disabled="!disabled"
+          :disabled="disabled"
           @click="handleSubmit"
         >
           {{ buttonText }}
@@ -100,6 +101,47 @@ export default {
     appButton: Button,
     appSelect: Select,
     appText: Text,
+  },
+  props: {
+    categoryList: {
+      type: Array,
+      default: () => [],
+    },
+    articleTitle: {
+      type: String,
+      default: '',
+    },
+    articleContent: {
+      type: String,
+      default: '',
+    },
+    currentCategoryName: {
+      type: String,
+      default: '',
+    },
+    markdownContent: {
+      type: String,
+      default: '',
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    buttonText() {
+      return this.loading ? '作成中...' : '作成';
+    },
+    disabled() {
+      return this.loading;
+    },
+  },
+  methods: {
+    handleSubmit() {
+      this.$validator.validate().then((valid) => {
+        if (valid) this.$emit('handleSubmit');
+      });
+    },
   },
 };
 </script>
