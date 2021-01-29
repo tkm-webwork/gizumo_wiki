@@ -103,6 +103,10 @@ export default {
     appText: Text,
   },
   props: {
+    errorMessage: {
+      type: String,
+      default: '',
+    },
     categoryList: {
       type: Array,
       default: () => [],

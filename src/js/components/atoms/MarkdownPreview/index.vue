@@ -10,6 +10,7 @@
 <script>
 import marked from 'marked';
 import hljs from 'highlight.js';
+import DOMPurify from 'dompurify';
 
 export default {
   props: {
@@ -64,7 +65,8 @@ export default {
         breaks: false,
         smartLists: true,
       });
-      return marked(this.markdownContent);
+      const convertedContent = marked(this.markdownContent);
+      return DOMPurify.sanitize(convertedContent);
     },
   },
   mounted() {

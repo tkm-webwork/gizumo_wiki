@@ -84,9 +84,9 @@ export default {
         content: payload.content,
       });
     },
-    postArticle(state, { article }) {
-      state.targetArticle = Object.assign({}, state.targetArticle, { ...article });
-    },
+    // postArticle(state, { article }) {
+    //   state.targetArticle = Object.assign({}, state.targetArticle, { ...article });
+    // },
     editedTitle(state, payload) {
       state.targetArticle = Object.assign({}, { ...state.targetArticle }, {
         title: payload.title,
@@ -295,7 +295,7 @@ export default {
               category: res.data.article.category,
             },
           };
-          commit('postArticle', payload);
+          commit('initPostArticle', payload);
           commit('toggleLoading');
           commit('displayDoneMessage', { message: 'ドキュメントを作成しました' });
           resolve();

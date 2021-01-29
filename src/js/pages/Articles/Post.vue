@@ -5,6 +5,7 @@
     :article-content="articleContent"
     :current-category-name="currentCategoryName"
     :markdown-content="markdownContent"
+    :error-message="errorMessage"
     @selectedArticleCategory="selectedArticleCategory"
     @newTitle="newTitle"
     @newContent="newContent"
@@ -48,6 +49,9 @@ export default {
     loading() {
       return this.$store.state.articles.loading;
     },
+    errorMessage() {
+      return this.$store.state.articles.errorMessage;
+    },
   },
   created() {
     this.$store.dispatch('categories/getAllCategories');
@@ -71,6 +75,7 @@ export default {
     handleSubmit() {
       if (this.loading) return;
       this.$store.dispatch('articles/postArticle');
+      this.$router.push({ path: '/articles' });
     },
   },
 };
