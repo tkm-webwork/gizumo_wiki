@@ -43,6 +43,7 @@ export default {
     },
   },
   created() {
+    this.$store.dispatch('articles/getArticles');
     const categoryName = this.$route.query.category ? this.$route.query.category : null;
     this.fetchArticles(categoryName);
   },

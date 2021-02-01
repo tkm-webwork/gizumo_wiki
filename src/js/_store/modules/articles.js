@@ -74,6 +74,19 @@ export default {
     doneGetArticles(state, payload) {
       state.articleList = [...payload.articles];
     },
+    newTitle(state, payload) {
+      state.targetArticle = Object.assign({}, { ...state.targetArticle }, {
+        title: payload.title,
+      });
+    },
+    newContent(state, payload) {
+      state.targetArticle = Object.assign({}, { ...state.targetArticle }, {
+        content: payload.content,
+      });
+    },
+    // postArticle(state, { article }) {
+    //   state.targetArticle = Object.assign({}, state.targetArticle, { ...article });
+    // },
     editedTitle(state, payload) {
       state.targetArticle = Object.assign({}, { ...state.targetArticle }, {
         title: payload.title,
@@ -161,6 +174,18 @@ export default {
           commit('failRequest', { message: err.message });
           reject();
         });
+      });
+    },
+    newTitle({ commit }, title) {
+      commit({
+        type: 'newTitle',
+        title,
+      });
+    },
+    newContent({ commit }, content) {
+      commit({
+        type: 'newContent',
+        content,
       });
     },
     editedTitle({ commit }, title) {
@@ -258,7 +283,19 @@ export default {
           method: 'POST',
           url: '/article',
           data,
-        }).then(() => {
+        }).then((res) => {
+          const payload = {
+            article: {
+              id: res.data.article.id,
+              title: res.data.article.title,
+              content: res.data.article.content,
+              updated_at: res.data.article.updated_at,
+              created_at: res.data.article.created_at,
+              user: res.data.article.user,
+              category: res.data.article.category,
+            },
+          };
+          commit('initPostArticle', payload);
           commit('toggleLoading');
           commit('displayDoneMessage', { message: 'ドキュメントを作成しました' });
           resolve();
