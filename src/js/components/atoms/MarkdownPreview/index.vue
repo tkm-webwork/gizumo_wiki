@@ -10,7 +10,7 @@
 <script>
 import marked from 'marked';
 import hljs from 'highlight.js';
-import DOMPurify from 'dompurify';
+import escapeHtml from 'escape-html';
 
 export default {
   props: {
@@ -65,8 +65,9 @@ export default {
         breaks: false,
         smartLists: true,
       });
-      const convertedContent = marked(this.markdownContent);
-      return DOMPurify.sanitize(convertedContent);
+      const convertedContent = escapeHtml(this.markdownContent);
+      const markdownContenttoShow = marked(convertedContent);
+      return markdownContenttoShow;
     },
   },
   mounted() {

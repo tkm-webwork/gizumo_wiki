@@ -30,6 +30,7 @@
     "core-js": "^3.0.1",
     "dompurify": "^2.2.6",
     "ejs": "^2.6.1",
+    "escape-html": "^1.0.3",
     "express": "^4.16.4",
     "highlight.js": "^9.15.6",
     "http-errors": "^1.7.2",

@@ -66,7 +66,6 @@ export default {
           url: '/category',
         }).then((res) => {
           const payload = res.data.categories;
-          console.log(payload);
           commit('doneGetAllCategories', payload);
           resolve();
         }).catch((err) => {
@@ -79,7 +78,6 @@ export default {
     },
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
       commit('confirmDeleteCategory', { categoryId, categoryName });
-      console.log(categoryName);
     },
     editCategoryName({ commit }, name) {
       commit({
@@ -90,11 +88,9 @@ export default {
     updateCategory({ commit, rootGetters }, { id }) {
       commit('toggleLoading');
       const data = new URLSearchParams();
-      console.log(id);
       data.append('id', id);
       // data.append('name', this.state.categories.updateCategoryName);
       data.append('name', rootGetters['categories/updateCategoryName']);
-      console.log(data.toString());
       axios(rootGetters['auth/token'])({
         method: 'PUT',
         url: `/category/${id}`,
@@ -103,9 +99,7 @@ export default {
         commit('toggleLoading');
         commit('displayDoneMessage', { message: 'カテゴリーを更新しました' });
         commit('doneUpdateCategory', res.data);
-        console.log(res);
       }).catch(() => {
-        console.log(rootGetters['categories/updateCategoryName']);
         commit('toggleLoading');
         commit('failFetchCategory', { message: 'カテゴリーの更新ができませんでした' });
       });
