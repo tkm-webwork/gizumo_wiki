@@ -1,10 +1,12 @@
 <template lang="html">
   <div :class="wrapperClasses">
+    <!-- eslint-disable vue/no-v-html -->
     <div
       :class="classes"
       v-html="marked"
     />
   </div>
+  <!-- eslint-enable -->
 </template>
 
 <script>
