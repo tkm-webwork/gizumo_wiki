@@ -9,6 +9,7 @@
         :access="access"
         @udpateValue="updateValue"
         @clearMessage="clearMessage"
+        @handleSubmit="handleSubmit"
       />
     </section>
     <section class="category-management-list">
@@ -70,6 +71,7 @@ export default {
   methods: {
     updateValue($event) {
       this[$event.target.name] = $event.target.value;
+      // this.$store.dispatch('categories/updateValue', $event.target.value);
     },
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
@@ -86,6 +88,13 @@ export default {
           this.$store.dispatch('categories/getAllCategories');
         });
       this.toggleModal();
+    },
+    handleSubmit() {
+      if (this.loading) return;
+      this.$store.dispatch('categories/postCategory', this.category).then(() => {
+        this.$store.dispatch('categories/getAllCategories');
+        this.category = '';
+      });
     },
   },
 };
