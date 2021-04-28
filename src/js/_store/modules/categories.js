@@ -51,10 +51,6 @@ export default {
     toggleLoading(state) {
       state.loading = !state.loading;
     },
-    confirmDeleteCategory(state, { categoryId, categoryName }) {
-      state.deleteCategoryId = categoryId;
-      state.deleteCategoryName = categoryName;
-    },
     doneDeleteCategory(state) {
       state.deleteCategoryId = null;
       state.deleteCategoryName = '';
@@ -68,20 +64,9 @@ export default {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
-    // ユーザー全件取得
-    getAllCategories({ commit, rootGetters }) {
-      axios(rootGetters['auth/token'])({
-        method: 'GET',
-        url: '/category',
-      }).then((response) => {
-        const payload = { categories: [] };
-        response.data.categories.forEach((val) => {
-          payload.categories.push(val);
-        });
-        commit('doneGetAllCategories', payload);
-      }).catch((err) => {
-        commit('failFetchCategory', { message: err.message });
-      });
+    getAllCategories({ commit }) {
+      const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
+      commit('doneGetAllCategories', payload);
     },
     // ユーザー1件取得(詳細)
     getCategoryDetail({ commit, rootGetters }, id) {
@@ -126,9 +111,6 @@ export default {
         commit('failFetchCategory', { message: err.message });
         commit('toggleLoading');
       });
-    },
-    confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
-      commit('confirmDeleteCategory', { categoryId, categoryName });
     },
     deleteCategory({ commit, rootGetters }, categoryId) {
       return new Promise((resolve) => {

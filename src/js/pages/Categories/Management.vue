@@ -9,7 +9,6 @@
         :access="access"
         @udpateValue="updateValue"
         @clearMessage="clearMessage"
-        @handleSubmit="handleSubmit"
       />
     </section>
     <section class="category-management-list">
@@ -19,7 +18,6 @@
         :delete-category-name="deleteCategoryName"
         :access="access"
         @openModal="openModal"
-        @handleClick="deleteCategory"
       />
     </section>
   </div>
@@ -76,25 +74,9 @@ export default {
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
     },
-    openModal(categoryId, categoryName) {
+    openModal() {
       this.toggleModal();
       this.$store.dispatch('categories/clearMessage');
-      this.$store.dispatch('categories/confirmDeleteCategory',
-        { categoryId, categoryName });
-    },
-    deleteCategory() {
-      this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId)
-        .then(() => {
-          this.$store.dispatch('categories/getAllCategories');
-        });
-      this.toggleModal();
-    },
-    handleSubmit() {
-      if (this.loading) return;
-      this.$store.dispatch('categories/postCategory', this.category).then(() => {
-        this.$store.dispatch('categories/getAllCategories');
-        this.category = '';
-      });
     },
   },
 };
