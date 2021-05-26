@@ -86,27 +86,20 @@ export default {
       });
     },
     postCategory({ commit, rootGetters }) {
+      commit('clearMessage');
+      commit('toggleLoading');
       return new Promise((resolve, reject) => {
-        commit('clearMessage');
-        commit('toggleLoading');
-        const data = new URLSearchParams();
-        console.log(data);
-        // data.append('title', rootGetters['Categories/targetCategory'].title);
-        // data.append('content', rootGetters['Categories/targetCategory'].content);
-        // data.append('user_id', rootGetters['auth/user'].id);
-        /* eslint-disable max-len */
-        if (rootGetters['Categories/targetCategory'].category.id !== null) {
-          data.append('category_id', rootGetters['Categories/targetCategory'].category.id);
-        }
-        /* eslint-enable max-len */
         axios(rootGetters['auth/token'])({
           method: 'POST',
-          url: '/Category',
-          data,
-        }).then(() => {
-          commit('toggleLoading');
-          commit('displayDoneMessage', { message: 'を作成しました' });
-          resolve();
+          url: '/categories',
+          data: category,
+        }).then((response) => {
+          // NOTE: エラー時はresponse.data.codeが0で返ってくる
+          if (response.data.code === 0) throw new Error(response.data.message);
+          console.log('');
+          // commit('toggleLoading');
+          // commit('displayDoneMessage', { message: 'を作成しました' });
+          // resolve();
         }).catch((err) => {
           commit('toggleLoading');
           commit('failRequest', { message: err.message });
