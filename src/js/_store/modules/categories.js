@@ -95,14 +95,15 @@ export default {
         axios(rootGetters['auth/token'])({
           method: 'POST',
           url: '/categories',
-          data: category,
+          // data: category,
         }).then((response) => {
           // NOTE: エラー時はresponse.data.codeが0で返ってくる
           if (response.data.code === 0) throw new Error(response.data.message);
-          console.log('');
-          // commit('toggleLoading');
-          // commit('displayDoneMessage', { message: 'を作成しました' });
-          // resolve();
+          console.log(response.data.code);
+
+          commit('toggleLoading');
+          commit('displayDoneMessage', { message: 'を作成しました' });
+          resolve();
         }).catch((err) => {
           commit('toggleLoading');
           commit('failRequest', { message: err.message });
