@@ -95,6 +95,8 @@ export default {
           path: '/categories',
           query: { redirect: '/categories' },
         });
+        // 異なるURLへ遷移する
+        // $router:ルーターインスタンス
       });
     },
   },
