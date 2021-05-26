@@ -72,8 +72,8 @@ export default {
     updateCategory({ commit, rootGetters }) {
       commit('toggleLoading');
       const data = new URLSearchParams();
-      data.append('id', this.state.categories.targetCategoryId);
-      data.append('name', this.state.categories.targetCategoryName);
+      data.append('id', this.state.categories.updateCategoryId);
+      data.append('name', this.state.categories.updateCategoryName);
       axios(rootGetters['auth/token'])({
         method: 'PUT',
         url: `/category/${this.state.categories.updateCategoryId}`,
