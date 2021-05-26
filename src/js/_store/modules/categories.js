@@ -91,9 +91,9 @@ export default {
         commit('toggleLoading');
         const data = new URLSearchParams();
         console.log(data);
-        data.append('title', rootGetters['Categories/targetCategory'].title);
-        data.append('content', rootGetters['Categories/targetCategory'].content);
-        data.append('user_id', rootGetters['auth/user'].id);
+        // data.append('title', rootGetters['Categories/targetCategory'].title);
+        // data.append('content', rootGetters['Categories/targetCategory'].content);
+        // data.append('user_id', rootGetters['auth/user'].id);
         /* eslint-disable max-len */
         if (rootGetters['Categories/targetCategory'].category.id !== null) {
           data.append('category_id', rootGetters['Categories/targetCategory'].category.id);
