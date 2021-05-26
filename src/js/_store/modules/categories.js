@@ -72,8 +72,8 @@ export default {
     updateCategory({ commit, rootGetters }) {
       commit('toggleLoading');
       const data = new URLSearchParams();
-      data.append('id', this.state.categories.updateCategoryId);
-      data.append('name', this.state.categories.updateCategoryName);
+      data.append('id', this.state.categories.targetCategoryId);
+      data.append('name', this.state.categories.targetCategoryName);
       axios(rootGetters['auth/token'])({
         method: 'PUT',
         url: `/category/${this.state.categories.updateCategoryId}`,
@@ -94,9 +94,10 @@ export default {
         axios(rootGetters['auth/token'])({
           method: 'POST',
           url: '/categories',
-          // data: category,
+          data: {targetCategory}
+          // data,
         }).then((response) => {
-          // NOTE: エラー時はresponse.data.codeが0で返ってくる
+          // エラー時はresponse.data.codeが0で返ってくる
           if (response.data.code === 0) throw new Error(response.data.message);
           console.log(response.data.code);
 
