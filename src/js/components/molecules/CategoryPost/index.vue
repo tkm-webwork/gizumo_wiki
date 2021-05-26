@@ -72,10 +72,10 @@ export default {
   },
   methods: {
     addCategory() {
-      console.log('addCategory');
       // emitでstoreのactionを呼び出し
       if (!this.access.create) return;
       this.$emit('clearMessage');
+      // 入力チェック
       this.$validator.validate().then((valid) => {
         if (valid) this.$emit('handleSubmit');
       });
