@@ -16,6 +16,7 @@
       button-type="submit"
       round
       :disabled="disabled || !access.create"
+      @click="addCategory"
     >
       {{ buttonText }}
     </app-button>
@@ -71,6 +72,7 @@ export default {
   },
   methods: {
     addCategory() {
+      console.log('addCategory');
       if (!this.access.create) return;
       this.$emit('clearMessage');
       this.$validator.validate().then((valid) => {
