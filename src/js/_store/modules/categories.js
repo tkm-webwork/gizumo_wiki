@@ -3,10 +3,8 @@ import axios from '@Helpers/axiosDefault';
 export default {
   namespaced: true,
   state: {
-    category: {
-      id: null,
-      name: '',
-    },
+    targetCategoryId: null,
+    targetCategoryName: '',
     loading: false,
     errorMessage: '',
     doneMessage: '',
