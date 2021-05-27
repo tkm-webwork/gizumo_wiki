@@ -63,6 +63,9 @@ export default {
     deleteCategoryName() {
       return this.$store.state.categories.deleteCategoryName;
     },
+    targetCategoryName() {
+      return this.store.state.categories.targetCategoryName;
+    },
   },
   created() {
     this.$store.dispatch('categories/clearMessage');
