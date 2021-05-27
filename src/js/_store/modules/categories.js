@@ -152,5 +152,12 @@ export default {
       state.updateCategoryId = payload.name;
       state.doneMessage = 'カテゴリーの更新が完了しました。';
     },
+    doneTargetCategory(state, { targetCategoryName }) {
+      state.targetCategoryName = targetCategoryName;
+      /* eslint-disable max-len */
+      state.categoryList = Object.assign({}, ...state.categoryList, { targetCategoryName });
+      /* eslint-enable max-len */
+      state.doneMessage = 'カテゴリーの追加が完了しました。';
+    },
   },
 };
