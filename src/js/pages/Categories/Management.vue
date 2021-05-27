@@ -91,17 +91,10 @@ export default {
         });
       this.toggleModal();
     },
-    handleSubmit(category) {
-      console.log('入力された値:', category);
+    handleSubmit() {
+      console.log('入力された値:', this.category);
       if (this.loading) return;
-      this.$store.dispatch('categories/postCategory', category)
-        .then(() => {
-          this.$router.push({
-            path: '/categories',
-            query: { redirect: '/categories' },
-          });
-        // $router:ルーターインスタンス
-        });
+      this.$store.dispatch('categories/postCategory', this.category);
     },
   },
 };
