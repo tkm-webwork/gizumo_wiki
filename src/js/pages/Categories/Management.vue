@@ -88,16 +88,17 @@ export default {
         });
       this.toggleModal();
     },
-    handleSubmit() {
+    handleSubmit(category) {
+      console.log('入力された値:', category);
       if (this.loading) return;
-      this.$store.dispatch('categories/postCategory').then(() => {
-        this.$router.push({
-          path: '/categories',
-          query: { redirect: '/categories' },
-        });
-        // 異なるURLへ遷移する
+      this.$store.dispatch('categories/postCategory', category)
+        .then(() => {
+          this.$router.push({
+            path: '/categories',
+            query: { redirect: '/categories' },
+          });
         // $router:ルーターインスタンス
-      });
+        });
     },
   },
 };
