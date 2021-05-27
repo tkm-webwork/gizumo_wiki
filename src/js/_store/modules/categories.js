@@ -155,10 +155,7 @@ export default {
     },
     doneTargetCategory(state, { targetCategoryName }) {
       state.targetCategoryName = targetCategoryName;
-      /* eslint-disable max-len */
-      // state.categoryList = Object.assign({}, ...state.categoryList, { targetCategoryName });
       state.categoryList = state.categoryList.push(targetCategoryName);
-      /* eslint-enable max-len */
       state.doneMessage = 'カテゴリーの追加が完了しました。';
     },
   },
