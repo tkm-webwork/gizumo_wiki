@@ -96,22 +96,21 @@ export default {
         commit('toggleLoading');
         // loadingをtrueにする
         const data = new URLSearchParams();
-        data.append('name', rootGetters['categories/targetCategoryName'].name);
+        data.append('name', targetCategoryName);
         // console.log(rootGetters['categories/targetCategoryName'].name);
-        console.log(data.toString());
+        // console.log(data.toString());
         // console.log('token:', rootGetters['auth/token']);
         axios(rootGetters['auth/token'])({
           method: 'POST',
           url: '/category',
           data,
-        }).then((response) => {
-          console.log(response);
+        }).then((targetCategoryName) => {
           commit('toggleLoading');
           // loadingをfalseにする
           commit('doneTargetCategory', { targetCategoryName });
           resolve();
         }).catch((err) => {
-          console.log(err);
+          // console.log(err);
           commit('toggleLoading');
           commit('failFetchCategory', { message: err.message });
           reject();
