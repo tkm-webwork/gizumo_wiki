@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     addCategory() {
-      // emitでstoreのactionを呼び出し
+      // emitでpages(親)のメソッドを呼び出し
       if (!this.access.create) return;
       this.$emit('clearMessage');
       // 入力チェック
