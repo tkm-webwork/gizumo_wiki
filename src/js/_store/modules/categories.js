@@ -90,26 +90,28 @@ export default {
         commit('toggleLoading');
       });
     },
-    postCategory({ commit, rootGetters }) {
-      commit('clearMessage');
-      commit('toggleLoading');
-      const data = new URLSearchParams();
-      data.append('name', this.state.categories.targetCategoryName);
+    postCategory({ commit, rootGetters }, targetCategoryName) {
       return new Promise((resolve, reject) => {
+        commit('clearMessage');
+        commit('toggleLoading');
+        // loadingをtrueにする
+        const data = new URLSearchParams();
+        data.append('name', rootGetters['categories/targetCategoryName'].name);
+        // console.log(rootGetters['categories/targetCategoryName'].name);
+        console.log(data.toString());
+        // console.log('token:', rootGetters['auth/token']);
         axios(rootGetters['auth/token'])({
           method: 'POST',
           url: '/category',
-          // data: {targetCategory}
-          data: targetCategoryName,
+          data,
         }).then((response) => {
-          // エラー時:response.data.codeが0
-          if (response.data.code === 0) throw new Error(response.data.message);
           console.log(response);
           commit('toggleLoading');
           // loadingをfalseにする
-          commit('displayDoneMessage', { message: 'を作成しました' });
+          commit('doneTargetCategory', { targetCategoryName });
           resolve();
         }).catch((err) => {
+          console.log(err);
           commit('toggleLoading');
           commit('failFetchCategory', { message: err.message });
           reject();
