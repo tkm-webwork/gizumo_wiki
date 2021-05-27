@@ -104,7 +104,7 @@ export default {
           method: 'POST',
           url: '/category',
           data,
-        }).then((targetCategoryName) => {
+        }).then(() => {
           commit('toggleLoading');
           // loadingをfalseにする
           commit('doneTargetCategory', { targetCategoryName });
