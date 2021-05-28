@@ -63,10 +63,18 @@ export default {
     deleteCategoryName() {
       return this.$store.state.categories.deleteCategoryName;
     },
-    targetCategoryName() {
-      return this.store.state.categories.targetCategoryName;
-    },
+    // targetCategoryName() {
+    //   return this.store.state.categories.targetCategoryName;
+    // },
+    // targetCategoryId() {
+    //   return this.store.state.categories.targetCategoryId;
+    // }
   },
+  // watch: {
+  //   categoryList() {
+  //     return this.$store.state.categories.categoryList;
+  //   },
+  // },
   created() {
     this.$store.dispatch('categories/clearMessage');
     this.$store.dispatch('categories/getAllCategories');

@@ -20,6 +20,7 @@ export default {
   getters: {
     categoryList: state => state.categoryList,
     targetCategoryName: state => state.targetCategoryName,
+    // targetCategoryId: state => state.targetCategoryId,
   },
   actions: {
     clearMessage({ commit }) {
@@ -157,7 +158,9 @@ export default {
     },
     doneTargetCategory(state, { targetCategoryName }) {
       state.targetCategoryName = targetCategoryName;
+      // state.targetCategoryId = targetCategoryId;
       console.log('渡される値:', state.targetCategoryName);
+      // console.log('渡されるid:', state.targetCategoryId);
       console.log('元のカテゴリーリスト:', state.categoryList);
       state.categoryList.push(state.targetCategoryName);
       console.log('追加後のカテゴリーリスト:', state.categoryList);
