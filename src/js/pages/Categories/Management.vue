@@ -63,18 +63,7 @@ export default {
     deleteCategoryName() {
       return this.$store.state.categories.deleteCategoryName;
     },
-    // targetCategoryName() {
-    //   return this.store.state.categories.targetCategoryName;
-    // },
-    // targetCategoryId() {
-    //   return this.store.state.categories.targetCategoryId;
-    // }
   },
-  // watch: {
-  //   categoryList() {
-  //     return this.$store.state.categories.categoryList;
-  //   },
-  // },
   created() {
     this.$store.dispatch('categories/clearMessage');
     this.$store.dispatch('categories/getAllCategories');
@@ -100,7 +89,6 @@ export default {
       this.toggleModal();
     },
     handleSubmit() {
-      console.log('入力された値:', this.category);
       if (this.loading) return;
       this.$store.dispatch('categories/postCategory', this.category);
     },
