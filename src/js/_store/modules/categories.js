@@ -106,17 +106,19 @@ export default {
           data,
         }).then(() => {
           commit('toggleLoading');
-          // loadingをfalseにする
           commit('doneTargetCategory', { targetCategoryName });
+          dispatch('getAllCategories');
           resolve();
         }).catch((err) => {
-          // console.log(err);
           commit('toggleLoading');
           commit('failFetchCategory', { message: err.message });
           reject();
         });
       });
     },
+    // initPostCategory({ commit }) {
+    //   commit('initPostCategory');
+    // },
   },
   mutations: {
     clearMessage(state) {
