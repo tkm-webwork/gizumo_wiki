@@ -88,7 +88,7 @@ export default {
         commit('toggleLoading');
       });
     },
-    postCategory({ dispatch, commit, rootGetters }, targetCategoryName) {
+    postCategory({ commit, rootGetters }, targetCategoryName) {
       return new Promise((resolve, reject) => {
         commit('clearMessage');
         commit('toggleLoading');
@@ -98,10 +98,10 @@ export default {
           method: 'POST',
           url: '/category',
           data,
-        }).then(() => {
+        }).then((response) => {
+          console.log(response);
           commit('toggleLoading');
           commit('doneTargetCategory', { targetCategoryName });
-          dispatch('getAllCategories');
           resolve();
         }).catch((err) => {
           commit('toggleLoading');
