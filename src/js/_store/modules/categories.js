@@ -15,7 +15,6 @@ export default {
   },
   getters: {
     categoryList: state => state.categoryList,
-    targetCategoryName: state => state.targetCategoryName,
   },
   actions: {
     clearMessage({ commit }) {
