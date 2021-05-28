@@ -98,8 +98,7 @@ export default {
           method: 'POST',
           url: '/category',
           data,
-        }).then((response) => {
-          console.log(response);
+        }).then(() => {
           commit('toggleLoading');
           commit('doneTargetCategory', { targetCategoryName });
           resolve();
