@@ -155,8 +155,14 @@ export default {
     },
     doneTargetCategory(state, { targetCategoryName }) {
       state.targetCategoryName = targetCategoryName;
-      state.categoryList = state.categoryList.push(targetCategoryName);
+      console.log('渡される値:', state.targetCategoryName);
+      console.log('元のカテゴリーリスト:', state.categoryList);
+      state.categoryList.push(state.targetCategoryName);
+      console.log('追加後のカテゴリーリスト:', state.categoryList);
       state.doneMessage = 'カテゴリーの追加が完了しました。';
     },
+    // initPostCategory(state) {
+    //   state.targetCategoryName = '';
+    // },
   },
 };
