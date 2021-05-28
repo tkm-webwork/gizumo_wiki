@@ -142,9 +142,9 @@ export default {
       state.updateCategoryId = payload.name;
       state.doneMessage = 'カテゴリーの更新が完了しました。';
     },
-    doneTargetCategory(state, { targetCategoryName }) {
-      state.targetCategoryName = targetCategoryName;
+    doneTargetCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました。';
+      state.targetCategoryName = '';
     },
   },
 };
