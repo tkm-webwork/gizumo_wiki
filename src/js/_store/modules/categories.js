@@ -3,11 +3,8 @@ import axios from '@Helpers/axiosDefault';
 export default {
   namespaced: true,
   state: {
-    // targetCategory: {
-    //   id: null,
-    //   name: '',
-    // },
     targetCategoryName: '',
+    targetCategoryId: null,
     loading: false,
     errorMessage: '',
     doneMessage: '',
@@ -91,11 +88,10 @@ export default {
         commit('toggleLoading');
       });
     },
-    postCategory({ commit, rootGetters }, targetCategoryName) {
+    postCategory({ dispatch, commit, rootGetters }, targetCategoryName) {
       return new Promise((resolve, reject) => {
         commit('clearMessage');
         commit('toggleLoading');
-        // loadingをtrueにする
         const data = new URLSearchParams();
         data.append('name', targetCategoryName);
         // console.log(rootGetters['categories/targetCategoryName'].name);
