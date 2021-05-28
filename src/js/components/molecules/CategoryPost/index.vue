@@ -71,9 +71,7 @@ export default {
   },
   methods: {
     addCategory() {
-      // emitでpages(親)のメソッドを呼び出し
       if (!this.access.create) return;
-      // 入力チェック
       this.$validator.validate().then((valid) => {
         if (valid) this.$emit('handleSubmit');
       });
