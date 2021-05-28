@@ -144,7 +144,6 @@ export default {
     },
     doneTargetCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました。';
-      state.targetCategoryName = '';
     },
   },
 };
