@@ -4,7 +4,6 @@ export default {
   namespaced: true,
   state: {
     targetCategoryName: '',
-    targetCategoryId: null,
     loading: false,
     errorMessage: '',
     doneMessage: '',
@@ -17,7 +16,6 @@ export default {
   getters: {
     categoryList: state => state.categoryList,
     targetCategoryName: state => state.targetCategoryName,
-    // targetCategoryId: state => state.targetCategoryId,
   },
   actions: {
     clearMessage({ commit }) {
