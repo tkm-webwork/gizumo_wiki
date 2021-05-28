@@ -148,7 +148,6 @@ export default {
     },
     doneTargetCategory(state, { targetCategoryName }) {
       state.targetCategoryName = targetCategoryName;
-      state.categoryList.push(state.targetCategoryName);
       state.doneMessage = 'カテゴリーの追加が完了しました。';
     },
   },
