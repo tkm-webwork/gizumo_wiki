@@ -6,6 +6,7 @@
       :category-id="categoryId"
       :category-name="categoryName"
       @clearMessage="clearMessage"
+      @updateCategory="updateCategory"
     />
   </div>
 </template>
@@ -29,6 +30,11 @@ export default {
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
     },
+    updateCategory(){
+      console.log(this);
+      this.$store.dispatch('categories/updateCategory');
+      // storeのaction呼び出し
+    }
   },
 };
 </script>
