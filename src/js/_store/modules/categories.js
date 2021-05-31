@@ -74,13 +74,13 @@ export default {
         });
       });
     },
-    getCategoryDetail({ commit, rootGetters }, { id }) {
+    getCategoryDetail({ commit, rootGetters }, categoryId) {
       axios(rootGetters['auth/token'])({
         method: 'GET',
-        url: `/category/${id}`,
-      }).then((res) => {
-        console.log(res.data.category.name);
-        const payload = res.data.category;
+        url: `/category/${categoryId}`,
+      }).then((response) => {
+        console.log(response.data.category.name);
+        const payload = response.data.category;
         commit('getCategoryDetail', payload);
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
