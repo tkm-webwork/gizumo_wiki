@@ -70,7 +70,8 @@ export default {
       if (!this.access.edit) return;
       this.$emit('clearMessage');
       this.$validator.validate().then((valid) => {
-        if (valid) this.$emit('エミットするイベント名が入ります');
+        if (valid) this.$emit('updateCategory');
+        // 親(pages)のメソッド呼び出し
       });
     },
   },
