@@ -74,25 +74,16 @@ export default {
         });
       });
     },
-    getCategoryDetail({ commit, rootGetters }, updateCategoryId) {
-      return new Promise((resolve, reject) => {
-        commit('clearMessage');
+    getCategoryDetail({ commit, rootGetters }, { categoryId }) {
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: `/category.${categoryId}`,
+      }).then((res) => {
+        const payload = res.data.category;
+        commit('confirmCategoryDetail', payload);
+      }).catch((err) => {
         commit('toggleLoading');
-        const data = new URLSearchParams();
-        data.append('name', updateCategoryId);
-        axios(rootGetters['auth/token'])({
-          method: 'GET',
-          url: '/category',
-          data,
-        }).then(() => {
-          commit('toggleLoading');
-          commit('confirmCategoryDetail', { updateCategoryId });
-          resolve();
-        }).catch((err) => {
-          commit('toggleLoading');
-          commit('failFetchCategory', { message: err.message });
-          reject();
-        });
+        commit('failFetchCategory', { message: err.message });
       });
     },
     // updateCategory({ commit, rootGetters }, updateCategoryName) {
@@ -131,8 +122,9 @@ export default {
     toggleLoading(state) {
       state.loading = !state.loading;
     },
-    confirmCategoryDetail(state, { categoryId }) {
+    confirmCategoryDetail(state, { categoryId, categoryName }) {
       state.updateCategoryId = categoryId;
+      state.updateCategoryName = categoryName;
     },
     confirmDeleteCategory(state, { categoryId, categoryName }) {
       state.deleteCategoryId = categoryId;
