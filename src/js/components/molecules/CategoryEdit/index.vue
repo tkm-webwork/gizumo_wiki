@@ -66,6 +66,14 @@ export default {
       type: String,
       default: '',
     },
+    errorMessage: {
+      type: String,
+      default: '',
+    },
+    doneMessage: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     buttonText() {
