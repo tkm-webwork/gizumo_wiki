@@ -74,11 +74,12 @@ export default {
         });
       });
     },
-    getCategoryDetail({ commit, rootGetters }, categoryId) {
+    getCategoryDetail({ commit, rootGetters }, { categoryId }) {
       axios(rootGetters['auth/token'])({
         method: 'GET',
         url: `/category.${categoryId}`,
       }).then((res) => {
+        console.log(res);
         const payload = res.data.category;
         commit('getCategoryDetail', payload);
       }).catch((err) => {
