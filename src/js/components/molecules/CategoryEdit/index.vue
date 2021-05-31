@@ -17,7 +17,10 @@
       name="updateCategory"
       type="text"
       placeholder="カテゴリー名を入力してください"
-      data-vv-as=""
+      data-vv-as="カテゴリー名"
+      :error-messages="errors.collect('updateCategory')"
+      :value="updateCategoryName"
+      @updateValue="$emit('udpateValue', $event)"
     />
     <app-button
       class="category-management-edit__submit"
@@ -70,6 +73,7 @@ export default {
     handleSubmit() {
       if (!this.access.edit) return;
       this.$emit('clearMessage');
+      console.log(this);
       this.$validator.validate().then((valid) => {
         if (valid) this.$emit('updateCategory');
         // 親(pages)のメソッド呼び出し
