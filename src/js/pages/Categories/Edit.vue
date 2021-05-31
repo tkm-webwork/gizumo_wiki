@@ -25,6 +25,14 @@ export default {
     loading() {
       return this.$store.state.categories.loading;
     },
+    categoryId() {
+      const { id } = this.$store.state.categories.updateCategoryId;
+      return id;
+    },
+    categoryName() {
+      const { name } = this.$store.state.categories.updateCategoryName;
+      return name;
+    },
   },
   created() {
     const { id } = this.$route.params;
