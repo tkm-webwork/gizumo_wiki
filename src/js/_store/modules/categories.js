@@ -86,6 +86,9 @@ export default {
         commit('failFetchCategory', { message: err.message });
       });
     },
+    editedCategoryName({ commit }, categoryName) {
+      commit('editedCategoryName', { categoryName });
+    },
     // updateCategory({ commit, rootGetters }, updateCategoryName) {
     //   return new Promise((resolve, reject) => {
     //     commit('clearMessage');
@@ -125,6 +128,9 @@ export default {
     getCategoryDetail(state, payload) {
       state.updateCategoryId = payload.id;
       state.updateCategoryName = payload.name;
+    },
+    editedCategoryName(state, { categoryName }) {
+      state.updateCategoryName = categoryName;
     },
     confirmDeleteCategory(state, { categoryId, categoryName }) {
       state.deleteCategoryId = categoryId;
