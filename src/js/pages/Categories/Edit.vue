@@ -44,14 +44,14 @@ export default {
     this.$store.dispatch('categories/clearMessage');
   },
   methods: {
-    // updateValue() {
-    //   this.$store.dispatch('categories/editedCategpryName');
-    // }
+    updateValue($event) {
+      this.$store.dispatch('categories/editedCategoryName', $event.target.value);
+    },
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
-      // console.log(this);
     },
     updateCategory() {
+      if (this.loading) return;
       this.$store.dispatch('categories/updateCategory');
       // storeのaction呼び出し
     },
