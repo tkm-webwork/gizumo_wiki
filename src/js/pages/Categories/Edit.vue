@@ -40,6 +40,9 @@ export default {
     this.$store.dispatch('categories/getCategoryDetail', { id });
   },
   methods: {
+    // updateValue() {
+    //   this.$store.dispatch('categories/editedCategpryName');
+    // }
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
       // console.log(this);
