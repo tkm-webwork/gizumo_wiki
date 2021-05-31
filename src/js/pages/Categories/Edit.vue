@@ -29,10 +29,10 @@ export default {
   methods: {
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
+      console.log(this);
     },
     updateCategory() {
-      console.log(this);
-      this.$store.dispatch('categories/updateCategory');
+      this.$store.dispatch('categories/getCategoryDetail');
       // storeのaction呼び出し
     },
   },
