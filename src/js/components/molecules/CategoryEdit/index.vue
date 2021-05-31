@@ -18,8 +18,8 @@
       type="text"
       placeholder="カテゴリー名を入力してください"
       data-vv-as="カテゴリー名"
-      :error-messages="errors.collect('updateCategory')"
-      :value="updateCategoryName"
+      :error-messages="errors.collect('category')"
+      :value="categoryName"
       @updateValue="$emit('udpateValue', $event)"
     />
     <app-button
@@ -61,6 +61,10 @@ export default {
     access: {
       type: Object,
       default: () => ({}),
+    },
+    updateCategoryName: {
+      type: String,
+      default: '',
     },
   },
   computed: {
