@@ -89,27 +89,27 @@ export default {
     editedCategoryName({ commit }, categoryName) {
       commit('editedCategoryName', { categoryName });
     },
-    // updateCategory({ commit, rootGetters }, updateCategoryName) {
-    //   return new Promise((resolve, reject) => {
-    //     commit('clearMessage');
-    //     commit('toggleLoading');
-    //     const data = new URLSearchParams();
-    //     data.append('id', updateCategoryId);
-    //     axios(rootGetters['auth/token'])({
-    //       method: 'PUT',
-    //       url: '/category',
-    //       data,
-    //     }).then(() => {
-    //       commit('toggleLoading');
-    //       // commit('updateCategory', { response });
-    //       resolve();
-    //     }).catch((err) => {
-    //       commit('toggleLoading');
-    //       commit('failFetchCategory', { message: err.message });
-    //       reject();
-    //     });
-    //   });
-    // },
+    updateCategory({ commit, rootGetters }, updateCategoryId) {
+      return new Promise((resolve, reject) => {
+        commit('clearMessage');
+        commit('toggleLoading');
+        const data = new URLSearchParams();
+        data.append('id', updateCategoryId);
+        axios(rootGetters['auth/token'])({
+          method: 'PUT',
+          url: '/category',
+          data,
+        }).then((response) => {
+          commit('toggleLoading');
+          commit('updateCategory', { response });
+          resolve();
+        }).catch((err) => {
+          commit('toggleLoading');
+          commit('failFetchCategory', { message: err.message });
+          reject();
+        });
+      });
+    },
   },
   mutations: {
     clearMessage(state) {
@@ -131,6 +131,11 @@ export default {
     },
     editedCategoryName(state, { categoryName }) {
       state.updateCategoryName = categoryName;
+    },
+    updateCategory(state, payload) {
+      state.updateCategoryId = payload.id;
+      state.updateCategoryName = payload.name;
+      state.doneMessage = 'カテゴリーの更新が完了しました。';
     },
     confirmDeleteCategory(state, { categoryId, categoryName }) {
       state.deleteCategoryId = categoryId;
