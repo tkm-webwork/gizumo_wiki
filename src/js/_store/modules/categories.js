@@ -74,6 +74,48 @@ export default {
         });
       });
     },
+    getCategoryDetail({ commit, rootGetters }, updateCategoryId) {
+      return new Promise((resolve, reject) => {
+        commit('clearMessage');
+        commit('toggleLoading');
+        const data = new URLSearchParams();
+        data.append('name', updateCategoryId);
+        axios(rootGetters['auth/token'])({
+          method: 'GET',
+          url: '/category',
+          data,
+        }).then(() => {
+          commit('toggleLoading');
+          commit('confirmCategoryDetail', { updateCategoryId });
+          resolve();
+        }).catch((err) => {
+          commit('toggleLoading');
+          commit('failFetchCategory', { message: err.message });
+          reject();
+        });
+      });
+    },
+    // updateCategory({ commit, rootGetters }, updateCategoryName) {
+    //   return new Promise((resolve, reject) => {
+    //     commit('clearMessage');
+    //     commit('toggleLoading');
+    //     const data = new URLSearchParams();
+    //     data.append('id', updateCategoryId);
+    //     axios(rootGetters['auth/token'])({
+    //       method: 'PUT',
+    //       url: '/category',
+    //       data,
+    //     }).then(() => {
+    //       commit('toggleLoading');
+    //       // commit('updateCategory', { response });
+    //       resolve();
+    //     }).catch((err) => {
+    //       commit('toggleLoading');
+    //       commit('failFetchCategory', { message: err.message });
+    //       reject();
+    //     });
+    //   });
+    // },
   },
   mutations: {
     clearMessage(state) {
@@ -88,6 +130,9 @@ export default {
     },
     toggleLoading(state) {
       state.loading = !state.loading;
+    },
+    confirmCategoryDetail(state, { categoryId }) {
+      state.updateCategoryId = categoryId;
     },
     confirmDeleteCategory(state, { categoryId, categoryName }) {
       state.deleteCategoryId = categoryId;
