@@ -85,7 +85,7 @@ export default {
     handleSubmit() {
       if (!this.access.edit) return;
       this.$emit('clearMessage');
-      console.log(this);
+      console.log('updateCategoryName:', this.updateCategoryName);
       this.$validator.validate().then((valid) => {
         if (valid) this.$emit('updateCategory');
         // 親(pages)のメソッド呼び出し
