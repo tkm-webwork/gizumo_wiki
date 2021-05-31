@@ -3,6 +3,7 @@ import axios from '@Helpers/axiosDefault';
 export default {
   namespaced: true,
   state: {
+    targetCategoryName: '',
     loading: false,
     errorMessage: '',
     doneMessage: '',
@@ -84,6 +85,27 @@ export default {
         commit('toggleLoading');
       });
     },
+    postCategory({ commit, rootGetters }, targetCategoryName) {
+      return new Promise((resolve, reject) => {
+        commit('clearMessage');
+        commit('toggleLoading');
+        const data = new URLSearchParams();
+        data.append('name', targetCategoryName);
+        axios(rootGetters['auth/token'])({
+          method: 'POST',
+          url: '/category',
+          data,
+        }).then(() => {
+          commit('toggleLoading');
+          commit('doneTargetCategory', { targetCategoryName });
+          resolve();
+        }).catch((err) => {
+          commit('toggleLoading');
+          commit('failFetchCategory', { message: err.message });
+          reject();
+        });
+      });
+    },
   },
   mutations: {
     clearMessage(state) {
@@ -119,6 +141,9 @@ export default {
       state.updateCategoryId = payload.id;
       state.updateCategoryId = payload.name;
       state.doneMessage = 'カテゴリーの更新が完了しました。';
+    },
+    doneTargetCategory(state) {
+      state.doneMessage = 'カテゴリーの追加が完了しました。';
     },
   },
 };
