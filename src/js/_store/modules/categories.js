@@ -74,15 +74,14 @@ export default {
         });
       });
     },
-    getCategoryDetail({ commit, rootGetters }, { categoryId }) {
+    getCategoryDetail({ commit, rootGetters }, categoryId) {
       axios(rootGetters['auth/token'])({
         method: 'GET',
         url: `/category.${categoryId}`,
       }).then((res) => {
         const payload = res.data.category;
-        commit('confirmCategoryDetail', payload);
+        commit('getCategoryDetail', payload);
       }).catch((err) => {
-        commit('toggleLoading');
         commit('failFetchCategory', { message: err.message });
       });
     },
@@ -122,9 +121,9 @@ export default {
     toggleLoading(state) {
       state.loading = !state.loading;
     },
-    confirmCategoryDetail(state, { categoryId, categoryName }) {
-      state.updateCategoryId = categoryId;
-      state.updateCategoryName = categoryName;
+    getCategoryDetail(state, payload) {
+      state.updateCategoryId = payload.id;
+      state.updateCategoryName = payload.name;
     },
     confirmDeleteCategory(state, { categoryId, categoryName }) {
       state.deleteCategoryId = categoryId;
