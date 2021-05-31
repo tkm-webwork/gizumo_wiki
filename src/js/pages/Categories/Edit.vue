@@ -34,7 +34,7 @@ export default {
       console.log(this);
       this.$store.dispatch('categories/updateCategory');
       // storeのaction呼び出し
-    }
+    },
   },
 };
 </script>
