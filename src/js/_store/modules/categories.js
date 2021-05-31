@@ -90,24 +90,21 @@ export default {
       commit('editedCategoryName', { categoryName });
     },
     updateCategory({ commit, rootGetters }, updateCategoryId) {
-      return new Promise((resolve, reject) => {
-        commit('clearMessage');
+      commit('clearMessage');
+      commit('toggleLoading');
+      const data = new URLSearchParams();
+      data.append('id', updateCategoryId);
+      axios(rootGetters['auth/token'])({
+        method: 'PUT',
+        url: `/category/${this.state.categories.updateCategoryId}`,
+        data,
+      }).then((response) => {
+        const payload = response.data.category;
+        commit('updateCategory', payload);
         commit('toggleLoading');
-        const data = new URLSearchParams();
-        data.append('id', updateCategoryId);
-        axios(rootGetters['auth/token'])({
-          method: 'PUT',
-          url: '/category',
-          data,
-        }).then((response) => {
-          commit('toggleLoading');
-          commit('updateCategory', { response });
-          resolve();
-        }).catch((err) => {
-          commit('toggleLoading');
-          commit('failFetchCategory', { message: err.message });
-          reject();
-        });
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+        commit('toggleLoading');
       });
     },
   },
