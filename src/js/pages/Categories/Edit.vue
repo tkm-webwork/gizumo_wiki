@@ -26,13 +26,18 @@ export default {
       return this.$store.state.categories.loading;
     },
   },
+  created() {
+    const { id } = this.$route.params;
+    console.log('categoryId:', id);
+    this.$store.dispatch('categories/getCategoryDetail', { id });
+  },
   methods: {
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
-      console.log(this);
+      // console.log(this);
     },
     updateCategory() {
-      this.$store.dispatch('categories/getCategoryDetail');
+      this.$store.dispatch('categories/updateCategory');
       // storeのaction呼び出し
     },
   },
