@@ -1,12 +1,14 @@
 <template>
   <div>
     <app-category-edit
+      :update-category-name="updateCategoryName"
+      :error-message="errorMessage"
+      :done-message="doneMessage"
       :disabled="loading ? true : false"
       :access="access"
-      :category-id="categoryId"
-      :category-name="categoryName"
+      @udpateValue="updateValue"
       @clearMessage="clearMessage"
-      @updateCategory="updateCategory"
+      @handleSubmit="updateCategory"
     />
   </div>
 </template>
