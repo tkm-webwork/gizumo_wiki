@@ -30,14 +30,12 @@ export default {
     updateCategoryName() {
       return this.$store.state.categories.updateCategoryName;
     },
-    // categoryId() {
-    //   const { id } = this.$store.state.categories.updateCategoryId;
-    //   return id;
-    // },
-    // categoryName() {
-    //   const { name } = this.$store.state.categories.updateCategoryName;
-    //   return name;
-    // },
+    errorMessage() {
+      return this.$store.state.categories.errorMessage;
+    },
+    doneMessage() {
+      return this.$store.state.categories.doneMessage;
+    },
   },
   created() {
     const { id } = this.$route.params;
