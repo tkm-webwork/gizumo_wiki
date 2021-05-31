@@ -79,7 +79,7 @@ export default {
         method: 'GET',
         url: `/category/${categoryId}`,
       }).then((response) => {
-        console.log(response.data.category.name);
+        console.log('GET_response:', response.data.category.name);
         const payload = response.data.category;
         commit('getCategoryDetail', payload);
       }).catch((err) => {
