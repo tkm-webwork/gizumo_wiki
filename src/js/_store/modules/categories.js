@@ -86,14 +86,18 @@ export default {
         commit('failFetchCategory', { message: err.message });
       });
     },
-    editedCategoryName({ commit }, categoryName) {
-      commit('editedCategoryName', { categoryName });
+    editedCategoryName({ commit }, targetCategoryName) {
+      commit('editedCategoryName', { targetCategoryName });
+      // stateのupdateCategoryNameに[inputに入力された値]を代入
+      console.log('editedCategoryNameに渡った値:', targetCategoryName);
     },
-    updateCategory({ commit, rootGetters }, updateCategoryId) {
+    updateCategory({ commit, rootGetters }) {
       commit('clearMessage');
       commit('toggleLoading');
       const data = new URLSearchParams();
-      data.append('id', updateCategoryId);
+      data.append('id', this.state.categories.updateCategoryId);
+      data.append('name', this.state.categories.updateCategoryName);
+      console.log('updateCategoryのdata:', data);
       axios(rootGetters['auth/token'])({
         method: 'PUT',
         url: `/category/${this.state.categories.updateCategoryId}`,
