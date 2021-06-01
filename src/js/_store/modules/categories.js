@@ -126,8 +126,8 @@ export default {
       state.updateCategoryId = payload.id;
       state.updateCategoryName = payload.name;
     },
-    editedCategoryName(state, { categoryName }) {
-      state.updateCategoryName = categoryName;
+    editedCategoryName(state, { targetCategoryName }) {
+      state.updateCategoryName = targetCategoryName;
     },
     updateCategory(state, payload) {
       state.updateCategoryId = payload.id;
