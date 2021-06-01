@@ -107,6 +107,7 @@ export default {
         commit('updateCategory', payload);
         commit('toggleLoading');
       }).catch((err) => {
+        console.log('エラー：', err);
         commit('failFetchCategory', { message: err.message });
         commit('toggleLoading');
       });
