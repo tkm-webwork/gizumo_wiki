@@ -79,7 +79,6 @@ export default {
         method: 'GET',
         url: `/category/${categoryId}`,
       }).then((response) => {
-        console.log('GET_response:', response.data.category.name);
         const payload = response.data.category;
         commit('getCategoryDetail', payload);
       }).catch((err) => {
@@ -88,8 +87,6 @@ export default {
     },
     editedCategoryName({ commit }, targetCategoryName) {
       commit('editedCategoryName', { targetCategoryName });
-      // stateのupdateCategoryNameに[inputに入力された値]を代入
-      console.log('editedCategoryNameに渡った値:', targetCategoryName);
     },
     updateCategory({ commit, rootGetters }) {
       commit('clearMessage');
@@ -97,7 +94,6 @@ export default {
       const data = new URLSearchParams();
       data.append('id', this.state.categories.updateCategoryId);
       data.append('name', this.state.categories.updateCategoryName);
-      console.log('updateCategoryのdata:', data);
       axios(rootGetters['auth/token'])({
         method: 'PUT',
         url: `/category/${this.state.categories.updateCategoryId}`,
@@ -107,7 +103,6 @@ export default {
         commit('updateCategory', payload);
         commit('toggleLoading');
       }).catch((err) => {
-        console.log('エラー：', err);
         commit('failFetchCategory', { message: err.message });
         commit('toggleLoading');
       });

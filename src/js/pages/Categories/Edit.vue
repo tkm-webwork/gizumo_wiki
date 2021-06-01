@@ -39,13 +39,11 @@ export default {
   },
   created() {
     const { id } = this.$route.params;
-    console.log('categoryId:', id);
     this.$store.dispatch('categories/getCategoryDetail', id);
     this.$store.dispatch('categories/clearMessage');
   },
   methods: {
     updateValue($event) {
-      console.log('updateValueのthis:', this.updateCategoryName);
       this.$store.dispatch('categories/editedCategoryName', $event.target.value);
     },
     clearMessage() {
@@ -54,7 +52,6 @@ export default {
     handleSubmit() {
       if (this.loading) return;
       this.$store.dispatch('categories/updateCategory');
-      // storeのaction呼び出し
     },
   },
 };
