@@ -8,7 +8,7 @@
       :access="access"
       @udpateValue="updateValue"
       @clearMessage="clearMessage"
-      @handleSubmit="updateCategory"
+      @handleSubmit="handleSubmit"
     />
   </div>
 </template>
@@ -45,12 +45,13 @@ export default {
   },
   methods: {
     updateValue($event) {
+      console.log('updateValueのthis:', this.updateCategoryName);
       this.$store.dispatch('categories/editedCategoryName', $event.target.value);
     },
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
     },
-    updateCategory() {
+    handleSubmit() {
       if (this.loading) return;
       this.$store.dispatch('categories/updateCategory');
       // storeのaction呼び出し

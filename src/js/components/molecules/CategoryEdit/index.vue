@@ -87,7 +87,7 @@ export default {
       this.$emit('clearMessage');
       console.log('入力された値:', this.updateCategoryName);
       this.$validator.validate().then((valid) => {
-        if (valid) this.$emit('updateCategory');
+        if (valid) this.$emit('handleSubmit');
         // 親(pages)のメソッド呼び出し
       });
     },
