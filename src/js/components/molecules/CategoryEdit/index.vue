@@ -15,9 +15,9 @@
       v-validate="'required'"
       class="category-management-edit__input"
       name="updateCategory"
+      data-vv-as="カテゴリー名"
       type="text"
       placeholder="カテゴリー名を入力してください"
-      data-vv-as="カテゴリー名"
       :error-messages="errors.collect('category')"
       :value="updateCategoryName"
       @updateValue="$emit('udpateValue', $event)"
@@ -85,7 +85,7 @@ export default {
     handleSubmit() {
       if (!this.access.edit) return;
       this.$emit('clearMessage');
-      console.log('updateCategoryName:', this.updateCategoryName);
+      console.log('入力された値:', this.updateCategoryName);
       this.$validator.validate().then((valid) => {
         if (valid) this.$emit('updateCategory');
         // 親(pages)のメソッド呼び出し
