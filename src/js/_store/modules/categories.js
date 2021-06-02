@@ -41,6 +41,7 @@ export default {
       commit('confirmDeleteCategory', { categoryId, categoryName });
     },
     deleteCategory({ commit, rootGetters }, categoryId) {
+      console.log(categoryId);
       return new Promise((resolve) => {
         axios(rootGetters['auth/token'])({
           method: 'DELETE',
@@ -140,7 +141,6 @@ export default {
     confirmDeleteCategory(state, { categoryId, categoryName }) {
       state.deleteCategoryId = categoryId;
       state.deleteCategoryName = categoryName;
-      console.log('削除対象:', state.deleteCategoryName);
     },
     doneDeleteCategory(state) {
       state.deleteCategoryId = null;
