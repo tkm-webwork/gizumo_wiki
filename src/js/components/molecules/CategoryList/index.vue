@@ -45,7 +45,7 @@
               small
               round
               :disabled="!access.delete"
-              @click="openModal()"
+              @click="openModal(`${category.id}`, `${category.name}`)"
             >
               削除
             </app-button>
@@ -112,9 +112,9 @@ export default {
     },
   },
   methods: {
-    openModal() {
+    openModal(categoryId, categoryName) {
       if (!this.access.delete) return;
-      this.$emit('openModal');
+      this.$emit('openModal', categoryId, categoryName);
     },
     handleClick() {
       if (!this.access.delete) return;
