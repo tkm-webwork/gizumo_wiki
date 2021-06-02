@@ -36,6 +36,10 @@ export default {
         commit('failFetchCategory', { message: err.message });
       });
     },
+    confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
+      // console.log(categoryId, categoryName);
+      commit('confirmDeleteCategory', { categoryId, categoryName });
+    },
     deleteCategory({ commit, rootGetters }, categoryId) {
       return new Promise((resolve) => {
         axios(rootGetters['auth/token'])({
@@ -136,6 +140,7 @@ export default {
     confirmDeleteCategory(state, { categoryId, categoryName }) {
       state.deleteCategoryId = categoryId;
       state.deleteCategoryName = categoryName;
+      console.log('削除対象:', state.deleteCategoryName);
     },
     doneDeleteCategory(state) {
       state.deleteCategoryId = null;
