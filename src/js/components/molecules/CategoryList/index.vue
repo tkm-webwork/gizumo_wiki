@@ -67,7 +67,7 @@
           theme-color
           tag="p"
         >
-          ここに削除するカテゴリー名が入ります
+          {{ deleteCategoryName }}
         </app-text>
         <app-button
           class="category-list__modal__button"
@@ -109,6 +109,10 @@ export default {
     access: {
       type: Object,
       default: () => ({}),
+    },
+    deleteCategoryName: {
+      type: String,
+      default: '',
     },
   },
   methods: {
