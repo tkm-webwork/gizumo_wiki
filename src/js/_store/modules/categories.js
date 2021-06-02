@@ -20,9 +20,21 @@ export default {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
-    getAllCategories({ commit }) {
-      const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
-      commit('doneGetAllCategories', payload);
+    getAllCategories({ commit, rootGetters }) {
+      const payload = { categories: [] };
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: '/category',
+      }).then((response) => {
+        const categoriesData = response.data.categories;
+        categoriesData.forEach((val) => {
+          // console.log('forEachのval:', val);
+          payload.categories.push(val);
+        });
+        commit('doneGetAllCategories', payload);
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+      });
     },
     deleteCategory({ commit, rootGetters }, categoryId) {
       return new Promise((resolve) => {
