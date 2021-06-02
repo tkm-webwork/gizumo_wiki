@@ -121,8 +121,6 @@ export default {
       this.$emit('openModal', categoryId, categoryName);
     },
     handleClick() {
-      // console.log('削除する対象:', categoryId);
-      // console.log('!this.access.delete:', !this.access.delete);
       if (!this.access.delete) return;
       this.$emit('deleteCategory');
     },
