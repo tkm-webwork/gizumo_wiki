@@ -19,6 +19,7 @@
         :delete-category-name="deleteCategoryName"
         :access="access"
         @openModal="openModal"
+        @deleteCategory="deleteCategory"
       />
     </section>
   </div>
