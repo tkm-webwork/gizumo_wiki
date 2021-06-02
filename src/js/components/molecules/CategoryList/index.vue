@@ -34,6 +34,7 @@
               theme-color
               underline
               hover-opacity
+              :to="`/categories/${category.id}`"
             >
               更新
             </app-router-link>
