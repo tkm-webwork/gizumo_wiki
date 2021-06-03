@@ -82,14 +82,10 @@ export default {
       this.toggleModal();
     },
     deleteCategory() {
-      // this.$store.dispatch('categories/deleteCategory');
-      // this.$store.dispatch('categories/getAllCategories');
-      // this.toggleModal();
       this.$store.dispatch('categories/deleteCategory').then(() => {
-        this.$store.dispatch('categories/getAllCategories').then(() => {
-          this.toggleModal();
-        });
+        this.$store.dispatch('categories/getAllCategories');
       });
+      this.toggleModal();
     },
     handleSubmit() {
       if (this.loading) return;

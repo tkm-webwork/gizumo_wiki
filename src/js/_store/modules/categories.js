@@ -15,8 +15,6 @@ export default {
   },
   getters: {
     categoryList: state => state.categoryList,
-    deleteCategoryId: state => state.deleteCategoryId,
-    // ↑追加しなくてもいい（DELETEリクエスト時のurl指定でrootGettersを使いたい場合のみ必要）
   },
   actions: {
     clearMessage({ commit }) {
@@ -31,7 +29,6 @@ export default {
         }).then((response) => {
           const categoriesData = response.data.categories;
           categoriesData.forEach((val) => {
-            // console.log('forEachのval:', val);
             payload.categories.push(val);
           });
           commit('doneGetAllCategories', payload);
@@ -43,15 +40,13 @@ export default {
       });
     },
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
-      // console.log(categoryId, categoryName);
       commit('confirmDeleteCategory', { categoryId, categoryName });
     },
     deleteCategory({ commit, rootGetters }) {
       return new Promise((resolve) => {
         axios(rootGetters['auth/token'])({
           method: 'DELETE',
-          url: `/category/${rootGetters['categories/deleteCategoryId']}`,
-          // url: `/category/${this.state.categories.deleteCategoryId}`,
+          url: `/category/${this.state.categories.deleteCategoryId}`,
         }).then((response) => {
           // NOTE: エラー時はresponse.data.codeが0で返ってくる。
           console.log('response.data.code:', response.data.code);
