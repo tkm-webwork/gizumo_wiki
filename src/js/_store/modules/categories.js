@@ -49,7 +49,6 @@ export default {
           url: `/category/${this.state.categories.deleteCategoryId}`,
         }).then((response) => {
           // NOTE: エラー時はresponse.data.codeが0で返ってくる。
-          console.log('response.data.code:', response.data.code);
           if (response.data.code === 0) throw new Error(response.data.message);
 
           commit('doneDeleteCategory');
