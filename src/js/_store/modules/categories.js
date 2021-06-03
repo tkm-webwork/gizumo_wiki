@@ -15,45 +15,50 @@ export default {
   },
   getters: {
     categoryList: state => state.categoryList,
+    deleteCategoryId: state => state.deleteCategoryId,
+    // ↑追加しなくてもいい（DELETEリクエスト時のurl指定でrootGettersを使いたい場合のみ必要）
   },
   actions: {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
     getAllCategories({ commit, rootGetters }) {
-      const payload = { categories: [] };
-      axios(rootGetters['auth/token'])({
-        method: 'GET',
-        url: '/category',
-      }).then((response) => {
-        const categoriesData = response.data.categories;
-        categoriesData.forEach((val) => {
-          // console.log('forEachのval:', val);
-          payload.categories.push(val);
+      return new Promise((resolve, reject) => {
+        const payload = { categories: [] };
+        axios(rootGetters['auth/token'])({
+          method: 'GET',
+          url: '/category',
+        }).then((response) => {
+          const categoriesData = response.data.categories;
+          categoriesData.forEach((val) => {
+            // console.log('forEachのval:', val);
+            payload.categories.push(val);
+          });
+          commit('doneGetAllCategories', payload);
+          resolve();
+        }).catch((err) => {
+          commit('failFetchCategory', { message: err.message });
+          reject();
         });
-        commit('doneGetAllCategories', payload);
-      }).catch((err) => {
-        commit('failFetchCategory', { message: err.message });
       });
     },
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
       // console.log(categoryId, categoryName);
       commit('confirmDeleteCategory', { categoryId, categoryName });
     },
-    deleteCategory({ commit, rootGetters }, categoryId) {
-      console.log(categoryId);
+    deleteCategory({ commit, rootGetters }) {
       return new Promise((resolve) => {
         axios(rootGetters['auth/token'])({
           method: 'DELETE',
-          url: `/category/${categoryId}`,
+          url: `/category/${rootGetters['categories/deleteCategoryId']}`,
+          // url: `/category/${this.state.categories.deleteCategoryId}`,
         }).then((response) => {
           // NOTE: エラー時はresponse.data.codeが0で返ってくる。
+          console.log('response.data.code:', response.data.code);
           if (response.data.code === 0) throw new Error(response.data.message);
 
           commit('doneDeleteCategory');
           resolve();
-        }).catch((err) => {
-          commit('failFetchCategory', { message: err.message });
         });
       });
     },
