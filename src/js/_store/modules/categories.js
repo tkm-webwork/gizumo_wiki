@@ -20,23 +20,39 @@ export default {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
-    getAllCategories({ commit }) {
-      const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
-      commit('doneGetAllCategories', payload);
+    getAllCategories({ commit, rootGetters }) {
+      return new Promise((resolve, reject) => {
+        const payload = { categories: [] };
+        axios(rootGetters['auth/token'])({
+          method: 'GET',
+          url: '/category',
+        }).then((response) => {
+          const categoriesData = response.data.categories;
+          categoriesData.forEach((val) => {
+            payload.categories.push(val);
+          });
+          commit('doneGetAllCategories', payload);
+          resolve();
+        }).catch((err) => {
+          commit('failFetchCategory', { message: err.message });
+          reject();
+        });
+      });
     },
-    deleteCategory({ commit, rootGetters }, categoryId) {
+    confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
+      commit('confirmDeleteCategory', { categoryId, categoryName });
+    },
+    deleteCategory({ commit, rootGetters }) {
       return new Promise((resolve) => {
         axios(rootGetters['auth/token'])({
           method: 'DELETE',
-          url: `/category/${categoryId}`,
+          url: `/category/${this.state.categories.deleteCategoryId}`,
         }).then((response) => {
           // NOTE: エラー時はresponse.data.codeが0で返ってくる。
           if (response.data.code === 0) throw new Error(response.data.message);
 
           commit('doneDeleteCategory');
           resolve();
-        }).catch((err) => {
-          commit('failFetchCategory', { message: err.message });
         });
       });
     },
