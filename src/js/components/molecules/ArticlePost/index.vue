@@ -87,3 +87,13 @@ export default ({
   },
 });
 </script>
+
+<style lang="postcss" scoped>
+.article-post {
+  display: flex;
+  height: 100%;
+  &-preview {
+    /* width: 50%; */
+  }
+}
+</style>
