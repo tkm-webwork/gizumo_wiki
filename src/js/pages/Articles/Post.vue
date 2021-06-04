@@ -1,5 +1,7 @@
 <template lang="html">
   <app-articles-post
+    :article-title="articleTitle"
+    :article-content="articleContent"
     :current-category-name="currentCategoryName"
     :category-list="categoryList"
     :markdown-content="markdownContent"
@@ -27,11 +29,6 @@ export default ({
     };
   },
   computed: {
-    // articleId() {
-    //   let { id } = this.$route.params;
-    //   id = parseInt(id, 10);
-    //   return id;
-    // },
     articleTitle() {
       const { title } = this.$store.state.articles.targetArticle;
       return title;
