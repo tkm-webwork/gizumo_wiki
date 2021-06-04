@@ -111,10 +111,6 @@ export default ({
     appText: Text,
   },
   props: {
-    // articleId: {
-    //   type: Number,
-    //   default: 0,
-    // },
     articleTitle: {
       type: String,
       default: '',
