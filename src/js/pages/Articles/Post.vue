@@ -34,6 +34,16 @@ export default ({
       const { name } = this.$store.state.articles.targetArticle.category;
       return name;
     },
+    categoryList() {
+      const { categoryList } = this.$store.state.categories;
+      return categoryList;
+    },
+  },
+  methods: {
+    selectedArticleCategory($event) {
+      const categoryName = $event.target.value;
+      this.$store.dispatch('articles/selectedArticleCategory', categoryName);
+    },
   },
 });
 </script>
