@@ -1,16 +1,16 @@
 <template lang="html">
-  <app-article-post
+  <app-articles-post
     :current-category-name="currentCategoryName"
     :category-list="categoryList"
   />
 </template>
 
 <script>
-import { CategoryPost } from '@Components/molecules'
+import { ArticlePost } from '@Components/molecules';
 
 export default ({
   components: {
-    appCategoryPost: CategoryPost,
+    appArticlesPost: ArticlePost,
   },
   data() {
     return {
