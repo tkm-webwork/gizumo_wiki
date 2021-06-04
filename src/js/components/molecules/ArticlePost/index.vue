@@ -55,6 +55,15 @@
         :value="articleContent"
         @updateValue="$emit('editedContent', $event)"
       />
+      <app-button
+        class="article-post-submit"
+        button-type="submit"
+        round
+        :disabled="!disabled"
+        @click="handleSubmit"
+      >
+        {{ buttonText }}
+      </app-button>
     </section>
 
     <article class="article-post-preview">
@@ -71,7 +80,7 @@ import {
   Input,
   Textarea,
   MarkdownPreview,
-  // Button,
+  Button,
   Select,
   // Text,
 } from '@Components/atoms';
@@ -82,7 +91,7 @@ export default ({
     appInput: Input,
     appTextarea: Textarea,
     appMarkdownPreview: MarkdownPreview,
-    // appButton: Button,
+    appButton: Button,
     appSelect: Select,
     // appText: Text,
   },
@@ -122,6 +131,15 @@ export default ({
     access: {
       type: Object,
       default: () => ({}),
+    },
+  },
+  computed: {
+    buttonText() {
+      if (!this.access.edit) return '作成権限がありません';
+      return this.loading ? '作成中...' : '作成';
+    },
+    disabled() {
+      return this.access.edit && !this.loading;
     },
   },
 });
