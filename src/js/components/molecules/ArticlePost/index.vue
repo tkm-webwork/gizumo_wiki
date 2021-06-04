@@ -72,6 +72,18 @@ export default ({
       type: Array,
       default: () => [],
     },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+    doneMessage: {
+      type: String,
+      default: '',
+    },
+    access: {
+      type: Object,
+      default: () => ({}),
+    },
   },
 });
 </script>
