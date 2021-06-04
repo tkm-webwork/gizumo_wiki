@@ -43,11 +43,27 @@ export default ({
     appInput: Input,
     appTextarea: Textarea,
     appMarkdownPreview: MarkdownPreview,
-    appButton: Button,
+    // appButton: Button,
     appSelect: Select,
-    appText: Text,
+    // appText: Text,
   },
   props: {
+    articleId: {
+      type: Number,
+      default: 0,
+    },
+    articleTitle: {
+      type: String,
+      default: '',
+    },
+    articleContent: {
+      type: String,
+      default: '',
+    },
+    markdownContent: {
+      type: String,
+      default: '',
+    },
     currentCategoryName: {
       type: String,
       default: '',
