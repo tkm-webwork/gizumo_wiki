@@ -124,7 +124,7 @@ export default ({
       type: Boolean,
       default: false,
     },
-    doneMessage: {
+    errorMessage: {
       type: String,
       default: '',
     },
