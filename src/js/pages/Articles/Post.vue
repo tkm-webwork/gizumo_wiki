@@ -2,6 +2,13 @@
   <app-articles-post
     :current-category-name="currentCategoryName"
     :category-list="categoryList"
+    :markdown-content="markdownContent"
+    :loading="loading"
+    :access="access"
+    @selectedArticleCategory="selectedArticleCategory"
+    @editedTitle="editedTitle"
+    @editedContent="editedContent"
+    @handleSubmit="handleSubmit"
   />
 </template>
 
