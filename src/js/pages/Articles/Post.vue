@@ -45,6 +45,8 @@ export default ({
       const { categoryList } = this.$store.state.categories;
       return categoryList;
     },
+  created() {
+    this.$store.dispatch('categories/getAllCategories');
   },
   methods: {
     selectedArticleCategory($event) {
