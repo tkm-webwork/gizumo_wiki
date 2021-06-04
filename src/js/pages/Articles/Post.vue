@@ -4,6 +4,7 @@
     :category-list="categoryList"
     :markdown-content="markdownContent"
     :loading="loading"
+    :error-message="errorMessage"
     :access="access"
     @selectedArticleCategory="selectedArticleCategory"
     @editedTitle="editedTitle"
@@ -52,6 +53,9 @@ export default ({
     },
     loading() {
       return this.$store.state.articles.loading;
+    },
+    errorMessage() {
+      return this.$store.state.articles.errorMessage;
     },
     access() {
       return this.$store.getters['auth/access'];
