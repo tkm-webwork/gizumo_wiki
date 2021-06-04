@@ -12,4 +12,11 @@ export default ({
   components: {
     appCategoryPost: CategoryPost,
   },
+  data() {
+    return {
+      title: '',
+      content: '',
+    };
+  },
 });
+</script>
