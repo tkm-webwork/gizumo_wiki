@@ -61,21 +61,28 @@ export default ({
     this.$store.dispatch('categories/getAllCategories');
   },
   methods: {
+    // カテゴリー選択
+    selectedArticleCategory($event) {
+      const categoryName = $event.target.value;
+      this.$store.dispatch('articles/selectedArticleCategory', categoryName);
+    },
+    // 新規追加タイトルの入力
     editedTitle($event) {
       this.$store.dispatch('articles/editedTitle', $event.target.value);
       console.log('title:', $event.target.value);
     },
+    // 新規追加コンテントの入力
     editedContent($event) {
       this.$store.dispatch('articles/editedContent', $event.target.value);
       console.log('content:', $event.target.value);
     },
+    // 送信ボタン押した時
     handleSubmit() {
+      console.log('pages: handleSubmit発火しました');
       if (this.loading) return;
-      this.$store.dispatch('articles/postArticle');
-    },
-    selectedArticleCategory($event) {
-      const categoryName = $event.target.value;
-      this.$store.dispatch('articles/selectedArticleCategory', categoryName);
+      this.$store.dispatch('articles/postArticle').then(() => {
+        this.$store.dispatch('articles/initPostArticle');
+      });
     },
   },
 });
