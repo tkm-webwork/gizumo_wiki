@@ -4,3 +4,12 @@
     :category-list="categoryList"
   />
 </template>
+
+<script>
+import { CategoryPost } from '@Components/molecules'
+
+export default ({
+  components: {
+    appCategoryPost: CategoryPost,
+  },
+});
