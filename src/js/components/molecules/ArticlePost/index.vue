@@ -174,10 +174,25 @@ export default ({
   &__columns {
   display: flex;
   height: 100%;
-  /* align-items: flex-end; */
+  justify-content: space-between;
+  align-items: flex-start;
   }
   &-preview {
-    /* width: 30%; */
+    margin-left: 2%;
+    width: 48%;
+    overflow-y: scroll;
+    background-color: #fff;
+  }
+  &-editor {
+    width: 50%;
+    padding-right: 2%;
+    border-right: 1px solid #ccc;
+    &-title {
+      margin-top: 16px;
+    }
+  }
+  &-form {
+    margin-top: 20px;
   }
   &-submit {
     margin-top: 16px;
