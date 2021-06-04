@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="article-edit">
+  <div class="article-post">
     <div v-if="errorMessage" class="article-post__notice--error">
       <app-text bg-error>{{ errorMessage }}</app-text>
     </div>
@@ -8,7 +8,10 @@
         <app-heading :level="1">
           記事の新規作成
         </app-heading>
-        <app-heading :level="2">
+        <app-heading
+          :level="2"
+          class="article-post-editor-title"
+        >
           カテゴリーの選択
         </app-heading>
         <app-select
@@ -35,7 +38,10 @@
             {{ category.name }}
           </option>
         </app-select>
-        <app-heading :level="2">
+        <app-heading
+          :level="2"
+          class="article-post-editor-title"
+        >
           タイトル・本文
         </app-heading>
         <div class="article-post-form">
