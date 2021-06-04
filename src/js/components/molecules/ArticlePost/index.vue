@@ -194,5 +194,8 @@ export default ({
   &-submit {
     margin-top: 16px;
   }
+  &__notice--error {
+    margin-bottom: 16px;
+  }
 }
 </style>
