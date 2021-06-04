@@ -45,6 +45,13 @@ export default ({
       const { categoryList } = this.$store.state.categories;
       return categoryList;
     },
+    loading() {
+      return this.$store.state.articles.loading;
+    },
+    access() {
+      return this.$store.getters['auth/access'];
+    },
+  },
   created() {
     this.$store.dispatch('categories/getAllCategories');
   },
