@@ -47,5 +47,15 @@ export default ({
     appSelect: Select,
     appText: Text,
   },
+  props: {
+    currentCategoryName: {
+      type: String,
+      default: '',
+    },
+    categoryList: {
+      type: Array,
+      default: () => [],
+    },
+  },
 });
 </script>
