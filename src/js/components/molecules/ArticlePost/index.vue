@@ -36,4 +36,16 @@
 import {
   Heading, Input, Textarea, MarkdownPreview, Button, Select, Text,
 } from '@Components/atoms';
+
+export default ({
+  components: {
+    appHeading: Heading,
+    appInput: Input,
+    appTextarea: Textarea,
+    appMarkdownPreview: MarkdownPreview,
+    appButton: Button,
+    appSelect: Select,
+    appText: Text,
+  },
+});
 </script>
