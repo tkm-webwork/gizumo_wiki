@@ -158,7 +158,6 @@ export default ({
       if (!this.access.edit) return;
       this.$validator.validate().then((valid) => {
         console.log('valid(trueならpagesのhandleSubmitがemitされる):', valid);
-        console.log('this=vueコンポーネント:', this);
         if (valid) this.$emit('handleSubmit');
       });
     },
