@@ -26,6 +26,11 @@ export default ({
     };
   },
   computed: {
+    // articleId() {
+    //   let { id } = this.$route.params;
+    //   id = parseInt(id, 10);
+    //   return id;
+    // },
     articleTitle() {
       const { title } = this.$store.state.articles.targetArticle;
       return title;

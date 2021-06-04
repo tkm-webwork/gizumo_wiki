@@ -82,7 +82,7 @@ import {
   MarkdownPreview,
   Button,
   Select,
-  // Text,
+  Text,
 } from '@Components/atoms';
 
 export default ({
@@ -93,13 +93,13 @@ export default ({
     appMarkdownPreview: MarkdownPreview,
     appButton: Button,
     appSelect: Select,
-    // appText: Text,
+    appText: Text,
   },
   props: {
-    articleId: {
-      type: Number,
-      default: 0,
-    },
+    // articleId: {
+    //   type: Number,
+    //   default: 0,
+    // },
     articleTitle: {
       type: String,
       default: '',
@@ -146,6 +146,7 @@ export default ({
     handleSubmit() {
       if (!this.access.edit) return;
       this.$validator.validate().then((valid) => {
+        console.log('valid(trueならpagesのhandleSubmitがemitされる):', valid);
         if (valid) this.$emit('handleSubmit');
       });
     },
@@ -155,10 +156,16 @@ export default ({
 
 <style lang="postcss" scoped>
 .article-post {
+  &__columns {
   display: flex;
   height: 100%;
+  /* align-items: flex-end; */
+  }
   &-preview {
-    /* width: 50%; */
+    /* width: 30%; */
+  }
+  &-submit {
+    margin-top: 16px;
   }
 }
 </style>
