@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="article-edit">
     <div v-if="errorMessage" class="article-post__notice--error">
-      <app-text bg-danger>{{ errorMessage }}</app-text>
+      <app-text bg-error>{{ errorMessage }}</app-text>
     </div>
     <div class="article-post__columns">
       <section class="article-post-editor">
