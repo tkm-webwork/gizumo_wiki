@@ -82,9 +82,12 @@ export default {
           this.$store.dispatch('categories/getAllCategories');
         });
     },
-    openModal() {
+    openModal(categoryId, categoryName) {
       this.toggleModal();
       this.$store.dispatch('categories/clearMessage');
+      /* eslint-disable max-len */
+      this.$store.dispatch('categories/confirmDeleteCategory', { categoryId, categoryName });
+      /* eslint-enable max-len */
     },
   },
 };

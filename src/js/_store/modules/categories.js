@@ -32,7 +32,6 @@ export default {
           resolve();
         }).catch((err) => {
           commit('failFetchCategory', { message: err.message });
-          console.log(err.message);
         });
       });
     },
@@ -54,6 +53,9 @@ export default {
           commit('toggleLoading');
         });
       });
+    },
+    confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
+      commit('confirmDeleteCategory', { categoryId, categoryName });
     },
     deleteCategory({ commit, rootGetters }, categoryId) {
       return new Promise((resolve) => {
@@ -132,6 +134,10 @@ export default {
     },
     displayDoneMessage(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました。';
+    },
+    confirmDeleteCategory(state, { categoryId, categoryName }) {
+      state.deleteCategoryId = categoryId;
+      state.deleteCategoryName = categoryName;
     },
     doneDeleteCategory(state) {
       state.deleteCategoryId = null;
