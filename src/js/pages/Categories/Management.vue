@@ -19,6 +19,7 @@
         :delete-category-name="deleteCategoryName"
         :access="access"
         @openModal="openModal"
+        @handleClick="handleClick"
       />
     </section>
   </div>
@@ -88,6 +89,15 @@ export default {
       /* eslint-disable max-len */
       this.$store.dispatch('categories/confirmDeleteCategory', { categoryId, categoryName });
       /* eslint-enable max-len */
+    },
+    handleClick() {
+      this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId)
+        .then(() => {
+          this.toggleModal();
+          const categoryName = this.$route.query.category
+            ? this.$route.query.category : null;
+          this.$store.dispatch('categories/getAllCategories', categoryName);
+        });
     },
   },
 };
