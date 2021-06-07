@@ -80,6 +80,10 @@ export default ({
       if (this.loading) return;
       this.$store.dispatch('articles/postArticle').then(() => {
         this.$store.dispatch('articles/initPostArticle');
+        this.$router.push({
+          path: '/articles',
+          query: { redirect: '/article/post' },
+        });
       });
     },
   },
