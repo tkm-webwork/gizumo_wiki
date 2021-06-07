@@ -57,6 +57,15 @@ export default {
       renderer.code = (code, lang) => `<pre class="hljs"><code class="language-${lang}">${hljs.highlightAuto(code, [lang]).value}</code></pre>`;
       renderer.em = text => `<span class="attention">${text}</span>`;
 
+      /* eslint-disable max-len */
+      this.markdownContent
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+      /* eslint-enable max-len */
+
       marked.setOptions({
         renderer,
         /* renderer: new marked.Renderer(), */
