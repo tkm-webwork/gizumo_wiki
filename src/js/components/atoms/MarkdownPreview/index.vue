@@ -10,6 +10,7 @@
 <script>
 import marked from 'marked';
 import hljs from 'highlight.js';
+import sanitizeHtml from 'sanitize-html';
 
 export default {
   props: {
@@ -57,14 +58,6 @@ export default {
       renderer.code = (code, lang) => `<pre class="hljs"><code class="language-${lang}">${hljs.highlightAuto(code, [lang]).value}</code></pre>`;
       renderer.em = text => `<span class="attention">${text}</span>`;
 
-      /* eslint-disable max-len */
-      const target = this.markdownContent.replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-      /* eslint-enable max-len */
-
       marked.setOptions({
         renderer,
         /* renderer: new marked.Renderer(), */
@@ -72,8 +65,13 @@ export default {
         breaks: false,
         smartLists: true,
       });
-      return marked(target);
-      // return marked(this.markdownContent);
+      console.log('変更前:', this.markdownContent);
+      // const target = sanitizeHtml(this.markdownContent);
+      // console.log(target);
+      // return marked(target);
+      const target = marked(this.markdownContent);
+      console.log(target);
+      return sanitizeHtml(target);
     },
   },
   mounted() {
