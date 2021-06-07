@@ -66,12 +66,11 @@ export default {
         smartLists: true,
       });
       console.log('変更前:', this.markdownContent);
-      // const target = sanitizeHtml(this.markdownContent);
-      // console.log(target);
-      // return marked(target);
-      const target = marked(this.markdownContent);
-      console.log(target);
-      return sanitizeHtml(target);
+      // const target = marked(this.markdownContent);
+      // console.log('変更後:', target);
+      // console.log(sanitizeHtml(target, { allowedTags: ['br', 'h1'] }));
+      // return sanitizeHtml(target, { allowedTags: ['h1', 'img'] });
+      return marked(this.markdownContent);
     },
   },
   mounted() {
