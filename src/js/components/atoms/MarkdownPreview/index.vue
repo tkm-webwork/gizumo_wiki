@@ -65,12 +65,9 @@ export default {
         breaks: false,
         smartLists: true,
       });
-      console.log('変更前:', this.markdownContent);
-      // const target = marked(this.markdownContent);
-      // console.log('変更後:', target);
-      // console.log(sanitizeHtml(target, { allowedTags: ['br', 'h1'] }));
-      // return sanitizeHtml(target, { allowedTags: ['h1', 'img'] });
-      return marked(this.markdownContent);
+      const target = marked(this.markdownContent);
+      return sanitizeHtml(target, { allowedTags: ['h1'] });
+      // ※allowedTagsで有効にしたいタグを指定可
     },
   },
   mounted() {
