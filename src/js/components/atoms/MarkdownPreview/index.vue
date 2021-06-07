@@ -58,8 +58,7 @@ export default {
       renderer.em = text => `<span class="attention">${text}</span>`;
 
       /* eslint-disable max-len */
-      this.markdownContent
-        .replace(/&/g, '&amp;')
+      const target = this.markdownContent.replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
@@ -73,7 +72,8 @@ export default {
         breaks: false,
         smartLists: true,
       });
-      return marked(this.markdownContent);
+      return marked(target);
+      // return marked(this.markdownContent);
     },
   },
   mounted() {
