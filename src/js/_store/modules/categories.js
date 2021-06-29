@@ -52,6 +52,41 @@ export default {
         });
       });
     },
+    getCategory({ commit, rootGetters }, categoryId) {
+      return new Promise((resolve, reject) => {
+        axios(rootGetters['auth/token'])({
+          method: 'GET',
+          url: `/category/${categoryId}`,
+        }).then((res) => {
+          const updateCategoryId = res.data.category.id;
+          const updateCategoryName = res.data.category.name;
+          commit('doneGetCategory', { updateCategoryId, updateCategoryName });
+          resolve();
+        }).catch((err) => {
+          commit('failReqest', { message: err.message });
+          reject();
+        });
+      });
+    },
+    updateCategory({ commit, rootGetters }) {
+      commit('toggleLoading');
+      const data = new URLSearchParams();
+      data.append('id', this.state.categories.updateCategoryId);
+      data.append('name', this.state.categories.updateCategoryName);
+      axios(rootGetters['auth/token'])({
+        method: 'PUT',
+        url: `/category/${this.state.categories.updateCategoryId}`,
+        data,
+      }).then(() => {
+        commit('toggleLoading');
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+        commit('toggleLoading');
+      });
+    },
+    editCategory({ commit }, value) {
+      commit('editCategory', { value });
+    },
     postCategory({ commit, rootGetters }, categoryName) {
       commit('toggleLoading');
       commit('clearMessage');
@@ -99,6 +134,16 @@ export default {
     },
     donePostMessage(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました。';
+    },
+    doneGetCategory(state, { updateCategoryId, updateCategoryName }) {
+      state.updateCategoryId = updateCategoryId;
+      state.updateCategoryName = updateCategoryName;
+    },
+    doneUpdateCategory(state) {
+      state.doneMessage = 'カテゴリーの更新が完了しました。';
+    },
+    editCategory(state, { value }) {
+      state.updateCategoryName = value;
     },
   },
 };
