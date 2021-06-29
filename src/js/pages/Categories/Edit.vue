@@ -21,23 +21,19 @@ export default {
   components: {
     appCategoryEdit: CategoryEdit,
   },
-  computed: mapState({
+  computed: {
+    ...mapState('categories', [
+      'loading',
+      'updateCategoryName',
+      'doneMessage',
+    ]),
+    ...mapState('categories', {
+      errMessage: 'errorMessage',
+    }),
     access() {
       return this.$store.getters['auth/access'];
     },
-    loading(state) {
-      return state.categories.loading;
-    },
-    updateCategoryName(state) {
-      return state.categories.updateCategoryName;
-    },
-    errMessage(state) {
-      return state.categories.errorMessage;
-    },
-    doneMessage(state) {
-      return state.categories.doneMessage;
-    },
-  }),
+  },
   created() {
     const { id } = this.$route.params;
     this.$store.dispatch('categories/getCategory', id);
