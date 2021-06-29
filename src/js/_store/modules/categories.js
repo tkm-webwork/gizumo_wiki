@@ -14,15 +14,8 @@ export default {
   },
   getters: {
     categoryList: state => state.categoryList,
-    updateUrl(state) {
-      return `/category/${state.updateCategoryId}`;
-    },
-    appendData(state) {
-      const data = new URLSearchParams();
-      data.append('id', state.updateCategoryId);
-      data.append('name', state.updateCategoryName);
-      return data;
-    },
+    categoryId: state => state.updateCategoryId,
+    categoryName: state => state.updateCategoryName,
   },
   actions: {
     clearMessage({ commit }) {
@@ -79,10 +72,12 @@ export default {
     },
     updateCategory({ commit, rootGetters }) {
       commit('toggleLoading');
-      const data = rootGetters['categories/appendData'];
+      const data = new URLSearchParams();
+      data.append('id', rootGetters['categories/categoryId']);
+      data.append('name', rootGetters['categories/categoryName']);
       axios(rootGetters['auth/token'])({
         method: 'PUT',
-        url: rootGetters['categories/updateUrl'],
+        url: `category/${rootGetters['categories/categoryId']}`,
         data,
       }).then(() => {
         commit('doneUpdateCategory');
