@@ -3,40 +3,41 @@
     <app-category-edit
       :disabled="loading ? true : false"
       :access="access"
-      @clearMessage="clearMessage"
-      @updateValue="updateValue"
-      @handleSubmit="handleSubmit"
       :update-category-name="updateCategoryName"
       :err-message="errMessage"
       :done-message="doneMessage"
+      @clearMessage="clearMessage"
+      @updateValue="updateValue"
+      @handleSubmit="handleSubmit"
     />
   </div>
 </template>
 
 <script>
 import { CategoryEdit } from '@Components/molecules';
+import { mapState } from 'vuex';
 
 export default {
   components: {
     appCategoryEdit: CategoryEdit,
   },
-  computed: {
+  computed: mapState({
     access() {
       return this.$store.getters['auth/access'];
     },
-    loading() {
-      return this.$store.state.categories.loading;
+    loading(state) {
+      return state.categories.loading;
     },
-    updateCategoryName() {
-      return this.$store.state.categories.updateCategoryName;
+    updateCategoryName(state) {
+      return state.categories.updateCategoryName;
     },
-    errMessage() {
-      return this.$store.state.categories.errorMessage;
+    errMessage(state) {
+      return state.categories.errorMessage;
     },
-    doneMessage() {
-      return this.$store.state.categories.doneMessage;
+    doneMessage(state) {
+      return state.categories.doneMessage;
     },
-  },
+  }),
   created() {
     const { id } = this.$route.params;
     this.$store.dispatch('categories/getCategory', id);

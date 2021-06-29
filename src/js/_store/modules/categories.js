@@ -14,6 +14,15 @@ export default {
   },
   getters: {
     categoryList: state => state.categoryList,
+    updateUrl(state) {
+      return `/category/${state.updateCategoryId}`;
+    },
+    appendData(state) {
+      const data = new URLSearchParams();
+      data.append('id', state.updateCategoryId);
+      data.append('name', state.updateCategoryName);
+      return data;
+    },
   },
   actions: {
     clearMessage({ commit }) {
@@ -70,14 +79,13 @@ export default {
     },
     updateCategory({ commit, rootGetters }) {
       commit('toggleLoading');
-      const data = new URLSearchParams();
-      data.append('id', this.state.categories.updateCategoryId);
-      data.append('name', this.state.categories.updateCategoryName);
+      const data = rootGetters['categories/appendData'];
       axios(rootGetters['auth/token'])({
         method: 'PUT',
-        url: `/category/${this.state.categories.updateCategoryId}`,
+        url: rootGetters['categories/updateUrl'],
         data,
       }).then(() => {
+        commit('doneUpdateCategory');
         commit('toggleLoading');
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
