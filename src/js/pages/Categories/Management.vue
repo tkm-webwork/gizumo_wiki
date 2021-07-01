@@ -28,7 +28,7 @@
 <script>
 import { CategoryPost, CategoryList } from '@Components/molecules';
 import Mixins from '@Helpers/mixins';
-import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -46,7 +46,7 @@ export default {
     access() {
       return this.$store.getters['auth/access'];
     },
-    ...mapState('categories', [
+    ...mapGetters('categories', [
       'loading',
       'errorMessage',
       'doneMessage',

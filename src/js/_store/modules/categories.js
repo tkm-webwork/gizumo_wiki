@@ -16,6 +16,11 @@ export default {
     categoryList: state => state.categoryList,
     categoryId: state => state.updateCategoryId,
     categoryName: state => state.updateCategoryName,
+    loading: state => state.loading,
+    errorMessage: state => state.errorMessage,
+    doneMessage: state => state.doneMessage,
+    deleteCategoryId: state => state.deleteCategoryId,
+    deleteCategoryName: state => state.deleteCategoryName,
   },
   actions: {
     clearMessage({ commit }) {
