@@ -19,6 +19,7 @@
         :delete-category-name="deleteCategoryName"
         :access="access"
         @openModal="openModal"
+        @handleSubmit="deleteCategory"
       />
     </section>
   </div>
@@ -27,6 +28,7 @@
 <script>
 import { CategoryPost, CategoryList } from '@Components/molecules';
 import Mixins from '@Helpers/mixins';
+import { mapState } from 'vuex';
 
 export default {
   components: {
@@ -44,24 +46,14 @@ export default {
     access() {
       return this.$store.getters['auth/access'];
     },
-    loading() {
-      return this.$store.state.categories.loading;
-    },
-    errorMessage() {
-      return this.$store.state.categories.errorMessage;
-    },
-    doneMessage() {
-      return this.$store.state.categories.doneMessage;
-    },
-    categoryList() {
-      return this.$store.state.categories.categoryList;
-    },
-    deleteCategoryId() {
-      return this.$store.state.categories.deleteCategoryId;
-    },
-    deleteCategoryName() {
-      return this.$store.state.categories.deleteCategoryName;
-    },
+    ...mapState('categories', [
+      'loading',
+      'errorMessage',
+      'doneMessage',
+      'categoryList',
+      'deleteCategoryId',
+      'deleteCategoryName',
+    ]),
   },
   created() {
     this.$store.dispatch('categories/clearMessage');
@@ -74,9 +66,10 @@ export default {
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
     },
-    openModal() {
+    openModal(categoryId, categoryName) {
       this.toggleModal();
       this.$store.dispatch('categories/clearMessage');
+      this.$store.dispatch('categories/setPickCategory', { categoryId, categoryName });
     },
     handleSubmit() {
       if (this.loading) return;
@@ -84,6 +77,13 @@ export default {
         .then(() => {
           this.$store.dispatch('categories/getAllCategories');
         });
+    },
+    deleteCategory() {
+      this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId)
+        .then(() => {
+          this.$store.dispatch('categories/getAllCategories');
+        });
+      this.toggleModal();
     },
   },
 };
