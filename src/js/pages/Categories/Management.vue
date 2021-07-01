@@ -19,6 +19,7 @@
         :delete-category-name="deleteCategoryName"
         :access="access"
         @openModal="openModal"
+        @handleSubmit="deleteSubmitCategory"
       />
     </section>
   </div>
@@ -27,6 +28,7 @@
 <script>
 import { CategoryPost, CategoryList } from '@Components/molecules';
 import Mixins from '@Helpers/mixins';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -44,46 +46,49 @@ export default {
     access() {
       return this.$store.getters['auth/access'];
     },
-    loading() {
-      return this.$store.state.categories.loading;
-    },
-    errorMessage() {
-      return this.$store.state.categories.errorMessage;
-    },
-    doneMessage() {
-      return this.$store.state.categories.doneMessage;
-    },
-    categoryList() {
-      return this.$store.state.categories.categoryList;
-    },
-    deleteCategoryId() {
-      return this.$store.state.categories.deleteCategoryId;
-    },
-    deleteCategoryName() {
-      return this.$store.state.categories.deleteCategoryName;
-    },
+    ...mapGetters('categories', [
+      'loading',
+      'errorMessage',
+      'doneMessage',
+      'categoryList',
+      'deleteCategoryId',
+      'deleteCategoryName',
+    ]),
   },
   created() {
-    this.$store.dispatch('categories/clearMessage');
-    this.$store.dispatch('categories/getAllCategories');
+    this.clearMessage();
+    this.getAllCategories();
   },
   methods: {
+    ...mapActions('categories', [
+      'clearMessage',
+      'setPickCategory',
+      'postCategory',
+      'getAllCategories',
+      'deleteCategory',
+      'getAllCategories',
+    ]),
     updateValue($event) {
       this[$event.target.name] = $event.target.value;
     },
-    clearMessage() {
-      this.$store.dispatch('categories/clearMessage');
-    },
-    openModal() {
+    openModal(categoryId, categoryName) {
       this.toggleModal();
-      this.$store.dispatch('categories/clearMessage');
+      this.clearMessage();
+      this.setPickCategory({ categoryId, categoryName });
     },
     handleSubmit() {
       if (this.loading) return;
-      this.$store.dispatch('categories/postCategory', this.category)
+      this.postCategory(this.category)
         .then(() => {
-          this.$store.dispatch('categories/getAllCategories');
+          this.getAllCategories();
         });
+    },
+    deleteSubmitCategory() {
+      this.deleteCategory(this.deleteCategoryId)
+        .then(() => {
+          this.getAllCategories();
+        });
+      this.toggleModal();
     },
   },
 };
