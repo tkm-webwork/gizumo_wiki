@@ -45,6 +45,7 @@ export default {
     },
     targetArticle: state => state.targetArticle,
     deleteArticleId: state => state.deleteArticleId,
+    categoryList: state => state.targetArticle.category,
   },
   mutations: {
     initPostArticle(state) {
