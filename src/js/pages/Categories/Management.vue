@@ -66,7 +66,6 @@ export default {
       'postCategory',
       'getAllCategories',
       'deleteCategory',
-      'getAllCategories',
     ]),
     updateValue($event) {
       this[$event.target.name] = $event.target.value;
