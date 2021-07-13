@@ -1,13 +1,25 @@
 <template lang="html">
   <div class="article-post">
-    <form class="article-post__form">
+    <div v-if="errorMessage" class="article-post__notice">
+      <app-text bg-error>{{ errorMessage }}</app-text>
+    </div>
+    <!-- <form class="article-post__form" @submit.prevent="addArticle"> -->
+    <section class="article-post-editor">
       <app-heading :level="1">記事の新規作成</app-heading>
       <app-heading :level="2" class="article-post__title">カテゴリーの選択</app-heading>
-      <app-select>
+      <app-select
+        v-validate="'required'"
+        name="category"
+        data-vv-as="カテゴリー"
+        :error-messages="errors.collect('category')"
+        :value="value"
+        @selectedArticleCategory="$emit('selectedArticleCategory', $event)"
+      >
         <option value="">---</option>
         <option
           v-for="(category, index) in categoryList"
           :key="index"
+          :value="category.name"
         >
           {{ category.name }}
         </option>
@@ -15,24 +27,30 @@
       <app-heading :level="2" class="article-post__title">タイトル・本文</app-heading>
       <app-input
         v-validate="'required'"
-        name="category"
+        name="title"
         type="text"
         placeholder="記事のタイトルを入力してください"
         :value="articleTitle"
+        @editTitle="$emit('editTitle', $event)"
       />
       <div class="article-post__textarea">
         <app-textarea
-         placeholder="記事の本文をマークダウン記法で入力してください。"
-         :value="articleText"
+          placeholder="記事の本文をマークダウン記法で入力してください。"
+          name="content"
+          :value="articleContent"
+          @editContent="$emit('editContent', $event)"
         />
       </div>
       <app-button
+        button-type="submit"
         round
         class="article-post__submit"
+        @click="addArticle"
       >
-        作成
+        {{ buttonText }}
       </app-button>
-    </form>
+    </section>
+    <!-- </form> -->
   </div>
 </template>
 
@@ -46,7 +64,6 @@ export default {
     appHeading: Heading,
     appInput: Input,
     appButton: Button,
-    // appText: Text,
     appSelect: Select,
     appTextarea: Textarea,
   },
@@ -57,19 +74,43 @@ export default {
         return [];
       },
     },
+    value: {
+      type: String,
+      default: '',
+    },
     articleTitle: {
       type: String,
       default: '',
     },
-    articleText: {
+    articleContent: {
+      type: String,
+      default: '',
+    },
+    access: {
+      type: Object,
+      default: () => ({}),
+    },
+    errorMessage: {
       type: String,
       default: '',
     },
   },
-  // computed: {
-  // },
-  // methods: {
-  // },
+  computed: {
+    buttonText() {
+      if (!this.access.create) return '作成権限がありません';
+      return this.disabled ? '作成中...' : '作成';
+    },
+  },
+  methods: {
+    addArticle() {
+      if (!this.access.create) return;
+      this.$emit('clearMessage');
+      this.$validator.validate().then((valid) => {
+        console.log((valid));
+        if (valid) this.$emit('handleSubmit');
+      });
+    },
+  },
 };
 </script>
 

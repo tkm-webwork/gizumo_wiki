@@ -46,6 +46,9 @@ export default {
     targetArticle: state => state.targetArticle,
     deleteArticleId: state => state.deleteArticleId,
     categoryList: state => state.targetArticle.category,
+    loading: state => state.loading,
+    doneMessage: state => state.doneMessage,
+    errorMessage: state => state.errorMessage,
   },
   mutations: {
     initPostArticle(state) {
@@ -245,6 +248,7 @@ export default {
       });
     },
     postArticle({ commit, rootGetters }) {
+      console.log('post!!!!!!!!!!');
       return new Promise((resolve, reject) => {
         commit('clearMessage');
         commit('toggleLoading');
@@ -271,6 +275,7 @@ export default {
       });
     },
     clearMessage({ commit }) {
+      console.log('clear!!!!!!!');
       commit('clearMessage');
     },
   },
