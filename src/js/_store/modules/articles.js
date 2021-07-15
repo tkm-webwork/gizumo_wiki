@@ -45,6 +45,10 @@ export default {
     },
     targetArticle: state => state.targetArticle,
     deleteArticleId: state => state.deleteArticleId,
+    categoryList: state => state.targetArticle.category,
+    loading: state => state.loading,
+    doneMessage: state => state.doneMessage,
+    errorMessage: state => state.errorMessage,
   },
   mutations: {
     initPostArticle(state) {
@@ -163,13 +167,13 @@ export default {
         });
       });
     },
-    editedTitle({ commit }, title) {
+    editTitle({ commit }, title) {
       commit({
         type: 'editedTitle',
         title,
       });
     },
-    editedContent({ commit }, content) {
+    editContent({ commit }, content) {
       commit({
         type: 'editedContent',
         content,
@@ -251,9 +255,7 @@ export default {
         data.append('title', rootGetters['articles/targetArticle'].title);
         data.append('content', rootGetters['articles/targetArticle'].content);
         data.append('user_id', rootGetters['auth/user'].id);
-        if (rootGetters['articles/targetArticle'].category.id !== null) {
-          data.append('category_id', rootGetters['articles/targetArticle'].category.id);
-        }
+        data.append('category_id', rootGetters['articles/targetArticle'].category.id);
         axios(rootGetters['auth/token'])({
           method: 'POST',
           url: '/article',
