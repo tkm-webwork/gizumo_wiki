@@ -3,14 +3,16 @@
     <app-article-post
       :access="access"
       :loading="loading"
-      :value="categoryName"
       :category-list="categoryList"
+      :value="categoryName"
       :article-title="articleTitle"
-      :article-contet="articleContent"
+      :article-content="articleContent"
       :error-message="errorMessage"
+      :markdown-content="markdownContent"
       @clearMessage="clearMessage"
-      @selectedArticleCategory="selectedArticleCategory"
-      @editTitle="editTitle"
+      @selectedArticleCategory="selectedCategory"
+      @updateTitle="updateTitle"
+      @updateContent="updateContent"
       @handleSubmit="handleSubmit"
     />
   </div>
@@ -42,11 +44,8 @@ export default {
       'errorMessage',
       'doneMessage',
       'targetArticle',
-      // articleTitle: 'targetArticle',
-      // articleText: 'targetArticle',
     ]),
     categoryName() {
-      console.log(this.targetArticle.category.name);
       return this.targetArticle.category.name;
     },
     articleTitle() {
@@ -57,9 +56,13 @@ export default {
       const { content } = this.targetArticle;
       return content;
     },
+    markdownContent() {
+      return `# ${this.articleTitle}\n${this.articleContent}`;
+    },
   },
   created() {
     this.getAllCategories();
+    this.initPostArticle();
   },
   methods: {
     ...mapActions('categories', [
@@ -69,29 +72,28 @@ export default {
       'clearMessage',
       'postArticle',
       'editTitle',
-      'editContet',
+      'editContent',
       'selectedArticleCategory',
+      'initPostArticle',
     ]),
-    editTitle($event) {
+    updateTitle($event) {
       this.editTitle($event.target.value);
     },
-    editContent($event) {
+    updateContent($event) {
       this.editContent($event.target.value);
     },
-    selectedArticleCategory($event) {
-      console.log($event.target.value);
+    selectedCategory($event) {
       const categoryName = $event.target.value ? $event.target.value : '';
       this.selectedArticleCategory(categoryName);
     },
     handleSubmit() {
-      console.log('handle!!!!!!!!');
       if (this.loading) return;
       this.postArticle()
         .then(() => {
-          // this.$router.push({
-          //   path: '/articles',
-          // });
-          console.log('完了！');
+          this.$router.push({
+            path: '/articles',
+            query: { redirect: '/article/post' },
+          });
         });
     },
   },

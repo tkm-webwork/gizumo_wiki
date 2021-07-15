@@ -167,13 +167,13 @@ export default {
         });
       });
     },
-    editedTitle({ commit }, title) {
+    editTitle({ commit }, title) {
       commit({
         type: 'editedTitle',
         title,
       });
     },
-    editedContent({ commit }, content) {
+    editContent({ commit }, content) {
       commit({
         type: 'editedContent',
         content,
@@ -248,7 +248,6 @@ export default {
       });
     },
     postArticle({ commit, rootGetters }) {
-      console.log('post!!!!!!!!!!');
       return new Promise((resolve, reject) => {
         commit('clearMessage');
         commit('toggleLoading');
@@ -258,7 +257,7 @@ export default {
         data.append('user_id', rootGetters['auth/user'].id);
         if (rootGetters['articles/targetArticle'].category.id !== null) {
           data.append('category_id', rootGetters['articles/targetArticle'].category.id);
-        }
+        }// 必要？
         axios(rootGetters['auth/token'])({
           method: 'POST',
           url: '/article',
@@ -275,7 +274,6 @@ export default {
       });
     },
     clearMessage({ commit }) {
-      console.log('clear!!!!!!!');
       commit('clearMessage');
     },
   },
