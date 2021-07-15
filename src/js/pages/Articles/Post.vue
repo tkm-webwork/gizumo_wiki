@@ -1,7 +1,7 @@
 <template lang="html">
   <div>
     <app-article-post
-      :access="access"
+      :access="authAccess"
       :loading="loading"
       :category-list="categoryList"
       :value="categoryName"
@@ -33,9 +33,9 @@ export default {
     };
   },
   computed: {
-    access() {
-      return this.$store.getters['auth/access'];
-    },
+    ...mapGetters('auth', [
+      'access',
+    ]),
     ...mapGetters('categories', [
       'categoryList',
     ]),
@@ -45,6 +45,9 @@ export default {
       'doneMessage',
       'targetArticle',
     ]),
+    authAccess() {
+      return this.access;
+    },
     categoryName() {
       return this.targetArticle.category.name;
     },
