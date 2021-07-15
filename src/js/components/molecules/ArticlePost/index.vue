@@ -85,9 +85,7 @@ export default {
   props: {
     categoryList: {
       type: Array,
-      default() {
-        return [];
-      },
+      default: () => ([]),
     },
     value: {
       type: String,
