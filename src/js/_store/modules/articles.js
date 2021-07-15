@@ -255,9 +255,7 @@ export default {
         data.append('title', rootGetters['articles/targetArticle'].title);
         data.append('content', rootGetters['articles/targetArticle'].content);
         data.append('user_id', rootGetters['auth/user'].id);
-        if (rootGetters['articles/targetArticle'].category.id !== null) {
-          data.append('category_id', rootGetters['articles/targetArticle'].category.id);
-        }// 必要？
+        data.append('category_id', rootGetters['articles/targetArticle'].category.id);
         axios(rootGetters['auth/token'])({
           method: 'POST',
           url: '/article',
