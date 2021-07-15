@@ -25,24 +25,26 @@
       </app-select>
       <app-heading :level="2" class="article-post__title">タイトル・本文</app-heading>
       <app-input
-        v-validate="'required'"
         name="title"
         type="text"
+        v-validate="'required'"
+        data-vv-as="記事のタイトル"
         placeholder="記事のタイトルを入力してください"
         required
         white-bg
-        data-vv-as="記事のタイトル"
         :error-messages="errors.collect('title')"
         :value="articleTitle"
         @updateValue="$emit('updateTitle', $event)"
       />
       <div class="article-post__textarea">
         <app-textarea
-          placeholder="記事の本文をマークダウン記法で入力してください。"
           name="content"
+          type="text"
+          v-validate="'required'"
+          data-vv-as="記事の本文"
+          placeholder="記事の本文をマークダウン記法で入力してください。"
           required
           white-bg
-          data-vv-as="記事の本文"
           :error-messages="errors.collect('content')"
           :value="articleContent"
           @updateValue="$emit('updateContent', $event)"
