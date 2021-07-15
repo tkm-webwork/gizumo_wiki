@@ -86,7 +86,7 @@ export default {
       this.editContent($event.target.value);
     },
     selectedCategory($event) {
-      const categoryName = $event.target.value ? $event.target.value : '';
+      const categoryName = ($event.target.value || '');
       this.selectedArticleCategory(categoryName);
     },
     handleSubmit() {
