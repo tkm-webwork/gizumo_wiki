@@ -7,7 +7,6 @@ export default {
     errorMessage: '',
     doneMessage: '',
     categoryList: [],
-    createCategoryName: '',
     deleteCategoryId: null,
     deleteCategoryName: '',
     updateCategoryId: null,
@@ -39,23 +38,20 @@ export default {
     },
     postCategory({ commit, rootGetters }, categoryName) {
       return new Promise((resolve, reject) => {
-        commit('clearMessage');
         commit('toggleLoading');
         const data = new URLSearchParams();
         data.append('name', categoryName);
-        console.log('data:', data);
         axios(rootGetters['auth/token'])({
           method: 'POST',
           url: '/category',
           data,
         }).then(() => {
           commit('toggleLoading');
-          commit('displayDoneMessage', { message: 'カテゴリーの追加が完了しました' });
+          commit('donePostCategory');
           resolve();
         }).catch((err) => {
-          console.log('err:', err);
           commit('toggleLoading');
-          commit('failRequest', { message: err.message });
+          commit('failFetchCategory', { message: err.message });
           reject();
         });
       });
@@ -114,9 +110,6 @@ export default {
       state.errorMessage = '';
       state.doneMessage = '';
     },
-    displayDoneMessage(state, payload = { message: '成功しました' }) {
-      state.doneMessage = payload.message;
-    },
     doneGetAllCategories(state, { categories }) {
       state.categoryList = [...categories];
     },
@@ -129,6 +122,9 @@ export default {
     confirmDeleteCategory(state, { categoryId, categoryName }) {
       state.deleteCategoryId = categoryId;
       state.deleteCategoryName = categoryName;
+    },
+    donePostCategory(state) {
+      state.doneMessage = 'カテゴリーの追加が完了しました。';
     },
     doneDeleteCategory(state) {
       state.deleteCategoryId = null;

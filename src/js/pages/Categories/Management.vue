@@ -83,13 +83,11 @@ export default {
     },
     handleSubmit() {
       if (this.loading) return;
-      this.$store.dispatch('categories/postCategory', this.category).then(() => {
-        this.$router.push({
-          path: '/categories',
-          query: { redirect: '/categories' },
+      this.$store.dispatch('categories/postCategory', this.category)
+        .then(() => {
+          this.$store.dispatch('categories/getAllCategories');
+          this.category = '';
         });
-        this.category = '';
-      });
     },
     deleteCategory() {
       this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId)

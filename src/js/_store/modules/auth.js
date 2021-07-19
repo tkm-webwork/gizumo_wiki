@@ -87,7 +87,6 @@ export default {
               commit('signInFailure');
               return reject();
             }
-
             const payload = { token, user: response.data.user };
             commit('signInSuccess', payload);
             return resolve();
