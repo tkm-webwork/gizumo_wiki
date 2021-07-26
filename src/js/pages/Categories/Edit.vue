@@ -5,7 +5,7 @@
       :access="access"
       :error-message="errorMessage"
       :done-message="doneMessage"
-      :update-category-name="updateCategoryName"
+      :update-category-names="updateCategoryNames"
       @clearMessage="clearMessage"
       @handleSubmit="updateCategory"
       @updateValue="updateValue"
@@ -15,6 +15,7 @@
 
 <script>
 import { CategoryEdit } from '@Components/molecules';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   components: {
@@ -23,6 +24,9 @@ export default {
   // createdでVueインスタンスが読み込まれた時にしたい記述を書く。
   // mountedだとエレメントが出来てからになり、画面が書き出された後になるため
   computed: {
+    ...mapGetters('categories', [
+      'updateCategoryName',
+    ]),
     access() {
       return this.$store.getters['auth/access'];
     },
@@ -35,16 +39,19 @@ export default {
     doneMessage() {
       return this.$store.state.categories.doneMessage;
     },
-    updateCategoryName() {
-      return this.$store.state.categories.updateCategoryName;
+    updateCategoryNames() {
+      return this.updateCategoryName;
     },
   },
   created() {
     const { id } = this.$route.params;
-    this.$store.dispatch('categories/getCategory', id);
+    this.getCategory(id);
     this.$store.dispatch('caterories/clearMessage');
   },
   methods: {
+    ...mapActions('categories', [
+      'getCategory',
+    ]),
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
     },
