@@ -14,6 +14,7 @@
         </tr>
       </thead>
       <transition-group name="fade" tag="tbody" class="category-list__table__body">
+        <!-- リストをアニメーションさせたい時に使う -->
         <tr v-for="category in categories" :key="category.id">
           <td>
             <app-text tag="span">
@@ -158,9 +159,12 @@ export default {
       .fade-enter-active, .fade-leave-active {
         transition: opacity .5s;
       }
+      /* enterがdataを受け取る時、leaveがdata消去した時 */
       .fade-enter, .fade-leave-to {
         opacity: 0;
       }
+      /* 開始がfade-enterでactiveが終了の値になる。この場合opacityが０から１に.5秒かかって遷移する。 */
+      /* labveでdataがなくなる際は、.5秒かけてopacityが０になる */
     }
   }
 }
