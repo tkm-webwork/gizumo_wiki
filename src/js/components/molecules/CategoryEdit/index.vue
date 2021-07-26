@@ -21,7 +21,7 @@
       data-vv-as="カテゴリー名"
       :error-messages="errors.collect('updateCategory')"
       :value="updateCategoryNames"
-      @updateValue="$emit('updateValue', $event)"
+      @updateValue="$emit('updateValues', $event)"
     />
     <app-button
       class="category-management-edit__submit"
@@ -32,12 +32,12 @@
       {{ buttonText }}
     </app-button>
 
-    <div v-if="errorMessage" class="category-management-edit__notice">
-      <app-text bg-error>{{ errorMessage }}</app-text>
+    <div v-if="errorMessages" class="category-management-edit__notice">
+      <app-text bg-error>{{ errorMessages }}</app-text>
     </div>
 
-    <div v-if="doneMessage" class="category-management-edit__notice">
-      <app-text bg-success>{{ doneMessage }}</app-text>
+    <div v-if="doneMessages" class="category-management-edit__notice">
+      <app-text bg-success>{{ doneMessages }}</app-text>
     </div>
   </form>
 </template>
@@ -63,11 +63,11 @@ export default {
       type: Object,
       default: () => ({}),
     },
-    errorMessage: {
+    errorMessages: {
       type: String,
       default: '',
     },
-    doneMessage: {
+    doneMessages: {
       type: String,
       default: '',
     },
@@ -85,7 +85,7 @@ export default {
   methods: {
     handleSubmit() {
       if (!this.access.edit) return;
-      this.$emit('clearMessage');
+      this.$emit('clearMessages');
       this.$validator.validate().then((valid) => {
         if (valid) this.$emit('handleSubmit');
       });

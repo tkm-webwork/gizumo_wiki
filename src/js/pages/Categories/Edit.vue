@@ -1,14 +1,14 @@
 <template>
   <div>
     <app-category-edit
-      :disabled="loading ? true : false"
+      :disabled="loadings ? true : false"
       :access="access"
-      :error-message="errorMessage"
-      :done-message="doneMessage"
+      :error-messages="errorMessages"
+      :done-messages="doneMessages"
       :update-category-names="updateCategoryNames"
-      @clearMessage="clearMessage"
-      @handleSubmit="updateCategory"
-      @updateValue="updateValue"
+      @clearMessages="clearMessages"
+      @handleSubmit="updateCategorys"
+      @updateValues="updateValues"
     />
   </div>
 </template>
@@ -25,19 +25,22 @@ export default {
   // mountedだとエレメントが出来てからになり、画面が書き出された後になるため
   computed: {
     ...mapGetters('categories', [
+      'loading',
+      'errorMessage',
+      'doneMessage',
       'updateCategoryName',
     ]),
     access() {
       return this.$store.getters['auth/access'];
     },
-    loading() {
-      return this.$store.state.categories.loading;
+    loadings() {
+      return this.loading;
     },
-    errorMessage() {
-      return this.$store.state.categories.errorMessage;
+    errorMessages() {
+      return this.errorMessage;
     },
-    doneMessage() {
-      return this.$store.state.categories.doneMessage;
+    doneMessages() {
+      return this.doneMessage;
     },
     updateCategoryNames() {
       return this.updateCategoryName;
@@ -46,21 +49,24 @@ export default {
   created() {
     const { id } = this.$route.params;
     this.getCategory(id);
-    this.$store.dispatch('caterories/clearMessage');
+    this.clearMessage();
   },
   methods: {
     ...mapActions('categories', [
       'getCategory',
+      'clearMessage',
+      'updateValue',
+      'updateCategory'
     ]),
-    clearMessage() {
-      this.$store.dispatch('categories/clearMessage');
+    clearMessages() {
+      this.clearMessage();
     },
-    updateValue($event) {
-      this.$store.dispatch('categories/updateValue', $event.target.value);
+    updateValues($event) {
+      this.updateValue($event.target.value);
     },
-    updateCategory() {
-      if (this.loading) return;
-      this.$store.dispatch('categories/updateCategory');
+    updateCategorys() {
+      if (this.loadings) return;
+      this.updateCategory();
     },
   },
 };
