@@ -99,6 +99,7 @@ export default {
         commit('toggleLoading');
         commit('doneUpdate', newCategory);
       }).catch((err) => {
+        commit('toggleLoading');
         commit('failFetchCategory', { message: err.message });
       });
     },
