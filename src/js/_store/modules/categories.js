@@ -52,6 +52,26 @@ export default {
         });
       });
     },
+    postCategory({ commit, rootGetters }, categoryName) {
+      commit('toggleLoading');
+      const data = new URLSearchParams();
+      data.append('name', categoryName);
+      return new Promise((resolve, reject) => {
+        axios(rootGetters['auth/token'])({
+          method: 'POST',
+          url: '/category',
+          data,
+        }).then(() => {
+          commit('toggleLoading');
+          commit('donePostCategory');
+          resolve();
+        }).catch((err) => {
+          commit('toggleLoading');
+          commit('failFetchCategory', { message: err.message });
+          reject();
+        });
+      });
+    },
     getCategoryDetail({ commit, rootGetters }, categoryId) {
       axios(rootGetters['auth/token'])({
         method: 'GET',
@@ -107,6 +127,9 @@ export default {
       state.deleteCategoryId = null;
       state.deleteCategoryName = '';
       state.doneMessage = 'カテゴリーの削除が完了しました。';
+    },
+    donePostCategory(state) {
+      state.doneMessage = 'カテゴリーの追加が完了しました。';
     },
     doneGetCategoryDetail(state, payload) {
       state.updateCategoryId = payload.id;
