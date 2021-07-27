@@ -1,11 +1,11 @@
 <template>
   <div>
     <app-category-edit
-      :disabled="loadings ? true : false"
+      :disabled="loading ? true : false"
       :access="access"
-      :error-messages="errorMessages"
-      :done-messages="doneMessages"
-      :update-category-names="updateCategoryNames"
+      :error-message="errorMessage"
+      :done-message="doneMessage"
+      :update-category-name="updateCategoryName"
       @clearMessages="clearMessages"
       @handleSubmit="updateCategorys"
       @updateValues="updateValues"
@@ -33,18 +33,6 @@ export default {
     access() {
       return this.$store.getters['auth/access'];
     },
-    loadings() {
-      return this.loading;
-    },
-    errorMessages() {
-      return this.errorMessage;
-    },
-    doneMessages() {
-      return this.doneMessage;
-    },
-    updateCategoryNames() {
-      return this.updateCategoryName;
-    },
   },
   created() {
     const { id } = this.$route.params;
@@ -65,7 +53,7 @@ export default {
       this.updateValue($event.target.value);
     },
     updateCategorys() {
-      if (this.loadings) return;
+      if (this.loading) return;
       this.updateCategory();
     },
   },
