@@ -90,15 +90,15 @@ export default {
     updateValue({ commit }, categoryName) {
       commit('updateValue', { categoryName });
     },
-    updateCategory({ commit, rootGetters }) {
+    updateCategory({ commit, rootGetters, getters }) {
       commit('toggleLoading');
-      const data = new URLSearchParams();
-      data.append('name', rootGetters['categories/updateCategoryName']);
-      data.append('id', rootGetters['categories/updateCategoryId']);
+      const categoryData = new URLSearchParams();
+      categoryData.append('name', getters.updateCategoryName);
+      categoryData.append('id', getters.updateCategoryId);
       axios(rootGetters['auth/token'])({
         method: 'PUT',
-        url: `/category/${rootGetters['categories/updateCategoryId']}`,
-        data,
+        url: `/category/${getters.updateCategoryId}`,
+        data: categoryData,
       }).then(({ data }) => {
         const { id, name } = data.category;
         commit('toggleLoading');
