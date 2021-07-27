@@ -56,7 +56,7 @@ export default {
       'getCategory',
       'clearMessage',
       'updateValue',
-      'updateCategory'
+      'updateCategory',
     ]),
     clearMessages() {
       this.clearMessage();

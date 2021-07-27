@@ -14,6 +14,9 @@ export default {
   },
   getters: {
     categoryList: state => state.categoryList,
+    loading: state => state.loading,
+    errorMessage: state => state.errorMessage,
+    doneMessage: state => state.doneMessage,
     updateCategoryName: state => state.updateCategoryName,
     updateCategoryId: state => state.updateCategoryId,
   },
@@ -78,8 +81,8 @@ export default {
         method: 'GET',
         url: `/category/${categoryId}`,
       }).then(({ data }) => {
-        const category = data.category;
-        commit('doneGetCategoryDetail', category);
+        const { id, name } = data.category;
+        commit('doneGetCategoryDetail', { id, name });
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
       });
@@ -94,7 +97,7 @@ export default {
       data.append('id', rootGetters['categories/updateCategoryId']);
       axios(rootGetters['auth/token'])({
         method: 'PUT',
-        url: `/category/${this.state.categories.updateCategoryId}`,
+        url: `/category/${rootGetters['categories/updateCategoryId']}`,
         data,
       }).then(({ data }) => {
         const newCategory = data.category;
@@ -111,9 +114,9 @@ export default {
       state.errorMessage = '';
       state.doneMessage = '';
     },
-    doneGetCategoryDetail(state, category) {
-      state.updateCategoryName = category.name;
-      state.updateCategoryId = category.id;
+    doneGetCategoryDetail(state, { id, name }) {
+      state.updateCategoryName = name;
+      state.updateCategoryId = id;
     },
     doneUpdate(state, newCategory) {
       state.updateCategoryId = newCategory.id;
