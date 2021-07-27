@@ -6,9 +6,9 @@
       :error-message="errorMessage"
       :done-message="doneMessage"
       :update-category-name="updateCategoryName"
-      @clearMessages="clearMessages"
-      @handleSubmit="updateCategorys"
-      @updateValues="updateValues"
+      @clearMessage="clearMessage"
+      @handleSubmit="updateNewCategory"
+      @updateNewValue="updateNewValue"
     />
   </div>
 </template>
@@ -46,13 +46,10 @@ export default {
       'updateValue',
       'updateCategory',
     ]),
-    clearMessages() {
-      this.clearMessage();
-    },
-    updateValues($event) {
+    updateNewValue($event) {
       this.updateValue($event.target.value);
     },
-    updateCategorys() {
+    updateNewCategory() {
       if (this.loading) return;
       this.updateCategory();
     },

@@ -21,7 +21,7 @@
       data-vv-as="カテゴリー名"
       :error-messages="errors.collect('updateCategory')"
       :value="updateCategoryName"
-      @updateValue="$emit('updateValues', $event)"
+      @updateValue="$emit('updateNewValue', $event)"
     />
     <app-button
       class="category-management-edit__submit"
@@ -85,7 +85,7 @@ export default {
   methods: {
     handleSubmit() {
       if (!this.access.edit) return;
-      this.$emit('clearMessages');
+      this.$emit('clearMessage');
       this.$validator.validate().then((valid) => {
         if (valid) this.$emit('handleSubmit');
       });
