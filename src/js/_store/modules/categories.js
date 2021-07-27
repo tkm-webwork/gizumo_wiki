@@ -14,6 +14,11 @@ export default {
   },
   getters: {
     categoryList: state => state.categoryList,
+    loading: state => state.loading,
+    errorMessage: state => state.errorMessage,
+    doneMessage: state => state.doneMessage,
+    updateCategoryName: state => state.updateCategoryName,
+    updateCategoryId: state => state.updateCategoryId,
   },
   actions: {
     clearMessage({ commit }) {
@@ -71,11 +76,55 @@ export default {
         });
       });
     },
+    getCategory({ commit, rootGetters }, categoryId) {
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: `/category/${categoryId}`,
+      }).then(({ data }) => {
+        const { id, name } = data.category;
+        commit('doneGetCategoryDetail', { id, name });
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+      });
+    },
+    updateValue({ commit }, categoryName) {
+      commit('updateValue', { categoryName });
+    },
+    updateCategory({ commit, rootGetters, getters }) {
+      commit('toggleLoading');
+      const categoryData = new URLSearchParams();
+      categoryData.append('name', getters.updateCategoryName);
+      categoryData.append('id', getters.updateCategoryId);
+      axios(rootGetters['auth/token'])({
+        method: 'PUT',
+        url: `/category/${getters.updateCategoryId}`,
+        data: categoryData,
+      }).then(({ data }) => {
+        const { id, name } = data.category;
+        commit('toggleLoading');
+        commit('doneUpdate', { id, name });
+      }).catch((err) => {
+        commit('toggleLoading');
+        commit('failFetchCategory', { message: err.message });
+      });
+    },
   },
   mutations: {
     clearMessage(state) {
       state.errorMessage = '';
       state.doneMessage = '';
+    },
+    doneGetCategoryDetail(state, { id, name }) {
+      state.updateCategoryName = name;
+      state.updateCategoryId = id;
+    },
+    doneUpdate(state, { id, name }) {
+      state.updateCategoryId = id;
+      state.updateCategoryName = name;
+      state.doneMessage = '更新が成功しました。';
+    },
+    updateValue(state, { categoryName }) {
+      state.updateCategoryName = categoryName;
     },
     doneGetAllCategories(state, { categories }) {
       state.categoryList = [...categories];
