@@ -20,7 +20,7 @@
       placeholder="カテゴリー名を入力してください"
       data-vv-as="カテゴリー名"
       :error-messages="errors.collect('updateCategory')"
-      :value="updateCategoryNames"
+      :value="updateCategoryName"
       @updateValue="$emit('updateValues', $event)"
     />
     <app-button
@@ -32,12 +32,12 @@
       {{ buttonText }}
     </app-button>
 
-    <div v-if="errorMessages" class="category-management-edit__notice">
-      <app-text bg-error>{{ errorMessages }}</app-text>
+    <div v-if="errorMessage" class="category-management-edit__notice">
+      <app-text bg-error>{{ errorMessage }}</app-text>
     </div>
 
-    <div v-if="doneMessages" class="category-management-edit__notice">
-      <app-text bg-success>{{ doneMessages }}</app-text>
+    <div v-if="doneMessage" class="category-management-edit__notice">
+      <app-text bg-success>{{ doneMessage }}</app-text>
     </div>
   </form>
 </template>
@@ -63,15 +63,15 @@ export default {
       type: Object,
       default: () => ({}),
     },
-    errorMessages: {
+    errorMessage: {
       type: String,
       default: '',
     },
-    doneMessages: {
+    doneMessage: {
       type: String,
       default: '',
     },
-    updateCategoryNames: {
+    updateCategoryName: {
       type: String,
       default: '',
     },
