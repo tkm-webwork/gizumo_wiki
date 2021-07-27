@@ -100,9 +100,9 @@ export default {
         url: `/category/${rootGetters['categories/updateCategoryId']}`,
         data,
       }).then(({ data }) => {
-        const newCategory = data.category;
+        const { id, name } = data.category;
         commit('toggleLoading');
-        commit('doneUpdate', newCategory);
+        commit('doneUpdate', { id, name });
       }).catch((err) => {
         commit('toggleLoading');
         commit('failFetchCategory', { message: err.message });
@@ -118,9 +118,9 @@ export default {
       state.updateCategoryName = name;
       state.updateCategoryId = id;
     },
-    doneUpdate(state, newCategory) {
-      state.updateCategoryId = newCategory.id;
-      state.updateCategoryName = newCategory.name;
+    doneUpdate(state, { id, name }) {
+      state.updateCategoryId = id;
+      state.updateCategoryName = name;
       state.doneMessage = '更新が成功しました。';
     },
     updateValue(state, { categoryName }) {
