@@ -90,12 +90,12 @@ export default {
     },
     postCategory() {
       if (this.loading) return;
-      this.$store.dispatch('categories/postCategory',this.category)
+      this.$store.dispatch('categories/postCategory', this.category)
         .then(() => {
           this.category = '';
           this.$store.dispatch('categories/getAllCategories');
-        })
-    }
+        });
+    },
   },
 };
 </script>
