@@ -14,6 +14,8 @@ export default {
   },
   getters: {
     categoryList: state => state.categoryList,
+    updateCategoryId: state => state.updateCategoryId,
+    updateCategoryName: state => state.updateCategoryName,
   },
   actions: {
     clearMessage({ commit }) {
@@ -39,20 +41,19 @@ export default {
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
       commit('confirmDeleteCategory', { categoryId, categoryName });
     },
-    getCategory({ commit, rootGetters }, updateCategoryId) {
-      const categories = rootGetters['categories/categoryList'];
-      const category = categories.find(item => item.id === updateCategoryId);
+    getCategory({ commit, getters }, updateCategoryId) {
+      const category = getters.categoryList.find(item => item.id === updateCategoryId);
       const { id: categoryId, name: categoryName } = category;
       commit('doneGetCategory', { categoryId, categoryName });
     },
-    updateCategory({ commit, state, rootGetters }) {
+    updateCategory({ commit, getters, rootGetters }) {
       commit('toggleLoading');
       const data = new URLSearchParams();
-      data.append('id', state.updateCategoryId);
-      data.append('name', state.updateCategoryName);
+      data.append('id', getters.updateCategoryId);
+      data.append('name', getters.updateCategoryName);
       axios(rootGetters['auth/token'])({
         method: 'PUT',
-        url: `/category/${state.updateCategoryId}`,
+        url: `/category/${getters.updateCategoryId}`,
         data,
       }).then((res) => {
         commit('toggleLoading');
