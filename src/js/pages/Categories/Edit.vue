@@ -1,14 +1,14 @@
 <template>
   <div>
     <app-category-edit
-      :update-category-name="updateCategoryName"
       :disabled="loading ? true : false"
-      :error-message="errorMessage"
-      :done-message="doneMessage"
       :access="access"
-      @udpateValue="updateValue"
+      :category-name="categoryName"
+      :done-message="doneMessage"
+      :error-message="errorMessage"
       @clearMessage="clearMessage"
-      @handleSubmit="updateCategory"
+      @editedCategory="editedCategory"
+      @handleSubmit="handleSubmit"
     />
   </div>
 </template>
@@ -27,29 +27,33 @@ export default {
     loading() {
       return this.$store.state.categories.loading;
     },
-    errorMessage() {
-      return this.$store.state.categories.errorMessage;
+    categoryId() {
+      let { id } = this.$route.params;
+      id = parseInt(id, 10);
+      return id;
+    },
+    categoryName() {
+      const categoryName = this.$store.state.categories.updateCategoryName;
+      return categoryName;
     },
     doneMessage() {
       return this.$store.state.categories.doneMessage;
     },
-    updateCategoryName() {
-      return this.$store.state.categories.updateCategoryName;
+    errorMessage() {
+      return this.$store.state.categories.errorMessage;
     },
   },
   created() {
-    const { id } = this.$route.params;
-    this.$store.dispatch('categories/getCategoryDetail', id);
-    this.$store.dispatch('categories/clearMessage');
+    this.$store.dispatch('categories/getCategory', this.categoryId);
   },
   methods: {
-    updateValue($event) {
-      this.$store.dispatch('categories/editedCategoryName', $event.target.value);
+    editedCategory($event) {
+      this.$store.dispatch('categories/editedCategory', $event.target.value);
     },
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
     },
-    updateCategory() {
+    handleSubmit() {
       if (this.loading) return;
       this.$store.dispatch('categories/updateCategory');
     },
