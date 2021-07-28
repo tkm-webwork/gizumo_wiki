@@ -33,6 +33,9 @@ export default {
         commit('failFetchCategory', { message: err.message });
       });
     },
+    updateCategory({ commit }, { editCategoryName, editCategoryId }) {
+      commit('updateCategory', { editCategoryName, editCategoryId });
+    },
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
       commit('confirmDeleteCategory', { categoryId, categoryName });
     },
@@ -72,6 +75,10 @@ export default {
         });
       });
     },
+    editCategory({ commit, rootGetters }) {
+      commit('toggleLoading');
+      console.log('参上')
+    },
   },
   mutations: {
     clearMessage(state) {
@@ -86,6 +93,10 @@ export default {
     },
     toggleLoading(state) {
       state.loading = !state.loading;
+    },
+    updateCategory(state, { editCategoryName, editCategoryId }) {
+      state.updateCategoryName = editCategoryName;
+      state.updateCategoryId = editCategoryId;
     },
     confirmDeleteCategory(state, { categoryId, categoryName }) {
       state.deleteCategoryId = categoryId;
