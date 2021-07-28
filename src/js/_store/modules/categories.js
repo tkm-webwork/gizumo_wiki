@@ -55,13 +55,12 @@ export default {
         method: 'PUT',
         url: `/category/${getters.updateCategoryId}`,
         data,
-      }).then((res) => {
+      }).then(() => {
         commit('toggleLoading');
-        const { id: categoryId, name: categoryName } = res.data.category;
-        commit('doneUpdateCategory', { categoryId, categoryName });
-      }).catch((err) => {
+        commit('doneUpdateCategory');
+      }).catch(({ message }) => {
         commit('toggleLoading');
-        commit('failFetchCategory', { message: err.message });
+        commit('failFetchCategory', { message });
       });
     },
     postCategory({ commit, rootGetters }, categoryName) {
@@ -129,9 +128,7 @@ export default {
     donePostCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました。';
     },
-    doneUpdateCategory(state, { categoryId, categoryName }) {
-      state.updateCategoryId = categoryId;
-      state.updateCategoryName = categoryName;
+    doneUpdateCategory(state) {
       state.doneMessage = 'カテゴリーの更新が完了しました。';
     },
     doneDeleteCategory(state) {
