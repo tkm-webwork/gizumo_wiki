@@ -21,9 +21,19 @@ export default {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
-    getAllCategories({ commit }) {
-      const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
-      commit('doneGetAllCategories', payload);
+    getAllCategories({ commit, rootGetters }) {
+      commit('toggleLoading');
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: '/category',
+      }).then(({ data }) => {
+        commit('toggleLoading');
+        const { categories } = data;
+        commit('doneGetAllCategories', { categories });
+      }).catch(({ message }) => {
+        commit('toggleLoading');
+        commit('failFetchCategory', { message });
+      });
     },
     editedCategory({ commit }, categoryName) {
       commit('editedCategoryName', categoryName);
