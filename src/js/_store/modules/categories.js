@@ -33,6 +33,12 @@ export default {
         commit('failFetchCategory', { message: err.message });
       });
     },
+    getCategoryInput({ commit, rootGetters }) {
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: '/category',
+      })
+    },
     updateCategory({ commit }, { editCategoryName, editCategoryId }) {
       commit('updateCategory', { editCategoryName, editCategoryId });
     },
