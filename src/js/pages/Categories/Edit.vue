@@ -7,7 +7,7 @@
       :error-message="errorMessage"
       :done-message="doneMessage"
       @clearMessage="clearMessage"
-      @handleSubmit="handleSubmit"
+      @handleSubmit="updateCategory"
       @updateValue="updateValue"
     />
   </div>
@@ -17,9 +17,11 @@
 import { CategoryEdit } from '@Components/molecules';
 
 export default {
-  data: {
-    editCategoryName: '',
-    editCategoryId: null,
+  data() {
+    return {
+      editCategoryName: '',
+      editCategoryId: null,
+    }
   },
   components: {
     appCategoryEdit: CategoryEdit,
@@ -41,6 +43,10 @@ export default {
       return this.$store.state.categories.doneMessage;
     },
   },
+  create() {
+    this.$store.dispatch('categories/clearMessage');
+    this.$store.dispatch('categories/editCategoryInput', this.editCategoryId);
+  },
   methods: {
     updateValue($event) {
       this.$store.dispatch('categories/updateCategory', $event.target.value);
@@ -48,7 +54,8 @@ export default {
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
     },
-    handleSubmit() {
+    updateCategory() {
+      if (!this.loading) return;
       this.$store.dispatch('categories/editCategory');
     },
   },
