@@ -84,18 +84,18 @@ export default {
       });
     },
     deleteCategory({ commit, rootGetters }, categoryId) {
-      return new Promise((resolve) => {
+      return new Promise((resolve, reject) => {
         axios(rootGetters['auth/token'])({
           method: 'DELETE',
           url: `/category/${categoryId}`,
-        }).then((response) => {
+        }).then(({ data }) => {
           // NOTE: エラー時はresponse.data.codeが0で返ってくる。
-          if (response.data.code === 0) throw new Error(response.data.message);
-
+          if (data.code === 0) throw new Error(data.message);
           commit('doneDeleteCategory');
           resolve();
-        }).catch((err) => {
-          commit('failFetchCategory', { message: err.message });
+        }).catch(({ message }) => {
+          commit('failFetchCategory', { message });
+          reject();
         });
       });
     },

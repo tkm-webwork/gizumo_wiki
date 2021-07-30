@@ -111,6 +111,10 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    deleteCategoryId: {
+      type: Number,
+      default: null,
+    },
     deleteCategoryName: {
       type: String,
       default: '',
@@ -123,7 +127,7 @@ export default {
     },
     handleClick() {
       if (!this.access.delete) return;
-      this.$emit('ここにエミットするイベント名が入ります');
+      this.$emit('deleteCategory');
     },
   },
 };
