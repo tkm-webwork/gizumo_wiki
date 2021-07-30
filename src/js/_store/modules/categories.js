@@ -118,6 +118,10 @@ export default {
     toggleLoading(state) {
       state.loading = !state.loading;
     },
+    doneGetCategory(state, { categoryId, categoryName }) {
+      state.updateCategoryId = categoryId;
+      state.updateCategoryName = categoryName;
+    },
     donePostCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました。';
     },
