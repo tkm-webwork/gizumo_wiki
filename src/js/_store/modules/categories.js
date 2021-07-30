@@ -38,8 +38,8 @@ export default {
     editedCategory({ commit }, categoryName) {
       commit('editedCategoryName', categoryName);
     },
-    confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
-      commit('confirmDeleteCategory', { categoryId, categoryName });
+    setDeleteCategory({ commit }, { categoryId, categoryName }) {
+      commit('setDeleteCategory', { categoryId, categoryName });
     },
     getCategory({ commit, getters }, updateCategoryId) {
       const category = getters.categoryList.find(item => item.id === updateCategoryId);
@@ -110,6 +110,10 @@ export default {
     },
     failFetchCategory(state, { message }) {
       state.errorMessage = message;
+    },
+    setDeleteCategory(state, { categoryId, categoryName }) {
+      state.deleteCategoryId = categoryId;
+      state.deleteCategoryName = categoryName;
     },
     toggleLoading(state) {
       state.loading = !state.loading;
