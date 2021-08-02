@@ -17,8 +17,10 @@
         :theads="theads"
         :categories="categoryList"
         :delete-category-name="deleteCategoryName"
+        :delete-category-id="deleteCategoryId"
         :access="access"
         @openModal="openModal"
+        @deleteCategory="deleteCategory"
       />
     </section>
   </div>
@@ -71,19 +73,29 @@ export default {
     updateValue($event) {
       this[$event.target.name] = $event.target.value;
     },
+    deleteCategory() {
+      this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId)
+        .then(() => {
+          this.toggleModal();
+          this.$store.dispatch('categories/getAllCategories');
+        }).catch(() => {
+          this.toggleModal();
+        });
+    },
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
     },
     handleSubmit() {
       if (this.loading) return;
-      this.$store.dispatch('categories/postCateogry', this.category)
+      this.$store.dispatch('categories/postCategory', this.category)
         .then(() => {
           this.category = '';
           this.$store.dispatch('categories/getAllCategories');
         });
     },
-    openModal() {
+    openModal(categoryId, categoryName) {
       this.toggleModal();
+      this.$store.dispatch('categories/setDeleteCategory', { categoryId, categoryName });
       this.$store.dispatch('categories/clearMessage');
     },
   },

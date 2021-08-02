@@ -21,7 +21,7 @@ export default {
     appArticleList: ArticleList,
   },
   mixins: [Mixins],
-  beforeRouteUpdate(to, from, next) {
+  beforeRouteUpdate(to, next) {
     const categoryName = to.query.category ? to.query.category : null;
     this.fetchArticles(categoryName);
     next();
