@@ -118,6 +118,9 @@ export default {
     toggleLoading(state) {
       state.loading = !state.loading;
     },
+    editedCategoryName(state, categoryName) {
+      state.updateCategoryName = categoryName;
+    },
     doneGetCategory(state, { categoryId, categoryName }) {
       state.updateCategoryId = categoryId;
       state.updateCategoryName = categoryName;
