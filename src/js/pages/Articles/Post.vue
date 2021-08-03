@@ -7,5 +7,3 @@
     @selectedArticleCategory="selectedArticleCategory"
   />
 </template>
-
-

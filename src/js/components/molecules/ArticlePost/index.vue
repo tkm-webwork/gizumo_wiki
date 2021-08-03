@@ -86,3 +86,35 @@
   </div>
 </template>
 
+<style lang="postcss" scoped>
+.article-post {
+  &__columns {
+    display: flex;
+    height: 100%;
+  }
+  &-editor {
+    padding-right: 2%;
+    width: 50%;
+    border-right: 1px solid #ccc;
+    &-title {
+      margin-top: 16px;
+    }
+  }
+  &-preview {
+    margin-left: 2%;
+    width: 48%;
+    overflow-y: scroll;
+    background-color: #fff;
+  }
+  &-form {
+    margin-top: 20px;
+  }
+  &-submit {
+    margin-top: 16px;
+  }
+  &__notice--update {
+    margin-bottom: 16px;
+  }
+}
+</style>
+
