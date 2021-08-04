@@ -16,6 +16,7 @@
           v-validate="'required'"
           name="category"
           data-vv-as="カテゴリー"
+          :value="currentCategoryName"
           :error-messages="errors.collect('category')"
           @updateValue="$emit('selectedArticleCategory', $event)"
         >
@@ -86,6 +87,76 @@
   </div>
 </template>
 
+<script>
+import {
+  Heading, MarkdownPreview, Textarea, Input, Button, Select, Text,
+} from '@Components/atoms';
+
+export default {
+  components: {
+    appHeading: Heading,
+    appTextarea: Textarea,
+    appMarkdownPreview: MarkdownPreview,
+    appInput: Input,
+    appButton: Button,
+    appSelect: Select,
+    appText: Text,
+  },
+  props: {
+    articleTitle: {
+      type: String,
+      default: '',
+    },
+    articleContent: {
+      type: String,
+      default: '',
+    },
+    markdownContent: {
+      type: String,
+      default: '',
+    },
+    currentCategoryName: {
+      type: String,
+      default: '',
+    },
+    categoryList: {
+      type: Array,
+      default: () => [],
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+    doneMessage: {
+      type: String,
+      default: '',
+    },
+    access: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+  computed: {
+    buttonText() {
+      if (!this.access.create) return '作成権限がありません';
+      return this.loading ? '投稿中...' : '作成';
+    },
+    disabled() {
+      return this.access.create && !this.loading;
+    },
+  },
+  methods: {
+    handleSubmit() {
+      if (!this.access.create) return;
+      this.$validator.validate().then((valid) => {
+        console.log('valid:', valid);
+        if (valid) this.$emit('handleSubmit');
+      });
+    },
+  },
+};
+</script>
+
 <style lang="postcss" scoped>
 .article-post {
   &__columns {
@@ -117,4 +188,3 @@
   }
 }
 </style>
-
