@@ -4,6 +4,7 @@
     :markdown-content="markdownContent"
     :loading="loading"
     :access="access"
+    :error-message="errorMessage"
     :done-message="doneMessage"
     :current-category-name="currentCategoryName"
     :article-title="articleTitle"
@@ -50,6 +51,9 @@ export default {
     },
     doneMessage() {
       return this.$store.state.articles.doneMessage;
+    },
+    errorMessage() {
+      return this.$store.state.articles.errorMessage;
     },
   },
   created() {
