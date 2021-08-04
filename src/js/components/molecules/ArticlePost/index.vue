@@ -1,10 +1,7 @@
 <template lang="html">
   <div class="article-post">
-    <div v-if="errorMessage" class="category-management-edit__notice">
+    <div v-if="errorMessage" class="article-post__notice--update">
       <app-text bg-error>{{ errorMessage }}</app-text>
-    </div>
-    <div v-if="doneMessage" class="article-post__notice--update">
-      <app-text bg-success>{{ doneMessage }}</app-text>
     </div>
     <div class="article-post__columns">
       <section class="article-post-editor">
@@ -134,10 +131,6 @@ export default {
       type: String,
       default: '',
     },
-    doneMessage: {
-      type: String,
-      default: '',
-    },
     access: {
       type: Object,
       default: () => ({}),
@@ -156,7 +149,6 @@ export default {
     handleSubmit() {
       if (!this.access.create) return;
       this.$validator.validate().then((valid) => {
-        console.log('valid:', valid);
         if (valid) this.$emit('handleSubmit');
       });
     },

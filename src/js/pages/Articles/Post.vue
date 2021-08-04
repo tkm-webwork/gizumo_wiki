@@ -5,7 +5,6 @@
     :loading="loading"
     :access="access"
     :error-message="errorMessage"
-    :done-message="doneMessage"
     :current-category-name="currentCategoryName"
     :article-title="articleTitle"
     :article-content="articleContent"
@@ -68,7 +67,12 @@ export default {
     },
     handleSubmit() {
       if (this.loading) return;
-      this.$store.dispatch('articles/postArticle');
+      this.$store.dispatch('articles/postArticle').then(() => {
+        this.$router.push({
+          path: '/articles',
+          query: { redirect: this.$route.fullPath },
+        });
+      });
     },
     selectedArticleCategory($event) {
       const categoryName = $event.target.value;
