@@ -20,7 +20,7 @@
       data-vv-as="カテゴリー名"
       :error-messages="errors.collect('updateCategory')"
       :value="editCategoryName"
-      @updateValue="$emit('updateValue', $event)"
+      @updateValue="$emit('updateValueParent', $event)"
     />
     <app-button
       class="category-management-edit__submit"
