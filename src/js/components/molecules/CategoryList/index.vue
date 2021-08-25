@@ -22,7 +22,7 @@
           </td>
           <td>
             <app-router-link
-              :to="`/categories/${category.id}`"
+              :to="`/articles?category=${category.name}`"
               underline
               small
               hover-opacity
