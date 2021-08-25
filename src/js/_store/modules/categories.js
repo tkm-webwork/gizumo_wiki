@@ -58,6 +58,9 @@ export default {
         });
       });
     },
+    deleteCategoryName({ commit }, { categoryId, categoryName }) {
+      commit('confirmDeleteCategory', { categoryId, categoryName });
+    },
     postCategory({ commit, rootGetters }, categoryName) {
       commit('toggleLoading');
       const data = new URLSearchParams();
@@ -109,6 +112,10 @@ export default {
     },
     toggleLoading(state) {
       state.loading = !state.loading;
+    },
+    confirmDeleteCategory(state, { categoryId, categoryName }) {
+      state.deleteCategoryId = categoryId;
+      state.deleteCategoryName = categoryName;
     },
     doneDeleteCategory(state) {
       state.deleteCategoryId = null;
