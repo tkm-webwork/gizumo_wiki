@@ -78,7 +78,7 @@ export default {
     openModal(categoryId, categoryName) {
       this.toggleModal();
       this.$store.dispatch('categories/clearMessage');
-      this.$store.dispatch('categories/deleteCategoryName',{ categoryId, categoryName});
+      this.$store.dispatch('categories/deleteCategoryName', { categoryId, categoryName });
     },
     postCategory() {
       if (this.loading) return;
@@ -90,11 +90,11 @@ export default {
     },
     deleteCategory() {
       this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId)
-      .then(() => {
-        this.$store.dispatch('categories/getAllCategories');
-      });
+        .then(() => {
+          this.$store.dispatch('categories/getAllCategories');
+        });
       this.toggleModal();
-    }
+    },
   },
 };
 </script>

@@ -22,7 +22,7 @@ export default {
     getAllCategories({ commit, rootGetters }) {
       axios(rootGetters['auth/token'])({
         method: 'GET',
-        url: `/category`
+        url: '/category',
       }).then((response) => {
         const payload = { categories: response.data.categories };
         commit('doneGetAllCategories', payload);
@@ -35,14 +35,14 @@ export default {
         method: 'GET',
         url: `/category/${categoryId}`,
       }).then((response) => {
-        const categoryName = response.data.category.name;
-        const categoryId = response.data.category.id;
-        commit('doneGetCategoryInput', { categoryName, categoryId });
+        const categoryInputName = response.data.category.name;
+        const categoryInputId = response.data.category.id;
+        commit('doneGetCategoryInput', { categoryInputName, categoryInputId });
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
       });
     },
-    editCategoryName({ commit }, categoryValue ) {
+    editCategoryName({ commit }, categoryValue) {
       commit('updateCategoryName', { categoryValue });
     },
     deleteCategory({ commit, rootGetters }, categoryId) {

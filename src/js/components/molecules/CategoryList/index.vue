@@ -109,7 +109,7 @@ export default {
     },
     deleteCategoryName: {
       type: String,
-      default: "",
+      default: '',
     },
     access: {
       type: Object,
