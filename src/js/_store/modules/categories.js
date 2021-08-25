@@ -42,6 +42,9 @@ export default {
         commit('failFetchCategory', { message: err.message });
       });
     },
+    editCategoryName({ commit }, categoryValue ) {
+      commit('updateCategoryName', { categoryValue });
+    },
     deleteCategory({ commit, rootGetters }, categoryId) {
       return new Promise((resolve) => {
         axios(rootGetters['auth/token'])({
@@ -117,6 +120,13 @@ export default {
       state.deleteCategoryId = categoryId;
       state.deleteCategoryName = categoryName;
     },
+    doneGetCategoryInput(state, { categoryId, categoryName }) {
+      state.updateCategoryId = categoryId;
+      state.updateCategoryName = categoryName;
+    },
+    updateCategoryName(state, { categoryValue }) {
+      state.updateCategoryName = categoryValue;
+    },
     doneDeleteCategory(state) {
       state.deleteCategoryId = null;
       state.deleteCategoryName = '';
@@ -124,6 +134,9 @@ export default {
     },
     donePostCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました。';
+    },
+    doneUpdateCategory(state) {
+      state.doneMessage = 'カテゴリーの更新が完了しました。';
     },
   },
 };
