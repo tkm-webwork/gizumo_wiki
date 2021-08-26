@@ -35,9 +35,8 @@ export default {
         method: 'GET',
         url: `/category/${categoryId}`,
       }).then((response) => {
-        const categoryInputName = response.data.category.name;
-        const categoryInputId = response.data.category.id;
-        commit('doneGetCategoryInput', { categoryInputName, categoryInputId });
+        const payload = response.data.category;
+        commit('doneGetCategoryInput', payload);
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
       });
@@ -120,9 +119,9 @@ export default {
       state.deleteCategoryId = categoryId;
       state.deleteCategoryName = categoryName;
     },
-    doneGetCategoryInput(state, { categoryId, categoryName }) {
-      state.updateCategoryId = categoryId;
-      state.updateCategoryName = categoryName;
+    doneGetCategoryInput(state, payload) {
+      state.updateCategoryId = payload.id;
+      state.updateCategoryName = payload.name;
     },
     updateCategoryName(state, { categoryValue }) {
       state.updateCategoryName = categoryValue;
