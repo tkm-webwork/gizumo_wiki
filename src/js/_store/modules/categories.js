@@ -19,21 +19,30 @@ export default {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
-    getAllCategories({ commit }) {
-      const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
-      commit('doneGetAllCategories', payload);
+    getAllCategories({ commit, rootGetters }) {
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: '/category',
+      }).then((response) => {
+        const payload = { categories: response.data.categories };
+        commit('doneGetAllCategories', payload);
+      }).catch((err) => {
+        commit('failFetchCategory', { message: err.message });
+      });
     },
     getCategoryInput({ commit, rootGetters }, categoryId) {
       axios(rootGetters['auth/token'])({
         method: 'GET',
         url: `/category/${categoryId}`,
       }).then((response) => {
-        const categoryName = response.data.category.name;
-        const categoryId = response.data.category.id;
-        commit('doneGetCategoryInput', { categoryName, categoryId });
+        const payload = response.data.category;
+        commit('doneGetCategoryInput', payload);
       }).catch((err) => {
         commit('failFetchCategory', { message: err.message });
       });
+    },
+    editCategoryName({ commit }, categoryValue) {
+      commit('updateCategoryName', { categoryValue });
     },
     deleteCategory({ commit, rootGetters }, categoryId) {
       return new Promise((resolve) => {
@@ -50,6 +59,9 @@ export default {
           commit('failFetchCategory', { message: err.message });
         });
       });
+    },
+    deleteCategoryName({ commit }, { categoryId, categoryName }) {
+      commit('confirmDeleteCategory', { categoryId, categoryName });
     },
     postCategory({ commit, rootGetters }, categoryName) {
       commit('toggleLoading');
@@ -103,6 +115,17 @@ export default {
     toggleLoading(state) {
       state.loading = !state.loading;
     },
+    confirmDeleteCategory(state, { categoryId, categoryName }) {
+      state.deleteCategoryId = categoryId;
+      state.deleteCategoryName = categoryName;
+    },
+    doneGetCategoryInput(state, payload) {
+      state.updateCategoryId = payload.id;
+      state.updateCategoryName = payload.name;
+    },
+    updateCategoryName(state, { categoryValue }) {
+      state.updateCategoryName = categoryValue;
+    },
     doneDeleteCategory(state) {
       state.deleteCategoryId = null;
       state.deleteCategoryName = '';
@@ -110,6 +133,9 @@ export default {
     },
     donePostCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました。';
+    },
+    doneUpdateCategory(state) {
+      state.doneMessage = 'カテゴリーの更新が完了しました。';
     },
   },
 };
