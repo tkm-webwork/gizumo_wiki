@@ -46,7 +46,9 @@ export default {
         })
           .then((response) => {
             // NOTE: エラー時はresponse.data.codeが0で返ってくる。
-            if (response.data.code === 0) { throw new Error(response.data.message); }
+            if (response.data.code === 0) {
+              throw new Error(response.data.message);
+            }
 
             commit('doneDeleteCategory');
             resolve();
@@ -92,13 +94,21 @@ export default {
           commit('toggleLoading');
         });
     },
-    postCategory({ rootGetters }, categoryName) {
-      axios(rootGetters['auth/token'])({
-        method: 'POST',
-        url: '/category',
-        categoryName,
-      }).then((res) => {
-        console.log(res.data);
+    async postCategory({ rootGetters }, categoryName) {
+      return new Promise((resolve) => {
+        const data = new URLSearchParams();
+        data.append('name', categoryName);
+        axios(rootGetters['auth/token'])({
+          method: 'POST',
+          url: '/category',
+          data,
+        })
+          .then(() => {
+            resolve();
+          })
+          .catch((err) => {
+            console.log(err.response);
+          });
       });
     },
   },
