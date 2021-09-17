@@ -49,7 +49,6 @@ export default {
             if (response.data.code === 0) {
               throw new Error(response.data.message);
             }
-
             commit('doneDeleteCategory');
             resolve();
           })
@@ -57,42 +56,6 @@ export default {
             commit('failFetchCategory', { message: err.message });
           });
       });
-    },
-    getCategoryDetail({ commit, rootGetters }, categoryId) {
-      axios(rootGetters['auth/token'])({
-        method: 'GET',
-        url: `/category/${categoryId}`,
-      })
-        .then((response) => {
-          const payload = response.data.category;
-          commit('doneGetCategoryDetail', payload);
-        })
-        .catch((err) => {
-          commit('failFetchCategory', { message: err.message });
-        });
-    },
-    editedCategoryName({ commit }, categoryName) {
-      commit('editedCategoryName', { categoryName });
-    },
-    updateCategory({ commit, rootGetters }) {
-      commit('toggleLoading');
-      const data = new URLSearchParams();
-      data.append('id', this.state.categories.updateCategoryId);
-      data.append('name', this.state.categories.updateCategoryName);
-      axios(rootGetters['auth/token'])({
-        method: 'PUT',
-        url: `/category/${this.state.categories.updateCategoryId}`,
-        data,
-      })
-        .then((response) => {
-          const payload = response.data.category;
-          commit('doneUpdateCategory', payload);
-          commit('toggleLoading');
-        })
-        .catch((err) => {
-          commit('failFetchCategory', { message: err.message });
-          commit('toggleLoading');
-        });
     },
     async postCategory({ commit, rootGetters }, categoryName) {
       commit('toggleLoading');
@@ -135,6 +98,7 @@ export default {
       state.deleteCategoryName = '';
       state.doneMessage = 'カテゴリーの削除が完了しました。';
     },
+<<<<<<< HEAD
     doneGetCategoryDetail(state, payload) {
       state.updateCategoryId = payload.id;
       state.updateCategoryName = payload.name;
@@ -150,5 +114,7 @@ export default {
     donePostCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました';
     },
+=======
+>>>>>>> 6c508ede156aeb55020a10a1467d1be05712267d
   },
 };
