@@ -98,10 +98,7 @@ export default {
       // メッセージリセット & ボタン非活性
       commit('clearMessage');
       commit('toggleLoading');
-      const data = new URLSearchParams();
-      data.append('name', categoryName);
-      // これでもいける;
-      // const data = { name: categoryName };
+      const data = { name: categoryName };
       await axios(rootGetters['auth/token'])({
         method: 'POST',
         url: '/category',
