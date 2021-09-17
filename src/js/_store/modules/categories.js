@@ -105,13 +105,13 @@ export default {
           url: '/category',
           data,
         });
-        commit('toggleLoading');
         commit('donePostCategory');
       } catch (err) {
         // ボタン活性 & エラー処理
-        commit('toggleLoading');
         commit('failFetchCategory', { message: err.message });
         throw new Error();
+      } finally {
+        commit('toggleLoading');
       }
     },
   },

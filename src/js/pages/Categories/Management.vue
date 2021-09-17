@@ -84,7 +84,7 @@ export default {
     async postCategory() {
       await this.$store.dispatch('categories/postCategory', this.category);
       this.category = '';
-      await this.$store.dispatch('categories/getAllCategories');
+      this.$store.dispatch('categories/getAllCategories');
     },
     deleteCategory() {
       this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId)
