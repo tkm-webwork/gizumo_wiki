@@ -33,7 +33,7 @@ export default {
         commit('failFetchCategory', { message: err.message });
       });
     },
-    postCateogry({ commit, rootGetters }, categoryName) {
+    postCategory({ commit, rootGetters }, categoryName) {
       commit('toggleLoading');
 
       const data = new URLSearchParams();

@@ -20,6 +20,7 @@ export default {
   getters: {
     token: state => state.token,
     user: state => state.user,
+    // アクセスが閲覧ユーザーか管理ユーザーかシステム管理者か管理
     access: state => getAccess(state.user.role.value),
   },
   mutations: {
@@ -36,6 +37,9 @@ export default {
       state.errorMessage = '';
     },
     signInSuccess(state, { token, user }) {
+      // expiresは有効期限
+      // クッキーによるセッション管理？
+      console.log(user); // user.role.value => admin(管理者)
       Cookies.set('user-token', token, { expires: 10 });
       state.token = token;
       state.user = Object.assign({}, { ...state.user }, { ...user });
@@ -109,8 +113,10 @@ export default {
           method: 'POST',
           data,
         }).then((response) => {
+          // トークンのみで個人の情報は入っていない
           if (!response.data.token) reject(new Error());
 
+          // 個人の情報を取得する
           return axios(response.data.token)({
             method: 'GET',
             url: '/me',

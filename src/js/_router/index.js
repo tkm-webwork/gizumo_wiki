@@ -43,6 +43,7 @@ const router = new VueRouter({
       path: '/signin',
       component: Signin,
       meta: {
+        // 認証不要
         isPublic: true,
       },
     },

@@ -118,6 +118,7 @@ export default {
   },
   methods: {
     openModal(categoryId, categoryName) {
+      // delete権限がなければreturn
       if (!this.access.delete) return;
       this.$emit('openModal', categoryId, categoryName);
     },

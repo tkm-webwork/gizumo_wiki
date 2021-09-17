@@ -22,6 +22,7 @@ export default {
   },
   mixins: [Mixins],
   beforeRouteUpdate(to, from, next) {
+    console.log(to);
     const categoryName = to.query.category ? to.query.category : null;
     this.fetchArticles(categoryName);
     next();
