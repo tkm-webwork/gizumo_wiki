@@ -39,7 +39,6 @@ export default {
     signInSuccess(state, { token, user }) {
       // expiresは有効期限
       // クッキーによるセッション管理？
-      console.log(user); // user.role.value => admin(管理者)
       Cookies.set('user-token', token, { expires: 10 });
       state.token = token;
       state.user = Object.assign({}, { ...state.user }, { ...user });

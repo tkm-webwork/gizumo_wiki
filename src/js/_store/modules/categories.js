@@ -94,33 +94,29 @@ export default {
           commit('toggleLoading');
         });
     },
-    postCategory({ commit, rootGetters }, categoryName) {
-      // true => ボタン非活性
+    async postCategory({ commit, rootGetters }, categoryName) {
+      // メッセージリセット & ボタン非活性
+      commit('clearMessage');
       commit('toggleLoading');
-      return new Promise((resolve, reject) => {
-        // const data = new URLSearchParams();
-        // data.append('name', categoryName);
-        // これでもいける
-        // const data = { name: categoryName };
-        axios(rootGetters['auth/token'])({
-          method: 'POST',
-          url: '/category',
-          categoryName,
-        })
-          .then(() => {
-            // false => ボタン活性
-            commit('toggleLoading');
-            // カテゴリーの追加が完了しました
-            commit('donePostCategory');
-            resolve();
-          })
-          .catch((err) => {
-            // false => ボタン活性
-            commit('toggleLoading');
-            commit('failFetchCategory', { message: err.message });
-            reject();
-          });
+      const data = new URLSearchParams();
+      data.append('name', categoryName);
+      // これでもいける
+      // const data = { name: categoryName };
+      await axios(rootGetters['auth/token'])({
+        method: 'POST',
+        url: '/category',
+        data,
       });
+      try {
+        // ボタン活性 & メッセージ
+        commit('toggleLoading');
+        commit('donePostCategory');
+      } catch (err) {
+        // ボタン活性 & エラー処理
+        commit('toggleLoading');
+        commit('failFetchCategory', { message: err.message });
+        throw new Error();
+      }
     },
   },
   mutations: {
