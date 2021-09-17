@@ -23,15 +23,17 @@ export default {
       axios(rootGetters['auth/token'])({
         method: 'GET',
         url: '/category',
-      }).then((response) => {
-        const payload = { categories: [] };
-        response.data.categories.forEach((val) => {
-          payload.categories.push(val);
+      })
+        .then((response) => {
+          const payload = { categories: [] };
+          response.data.categories.forEach((val) => {
+            payload.categories.push(val);
+          });
+          commit('doneGetAllCategories', payload);
+        })
+        .catch((err) => {
+          commit('failFetchCategory', { message: err.message });
         });
-        commit('doneGetAllCategories', payload);
-      }).catch((err) => {
-        commit('failFetchCategory', { message: err.message });
-      });
     },
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
       commit('confirmDeleteCategory', { categoryId, categoryName });
@@ -41,27 +43,31 @@ export default {
         axios(rootGetters['auth/token'])({
           method: 'DELETE',
           url: `/category/${categoryId}`,
-        }).then((response) => {
-          // NOTE: エラー時はresponse.data.codeが0で返ってくる。
-          if (response.data.code === 0) throw new Error(response.data.message);
+        })
+          .then((response) => {
+            // NOTE: エラー時はresponse.data.codeが0で返ってくる。
+            if (response.data.code === 0) { throw new Error(response.data.message); }
 
-          commit('doneDeleteCategory');
-          resolve();
-        }).catch((err) => {
-          commit('failFetchCategory', { message: err.message });
-        });
+            commit('doneDeleteCategory');
+            resolve();
+          })
+          .catch((err) => {
+            commit('failFetchCategory', { message: err.message });
+          });
       });
     },
     getCategoryDetail({ commit, rootGetters }, categoryId) {
       axios(rootGetters['auth/token'])({
         method: 'GET',
         url: `/category/${categoryId}`,
-      }).then((response) => {
-        const payload = response.data.category;
-        commit('doneGetCategoryDetail', payload);
-      }).catch((err) => {
-        commit('failFetchCategory', { message: err.message });
-      });
+      })
+        .then((response) => {
+          const payload = response.data.category;
+          commit('doneGetCategoryDetail', payload);
+        })
+        .catch((err) => {
+          commit('failFetchCategory', { message: err.message });
+        });
     },
     editedCategoryName({ commit }, categoryName) {
       commit('editedCategoryName', { categoryName });
@@ -75,17 +81,25 @@ export default {
         method: 'PUT',
         url: `/category/${this.state.categories.updateCategoryId}`,
         data,
-      }).then((response) => {
-        const payload = response.data.category;
-        commit('doneUpdateCategory', payload);
-        commit('toggleLoading');
-      }).catch((err) => {
-        commit('failFetchCategory', { message: err.message });
-        commit('toggleLoading');
-      });
+      })
+        .then((response) => {
+          const payload = response.data.category;
+          commit('doneUpdateCategory', payload);
+          commit('toggleLoading');
+        })
+        .catch((err) => {
+          commit('failFetchCategory', { message: err.message });
+          commit('toggleLoading');
+        });
     },
-    postCategory() {
-      console.log('dispatchされました');
+    postCategory({ rootGetters }, categoryName) {
+      axios(rootGetters['auth/token'])({
+        method: 'POST',
+        url: '/category',
+        categoryName,
+      }).then((res) => {
+        console.log(res.data);
+      });
     },
   },
   mutations: {
