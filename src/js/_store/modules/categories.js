@@ -97,7 +97,7 @@ export default {
     postCategory({ commit, rootGetters }, categoryName) {
       // true => ボタン非活性
       commit('toggleLoading');
-      return new Promise((resolve) => {
+      return new Promise((resolve, reject) => {
         const data = new URLSearchParams();
         data.append('name', categoryName);
         axios(rootGetters['auth/token'])({
@@ -106,11 +106,16 @@ export default {
           data,
         })
           .then(() => {
+            // false => ボタン活性
             commit('toggleLoading');
+            // カテゴリーの追加が完了しました
+            commit('donePostCategory');
             resolve();
           })
-          .catch((err) => {
-            console.log(err.response);
+          .catch(() => {
+            // false => ボタン活性
+            commit('toggleLoading');
+            reject();
           });
       });
     },
@@ -149,6 +154,9 @@ export default {
       state.updateCategoryId = payload.id;
       state.updateCategoryId = payload.name;
       state.doneMessage = 'カテゴリーの更新が完了しました。';
+    },
+    donePostCategory(state) {
+      state.doneMessage = 'カテゴリーの追加が完了しました';
     },
   },
 };
