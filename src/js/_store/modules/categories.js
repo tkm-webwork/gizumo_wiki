@@ -84,6 +84,9 @@ export default {
         commit('toggleLoading');
       });
     },
+    postCategory() {
+      console.log('dispatchされました');
+    },
   },
   mutations: {
     clearMessage(state) {

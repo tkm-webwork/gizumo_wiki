@@ -82,7 +82,7 @@ export default {
         { categoryId, categoryName });
     },
     postCategory() {
-      console.log('ボタンが押さレました');
+      this.$store.dispatch('categories/postCategory');
     },
     deleteCategory() {
       this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId)
