@@ -98,12 +98,14 @@ export default {
       // true => ボタン非活性
       commit('toggleLoading');
       return new Promise((resolve, reject) => {
-        const data = new URLSearchParams();
-        data.append('name', categoryName);
+        // const data = new URLSearchParams();
+        // data.append('name', categoryName);
+        // これでもいける
+        // const data = { name: categoryName };
         axios(rootGetters['auth/token'])({
           method: 'POST',
           url: '/category',
-          data,
+          categoryName,
         })
           .then(() => {
             // false => ボタン活性
@@ -112,9 +114,10 @@ export default {
             commit('donePostCategory');
             resolve();
           })
-          .catch(() => {
+          .catch((err) => {
             // false => ボタン活性
             commit('toggleLoading');
+            commit('failFetchCategory', { message: err.message });
             reject();
           });
       });
