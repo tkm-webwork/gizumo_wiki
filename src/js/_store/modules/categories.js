@@ -95,11 +95,9 @@ export default {
         });
     },
     async postCategory({ commit, rootGetters }, categoryName) {
-      // ボタン非活性
       commit('toggleLoading');
       const data = { name: categoryName };
       try {
-        // ボタン活性 & メッセージ
         await axios(rootGetters['auth/token'])({
           method: 'POST',
           url: '/category',
@@ -107,7 +105,6 @@ export default {
         });
         commit('donePostCategory');
       } catch (err) {
-        // ボタン活性 & エラー処理
         commit('failFetchCategory', { message: err.message });
         throw new Error();
       } finally {
