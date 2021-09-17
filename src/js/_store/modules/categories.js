@@ -94,7 +94,9 @@ export default {
           commit('toggleLoading');
         });
     },
-    async postCategory({ rootGetters }, categoryName) {
+    postCategory({ commit, rootGetters }, categoryName) {
+      // true => ボタン非活性
+      commit('toggleLoading');
       return new Promise((resolve) => {
         const data = new URLSearchParams();
         data.append('name', categoryName);
@@ -104,6 +106,7 @@ export default {
           data,
         })
           .then(() => {
+            commit('toggleLoading');
             resolve();
           })
           .catch((err) => {
