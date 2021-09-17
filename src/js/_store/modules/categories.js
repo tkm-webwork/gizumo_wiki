@@ -98,23 +98,8 @@ export default {
       state.deleteCategoryName = '';
       state.doneMessage = 'カテゴリーの削除が完了しました。';
     },
-<<<<<<< HEAD
-    doneGetCategoryDetail(state, payload) {
-      state.updateCategoryId = payload.id;
-      state.updateCategoryName = payload.name;
-    },
-    editedCategoryName(state, { categoryName }) {
-      state.updateCategoryName = categoryName;
-    },
-    doneUpdateCategory(state, payload) {
-      state.updateCategoryId = payload.id;
-      state.updateCategoryId = payload.name;
-      state.doneMessage = 'カテゴリーの更新が完了しました。';
-    },
     donePostCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました';
     },
-=======
->>>>>>> 6c508ede156aeb55020a10a1467d1be05712267d
   },
 };
