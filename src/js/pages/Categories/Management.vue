@@ -9,6 +9,7 @@
         :access="access"
         @udpateValue="updateValue"
         @clearMessage="clearMessage"
+        @handleSubmit="postCategory"
       />
     </section>
     <section class="category-management-list">
@@ -79,6 +80,9 @@ export default {
       this.$store.dispatch('categories/clearMessage');
       this.$store.dispatch('categories/confirmDeleteCategory',
         { categoryId, categoryName });
+    },
+    postCategory() {
+      console.log('ボタンが押さレました');
     },
     deleteCategory() {
       this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId)
