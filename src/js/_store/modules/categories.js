@@ -95,17 +95,16 @@ export default {
         });
     },
     async postCategory({ commit, rootGetters }, categoryName) {
-      // メッセージリセット & ボタン非活性
-      commit('clearMessage');
+      // ボタン非活性
       commit('toggleLoading');
       const data = { name: categoryName };
-      await axios(rootGetters['auth/token'])({
-        method: 'POST',
-        url: '/category',
-        data,
-      });
       try {
         // ボタン活性 & メッセージ
+        await axios(rootGetters['auth/token'])({
+          method: 'POST',
+          url: '/category',
+          data,
+        });
         commit('toggleLoading');
         commit('donePostCategory');
       } catch (err) {
