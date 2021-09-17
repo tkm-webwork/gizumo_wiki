@@ -81,11 +81,10 @@ export default {
       this.$store.dispatch('categories/confirmDeleteCategory',
         { categoryId, categoryName });
     },
-    postCategory() {
-      this.$store.dispatch('categories/postCategory', this.category).then(() => {
-        this.$store.dispatch('categories/getAllCategories');
-        this.category = '';
-      });
+    async postCategory() {
+      await this.$store.dispatch('categories/postCategory', this.category);
+      this.category = '';
+      await this.$store.dispatch('categories/getAllCategories');
     },
     deleteCategory() {
       this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId)

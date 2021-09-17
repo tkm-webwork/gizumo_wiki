@@ -100,7 +100,7 @@ export default {
       commit('toggleLoading');
       const data = new URLSearchParams();
       data.append('name', categoryName);
-      // これでもいける
+      // これでもいける;
       // const data = { name: categoryName };
       await axios(rootGetters['auth/token'])({
         method: 'POST',
