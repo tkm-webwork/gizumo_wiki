@@ -3,7 +3,7 @@
     <app-category-edit
       :disabled="loading ? true : false"
       :access="access"
-      :value="categoryName"
+      :category-name="categoryName"
       @clearMessage="clearMessage"
     />
   </div>
