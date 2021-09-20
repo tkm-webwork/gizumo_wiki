@@ -79,6 +79,13 @@ export default {
     editedCategoryName({ commit }, categoryName) {
       commit('editedCategoryName', categoryName);
     },
+    async getCategoryName({ commit }, categoryId) {
+      const category = await axios.get({
+        methods: 'GET',
+        url: `/category/${categoryId}`,
+      });
+      commit('doneGetCategoryName', category.name);
+    },
   },
   mutations: {
     clearMessage(state) {
@@ -97,6 +104,9 @@ export default {
     confirmDeleteCategory(state, { categoryId, categoryName }) {
       state.deleteCategoryId = categoryId;
       state.deleteCategoryName = categoryName;
+    },
+    doneGetCategoryName(state, payload) {
+      state.targetCategoryName = payload;
     },
     doneDeleteCategory(state) {
       state.deleteCategoryId = null;
