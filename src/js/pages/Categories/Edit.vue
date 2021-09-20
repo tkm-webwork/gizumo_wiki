@@ -17,6 +17,11 @@ export default {
     appCategoryEdit: CategoryEdit,
   },
   computed: {
+    categoryId() {
+      let { id } = this.$route.params;
+      id = parseInt(id, 10);
+      return id;
+    },
     access() {
       return this.$store.getters['auth/access'];
     },
@@ -26,6 +31,9 @@ export default {
     categoryName() {
       return this.$store.state.categories.targetCategoryName;
     },
+  },
+  created() {
+    this.$store.dispatch('categories/getCategoryName', parseInt(this.categoryId, 10));
   },
   methods: {
     clearMessage() {
