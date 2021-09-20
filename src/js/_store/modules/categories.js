@@ -87,6 +87,7 @@ export default {
         url: `/category/${categoryId}`,
       });
       try {
+        commit('doneGetCategoryId', categoryId);
         commit('doneGetCategoryName', data.category.name);
       } catch (err) {
         commit('failFetchCategory', { message: err.message });
@@ -129,8 +130,11 @@ export default {
       state.deleteCategoryId = categoryId;
       state.deleteCategoryName = categoryName;
     },
+    doneGetCategoryId(state, payload) {
+      state.targetCategoryId = payload;
+    },
     doneGetCategoryName(state, payload) {
-      state.targetCategoryName = payload.name;
+      state.targetCategoryName = payload;
     },
     doneDeleteCategory(state) {
       state.deleteCategoryId = null;
