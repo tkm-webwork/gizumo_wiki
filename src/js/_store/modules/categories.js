@@ -16,8 +16,8 @@ export default {
   },
   getters: {
     categoryList: state => state.categoryList,
-    targetCategoryName: state => state.targetCategoryName,
     targetCategoryId: state => state.targetCategoryId,
+    targetCategoryName: state => state.targetCategoryName,
   },
   actions: {
     clearMessage({ commit }) {
@@ -94,18 +94,18 @@ export default {
       }
     },
     async updateCategory({ commit, rootGetters }) {
-      const data = {
+      const params = {
         id: rootGetters['categories/targetCategoryId'],
-        name: rootGetters['categories/targetCategoryId'],
+        name: rootGetters['categories/targetCategoryName'],
       };
-      const { category } = await axios(rootGetters['auth/token'])({
+      const { data } = await axios(rootGetters['auth/token'])({
         method: 'PUT',
         url: `/category/${rootGetters['categories/targetCategoryId']}`,
-        data,
+        params,
       });
       try {
-        const categoryId = category.category.id;
-        const categoryName = category.category.name;
+        const categoryId = data.category.id;
+        const categoryName = data.category.name;
         commit('updateCategory', { categoryId, categoryName });
       } catch (err) {
         commit('failFetchCategory', err.message);
