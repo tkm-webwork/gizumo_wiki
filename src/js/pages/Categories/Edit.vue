@@ -3,6 +3,7 @@
     <app-category-edit
       :disabled="loading ? true : false"
       :access="access"
+      :value="categoryName"
       @clearMessage="clearMessage"
     />
   </div>
@@ -21,6 +22,9 @@ export default {
     },
     loading() {
       return this.$store.state.categories.loading;
+    },
+    categoryName() {
+      return this.$store.state.categories.targetCategoryName;
     },
   },
   methods: {

@@ -7,6 +7,8 @@ export default {
     errorMessage: '',
     doneMessage: '',
     categoryList: [],
+    targetCategoryId: null,
+    targetCategoryName: '',
     deleteCategoryId: null,
     deleteCategoryName: '',
     updateCategoryId: null,
