@@ -81,13 +81,33 @@ export default {
     },
     async getCategoryName({ commit, rootGetters }, categoryId) {
       const { data } = await axios(rootGetters['auth/token'])({
-        methods: 'GET',
+        method: 'GET',
         url: `/category/${categoryId}`,
       });
       try {
         commit('doneGetCategoryName', data.category.name);
       } catch (err) {
         commit('failFetchCategory', { message: err.message });
+      }
+    },
+    async updateCategory({ commit, rootGetters }) {
+      const data = {
+        id: rootGetters['categories/targetCategory'].id,
+        name: rootGetters['categories/targetCategory'].name,
+      };
+      const { category } = await axios(rootGetters['auth/token'])({
+        method: 'PUT',
+        url: `/category/${rootGetters['categories/targetCategory'].id}`,
+        data,
+      });
+      try {
+        const payload = {
+          id: category.category.id,
+          name: category.category.name,
+        };
+        commit('updateCategory', payload);
+      } catch (err) {
+        commit('failFetchCategory', err.message);
       }
     },
   },
@@ -125,6 +145,9 @@ export default {
     },
     editedCategoryName(state, payload) {
       state.targetCategoryName = payload;
+    },
+    updateCategory(state, payload) {
+      Object.assign({}, { ...state.category }, { ...payload });
     },
   },
 };
