@@ -4,6 +4,8 @@
       :disabled="loading ? true : false"
       :access="access"
       :category-name="categoryName"
+      :error-message="errorMessage"
+      :done-message="doneMessage"
       @clearMessage="clearMessage"
       @editedCategoryName="editedCategoryName"
     />
@@ -31,6 +33,12 @@ export default {
     },
     categoryName() {
       return this.$store.state.categories.targetCategoryName;
+    },
+    errorMessage() {
+      return this.$store.state.categories.errorMessage;
+    },
+    doneMessage() {
+      return this.$store.state.categories.doneMessage;
     },
   },
   created() {

@@ -120,6 +120,9 @@ export default {
     donePostCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました';
     },
+    doneEditedCategory(state) {
+      state.doneMessage = 'カテゴリーの更新が完了しました';
+    },
     editedCategoryName(state, payload) {
       state.targetCategoryName = payload;
     },
