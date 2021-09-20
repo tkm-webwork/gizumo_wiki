@@ -85,7 +85,6 @@ export default {
         url: `/category/${categoryId}`,
       });
       try {
-        console.log(data.category.name);
         commit('doneGetCategoryName', data.category.name);
       } catch (err) {
         commit('failFetchCategory', { message: err.message });
@@ -123,7 +122,6 @@ export default {
     },
     editedCategoryName(state, payload) {
       state.targetCategoryName = payload;
-      console.log(state.targetCategoryName);
     },
   },
 };
