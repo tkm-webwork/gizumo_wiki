@@ -123,6 +123,7 @@ export default {
     },
     editedCategoryName(state, payload) {
       state.targetCategoryName = payload;
+      console.log(state.targetCategoryName);
     },
   },
 };
