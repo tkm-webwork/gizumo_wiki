@@ -88,7 +88,7 @@ export default {
         console.log(data.category.name);
         commit('doneGetCategoryName', data.category.name);
       } catch (err) {
-        console.log(err);
+        commit('failFetchCategory', { message: err.message });
       }
     },
   },
