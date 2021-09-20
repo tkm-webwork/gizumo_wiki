@@ -16,6 +16,8 @@ export default {
   },
   getters: {
     categoryList: state => state.categoryList,
+    targetCategoryName: state => state.targetCategoryName,
+    targetCategoryId: state => state.targetCategoryId,
   },
   actions: {
     clearMessage({ commit }) {
@@ -92,20 +94,18 @@ export default {
     },
     async updateCategory({ commit, rootGetters }) {
       const data = {
-        id: rootGetters['categories/targetCategory'].id,
-        name: rootGetters['categories/targetCategory'].name,
+        id: rootGetters['categories/targetCategoryId'],
+        name: rootGetters['categories/targetCategoryId'],
       };
       const { category } = await axios(rootGetters['auth/token'])({
         method: 'PUT',
-        url: `/category/${rootGetters['categories/targetCategory'].id}`,
+        url: `/category/${rootGetters['categories/targetCategoryId']}`,
         data,
       });
       try {
-        const payload = {
-          id: category.category.id,
-          name: category.category.name,
-        };
-        commit('updateCategory', payload);
+        const categoryId = category.category.id;
+        const categoryName = category.category.name;
+        commit('updateCategory', { categoryId, categoryName });
       } catch (err) {
         commit('failFetchCategory', err.message);
       }
@@ -130,7 +130,7 @@ export default {
       state.deleteCategoryName = categoryName;
     },
     doneGetCategoryName(state, payload) {
-      state.targetCategoryName = payload;
+      state.targetCategoryName = payload.name;
     },
     doneDeleteCategory(state) {
       state.deleteCategoryId = null;
@@ -147,7 +147,8 @@ export default {
       state.targetCategoryName = payload;
     },
     updateCategory(state, payload) {
-      Object.assign({}, { ...state.category }, { ...payload });
+      state.targetCategoryId = payload.categoryId;
+      state.targetCategoryName = payload.categoryName;
     },
   },
 };
