@@ -79,12 +79,13 @@ export default {
     editedCategoryName({ commit }, categoryName) {
       commit('editedCategoryName', categoryName);
     },
-    async getCategoryName({ commit }, categoryId) {
-      const category = await axios.get({
+    async getCategoryName({ commit, rootGetters }, categoryId) {
+      const { data } = await axios(rootGetters['auth/token'])({
         methods: 'GET',
         url: `/category/${categoryId}`,
       });
-      commit('doneGetCategoryName', category.name);
+      console.log(data.category.name);
+      commit('doneGetCategoryName', data.category.name);
     },
   },
   mutations: {
