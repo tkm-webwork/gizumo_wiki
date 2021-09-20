@@ -84,8 +84,12 @@ export default {
         methods: 'GET',
         url: `/category/${categoryId}`,
       });
-      console.log(data.category.name);
-      commit('doneGetCategoryName', data.category.name);
+      try {
+        console.log(data.category.name);
+        commit('doneGetCategoryName', data.category.name);
+      } catch (err) {
+        console.log(err);
+      }
     },
   },
   mutations: {
