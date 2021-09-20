@@ -31,11 +31,11 @@
     </app-button>
 
     <div v-if="errorMessage" class="category-management-edit__notice">
-      <app-text bg-error>{ errorMessage }</app-text>
+      <app-text bg-error>{{ errorMessage }}</app-text>
     </div>
 
     <div v-if="doneMessage" class="category-management-edit__notice">
-      <app-text bg-success>{ doneMessage }</app-text>
+      <app-text bg-success>{{ doneMessage }}</app-text>
     </div>
   </form>
 </template>

@@ -107,6 +107,7 @@ export default {
         const categoryId = data.category.id;
         const categoryName = data.category.name;
         commit('updateCategory', { categoryId, categoryName });
+        commit('doneEditedCategory');
       } catch (err) {
         commit('failFetchCategory', err.message);
       }
