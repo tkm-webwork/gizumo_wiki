@@ -76,6 +76,9 @@ export default {
         commit('toggleLoading');
       }
     },
+    editedCategoryName({ commit }, categoryName) {
+      commit('editedCategoryName', categoryName);
+    },
   },
   mutations: {
     clearMessage(state) {
@@ -102,6 +105,9 @@ export default {
     },
     donePostCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました';
+    },
+    editedCategoryName(state, payload) {
+      state.targetCategoryName = payload;
     },
   },
 };
