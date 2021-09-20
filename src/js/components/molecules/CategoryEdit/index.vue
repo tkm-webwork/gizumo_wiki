@@ -16,7 +16,8 @@
       name="updateCategory"
       type="text"
       placeholder="カテゴリー名を入力してください"
-      data-vv-as=""
+      data-vv-as="カテゴリー"
+      :error-messages="errors.collect('category')"
       :value="categoryName"
     />
     <app-button
