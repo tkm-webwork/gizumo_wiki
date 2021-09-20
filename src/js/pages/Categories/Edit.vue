@@ -5,6 +5,7 @@
       :access="access"
       :category-name="categoryName"
       @clearMessage="clearMessage"
+      @editedCategory="editedCategory"
     />
   </div>
 </template>
@@ -38,6 +39,9 @@ export default {
   methods: {
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
+    },
+    editedCategory($event) {
+      this.$store.dispatch('categories/editedCategory', $event.target.value);
     },
   },
 };
