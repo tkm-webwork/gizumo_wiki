@@ -17,7 +17,7 @@
       type="text"
       placeholder="カテゴリー名を入力してください"
       data-vv-as=""
-      value="categoryName"
+      :value="categoryName"
     />
     <app-button
       class="category-management-edit__submit"
