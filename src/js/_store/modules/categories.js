@@ -71,22 +71,22 @@ export default {
           data,
         });
         commit('donePostCategory');
+        commit('toggleLoading');
       } catch (err) {
         commit('failFetchCategory', { message: err.message });
-        throw new Error();
-      } finally {
         commit('toggleLoading');
+        throw new Error();
       }
     },
     editedCategoryName({ commit }, categoryName) {
       commit('editedCategoryName', categoryName);
     },
     async getCategoryName({ commit, rootGetters }, categoryId) {
-      const { data } = await axios(rootGetters['auth/token'])({
-        method: 'GET',
-        url: `/category/${categoryId}`,
-      });
       try {
+        const { data } = await axios(rootGetters['auth/token'])({
+          method: 'GET',
+          url: `/category/${categoryId}`,
+        });
         commit('doneGetCategoryId', categoryId);
         commit('doneGetCategoryName', data.category.name);
       } catch (err) {
@@ -99,19 +99,19 @@ export default {
         id: rootGetters['categories/targetCategoryId'],
         name: rootGetters['categories/targetCategoryName'],
       };
-      const { data } = await axios(rootGetters['auth/token'])({
-        method: 'PUT',
-        url: `/category/${rootGetters['categories/targetCategoryId']}`,
-        params,
-      });
       try {
+        const { data } = await axios(rootGetters['auth/token'])({
+          method: 'PUT',
+          url: `/category/${rootGetters['categories/targetCategoryId']}`,
+          params,
+        });
         const categoryId = data.category.id;
         const categoryName = data.category.name;
         commit('updateCategory', { categoryId, categoryName });
         commit('doneUpdateCategory');
+        commit('toggleLoading');
       } catch (err) {
-        commit('failFetchCategory', err.message);
-      } finally {
+        commit('failFetchCategory', { message: err.message });
         commit('toggleLoading');
       }
     },
