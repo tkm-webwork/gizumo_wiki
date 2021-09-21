@@ -94,6 +94,7 @@ export default {
       }
     },
     async updateCategory({ commit, rootGetters }) {
+      commit('toggleLoading');
       const params = {
         id: rootGetters['categories/targetCategoryId'],
         name: rootGetters['categories/targetCategoryName'],
@@ -107,9 +108,11 @@ export default {
         const categoryId = data.category.id;
         const categoryName = data.category.name;
         commit('updateCategory', { categoryId, categoryName });
-        commit('doneEditedCategory');
+        commit('doneUpdateCategory');
       } catch (err) {
         commit('failFetchCategory', err.message);
+      } finally {
+        commit('toggleLoading');
       }
     },
   },
@@ -145,7 +148,7 @@ export default {
     donePostCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました';
     },
-    doneEditedCategory(state) {
+    doneUpdateCategory(state) {
       state.doneMessage = 'カテゴリーの更新が完了しました';
     },
     editedCategoryName(state, payload) {
