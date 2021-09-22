@@ -3,17 +3,18 @@
     <table class="category-list__table">
       <thead class="category-list__table__head">
         <tr>
-          <th
-            v-for="(thead, index) in theads"
-            :key="index"
-          >
+          <th v-for="(thead, index) in theads" :key="index">
             <app-text tag="span" theme-color bold>
               {{ thead }}
             </app-text>
           </th>
         </tr>
       </thead>
-      <transition-group name="fade" tag="tbody" class="category-list__table__body">
+      <transition-group
+        name="fade"
+        tag="tbody"
+        class="category-list__table__body"
+      >
         <tr v-for="category in categories" :key="category.id">
           <td>
             <app-text tag="span">
@@ -21,22 +22,12 @@
             </app-text>
           </td>
           <td>
-            <app-router-link
-              underline
-              small
-              hover-opacity
-              :to="`/articles?category=${category.name}`"
-            >
+            <app-router-link underline small hover-opacity>
               このカテゴリーの記事
             </app-router-link>
           </td>
           <td>
-            <app-router-link
-              theme-color
-              underline
-              hover-opacity
-              :to="`/categories/${category.id}`"
-            >
+            <app-router-link theme-color underline hover-opacity>
               更新
             </app-router-link>
           </td>
@@ -46,7 +37,7 @@
               small
               round
               :disabled="!access.delete"
-              @click="openModal(category.id, category.name)"
+              @click="openModal()"
             >
               削除
             </app-button>
@@ -56,19 +47,11 @@
     </table>
     <app-modal>
       <div class="category-list__modal">
-        <app-text
-          class="category-list__modal__title"
-          ex-large
-          tag="p"
-        >
+        <app-text class="category-list__modal__title" ex-large tag="p">
           下記のカテゴリーを削除しますか?
         </app-text>
-        <app-text
-          class="category-list__modal__name"
-          theme-color
-          tag="p"
-        >
-          {{ deleteCategoryName }}
+        <app-text class="category-list__modal__name" theme-color tag="p">
+          ここに削除するカテゴリー名が入ります
         </app-text>
         <app-button
           class="category-list__modal__button"
@@ -84,9 +67,7 @@
 </template>
 
 <script>
-import {
-  RouterLink, Button, Text,
-} from '@Components/atoms';
+import { RouterLink, Button, Text } from '@Components/atoms';
 
 export default {
   components: {
@@ -107,24 +88,20 @@ export default {
         return [];
       },
     },
-    deleteCategoryName: {
-      type: String,
-      default: '',
-    },
     access: {
       type: Object,
       default: () => ({}),
     },
   },
   methods: {
-    openModal(categoryId, categoryName) {
-      // delete権限がなければreturn
+    // delete権限がなければreturn
+    openModal() {
       if (!this.access.delete) return;
-      this.$emit('openModal', categoryId, categoryName);
+      this.$emit('openModal');
     },
     handleClick() {
       if (!this.access.delete) return;
-      this.$emit('handleClick');
+      this.$emit('ここにエミットするイベント名が入ります');
     },
   },
 };
@@ -156,10 +133,12 @@ export default {
           font-size: 12px;
         }
       }
-      .fade-enter-active, .fade-leave-active {
-        transition: opacity .5s;
+      .fade-enter-active,
+      .fade-leave-active {
+        transition: opacity 0.5s;
       }
-      .fade-enter, .fade-leave-to {
+      .fade-enter,
+      .fade-leave-to {
         opacity: 0;
       }
     }
