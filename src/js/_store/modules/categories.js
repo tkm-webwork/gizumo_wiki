@@ -24,15 +24,11 @@ export default {
       commit('clearMessage');
     },
     async getAllCategories({ commit, rootGetters }) {
-      const payload = { categories: [] };
       const { data } = await axios(rootGetters['auth/token'])({
         method: 'GET',
         url: '/category',
       });
-      payload.categories = data.categories.reduce((acc, cur) => {
-        acc.push(cur);
-        return acc;
-      }, []);
+      const payload = { categories: [...data.categories] };
       commit('doneGetAllCategories', payload);
     },
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
