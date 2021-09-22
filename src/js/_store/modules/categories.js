@@ -35,6 +35,9 @@ export default {
       }, []);
       commit('doneGetAllCategories', payload);
     },
+    confirmDeleteCategory({ commit }, deleteCategoryName) {
+      commit('confirmDeleteCategory', deleteCategoryName);
+    },
     deleteCategory({ commit, rootGetters }, categoryId) {
       return new Promise((resolve) => {
         axios(rootGetters['auth/token'])({
@@ -128,6 +131,9 @@ export default {
     },
     doneGetCategoryName(state, payload) {
       state.targetCategoryName = payload;
+    },
+    confirmDeleteCategory(state, payload) {
+      state.deleteCategoryName = payload;
     },
     doneDeleteCategory(state) {
       state.deleteCategoryId = null;

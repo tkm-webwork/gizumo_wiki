@@ -23,7 +23,7 @@
           </td>
           <td>
             <app-router-link
-              :to="{ path: 'articles', query: { category: category.name }}"
+              :to="{ path: 'articles', query: { category: category.name } }"
               underline
               small
               hover-opacity
@@ -47,7 +47,7 @@
               small
               round
               :disabled="!access.delete"
-              @click="openModal()"
+              @click="openModal(category.name)"
             >
               削除
             </app-button>
@@ -61,7 +61,7 @@
           下記のカテゴリーを削除しますか?
         </app-text>
         <app-text class="category-list__modal__name" theme-color tag="p">
-          ここに削除するカテゴリー名が入ります
+          {{ deleteCategoryName }}
         </app-text>
         <app-button
           class="category-list__modal__button"
@@ -102,11 +102,16 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    deleteCategoryName: {
+      type: String,
+      default: '',
+    },
   },
   methods: {
     // delete権限がなければreturn
-    openModal() {
+    openModal(categoryName) {
       if (!this.access.delete) return;
+      this.$store.dispatch('categories/confirmDeleteCategory', categoryName);
       this.$emit('openModal');
     },
     handleClick() {
