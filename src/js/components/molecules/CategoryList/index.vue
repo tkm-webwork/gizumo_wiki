@@ -32,7 +32,12 @@
             </app-router-link>
           </td>
           <td>
-            <app-router-link theme-color underline hover-opacity>
+            <app-router-link
+              :to="`categories/${category.id}`"
+              theme-color
+              underline
+              hover-opacity
+            >
               更新
             </app-router-link>
           </td>
