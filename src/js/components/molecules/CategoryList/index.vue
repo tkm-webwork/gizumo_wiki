@@ -22,7 +22,12 @@
             </app-text>
           </td>
           <td>
-            <app-router-link underline small hover-opacity>
+            <app-router-link
+              :to="{ path: 'articles', query: { category: category.name }}"
+              underline
+              small
+              hover-opacity
+            >
               このカテゴリーの記事
             </app-router-link>
           </td>
