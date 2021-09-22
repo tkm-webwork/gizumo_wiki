@@ -89,6 +89,9 @@ export default {
     confirmDeleteCategory(categoryId, categoryName) {
       this.$store.dispatch('categories/confirmDeleteCategory', categoryId, categoryName);
     },
+    deleteCategory() {
+      this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId);
+    },
   },
 };
 </script>
