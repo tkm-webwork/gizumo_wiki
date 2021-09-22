@@ -7,8 +7,6 @@ export default {
     errorMessage: '',
     doneMessage: '',
     categoryList: [],
-    targetCategoryId: null,
-    targetCategoryName: '',
     deleteCategoryId: null,
     deleteCategoryName: '',
     updateCategoryId: null,
@@ -16,8 +14,8 @@ export default {
   },
   getters: {
     categoryList: state => state.categoryList,
-    targetCategoryId: state => state.targetCategoryId,
-    targetCategoryName: state => state.targetCategoryName,
+    updateCategoryId: state => state.updateCategoryId,
+    updateCategoryName: state => state.updateCategoryName,
   },
   actions: {
     clearMessage({ commit }) {
@@ -84,13 +82,13 @@ export default {
     async updateCategory({ commit, rootGetters }) {
       commit('toggleLoading');
       const params = {
-        id: rootGetters['categories/targetCategoryId'],
-        name: rootGetters['categories/targetCategoryName'],
+        id: rootGetters['categories/updateCategoryId'],
+        name: rootGetters['categories/updateCategoryName'],
       };
       try {
         const { data } = await axios(rootGetters['auth/token'])({
           method: 'PUT',
-          url: `/category/${rootGetters['categories/targetCategoryId']}`,
+          url: `/category/${rootGetters['categories/updateCategoryId']}`,
           params,
         });
         const categoryId = data.category.id;
@@ -119,10 +117,10 @@ export default {
       state.loading = !state.loading;
     },
     doneGetCategoryId(state, payload) {
-      state.targetCategoryId = payload;
+      state.updateCategoryId = payload;
     },
     doneGetCategoryName(state, payload) {
-      state.targetCategoryName = payload;
+      state.updateCategoryName = payload;
     },
     confirmDeleteCategory(state, payload) {
       state.deleteCategoryId = payload.categoryId;
@@ -140,11 +138,11 @@ export default {
       state.doneMessage = 'カテゴリーの更新が完了しました';
     },
     editedCategoryName(state, payload) {
-      state.targetCategoryName = payload;
+      state.updateCategoryName = payload;
     },
     updateCategory(state, payload) {
-      state.targetCategoryId = payload.categoryId;
-      state.targetCategoryName = payload.categoryName;
+      state.updateCategoryId = payload.categoryId;
+      state.updateCategoryName = payload.categoryName;
     },
   },
 };

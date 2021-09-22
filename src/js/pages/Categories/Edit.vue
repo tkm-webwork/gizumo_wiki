@@ -33,7 +33,7 @@ export default {
       return this.$store.state.categories.loading;
     },
     categoryName() {
-      return this.$store.state.categories.targetCategoryName;
+      return this.$store.state.categories.updateCategoryName;
     },
     errorMessage() {
       return this.$store.state.categories.errorMessage;
