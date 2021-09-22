@@ -35,8 +35,8 @@ export default {
       }, []);
       commit('doneGetAllCategories', payload);
     },
-    confirmDeleteCategory({ commit }, deleteCategoryName) {
-      commit('confirmDeleteCategory', deleteCategoryName);
+    confirmDeleteCategory({ commit }, categoryId, categoryName) {
+      commit('confirmDeleteCategory', { categoryId, categoryName });
     },
     deleteCategory({ commit, rootGetters }, categoryId) {
       return new Promise((resolve) => {
@@ -133,7 +133,8 @@ export default {
       state.targetCategoryName = payload;
     },
     confirmDeleteCategory(state, payload) {
-      state.deleteCategoryName = payload;
+      state.deleteCategoryId = payload.categoryId;
+      state.deleteCategoryName = payload.categoryName;
     },
     doneDeleteCategory(state) {
       state.deleteCategoryId = null;

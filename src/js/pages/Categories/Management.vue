@@ -20,6 +20,7 @@
         :access="access"
         @openModal="openModal"
         @confirmDeleteCategory="confirmDeleteCategory"
+        @handleClick="deleteCategory"
       />
     </section>
   </div>
@@ -85,8 +86,8 @@ export default {
         this.$store.dispatch('categories/getAllCategories');
       });
     },
-    confirmDeleteCategory(categoryName) {
-      this.$store.dispatch('categories/confirmDeleteCategory', categoryName);
+    confirmDeleteCategory(categoryId, categoryName) {
+      this.$store.dispatch('categories/confirmDeleteCategory', categoryId, categoryName);
     },
   },
 };

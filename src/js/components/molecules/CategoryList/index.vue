@@ -109,14 +109,14 @@ export default {
   },
   methods: {
     // delete権限がなければreturn
-    openModal(categoryName) {
+    openModal(categoryId, categoryName) {
       if (!this.access.delete) return;
       this.$emit('openModal');
-      this.$emit('confirmDeleteCategory', categoryName);
+      this.$emit('confirmDeleteCategory', categoryId, categoryName);
     },
     handleClick() {
       if (!this.access.delete) return;
-      this.$emit('ここにエミットするイベント名が入ります');
+      this.$emit('handleClick');
     },
   },
 };
