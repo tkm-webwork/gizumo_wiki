@@ -19,6 +19,7 @@
         :delete-category-name="deleteCategoryName"
         :access="access"
         @openModal="openModal"
+        @confirmDeleteCategory="confirmDeleteCategory"
       />
     </section>
   </div>
@@ -83,6 +84,9 @@ export default {
         this.category = '';
         this.$store.dispatch('categories/getAllCategories');
       });
+    },
+    confirmDeleteCategory(categoryName) {
+      this.$store.dispatch('categories/confirmDeleteCategory', categoryName);
     },
   },
 };

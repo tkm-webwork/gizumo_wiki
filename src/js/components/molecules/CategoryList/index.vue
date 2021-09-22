@@ -111,8 +111,8 @@ export default {
     // delete権限がなければreturn
     openModal(categoryName) {
       if (!this.access.delete) return;
-      this.$store.dispatch('categories/confirmDeleteCategory', categoryName);
       this.$emit('openModal');
+      this.$emit('confirmDeleteCategory', categoryName);
     },
     handleClick() {
       if (!this.access.delete) return;
