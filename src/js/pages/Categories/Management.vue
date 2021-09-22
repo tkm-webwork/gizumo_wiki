@@ -81,13 +81,18 @@ export default {
       this.$store.dispatch('categories/clearMessage');
     },
     postCategory() {
-      this.$store.dispatch('categories/postCategory', this.category).then(() => {
-        this.category = '';
-        this.$store.dispatch('categories/getAllCategories');
-      });
+      this.$store
+        .dispatch('categories/postCategory', this.category)
+        .then(() => {
+          this.category = '';
+          this.$store.dispatch('categories/getAllCategories');
+        });
     },
     confirmDeleteCategory(categoryId, categoryName) {
-      this.$store.dispatch('categories/confirmDeleteCategory', categoryId, categoryName);
+      this.$store.dispatch('categories/confirmDeleteCategory', {
+        categoryId,
+        categoryName,
+      });
     },
     deleteCategory() {
       this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId);
