@@ -38,24 +38,20 @@ export default {
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
       commit('confirmDeleteCategory', { categoryId, categoryName });
     },
-    deleteCategory({ commit, rootGetters }, categoryId) {
-      return new Promise((resolve) => {
-        axios(rootGetters['auth/token'])({
+    async deleteCategory({ commit, rootGetters }, categoryId) {
+      try {
+        const { data } = await axios(rootGetters['auth/token'])({
           method: 'DELETE',
           url: `/category/${categoryId}`,
-        })
-          .then((response) => {
-            // NOTE: エラー時はresponse.data.codeが0で返ってくる。
-            if (response.data.code === 0) {
-              throw new Error(response.data.message);
-            }
-            commit('doneDeleteCategory');
-            resolve();
-          })
-          .catch((err) => {
-            commit('failFetchCategory', { message: err.message });
-          });
-      });
+        });
+        // NOTE: エラー時はresponse.data.codeが0で返ってくる。
+        if (data.code === 0) {
+          throw new Error(data.message);
+        }
+        commit('doneDeleteCategory');
+      } catch (err) {
+        commit('failFetchCategory', { message: err.message });
+      }
     },
     async postCategory({ commit, rootGetters }, categoryName) {
       commit('toggleLoading');
