@@ -35,7 +35,7 @@ export default {
       }, []);
       commit('doneGetAllCategories', payload);
     },
-    confirmDeleteCategory({ commit }, categoryId, categoryName) {
+    confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
       commit('confirmDeleteCategory', { categoryId, categoryName });
     },
     deleteCategory({ commit, rootGetters }, categoryId) {
