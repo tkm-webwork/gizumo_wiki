@@ -23,8 +23,16 @@ export default {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
-    getAllCategories({ commit }) {
-      const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
+    async getAllCategories({ commit, rootGetters }) {
+      const payload = { categories: [] };
+      const { data } = await axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: '/category',
+      });
+      payload.categories = data.categories.reduce((acc, cur) => {
+        acc.push(cur);
+        return acc;
+      }, []);
       commit('doneGetAllCategories', payload);
     },
     deleteCategory({ commit, rootGetters }, categoryId) {
