@@ -94,8 +94,10 @@ export default {
         categoryName,
       });
     },
-    deleteCategory() {
-      this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId);
+    async deleteCategory() {
+      await this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId);
+      this.toggleModal();
+      this.$store.dispatch('categories/getAllCategories');
     },
   },
 };
