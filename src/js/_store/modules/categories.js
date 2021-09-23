@@ -73,8 +73,8 @@ export default {
           method: 'GET',
           url: `/category/${categoryId}`,
         });
-        commit('doneGetCategoryId', categoryId);
-        commit('doneGetCategoryName', data.category.name);
+        const categoryName = data.category.name;
+        commit('doneGetCategory', { categoryId, categoryName });
       } catch (err) {
         commit('failFetchCategory', { message: err.message });
       }
@@ -116,11 +116,9 @@ export default {
     toggleLoading(state) {
       state.loading = !state.loading;
     },
-    doneGetCategoryId(state, payload) {
-      state.updateCategoryId = payload;
-    },
-    doneGetCategoryName(state, payload) {
-      state.updateCategoryName = payload;
+    doneGetCategory(state, payload) {
+      state.updateCategoryId = payload.categoryId;
+      state.updateCategoryName = payload.categoryName;
     },
     confirmDeleteCategory(state, payload) {
       state.deleteCategoryId = payload.categoryId;
