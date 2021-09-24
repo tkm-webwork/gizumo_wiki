@@ -1,6 +1,6 @@
 <template lang="html">
   <div>
-    <app-article-post />
+    <app-article-post :target-array="categoryList" />
   </div>
 </template>
 
@@ -10,6 +10,11 @@ import { ArticlePost } from '@Components/molecules';
 export default {
   components: {
     appArticlePost: ArticlePost,
+  },
+  computed: {
+    categoryList() {
+      return this.$store.state.categories.categoryList;
+    },
   },
 };
 </script>

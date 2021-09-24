@@ -5,7 +5,16 @@
     </div>
     <app-heading :level="1">記事の新規作成</app-heading>
     <app-heading :level="2">カテゴリー選択</app-heading>
-    <app-select :name="category"><option value="ダミー" /></app-select>
+    <app-select name="category">
+      <option value="---" disabled>---</option>
+      <option
+        v-for="category in targetArray"
+        :key="category.id"
+        :value="category"
+      >
+        {{ category.name }}
+      </option>
+    </app-select>
     <app-heading :level="2">タイトル・本文</app-heading>
     <app-input
       v-validate="'required'"
@@ -17,7 +26,7 @@
     />
     <app-textarea />
     <app-button small round>作成</app-button>
-    <app-markdown-preview white-bg="true" />
+    <app-markdown-preview white-bg />
   </div>
 </template>
 
@@ -50,6 +59,10 @@ export default {
     disabled: {
       type: Boolean,
       default: false,
+    },
+    targetArray: {
+      type: Array,
+      default: () => [],
     },
   },
 };
