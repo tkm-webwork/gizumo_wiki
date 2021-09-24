@@ -1,14 +1,14 @@
 <template>
   <div>
     <app-category-edit
-      :update-category-name="updateCategoryName"
       :disabled="loading ? true : false"
+      :access="access"
+      :category-name="categoryName"
       :error-message="errorMessage"
       :done-message="doneMessage"
-      :access="access"
-      @udpateValue="updateValue"
       @clearMessage="clearMessage"
-      @handleSubmit="updateCategory"
+      @editedCategoryName="editedCategoryName"
+      @handleSubmit="handleSubmit"
     />
   </div>
 </template>
@@ -21,11 +21,19 @@ export default {
     appCategoryEdit: CategoryEdit,
   },
   computed: {
+    categoryId() {
+      let { id } = this.$route.params;
+      id = parseInt(id, 10);
+      return id;
+    },
     access() {
       return this.$store.getters['auth/access'];
     },
     loading() {
       return this.$store.state.categories.loading;
+    },
+    categoryName() {
+      return this.$store.state.categories.updateCategoryName;
     },
     errorMessage() {
       return this.$store.state.categories.errorMessage;
@@ -33,23 +41,18 @@ export default {
     doneMessage() {
       return this.$store.state.categories.doneMessage;
     },
-    updateCategoryName() {
-      return this.$store.state.categories.updateCategoryName;
-    },
   },
   created() {
-    const { id } = this.$route.params;
-    this.$store.dispatch('categories/getCategoryDetail', id);
-    this.$store.dispatch('categories/clearMessage');
+    this.$store.dispatch('categories/getCategoryName', parseInt(this.categoryId, 10));
   },
   methods: {
-    updateValue($event) {
-      this.$store.dispatch('categories/editedCategoryName', $event.target.value);
-    },
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
     },
-    updateCategory() {
+    editedCategoryName($event) {
+      this.$store.dispatch('categories/editedCategoryName', $event.target.value);
+    },
+    handleSubmit() {
       if (this.loading) return;
       this.$store.dispatch('categories/updateCategory');
     },

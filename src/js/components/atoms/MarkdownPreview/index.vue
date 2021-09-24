@@ -8,6 +8,7 @@
 </template>
 
 <script>
+// マークダウンをhtmlに変換
 import marked from 'marked';
 import hljs from 'highlight.js';
 
