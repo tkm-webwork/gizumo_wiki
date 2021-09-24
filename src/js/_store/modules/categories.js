@@ -86,6 +86,7 @@ export default {
     },
     postCategory({ commit, rootGetters }, categoryName) {
       commit('toggleLoading');
+      commit('clearMessage');
       const data = new URLSearchParams();
       data.append('name', categoryName);
       return new Promise((resolve, reject) => {
@@ -95,6 +96,7 @@ export default {
           data,
         }).then(() => {
           commit('toggleLoading');
+          commit('donePostCategory');
           resolve();
         }).catch((err) => {
           commit('failFetchCategory', { message: err.message });
@@ -138,6 +140,9 @@ export default {
       state.updateCategoryId = payload.id;
       state.updateCategoryId = payload.name;
       state.doneMessage = 'カテゴリーの更新が完了しました。';
+    },
+    donePostCategory(state) {
+      state.doneMessage = 'カテゴリーの追加が完了しました。';
     },
   },
 };
