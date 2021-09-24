@@ -17,12 +17,19 @@
     />
     <app-textarea />
     <app-button small round>作成</app-button>
+    <app-markdown-preview white-bg="true" />
   </div>
 </template>
 
 <script>
 import {
-  Heading, Input, Button, Text, Select, Textarea,
+  Heading,
+  Input,
+  Button,
+  Text,
+  Select,
+  Textarea,
+  MarkdownPreview,
 } from '@Components/atoms';
 
 export default {
@@ -33,6 +40,17 @@ export default {
     appText: Text,
     appSelect: Select,
     appTextarea: Textarea,
+    appMarkdownPreview: MarkdownPreview,
+  },
+  props: {
+    errorMessage: {
+      type: String,
+      default: '',
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
 };
 </script>
