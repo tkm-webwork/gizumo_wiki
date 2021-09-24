@@ -84,6 +84,22 @@ export default {
         commit('toggleLoading');
       });
     },
+    postCategory({ commit, rootGetters }, categoryName) {
+      const data = new URLSearchParams();
+      data.append('name', categoryName);
+      return new Promise((resolve, reject) => {
+        axios(rootGetters['auth/token'])({
+          method: 'POST',
+          url: '/category',
+          data,
+        }).then(() => {
+          resolve();
+        }).catch((err) => {
+          commit('failFetchCategory', { message: err.message });
+          reject();
+        });
+      });
+    },
   },
   mutations: {
     clearMessage(state) {
