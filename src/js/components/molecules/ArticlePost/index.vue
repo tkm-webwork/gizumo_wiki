@@ -6,7 +6,12 @@
     <div class="article-post__columns">
       <section class="article-post-editor">
         <app-heading :level="1">記事の新規作成</app-heading>
-        <app-heading :level="2">カテゴリー選択</app-heading>
+        <app-heading
+          :level="2"
+          class="article-post-editor-title"
+        >
+          カテゴリー選択
+        </app-heading>
         <app-select
           v-validate="'required'"
           name="category"
@@ -24,28 +29,33 @@
             {{ category.name }}
           </option>
         </app-select>
-        <app-heading :level="2">タイトル・本文</app-heading>
-        <app-input
-          v-validate="'required'"
-          name="title"
-          type="text"
-          placeholder="タイトルを入力してください"
-          data-vv-as="タイトル"
-          :error-messages="errors.collect('title')"
-          :value="articleTitle"
-          @updateValue="$emit('editedTitle', $event)"
-        />
-        <app-textarea
-          v-validate="'required'"
-          name="content"
-          placeholder="記事の本文をマークダウン記法で入力してください。"
-          white-bg
-          data-vv-as="記事の本文"
-          :error-messages="errors.collect('content')"
-          :value="articleContent"
-          @updateValue="$emit('editedContent', $event)"
-        />
+        <app-heading :level="2" class="article-post-editor-title">タイトル・本文</app-heading>
+        <div class="article-post-form">
+          <app-input
+            v-validate="'required'"
+            name="title"
+            type="text"
+            placeholder="タイトルを入力してください"
+            data-vv-as="タイトル"
+            :error-messages="errors.collect('title')"
+            :value="articleTitle"
+            @updateValue="$emit('editedTitle', $event)"
+          />
+        </div>
+        <div class="article-post-form">
+          <app-textarea
+            v-validate="'required'"
+            name="content"
+            placeholder="記事の本文をマークダウン記法で入力してください。"
+            white-bg
+            data-vv-as="記事の本文"
+            :error-messages="errors.collect('content')"
+            :value="articleContent"
+            @updateValue="$emit('editedContent', $event)"
+          />
+        </div>
         <app-button
+          class="article-post-submit"
           button-type="submit"
           round
           :disabled="!disabledToggle"
@@ -54,6 +64,7 @@
           {{ buttonText }}
         </app-button>
       </section>
+
       <article class="article-post-preview">
         <app-markdown-preview :markdown-content="markdownContent" white-bg />
       </article>
@@ -144,6 +155,29 @@ export default {
   &__columns {
     display: flex;
     height: 100%;
+  }
+  &-editor {
+    padding-right: 2%;
+    width: 50%;
+    border-right: 1px solid #ccc;
+    &-title {
+      margin-top: 16px;
+    }
+  }
+  &-preview {
+    margin-left: 2%;
+    width: 48%;
+    overflow-y: scroll;
+    background-color: #fff;
+  }
+  &-form {
+    margin-top: 20px;
+  }
+  &-submit {
+    margin-top: 16px;
+  }
+  &__notice--update {
+    margin-bottom: 16px;
   }
 }
 </style>
