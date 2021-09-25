@@ -7,10 +7,10 @@
     <app-heading :level="2">カテゴリー選択</app-heading>
     <app-select
       name="category"
-      :value="targetArticle.category.name"
+      :value="currentCategoryName"
       @updateValue="$emit('selectedArticleCategory', $event)"
     >
-      <option value="---" disabled>---</option>
+      <option value="" selected disabled>---</option>
       <option
         v-for="category in targetArray"
         :key="category.id"
@@ -27,11 +27,11 @@
       placeholder="タイトルを入力してください"
       data-vv-as="タイトル"
       :error-messages="errors.collect('title')"
-      :value="targetArticle.title"
+      :value="articleTitle"
       @updateValue="$emit('editedTitle', $event)"
     />
     <app-textarea
-      :value="targetArticle.content"
+      :value="articleContent"
       @updateValue="$emit('editedContent', $event)"
     />
     <app-button small round>作成</app-button>
@@ -73,27 +73,17 @@ export default {
       type: Array,
       default: () => [],
     },
-    targetArticle: {
-      type: Object,
-      default: () => ({
-        id: null,
-        title: '',
-        content: '',
-        category: {
-          id: null,
-          name: '',
-        },
-        user: {
-          account_name: '',
-          created_at: '',
-          email: '',
-          full_name: '',
-          id: '',
-          password_reset_flg: null,
-          role: '',
-          updated_at: '',
-        },
-      }),
+    articleTitle: {
+      type: String,
+      default: '',
+    },
+    articleContent: {
+      type: String,
+      default: '',
+    },
+    currentCategoryName: {
+      type: String,
+      default: '',
     },
   },
 };

@@ -2,7 +2,9 @@
   <div>
     <app-article-post
       :target-array="categoryList"
-      :target-article="targetArticle"
+      :article-title="articleTitle"
+      :article-content="articleContent"
+      :current-category-name="currentCategoryName"
       @selectedArticleCategory="selectedArticleCategory"
       @editedTitle="editedTitle"
       @editedContent="editedContent"
@@ -21,11 +23,21 @@ export default {
     categoryList() {
       return this.$store.state.categories.categoryList;
     },
-    targetArticle() {
-      return this.$store.state.articles.targetArticle;
+    articleTitle() {
+      const { title } = this.$store.state.articles.targetArticle;
+      return title;
+    },
+    articleContent() {
+      const { content } = this.$store.state.articles.targetArticle;
+      return content;
+    },
+    currentCategoryName() {
+      const { name } = this.$store.state.articles.targetArticle.category;
+      return name;
     },
   },
   created() {
+    this.$store.dispatch('articles/initPostArticle');
     this.$store.dispatch('categories/getAllCategories');
   },
   methods: {
@@ -36,16 +48,10 @@ export default {
       );
     },
     editedTitle($event) {
-      this.$store.dispatch(
-        'articles/editedTitle',
-        $event.target.value,
-      );
+      this.$store.dispatch('articles/editedTitle', $event.target.value);
     },
     editedContent($event) {
-      this.$store.dispatch(
-        'articles/editedContent',
-        $event.target.value,
-      );
+      this.$store.dispatch('articles/editedContent', $event.target.value);
     },
   },
 };
