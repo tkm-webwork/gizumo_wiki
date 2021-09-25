@@ -1,6 +1,10 @@
 <template lang="html">
   <div>
-    <app-article-post :target-array="categoryList" />
+    <app-article-post
+      :target-array="categoryList"
+      :value="selected"
+      @updateValue="updateValue"
+    />
   </div>
 </template>
 
@@ -14,6 +18,17 @@ export default {
   computed: {
     categoryList() {
       return this.$store.state.categories.categoryList;
+    },
+    targetArticle() {
+      return this.$store.state.articles.targetArticle;
+    },
+    selected() {
+      return this.$store.state.articles.targetArticle.category.name;
+    },
+  },
+  methods: {
+    updateValue($event) {
+      this.$store.dispatch('articles/selectedArticleCategory', $event.target.value);
     },
   },
 };

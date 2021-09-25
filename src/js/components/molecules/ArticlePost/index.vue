@@ -5,12 +5,16 @@
     </div>
     <app-heading :level="1">記事の新規作成</app-heading>
     <app-heading :level="2">カテゴリー選択</app-heading>
-    <app-select name="category">
+    <app-select
+      name="category"
+      :value="selected"
+      @updateValue="$emit('updateValue', $event)"
+    >
       <option value="---" disabled>---</option>
       <option
         v-for="category in targetArray"
         :key="category.id"
-        :value="category"
+        :value="category.name"
       >
         {{ category.name }}
       </option>
@@ -63,6 +67,10 @@ export default {
     targetArray: {
       type: Array,
       default: () => [],
+    },
+    selected: {
+      type: String,
+      default: '---',
     },
   },
 };
