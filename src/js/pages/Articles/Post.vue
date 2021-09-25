@@ -69,6 +69,10 @@ export default {
     async postArticle() {
       await this.$store.dispatch('articles/postArticle');
       this.$store.dispatch('articles/initPostArticle');
+      this.$router.push({
+        path: '/articles',
+        query: { redirect: this.$route.fullPath },
+      });
     },
   },
 };
