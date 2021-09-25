@@ -26,9 +26,15 @@ export default {
       return this.$store.state.articles.targetArticle.category.name;
     },
   },
+  created() {
+    this.$store.dispatch('categories/getAllCategories');
+  },
   methods: {
     updateValue($event) {
-      this.$store.dispatch('articles/selectedArticleCategory', $event.target.value);
+      this.$store.dispatch(
+        'articles/selectedArticleCategory',
+        $event.target.value,
+      );
     },
   },
 };
