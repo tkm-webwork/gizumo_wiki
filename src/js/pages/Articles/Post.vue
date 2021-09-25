@@ -5,9 +5,11 @@
       :article-title="articleTitle"
       :article-content="articleContent"
       :current-category-name="currentCategoryName"
+      :error-message="errorMessage"
       @selectedArticleCategory="selectedArticleCategory"
       @editedTitle="editedTitle"
       @editedContent="editedContent"
+      @handleClick="postArticle"
     />
   </div>
 </template>
@@ -35,6 +37,9 @@ export default {
       const { name } = this.$store.state.articles.targetArticle.category;
       return name;
     },
+    errorMessage() {
+      return this.$store.state.articles.errorMessage;
+    },
   },
   created() {
     this.$store.dispatch('articles/initPostArticle');
@@ -52,6 +57,10 @@ export default {
     },
     editedContent($event) {
       this.$store.dispatch('articles/editedContent', $event.target.value);
+    },
+    async postArticle() {
+      await this.$store.dispatch('articles/postArticle');
+      this.$store.dispatch('articles/initPostArticle');
     },
   },
 };

@@ -43,7 +43,7 @@
       :value="articleContent"
       @updateValue="$emit('editedContent', $event)"
     />
-    <app-button small round>作成</app-button>
+    <app-button small round @click="$emit('handleClick')">作成</app-button>
     <app-markdown-preview white-bg />
   </div>
 </template>
