@@ -43,7 +43,14 @@
       :value="articleContent"
       @updateValue="$emit('editedContent', $event)"
     />
-    <app-button small round @click="$emit('handleClick')">作成</app-button>
+    <app-button
+      button-type="submit"
+      round
+      :disabled="!disabledToggle"
+      @click="handleSubmit"
+    >
+      {{ buttonText }}
+    </app-button>
     <app-markdown-preview white-bg />
   </div>
 </template>
@@ -93,6 +100,30 @@ export default {
     currentCategoryName: {
       type: String,
       default: '',
+    },
+    access: {
+      type: Object,
+      default: () => {},
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    buttonText() {
+      if (!this.access.create) return '作成権限がありません';
+      return this.loading ? '作成中...' : '作成';
+    },
+    disabledToggle() {
+      return this.access.create && !this.loading;
+    },
+  },
+  methods: {
+    async handleSubmit() {
+      if (!this.access.create) return;
+      const valid = await this.$validator.validate();
+      if (valid) this.$emit('handleSubmit');
     },
   },
 };

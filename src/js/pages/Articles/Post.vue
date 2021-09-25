@@ -6,10 +6,12 @@
       :article-content="articleContent"
       :current-category-name="currentCategoryName"
       :error-message="errorMessage"
+      :access="access"
+      :loading="loading"
       @selectedArticleCategory="selectedArticleCategory"
       @editedTitle="editedTitle"
       @editedContent="editedContent"
-      @handleClick="postArticle"
+      @handleSubmit="postArticle"
     />
   </div>
 </template>
@@ -39,6 +41,12 @@ export default {
     },
     errorMessage() {
       return this.$store.state.articles.errorMessage;
+    },
+    access() {
+      return this.$store.getters['auth/access'];
+    },
+    loading() {
+      return this.$store.state.articles.loading;
     },
   },
   created() {
