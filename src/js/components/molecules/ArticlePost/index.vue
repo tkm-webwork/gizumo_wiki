@@ -6,7 +6,10 @@
     <app-heading :level="1">記事の新規作成</app-heading>
     <app-heading :level="2">カテゴリー選択</app-heading>
     <app-select
+      v-validate="'required'"
       name="category"
+      data-vv-as="カテゴリー"
+      :error-messages="errors.collect('category')"
       :value="currentCategoryName"
       @updateValue="$emit('selectedArticleCategory', $event)"
     >
@@ -31,6 +34,12 @@
       @updateValue="$emit('editedTitle', $event)"
     />
     <app-textarea
+      v-validate="'required'"
+      name="content"
+      placeholder="記事の本文をマークダウン記法で入力してください。"
+      white-bg
+      data-vv-as="記事の本文"
+      :error-messages="errors.collect('content')"
       :value="articleContent"
       @updateValue="$emit('editedContent', $event)"
     />
