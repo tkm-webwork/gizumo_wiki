@@ -4,6 +4,7 @@
       :target-array="categoryList"
       :article-title="articleTitle"
       :article-content="articleContent"
+      :markdown-content="markdownContent"
       :current-category-name="currentCategoryName"
       :error-message="errorMessage"
       :access="access"
@@ -34,6 +35,9 @@ export default {
     articleContent() {
       const { content } = this.$store.state.articles.targetArticle;
       return content;
+    },
+    markdownContent() {
+      return `# ${this.articleTitle}\n${this.articleContent}`;
     },
     currentCategoryName() {
       const { name } = this.$store.state.articles.targetArticle.category;
