@@ -7,8 +7,8 @@
     <app-heading :level="2">カテゴリー選択</app-heading>
     <app-select
       name="category"
-      :value="selected"
-      @updateValue="$emit('updateValue', $event)"
+      :value="targetArticle.category.name"
+      @updateValue="$emit('selectedArticleCategory', $event)"
     >
       <option value="---" disabled>---</option>
       <option
@@ -27,8 +27,13 @@
       placeholder="タイトルを入力してください"
       data-vv-as="タイトル"
       :error-messages="errors.collect('title')"
+      :value="targetArticle.title"
+      @updateValue="$emit('editedTitle', $event)"
     />
-    <app-textarea />
+    <app-textarea
+      :value="targetArticle.content"
+      @updateValue="$emit('editedContent', $event)"
+    />
     <app-button small round>作成</app-button>
     <app-markdown-preview white-bg />
   </div>
@@ -68,9 +73,27 @@ export default {
       type: Array,
       default: () => [],
     },
-    selected: {
-      type: String,
-      default: '---',
+    targetArticle: {
+      type: Object,
+      default: () => ({
+        id: null,
+        title: '',
+        content: '',
+        category: {
+          id: null,
+          name: '',
+        },
+        user: {
+          account_name: '',
+          created_at: '',
+          email: '',
+          full_name: '',
+          id: '',
+          password_reset_flg: null,
+          role: '',
+          updated_at: '',
+        },
+      }),
     },
   },
 };

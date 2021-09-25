@@ -2,8 +2,10 @@
   <div>
     <app-article-post
       :target-array="categoryList"
-      :value="selected"
-      @updateValue="updateValue"
+      :target-article="targetArticle"
+      @selectedArticleCategory="selectedArticleCategory"
+      @editedTitle="editedTitle"
+      @editedContent="editedContent"
     />
   </div>
 </template>
@@ -22,17 +24,26 @@ export default {
     targetArticle() {
       return this.$store.state.articles.targetArticle;
     },
-    selected() {
-      return this.$store.state.articles.targetArticle.category.name;
-    },
   },
   created() {
     this.$store.dispatch('categories/getAllCategories');
   },
   methods: {
-    updateValue($event) {
+    selectedArticleCategory($event) {
       this.$store.dispatch(
         'articles/selectedArticleCategory',
+        $event.target.value,
+      );
+    },
+    editedTitle($event) {
+      this.$store.dispatch(
+        'articles/editedTitle',
+        $event.target.value,
+      );
+    },
+    editedContent($event) {
+      this.$store.dispatch(
+        'articles/editedContent',
         $event.target.value,
       );
     },
