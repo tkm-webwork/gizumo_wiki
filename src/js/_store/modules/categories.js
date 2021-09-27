@@ -134,5 +134,13 @@ export default {
       state.updateCategoryId = payload.id;
       state.updateCategoryName = payload.name;
     },
+    editedCategoryName(state, { categoryName }) {
+      state.updateCategoryName = categoryName;
+    },
+    doneUpdateCategory(state, payload) {
+      state.updateCategoryId = payload.id;
+      state.updateCategoryId = payload.name;
+      state.doneMessage = 'カテゴリーの更新が完了しました。';
+    },
   },
 };
