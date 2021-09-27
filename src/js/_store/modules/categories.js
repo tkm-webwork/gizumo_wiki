@@ -130,5 +130,9 @@ export default {
       state.deleteCategoryName = '';
       state.doneMessage = 'カテゴリーの削除が完了しました。';
     },
+    doneGetCategoryDetail(state, payload) {
+      state.updateCategoryId = payload.id;
+      state.updateCategoryName = payload.name;
+    },
   },
 };
