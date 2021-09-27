@@ -19,9 +19,6 @@ export default {
     clearMessage({ commit }) {
       commit('clearMessage');
     },
-    // doneMessage({ commit }) {
-    //   commit('doneMassage');
-    // },
     getAllCategories({ commit, rootGetters }) {
       axios(rootGetters['auth/token'])({
         method: 'GET',
@@ -56,7 +53,6 @@ export default {
       });
     },
     postCategory({ commit, rootGetters }, categoryName) {
-      console.log(categoryName);
       commit('toggleLoading');
       const data = new URLSearchParams();
       data.append('name', categoryName);
@@ -67,6 +63,7 @@ export default {
           data,
         }).then(() => {
           commit('toggleLoading');
+          commit('donePostCategory');
           resolve();
         }).catch((err) => {
           commit('failFetchCategory', { message: err.message });
@@ -113,11 +110,11 @@ export default {
       state.errorMessage = '';
       state.doneMessage = '';
     },
-    // doneMessage(state) {
-    //   state.doneMessage = 'カテゴリーの追加が完了しました';
-    // },
     doneGetAllCategories(state, { categories }) {
       state.categoryList = [...categories];
+    },
+    donePostCategory(state) {
+      state.doneMessage = 'カテゴリーの追加が完了しました。';
     },
     failFetchCategory(state, { message }) {
       state.errorMessage = message;

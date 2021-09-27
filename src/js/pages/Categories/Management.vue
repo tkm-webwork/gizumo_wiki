@@ -51,11 +51,11 @@ export default {
     errorMessage() {
       return this.$store.state.categories.errorMessage;
     },
-    doneMessage() {
-      return this.$store.state.categories.doneMessage;
-    },
     categoryList() {
       return this.$store.state.categories.categoryList;
+    },
+    doneMessage() {
+      return this.$store.state.categories.doneMessage;
     },
     deleteCategoryId() {
       return this.$store.state.categories.deleteCategoryId;
@@ -67,7 +67,6 @@ export default {
   created() {
     this.$store.dispatch('categories/clearMessage');
     this.$store.dispatch('categories/getAllCategories');
-    // this.$store.dispatch('categories/doneMessage');
   },
   methods: {
     updateValue($event) {
@@ -76,9 +75,6 @@ export default {
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
     },
-    // doneMessage() {
-    //   this.$store.dispatch('categories/doneMessage');
-    // },
     openModal(categoryId, categoryName) {
       this.toggleModal();
       this.$store.dispatch('categories/clearMessage');
@@ -89,6 +85,7 @@ export default {
       if (this.loading) return;
       this.$store.dispatch('categories/postCategory', this.category).then(() => {
         this.category = '';
+        this.$store.dispatch('categories/getAllCategories');
         this.$router.push({
           path: '/categories',
           query: { redirect: '/category/post' },
