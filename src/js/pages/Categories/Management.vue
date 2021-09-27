@@ -9,6 +9,7 @@
         :access="access"
         @udpateValue="updateValue"
         @clearMessage="clearMessage"
+        @handleSubmit="handleSubmit"
       />
     </section>
     <section class="category-management-list">
@@ -50,11 +51,11 @@ export default {
     errorMessage() {
       return this.$store.state.categories.errorMessage;
     },
-    doneMessage() {
-      return this.$store.state.categories.doneMessage;
-    },
     categoryList() {
       return this.$store.state.categories.categoryList;
+    },
+    doneMessage() {
+      return this.$store.state.categories.doneMessage;
     },
     deleteCategoryId() {
       return this.$store.state.categories.deleteCategoryId;
@@ -79,6 +80,17 @@ export default {
       this.$store.dispatch('categories/clearMessage');
       this.$store.dispatch('categories/confirmDeleteCategory',
         { categoryId, categoryName });
+    },
+    handleSubmit() {
+      if (this.loading) return;
+      this.$store.dispatch('categories/postCategory', this.category).then(() => {
+        this.category = '';
+        this.$store.dispatch('categories/getAllCategories');
+        this.$router.push({
+          path: '/categories',
+          query: { redirect: '/category/post' },
+        });
+      });
     },
     deleteCategory() {
       this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId)

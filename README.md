@@ -54,7 +54,7 @@
 | サインイン | `/signin` |
 | サインアウト | `/signout` |
 | カテゴリー一覧・追加  | `/categories` |
-| 記事一覧 | `/articles` |
+| 記事一覧 | `/articles` | 
 | 記事詳細 | `/articles/:id` |
 | 更新 | `/articles/:id/edit` |
 | 投稿 | `/articles/post` |
