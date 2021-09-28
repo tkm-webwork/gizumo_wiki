@@ -3,7 +3,9 @@
     <app-category-edit
       :disabled="loading ? true : false"
       :access="access"
+      :update-category-name="updateCategoryName"
       @clearMessage="clearMessage"
+      @udpateValue="updateValue"
     />
   </div>
 </template>
@@ -22,10 +24,20 @@ export default {
     loading() {
       return this.$store.state.categories.loading;
     },
+    updateCategoryName() {
+      return this.$store.state.categories.updateCategoryName;
+    },
+  },
+  created() {
+    const { id } = this.$route.params;
+    this.$store.dispatch('categories/getCategoryDetail', id);
   },
   methods: {
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
+    },
+    updateValue($event) {
+      this.$store.dispatch('categories/editedCategoryName', $event.target.value);
     },
   },
 };
