@@ -70,12 +70,13 @@ export default {
     editedContent($event) {
       this.$store.dispatch('articles/editedContent', $event.target.value);
     },
-    async postArticle() {
-      await this.$store.dispatch('articles/postArticle');
-      this.$store.dispatch('articles/initPostArticle');
-      this.$router.push({
-        path: '/articles',
-        query: { redirect: this.$route.fullPath },
+    postArticle() {
+      this.$store.dispatch('articles/postArticle').then(() => {
+        this.$store.dispatch('articles/initPostArticle');
+        this.$router.push({
+          path: '/articles',
+          query: { redirect: this.$route.fullPath },
+        });
       });
     },
   },

@@ -304,6 +304,7 @@ export default {
       } catch (err) {
         commit('toggleLoading');
         commit('failRequest', { message: err.message });
+        throw new Error(err);
       }
     },
     clearMessage({ commit }) {
