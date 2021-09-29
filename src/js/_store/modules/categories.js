@@ -89,7 +89,7 @@ export default {
       commit('clearMessage');
       const data = new URLSearchParams();
       data.append('name', categoryName);
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         axios(rootGetters['auth/token'])({
           method: 'POST',
           url: '/category',
@@ -101,7 +101,6 @@ export default {
         }).catch((err) => {
           commit('failFetchCategory', { message: err.message });
           commit('toggleLoading');
-          reject();
         });
       });
     },
