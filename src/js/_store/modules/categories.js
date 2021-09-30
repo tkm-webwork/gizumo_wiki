@@ -56,7 +56,7 @@ export default {
       commit('toggleLoading');
       const data = new URLSearchParams();
       data.append('name', categoryName);
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         axios(rootGetters['auth/token'])({
           method: 'POST',
           url: '/category',
@@ -68,7 +68,6 @@ export default {
         }).catch((err) => {
           commit('failFetchCategory', { message: err.message });
           commit('toggleLoading');
-          reject();
         });
       });
     },
@@ -130,6 +129,18 @@ export default {
       state.deleteCategoryId = null;
       state.deleteCategoryName = '';
       state.doneMessage = 'カテゴリーの削除が完了しました。';
+    },
+    doneGetCategoryDetail(state, payload) {
+      state.updateCategoryId = payload.id;
+      state.updateCategoryName = payload.name;
+    },
+    editedCategoryName(state, { categoryName }) {
+      state.updateCategoryName = categoryName;
+    },
+    doneUpdateCategory(state, payload) {
+      state.updateCategoryId = payload.id;
+      state.updateCategoryId = payload.name;
+      state.doneMessage = 'カテゴリーの更新が完了しました。';
     },
   },
 };
