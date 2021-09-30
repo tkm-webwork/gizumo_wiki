@@ -20,18 +20,8 @@ export default {
       commit('clearMessage');
     },
     getAllCategories({ commit, rootGetters }) {
-      axios(rootGetters['auth/token'])({
-        method: 'GET',
-        url: '/category',
-      }).then((response) => {
-        const payload = { categories: [] };
-        response.data.categories.forEach((val) => {
-          payload.categories.push(val);
-        });
-        commit('doneGetAllCategories', payload);
-      }).catch((err) => {
-        commit('failFetchCategory', { message: err.message });
-      });
+      const payload = { categories: [{ id: 9999, name: 'ダミーカテゴリー' }] };
+      commit('doneGetAllCategories', payload);
     },
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
       commit('confirmDeleteCategory', { categoryId, categoryName });
@@ -82,9 +72,6 @@ export default {
         commit('failFetchCategory', { message: err.message });
       });
     },
-    editedCategoryName({ commit }, categoryName) {
-      commit('editedCategoryName', { categoryName });
-    },
     updateCategory({ commit, rootGetters }) {
       commit('toggleLoading');
       const data = new URLSearchParams();
@@ -121,26 +108,10 @@ export default {
     toggleLoading(state) {
       state.loading = !state.loading;
     },
-    confirmDeleteCategory(state, { categoryId, categoryName }) {
-      state.deleteCategoryId = categoryId;
-      state.deleteCategoryName = categoryName;
-    },
     doneDeleteCategory(state) {
       state.deleteCategoryId = null;
       state.deleteCategoryName = '';
       state.doneMessage = 'カテゴリーの削除が完了しました。';
-    },
-    doneGetCategoryDetail(state, payload) {
-      state.updateCategoryId = payload.id;
-      state.updateCategoryName = payload.name;
-    },
-    editedCategoryName(state, { categoryName }) {
-      state.updateCategoryName = categoryName;
-    },
-    doneUpdateCategory(state, payload) {
-      state.updateCategoryId = payload.id;
-      state.updateCategoryId = payload.name;
-      state.doneMessage = 'カテゴリーの更新が完了しました。';
     },
   },
 };
