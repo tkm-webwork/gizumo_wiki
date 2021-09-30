@@ -50,7 +50,6 @@ export default {
       this.$store.dispatch('categories/clearMessage');
     },
     updateCategory() {
-      if (this.loading) return;
       this.$store.dispatch('categories/updateCategory');
     },
   },
