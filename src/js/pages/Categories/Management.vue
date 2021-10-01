@@ -19,6 +19,7 @@
         :delete-category-name="deleteCategoryName"
         :access="access"
         @openModal="openModal"
+        @deleteCategory="deleteCategory"
       />
     </section>
   </div>
@@ -82,6 +83,13 @@ export default {
     },
     postCategory() {
       this.$store.dispatch('categories/postCategory', this.category)
+        .then(() => {
+          this.$store.dispatch('categories/getAllCategories');
+        });
+    },
+    deleteCategory() {
+      this.toggleModal();
+      this.$store.dispatch('categories/deleteCategory', this.deleteCategoryId)
         .then(() => {
           this.$store.dispatch('categories/getAllCategories');
         });

@@ -122,7 +122,7 @@ export default {
     },
     handleClick() {
       if (!this.access.delete) return;
-      this.$emit('ここにエミットするイベント名が入ります');
+      this.$emit('deleteCategory');
     },
   },
 };
