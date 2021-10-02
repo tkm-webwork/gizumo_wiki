@@ -112,6 +112,10 @@ export default {
     donePostCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました。';
     },
+    doneGetCategoryDetail(state, payload) {
+      state.updateCategoryId = payload.id;
+      state.updateCategoryName = payload.name;
+    },
     failFetchCategory(state, { message }) {
       state.errorMessage = message;
     },
