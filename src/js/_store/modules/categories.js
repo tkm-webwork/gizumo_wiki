@@ -33,6 +33,9 @@ export default {
         commit('failFetchCategory', { message: err.message });
       });
     },
+    editedCategoryName({ commit }, categoryName) {
+      commit('editedCategoryName', { categoryName });
+    },
     confirmDeleteCategory({ commit }, { categoryId, categoryName }) {
       commit('confirmDeleteCategory', { categoryId, categoryName });
     },
@@ -111,6 +114,9 @@ export default {
     },
     donePostCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました。';
+    },
+    editedCategoryName(state, { categoryName }) {
+      state.updateCategoryName = categoryName;
     },
     doneGetCategoryDetail(state, payload) {
       state.updateCategoryId = payload.id;
