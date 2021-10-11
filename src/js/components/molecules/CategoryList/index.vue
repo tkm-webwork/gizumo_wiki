@@ -118,7 +118,6 @@ export default {
   },
   methods: {
     openModal(categoryId, categoryName) {
-      if (!this.access.delete) return;
       this.$emit('openModal', categoryId, categoryName);
     },
     handleClick() {
