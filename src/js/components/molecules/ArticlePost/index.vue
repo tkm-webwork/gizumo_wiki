@@ -13,6 +13,9 @@
           カテゴリーの選択
         </app-heading>
         <app-select
+          v-validate="'required'"
+          :error-messages="errors.collect('category')"
+          data-vv-as="カテゴリー"
           name="category"
           :value="categoryName"
           @updateValue="$emit('selectedArticleCategory', $event)"
@@ -34,6 +37,9 @@
         </app-heading>
         <div class="article-post-form">
           <app-input
+            v-validate="'required'"
+            :error-messages="errors.collect('title')"
+            data-vv-as="記事のタイトル"
             name="title"
             type="text"
             placeholder="記事のタイトルを入力してください。"
@@ -43,6 +49,9 @@
         </div>
         <div class="article-post-form">
           <app-textarea
+            v-validate="'required'"
+            :error-messages="errors.collect('content')"
+            data-vv-as="記事の本文"
             name="content"
             placeholder="記事の本文をマークダウン記法で入力してください。"
             :value="articleContent"
