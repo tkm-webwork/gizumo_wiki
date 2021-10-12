@@ -14,6 +14,13 @@
         </app-heading>
         <app-select>
           <option value=""> --- </option>
+          <option
+            v-for="(category) in categoryList"
+            :key="category.id"
+            :value="category.name"
+          >
+            {{ category.name }}
+          </option>
         </app-select>
         <app-heading
           class="article-post-editor-title"
@@ -53,6 +60,13 @@ export default {
     appInput: Input,
     appTextarea: Textarea,
     appButton: Button,
+  },
+
+  props: {
+    categoryList: {
+      type: Array,
+      default: () => [],
+    },
   },
 };
 </script>
