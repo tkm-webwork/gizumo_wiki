@@ -12,7 +12,11 @@
         >
           カテゴリーの選択
         </app-heading>
-        <app-select>
+        <app-select
+          name="category"
+          :value="categoryName"
+          @updateValue="$emit('selectedArticleCategory', $event)"
+        >
           <option value=""> --- </option>
           <option
             v-for="(category) in categoryList"
@@ -29,13 +33,30 @@
           タイトル・本文
         </app-heading>
         <div class="article-post-form">
-          <app-input />
+          <app-input
+            name="title"
+            type="text"
+            placeholder="記事のタイトルを入力してください。"
+            :value="articleTitle"
+            @updateValue="$emit('editeValue', $event)"
+          />
         </div>
         <div class="article-post-form">
-          <app-textarea />
+          <app-textarea
+            name="content"
+            placeholder="記事の本文をマークダウン記法で入力してください。"
+            :value="articleContent"
+            @updateValue="$emit('editedContent', $event)"
+          />
         </div>
-        <app-button class="article-post-submit">
-          ボタン
+        <app-button
+          class="article-post-submit"
+          button-type="submit"
+          round
+          :disabled="!disabled"
+          @click="handleSubmit"
+        >
+          {{ buttonText }}
         </app-button>
       </section>
 
@@ -66,6 +87,43 @@ export default {
     categoryList: {
       type: Array,
       default: () => [],
+    },
+    access: {
+      type: Object,
+      default: () => ({}),
+    },
+    articleTitle: {
+      type: String,
+      default: '',
+    },
+    articleContent: {
+      type: String,
+      default: '',
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+    categoryName: {
+      type: String,
+      default: '',
+    },
+  },
+  computed: {
+    buttonText() {
+      if (!this.access.create) return '作成権限がありません';
+      return this.loading ? '作成中...' : '作成';
+    },
+    disabled() {
+      return this.access.create && !this.loading;
+    },
+  },
+  methods: {
+    handleSubmit() {
+      if (!this.access.create) return;
+      this.$validator.validate().then((valid) => {
+        if (valid) this.$emit('handleSubmit');
+      });
     },
   },
 };
