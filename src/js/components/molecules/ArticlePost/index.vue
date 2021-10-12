@@ -37,6 +37,7 @@
             white-bg
             data-vv-as="記事のタイトル"
             :value="articleTitle"
+            @updateValue="$emit('editedTitle', $event)"
           />
         </div>
 
@@ -86,6 +87,10 @@ export default {
       default: '',
     },
     articleContent: {
+      type: String,
+      default: '',
+    },
+    markdownContent: {
       type: String,
       default: '',
     },
