@@ -48,23 +48,29 @@
           作成
         </app-button>
       </section>
+
+      <article class="article-post-preview">
+        <app-markdown-preview
+          :markdown-content="markdownContent"
+        />
+      </article>
     </div>
   </div>
 </template>
 
 <script>
 import {
-  Heading, Text, Select, Input, Textarea, Button,
+  Heading, Select, Input, Textarea, Button, MarkdownPreview,
 } from '@Components/atoms';
 
 export default {
   components: {
-    appText: Text,
     appHeading: Heading,
     appSelect: Select,
     appInput: Input,
     appTextarea: Textarea,
     appButton: Button,
+    appMarkdownPreview: MarkdownPreview,
   },
 };
 </script>
@@ -78,6 +84,13 @@ export default {
     &-title {
       margin-top: 10px;
     }
+  }
+  &__columns {
+    display: flex;
+    height: 100%;
+  }
+  &-preview {
+    width: 50%;
   }
   &-form {
     margin-top: 20px;
