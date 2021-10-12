@@ -12,8 +12,16 @@
         <app-select
           name="category"
           :value="value"
+          @updateValue="$emit('selectedArticleCategory', $event)"
         >
           <option value=""> --- </option>
+          <option
+            v-for="(category) in categoryList"
+            :key="category.id"
+            :value="category.name"
+          >
+            {{ category.name }}
+          </option>
         </app-select>
         <app-heading
           class="article-post-editor-title"
@@ -71,6 +79,24 @@ export default {
     appTextarea: Textarea,
     appButton: Button,
     appMarkdownPreview: MarkdownPreview,
+  },
+  props: {
+    articleTitle: {
+      type: String,
+      default: '',
+    },
+    articleContent: {
+      type: String,
+      default: '',
+    },
+    categoryList: {
+      type: Array,
+      default: () => [],
+    },
+    value: {
+      type: String,
+      default: '',
+    },
   },
 };
 </script>
