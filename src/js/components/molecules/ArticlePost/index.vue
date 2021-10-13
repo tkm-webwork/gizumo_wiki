@@ -70,16 +70,16 @@
       </section>
 
       <article class="article-post-preview">
-        <!-- <app-markdown-preview
+        <app-markdown-preview
           :markdown-content="markdownContent"
-        /> -->
+        />
       </article>
     </div>
   </div>
 </template>
 
 <script>import {
-  Text, Heading, Select, Input, Textarea, Button,
+  Text, Heading, Select, Input, Textarea, Button, MarkdownPreview,
 } from '@Components/atoms';
 
 export default {
@@ -90,6 +90,7 @@ export default {
     appInput: Input,
     appTextarea: Textarea,
     appButton: Button,
+    appMarkdownPreview: MarkdownPreview,
   },
 
   props: {
@@ -118,6 +119,10 @@ export default {
       default: '',
     },
     errorMessage: {
+      type: String,
+      default: '',
+    },
+    markdownContent: {
       type: String,
       default: '',
     },

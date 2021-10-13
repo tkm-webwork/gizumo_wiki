@@ -7,6 +7,7 @@
     :loading="loading"
     :category-name="categoryName"
     :error-message="errorMessage"
+    :markdown-content="markdownContent"
     @editeValue="editeValue"
     @editedContent="editedContent"
     @handleSubmit="handleSubmit"
@@ -46,6 +47,13 @@ export default {
     errorMessage() {
       return this.$store.state.articles.errorMessage;
     },
+    markdownContent() {
+      return `# ${this.articleTitle}\n${this.articleContent}`;
+    },
+  },
+  created() {
+    this.$store.dispatch('categories/getAllCategories');
+    this.$store.dispatch('articles/initPostArticle');
   },
   methods: {
     editeValue($event) {
@@ -65,9 +73,6 @@ export default {
       const categoryName = $event.target.value;
       this.$store.dispatch('articles/selectedArticleCategory', categoryName);
     },
-  },
-  created() {
-    this.$store.dispatch('categories/getAllCategories');
   },
 };
 
