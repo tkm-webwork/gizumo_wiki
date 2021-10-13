@@ -5,10 +5,11 @@
     :markdown-content="markdownContent"
     :category-list="categoryList"
     :value="categoryName"
+    :error-message="errorMessage"
     @selectedArticleCategory="selectedArticleCategory"
     @editedTitle="editedTitle"
     @editedContent="editedContent"
-     @handleSubmit="handleSubmit"
+    @handleSubmit="handleSubmit"
   />
 </template>
 
@@ -46,6 +47,9 @@ export default {
     },
     loading() {
       return this.$store.state.articles.loading;
+    },
+    errorMessage() {
+      return this.$store.state.articles.errorMessage;
     },
   },
   created() {

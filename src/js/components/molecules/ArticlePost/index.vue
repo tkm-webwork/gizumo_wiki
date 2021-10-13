@@ -14,6 +14,7 @@
           name="category"
           data-vv-as="カテゴリー"
           :value="value"
+          :error-messages="errors.collect('category')"
           @updateValue="$emit('selectedArticleCategory', $event)"
         >
           <option value=""> --- </option>
@@ -41,6 +42,7 @@
             placeholder="記事のタイトルを入力してください。"
             white-bg
             :value="articleTitle"
+            :error-messages="errors.collect('title')"
             @updateValue="$emit('editedTitle', $event)"
           />
         </div>
@@ -54,6 +56,7 @@
             placeholder="記事の本文をマークダウン記法で入力してください。"
             white-bg
             :value="articleContent"
+            :error-messages="errors.collect('content')"
             @updateValue="$emit('editedContent', $event)"
           />
         </div>
@@ -108,6 +111,10 @@ export default {
       default: () => [],
     },
     value: {
+      type: String,
+      default: '',
+    },
+    errorMessage: {
       type: String,
       default: '',
     },
