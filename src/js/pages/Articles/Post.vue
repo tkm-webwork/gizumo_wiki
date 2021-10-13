@@ -7,6 +7,7 @@
     :value="categoryName"
     @selectedArticleCategory="selectedArticleCategory"
     @editedTitle="editedTitle"
+    @editedContent="editedContent"
   />
 </template>
 
@@ -50,6 +51,9 @@ export default {
   methods: {
     editedTitle($event) {
       this.$store.dispatch('articles/editedTitle', $event.target.value);
+    },
+    editedContent($event) {
+      this.$store.dispatch('articles/editedContent', $event.target.value);
     },
     selectedArticleCategory($event) {
       const categoryName = $event.target.value ? $event.target.value : '';

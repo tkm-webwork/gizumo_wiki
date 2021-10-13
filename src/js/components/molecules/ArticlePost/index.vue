@@ -47,6 +47,7 @@
             placeholder="記事の本文をマークダウン記法で入力してください。"
             white-bg
             :value="articleContent"
+            @updateValue="$emit('editedContent', $event)"
           />
         </div>
         <app-button
