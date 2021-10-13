@@ -1,7 +1,7 @@
 <template>
   <div class="article-post">
-    <div class="article-post-error">
-      <app-text bg-error>エラーメッセージ</app-text>
+    <div v-if="errorMessage" class="article-post-error">
+      <app-text bg-error>{{ errorMessage }}</app-text>
     </div>
     <div class="article-post__columns">
       <section class="article-post-editor">
@@ -70,9 +70,9 @@
       </section>
 
       <article class="article-post-preview">
-        <app-markdown-preview
+        <!-- <app-markdown-preview
           :markdown-content="markdownContent"
-        />
+        /> -->
       </article>
     </div>
   </div>
@@ -114,6 +114,10 @@ export default {
       default: false,
     },
     categoryName: {
+      type: String,
+      default: '',
+    },
+    errorMessage: {
       type: String,
       default: '',
     },

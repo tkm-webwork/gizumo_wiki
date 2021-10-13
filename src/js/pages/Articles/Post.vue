@@ -6,6 +6,7 @@
     :article-content="articleContent"
     :loading="loading"
     :category-name="categoryName"
+    :error-message="errorMessage"
     @editeValue="editeValue"
     @editedContent="editedContent"
     @handleSubmit="handleSubmit"
@@ -41,6 +42,9 @@ export default {
     },
     categoryName() {
       return this.$store.state.articles.targetArticle.category.name;
+    },
+    errorMessage() {
+      return this.$store.state.articles.errorMessage;
     },
   },
   methods: {
