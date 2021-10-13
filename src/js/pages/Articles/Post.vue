@@ -5,7 +5,7 @@
     :article-title="articleTitle"
     :article-content="articleContent"
     :loading="loading"
-    :category-Name="categoryName"
+    :category-name="categoryName"
     @editeValue="editeValue"
     @editedContent="editedContent"
     @handleSubmit="handleSubmit"
@@ -52,7 +52,10 @@ export default {
     },
     handleSubmit() {
       if (this.loading) return;
-      this.$store.dispatch('articles/postArticle');
+      this.$store.dispatch('articles/postArticle')
+        .then(() => {
+          this.$router.push({ path: '/articles' });
+        });
     },
     selectedArticleCategory($event) {
       const categoryName = $event.target.value;
