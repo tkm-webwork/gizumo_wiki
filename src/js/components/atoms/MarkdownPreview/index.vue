@@ -150,7 +150,7 @@ export default {
     color: var(--errorColor);
   }
   pre {
-    margin-left: -30px;
+    margin-left: -2px;
     margin-right: -30px;
     padding: 20px 30px;
     font-size: 14px;
