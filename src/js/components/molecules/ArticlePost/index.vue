@@ -64,9 +64,10 @@
           class="article-post-submit"
           button-type="submit"
           round
+          :disabled="!disabled"
           @click="handleSubmit"
         >
-          作成
+          {{ buttonText }}
         </app-button>
       </section>
 
@@ -117,6 +118,23 @@ export default {
     errorMessage: {
       type: String,
       default: '',
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+    access: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+  computed: {
+    buttonText() {
+      if (!this.access.create) return '作成権限がありません';
+      return this.loading ? '作成中...' : '作成';
+    },
+    disabled() {
+      return this.access.create && !this.loading;
     },
   },
   methods: {

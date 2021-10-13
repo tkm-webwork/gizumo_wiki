@@ -6,6 +6,8 @@
     :category-list="categoryList"
     :value="categoryName"
     :error-message="errorMessage"
+    :loading="loading"
+    :access="access"
     @selectedArticleCategory="selectedArticleCategory"
     @editedTitle="editedTitle"
     @editedContent="editedContent"
@@ -50,6 +52,9 @@ export default {
     },
     errorMessage() {
       return this.$store.state.articles.errorMessage;
+    },
+    access() {
+      return this.$store.getters['auth/access'];
     },
   },
   created() {
