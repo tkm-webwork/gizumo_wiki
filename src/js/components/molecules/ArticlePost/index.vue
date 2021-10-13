@@ -61,6 +61,7 @@
           class="article-post-submit"
           button-type="submit"
           round
+          @click="handleSubmit"
         >
           作成
         </app-button>
@@ -109,6 +110,13 @@ export default {
     value: {
       type: String,
       default: '',
+    },
+  },
+  methods: {
+    handleSubmit() {
+      this.$validator.validate().then((valid) => {
+        if (valid) this.$emit('handleSubmit');
+      });
     },
   },
 };

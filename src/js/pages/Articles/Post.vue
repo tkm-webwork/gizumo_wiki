@@ -8,6 +8,7 @@
     @selectedArticleCategory="selectedArticleCategory"
     @editedTitle="editedTitle"
     @editedContent="editedContent"
+     @handleSubmit="handleSubmit"
   />
 </template>
 
@@ -43,6 +44,9 @@ export default {
     categoryName() {
       return this.$store.state.articles.targetArticle.category.name;
     },
+    loading() {
+      return this.$store.state.articles.loading;
+    },
   },
   created() {
     this.$store.dispatch('categories/getAllCategories');
@@ -58,6 +62,10 @@ export default {
     selectedArticleCategory($event) {
       const categoryName = $event.target.value ? $event.target.value : '';
       this.$store.dispatch('articles/selectedArticleCategory', categoryName);
+    },
+    handleSubmit() {
+      if (this.loading) return;
+      this.$store.dispatch('articles/postArticle');
     },
   },
 };
