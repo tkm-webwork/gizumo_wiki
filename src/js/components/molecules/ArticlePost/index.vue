@@ -1,5 +1,8 @@
 <template lang="html">
   <div class="article-post">
+    <div v-if="errorMessage" class="article-post__notice">
+      <app-text bg-error>{{ errorMessage }}</app-text>
+    </div>
     <div class="article-post__columns">
       <section class="article-post-editor">
         <app-heading :level="1">記事の新規作成</app-heading>
@@ -82,7 +85,7 @@
 
 <script>
 import {
-  Heading, Select, Input, Textarea, Button, MarkdownPreview,
+  Heading, Select, Input, Textarea, Button, MarkdownPreview, Text,
 } from '@Components/atoms';
 
 export default {
@@ -93,6 +96,7 @@ export default {
     appTextarea: Textarea,
     appButton: Button,
     appMarkdownPreview: MarkdownPreview,
+    appText: Text,
   },
   props: {
     articleTitle: {
@@ -160,6 +164,7 @@ export default {
   &__columns {
     display: flex;
     height: 100%;
+    matrgin-top: 10px;
   }
   &-preview {
     width: 50%;
@@ -169,6 +174,9 @@ export default {
   }
   &-submit {
     margin-top: 10px;
+  }
+  &__notice {
+    margin-bottom: 10px;
   }
 }
 </style>
