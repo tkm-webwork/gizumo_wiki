@@ -6,10 +6,7 @@
     <div class="article-post__columns">
       <section class="article-post-editor">
         <app-heading :level="1">記事の新規作成</app-heading>
-        <app-heading
-          :level="2"
-          class="article-post-editor-title"
-        >
+        <app-heading :level="2" class="article-post-editor-title">
           カテゴリー選択
         </app-heading>
         <app-select
@@ -29,7 +26,12 @@
             {{ category.name }}
           </option>
         </app-select>
-        <app-heading :level="2" class="article-post-editor-title">タイトル・本文</app-heading>
+        <app-heading
+          :level="2"
+          class="article-post-editor-title"
+        >
+          タイトル・本文
+        </app-heading>
         <div class="article-post-form">
           <app-input
             v-validate="'required'"
@@ -96,7 +98,7 @@ export default {
   props: {
     errorMessage: {
       type: String,
-      default: '',
+      required: true,
     },
     disabled: {
       type: Boolean,
@@ -104,27 +106,27 @@ export default {
     },
     targetArray: {
       type: Array,
-      default: () => [],
+      required: true,
     },
     articleTitle: {
       type: String,
-      default: '',
+      required: true,
     },
     articleContent: {
       type: String,
-      default: '',
+      required: true,
     },
     markdownContent: {
       type: String,
-      default: '',
+      required: true,
     },
     currentCategoryName: {
       type: String,
-      default: '',
+      required: true,
     },
     access: {
       type: Object,
-      default: () => {},
+      required: true,
     },
     loading: {
       type: Boolean,
