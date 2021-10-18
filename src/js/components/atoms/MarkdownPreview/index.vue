@@ -2,7 +2,7 @@
   <div :class="wrapperClasses">
     <div
       :class="classes"
-      v-html="marked"
+      v-html="$sanitize(marked)"
     />
   </div>
 </template>

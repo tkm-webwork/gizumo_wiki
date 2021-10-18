@@ -32,7 +32,7 @@
           </td>
           <td>
             <app-router-link
-            :to="`/categories/${category.id}`"
+              :to="`/categories/${category.id}`"
               theme-color
               underline
               hover-opacity
