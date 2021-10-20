@@ -22,18 +22,17 @@ export default {
   },
   computed: {
     articlesList() {
-      return this.$store.state.articles.articleList;
+      return this.$store.state.articles.trashedArticleList;
     },
   },
   created() {
-    const categoryName = this.$route.query.category ? this.$route.query.category : null;
-    this.fetchArticles(categoryName);
+    this.fetchArticles();
   },
   methods: {
-    fetchArticles(categoryName) {
-      this.$store.dispatch('articles/getArticles', categoryName)
+    fetchArticles() {
+      this.$store.dispatch('articles/getTrashedArticles')
         .then(() => {
-          if (this.$store.state.articles.articleList.length === 0) {
+          if (this.$store.state.articles.trashedArticleList.length === 0) {
             this.$router.push({ path: '/notfound' });
           }
         }).catch(() => {

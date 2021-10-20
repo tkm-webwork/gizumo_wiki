@@ -24,6 +24,7 @@ export default {
       },
     },
     articleList: [],
+    trashedArticleList: [],
     deleteArticleId: null,
     loading: false,
     doneMessage: '',
@@ -80,6 +81,9 @@ export default {
     },
     doneGetArticles(state, payload) {
       state.articleList = [...payload.articles];
+    },
+    doneGetTrashedArticles(state, payload) {
+      state.trashedArticleList = [...payload.trashedArticles];
     },
     editedTitle(state, payload) {
       state.targetArticle = Object.assign(
@@ -153,6 +157,20 @@ export default {
             reject();
           });
       });
+    },
+    async getTrashedArticles({ commit, rootGetters }) {
+      try {
+        const { data } = await axios(rootGetters['auth/token'])({
+          method: 'GET',
+          url: '/article/trashed',
+        });
+        const payload = {
+          trashedArticles: data.articles,
+        };
+        commit('doneGetTrashedArticles', payload);
+      } catch (err) {
+        console.log(err);
+      }
     },
     getArticleDetail({ commit, rootGetters }, articleId) {
       return new Promise((resolve, reject) => {
