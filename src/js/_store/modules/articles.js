@@ -164,7 +164,6 @@ export default {
           method: 'GET',
           url: '/article/trashed',
         });
-        console.log(data);
         const payload = {
           trashedArticles: data.articles,
         };
