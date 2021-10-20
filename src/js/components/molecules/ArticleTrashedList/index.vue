@@ -6,22 +6,21 @@
         v-for="article in targetArray"
         :key="article.id"
         flex
-        beetween
-        align-items
+        direction-column
         bg-white
         large
         border-bottom-gray
       >
         <app-heading :level="3" class="article-list__title">
           {{
-            article.title
+            article.title | wordLimitation
           }}
         </app-heading>
         <app-text class="article-list__created">
-          作成日：{{ article.created_at | localization }}
+          {{ article.created_at | dateLocalization }}
         </app-text>
         <app-text class="article-list__content">
-          {{ article.content }}
+          {{ article.content | wordLimitation }}
         </app-text>
       </app-list-item>
     </transition-group>
@@ -38,10 +37,18 @@ export default {
     appText: Text,
   },
   filters: {
-    localization(date) {
+    dateLocalization(date) {
       const ts = Date.parse(date);
       const dt = new Date(ts);
       return dt.toLocaleDateString();
+    },
+    wordLimitation(word) {
+      const count = word.split('').length;
+      if (count > 30) {
+        const displayRange = word.slice(0, 31);
+        return `${displayRange}...`;
+      }
+      return word;
     },
   },
   props: {
