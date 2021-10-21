@@ -22,11 +22,11 @@ export default {
   },
   computed: {
     articlesList() {
-      return this.$store.state.articles.trashedArticleList;
+      return this.$store.getters['articles/sortDateTrashedArticles'];
     },
   },
-  created() {
-    this.fetchArticles();
+  async created() {
+    await this.fetchArticles();
   },
   methods: {
     fetchArticles() {

@@ -44,6 +44,10 @@ export default {
         return count <= 10;
       });
     },
+    sortDateTrashedArticles(state) {
+      const copyArray = [...state.trashedArticleList];
+      return copyArray.sort((prev, next) => (prev.created_at < next.created_at ? 1 : -1));
+    },
     targetArticle: state => state.targetArticle,
     deleteArticleId: state => state.deleteArticleId,
   },
@@ -169,7 +173,7 @@ export default {
         };
         commit('doneGetTrashedArticles', payload);
       } catch (err) {
-        console.log(err);
+        // console.log(err);
       }
     },
     getArticleDetail({ commit, rootGetters }, articleId) {
