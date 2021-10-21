@@ -11,14 +11,14 @@
         large
         border-bottom-gray
       >
+        <app-text class="article-list__created">
+          {{ article.created_at | dateLocalization }}
+        </app-text>
         <app-heading :level="3" class="article-list__title">
           {{
             article.title | wordLimitation
           }}
         </app-heading>
-        <app-text class="article-list__created">
-          {{ article.created_at | dateLocalization }}
-        </app-text>
         <app-text class="article-list__content">
           {{ article.content | wordLimitation }}
         </app-text>
@@ -109,6 +109,14 @@ export default {
   }
   &__title {
     width: 60%;
+    font-size: 20px;
+  }
+  &__created {
+    color: var(--disabledColor);
+    font-size: 14px;
+  }
+  &__content {
+    margin-top: 15px;
   }
 }
 </style>
