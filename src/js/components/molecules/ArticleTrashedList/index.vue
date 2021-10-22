@@ -11,7 +11,7 @@
         large
         border-bottom-gray
       >
-        <app-text class="article-list__created">
+        <app-text is="span" class="article-list__created">
           {{ article.created_at | dateLocalization }}
         </app-text>
         <app-heading :level="3" class="article-list__title">
@@ -44,11 +44,8 @@ export default {
     },
     wordLimitation(word) {
       const count = word.split('').length;
-      if (count > 30) {
-        const displayRange = word.slice(0, 31);
-        return `${displayRange}...`;
-      }
-      return word;
+      const displayRange = word.slice(0, 31);
+      return count > 30 ? `${displayRange}...` : word;
     },
   },
   props: {
@@ -68,27 +65,10 @@ export default {
       type: String,
       default: 'すべて',
     },
-    doneMessage: {
-      type: String,
-      default: '',
-    },
-    access: {
-      type: Object,
-      default: () => ({}),
-    },
   },
   computed: {
     articleTitle() {
       return `${this.title}の一覧`;
-    },
-    buttonText() {
-      return this.access.delete ? '削除' : '削除権限がありません';
-    },
-  },
-  methods: {
-    openModal(articleId) {
-      if (!this.access.delete) return;
-      this.$emit('openModal', articleId);
     },
   },
 };

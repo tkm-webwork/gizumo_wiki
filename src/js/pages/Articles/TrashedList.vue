@@ -35,8 +35,6 @@ export default {
           if (this.$store.state.articles.trashedArticleList.length === 0) {
             this.$router.push({ path: '/notfound' });
           }
-        }).catch(() => {
-          // console.log(err);
         });
     },
   },
