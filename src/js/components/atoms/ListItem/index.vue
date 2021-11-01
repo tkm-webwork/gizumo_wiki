@@ -19,6 +19,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    directionColumn: {
+      type: Boolean,
+      default: false,
+    },
     bgWhite: {
       type: Boolean,
       default: false,
@@ -39,6 +43,7 @@ export default {
         'list-item--flex': this.flex,
         'list-item--space-beetween': this.beetween,
         'list-item--align-items': this.alignItems,
+        'list-item--direction-column': this.directionColumn,
         'list-item--bg-white': this.bgWhite,
         'list-item--large': this.large,
         'list-item--border-bottom-gray': this.borderBottomGray,
@@ -64,6 +69,9 @@ export default {
 }
 .list-item--align-items {
   align-items: center;
+}
+.list-item--direction-column {
+  flex-direction: column;
 }
 .list-item--bg-white {
   background-color: var(--white);

@@ -24,6 +24,7 @@ export default {
       },
     },
     articleList: [],
+    trashedArticleList: [],
     deleteArticleId: null,
     loading: false,
     doneMessage: '',
@@ -42,6 +43,10 @@ export default {
         count += 1;
         return count <= 10;
       });
+    },
+    sortDateTrashedArticles(state) {
+      const copyArray = [...state.trashedArticleList];
+      return copyArray.sort((prev, next) => (prev.created_at < next.created_at ? 1 : -1));
     },
     targetArticle: state => state.targetArticle,
     deleteArticleId: state => state.deleteArticleId,
@@ -80,6 +85,9 @@ export default {
     },
     doneGetArticles(state, payload) {
       state.articleList = [...payload.articles];
+    },
+    doneGetTrashedArticles(state, payload) {
+      state.trashedArticleList = [...payload.trashedArticles];
     },
     editedTitle(state, payload) {
       state.targetArticle = Object.assign(
@@ -153,6 +161,20 @@ export default {
             reject();
           });
       });
+    },
+    async getTrashedArticles({ commit, rootGetters }) {
+      try {
+        const { data } = await axios(rootGetters['auth/token'])({
+          method: 'GET',
+          url: '/article/trashed',
+        });
+        const payload = {
+          trashedArticles: data.articles,
+        };
+        commit('doneGetTrashedArticles', payload);
+      } catch (err) {
+        // console.log(err);
+      }
     },
     getArticleDetail({ commit, rootGetters }, articleId) {
       return new Promise((resolve, reject) => {
@@ -304,7 +326,6 @@ export default {
       } catch (err) {
         commit('toggleLoading');
         commit('failRequest', { message: err.message });
-        throw new Error(err);
       }
     },
     clearMessage({ commit }) {

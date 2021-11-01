@@ -15,6 +15,7 @@ import CategoryEdit from '@Pages/Categories/Edit';
 // 記事
 import Articles from '@Pages/Articles';
 import ArticleList from '@Pages/Articles/List';
+import ArticleTrashedList from '@Pages/Articles/TrashedList';
 import ArticleDetail from '@Pages/Articles/Detail';
 import ArticleEdit from '@Pages/Articles/Edit';
 import ArticlePost from '@Pages/Articles/Post';
@@ -86,7 +87,9 @@ const router = new VueRouter({
              * 記事作成、記事更新、記事削除からリダイレクトするときは?redirect=リダイレクト元のurlのパラメータを
              * 渡してリダイレクト、パラメータが存在する場合はclearMessageアクションを通知しない
              */
-            const isArticle = from.name ? from.name.indexOf('article') >= 0 : false;
+            const isArticle = from.name
+              ? from.name.indexOf('article') >= 0
+              : false;
             const isRedirect = to.query.redirect;
             if (isArticle && isRedirect) {
               next();
@@ -95,6 +98,11 @@ const router = new VueRouter({
               next();
             }
           },
+        },
+        {
+          name: 'articleTrashedList',
+          path: 'trashed',
+          component: ArticleTrashedList,
         },
         {
           name: 'articlePost',

@@ -16,6 +16,11 @@ export default [
   },
   {
     id: 4,
+    name: '削除済み記事',
+    path: '/articles/trashed',
+  },
+  {
+    id: 5,
     name: 'ユーザー',
     path: '/users',
   },
