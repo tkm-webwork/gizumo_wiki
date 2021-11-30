@@ -1,6 +1,7 @@
 <template lang="html">
   <div class="category-management">
     <section class="category-management-post">
+      <!-- formのaddCategoryのemitによってhandleSubmitを追加 -->
       <app-category-post
         :category="category"
         :disabled="loading ? true : false"
@@ -9,6 +10,7 @@
         :access="access"
         @udpateValue="updateValue"
         @clearMessage="clearMessage"
+        @handleSubmit="handleSubmit"
       />
     </section>
     <section class="category-management-list">
@@ -86,6 +88,13 @@ export default {
           this.$store.dispatch('categories/getAllCategories');
         });
       this.toggleModal();
+    },
+    handleSubmit() {
+      this.$store.dispatch('categories/addCategory', this.category)
+        .then(() => {
+          this.category = '';
+          this.$store.dispatch('categories/getAllCategories');
+        });
     },
   },
 };
