@@ -85,6 +85,10 @@ export default {
         commit('failFetchCategory', { message: err.message });
       });
     },
+    // valueの書き換え
+    changeCategoryName({ commit }, categoryName) {
+      commit('changeCategoryName', categoryName);
+    },
   },
   mutations: {
     clearMessage(state) {
@@ -116,6 +120,10 @@ export default {
     // 初期状態でカテゴリー名の取得
     getCategoryDetail(state , payload) {
       state.updateCategoryName = payload.name;
-    }
+    },
+    // valueの書き換え
+    changeCategoryName(state, categoryName) {
+      state.updateCategoryName = categoryName;
+    },
   },
 };

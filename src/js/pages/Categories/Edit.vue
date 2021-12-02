@@ -7,6 +7,7 @@
       :done-message="doneMessage"
       :error-message="errorMessage"
       :update-category-name="updateCategoryName"
+      @updateValue="updateValue"
     />
   </div>
 </template>
@@ -32,6 +33,7 @@ export default {
     errorMessage() {
       return this.$store.state.categories.errorMessage;
     },
+    // 元々のカテゴリー名
     updateCategoryName() {
       return this.$store.state.categories.updateCategoryName;
     }
@@ -46,6 +48,10 @@ export default {
   methods: {
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
+    },
+    // valueの書き換え
+    updateValue($event) {
+      this.$store.dispatch('categories/changeCategoryName', $event.target.value)
     },
   },
 };

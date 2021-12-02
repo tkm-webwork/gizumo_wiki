@@ -15,6 +15,7 @@
     <!-- data-vv-asで項目名を日本語で表示させる -->
     <!-- errorMessagesと紐付け -->
     <!-- 多分fieldNameはname属性と同じで動作するはず -->
+    <!-- inputコンポーネントで使用しているupdateValueという値を使い回す -->
     <app-input
       class="category-management-edit__input"
       name="updateCategory"
@@ -24,6 +25,7 @@
       :value="updateCategoryName"
       v-validate="'required'"
       :error-messages="errors.collect('updateCategory')"
+      @updateValue="$emit('updateValue', $event)"
     />
     <app-button
       class="category-management-edit__submit"
@@ -76,6 +78,7 @@ export default {
       type: String,
       default: '',      
     },
+    // 初期段階のカテゴリー名を表示する値の受け取り
     updateCategoryName: {
       type: String,
       default: '',
