@@ -27,12 +27,14 @@
       {{ buttonText }}
     </app-button>
 
-    <div class="category-management-edit__notice">
-      <app-text bg-error>ここにエラー時のメッセージが入ります</app-text>
+    <!-- v-ifで分岐させないと表示が残る -->
+    <div v-if="errorMessage" class="category-management-edit__notice">
+      <app-text bg-error>{{ errorMessage }}</app-text>
     </div>
 
-    <div class="category-management-edit__notice">
-      <app-text bg-success>ここに更新成功時のメッセージが入ります</app-text>
+    <!-- v-ifで分岐 -->
+    <div v-if="doneMessage" class="category-management-edit__notice">
+      <app-text bg-success>{{ doneMessage }}</app-text>
     </div>
   </form>
 </template>
@@ -57,6 +59,15 @@ export default {
     access: {
       type: Object,
       default: () => ({}),
+    },
+    // 成功時,エラー時のメッセージの受け取り
+    doneMessage: {
+      type: String,
+      default: '',
+    },
+    errorMessage: {
+      type: String,
+      default: '',      
     },
   },
   computed: {
