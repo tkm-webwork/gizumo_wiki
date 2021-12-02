@@ -11,13 +11,19 @@
     >
       カテゴリー一覧へ戻る
     </app-router-link>
+    <!-- v-validateはシングルクォートで囲んで文字列であると伝える必要がある -->
+    <!-- data-vv-asで項目名を日本語で表示させる -->
+    <!-- errorMessagesと紐付け -->
+    <!-- 多分fieldNameはname属性と同じで動作するはず -->
     <app-input
       class="category-management-edit__input"
       name="updateCategory"
       type="text"
       placeholder="カテゴリー名を入力してください"
-      data-vv-as=""
+      data-vv-as="カテゴリー名"
       :value="updateCategoryName"
+      v-validate="'required'"
+      :error-messages="errors.collect('updateCategory')"
     />
     <app-button
       class="category-management-edit__submit"
