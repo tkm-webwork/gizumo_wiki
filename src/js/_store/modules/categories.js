@@ -72,6 +72,19 @@ export default {
         });
       });
     },
+    // 初期状態でカテゴリー名を取得
+    getCategoryDetail({ commit, rootGetters }, { id }) {
+      axios(rootGetters['auth/token'])({
+        method: 'GET',
+        url: `/category/${id}`,
+      }).then( response => {
+        // id,name情報が入っているobjectをpayloadに代入
+        const payload = response.data.category;
+        commit('getCategoryDetail', payload);
+      }).catch( err => {
+        commit('failFetchCategory', { message: err.message });
+      });
+    },
   },
   mutations: {
     clearMessage(state) {
@@ -100,5 +113,9 @@ export default {
     addCategory(state) {
       state.doneMessage = 'カテゴリーの追加が完了しました';
     },
+    // 初期状態でカテゴリー名の取得
+    getCategoryDetail(state , payload) {
+      state.updateCategoryName = payload.name;
+    }
   },
 };

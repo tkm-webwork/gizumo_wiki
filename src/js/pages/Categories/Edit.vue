@@ -6,6 +6,7 @@
       @clearMessage="clearMessage"
       :done-message="doneMessage"
       :error-message="errorMessage"
+      :update-category-name="updateCategoryName"
     />
   </div>
 </template>
@@ -30,7 +31,17 @@ export default {
     },
     errorMessage() {
       return this.$store.state.categories.errorMessage;
+    },
+    updateCategoryName() {
+      return this.$store.state.categories.updateCategoryName;
     }
+  },
+  // 更新対象の情報の取得
+  // created段階で実行
+  created() {
+    const { id } = this.$route.params;
+    this.$store.dispatch('categories/getCategoryDetail', { id });
+    this.$store.dispatch('categories/clearMessage');
   },
   methods: {
     clearMessage() {
