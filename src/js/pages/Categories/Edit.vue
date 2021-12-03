@@ -8,6 +8,7 @@
       :error-message="errorMessage"
       :update-category-name="updateCategoryName"
       @updateValue="updateValue"
+      @handleSubmit="handleSubmit"
     />
   </div>
 </template>
@@ -36,7 +37,7 @@ export default {
     // 元々のカテゴリー名
     updateCategoryName() {
       return this.$store.state.categories.updateCategoryName;
-    }
+    },
   },
   // 更新対象の情報の取得
   // created段階で実行
@@ -51,7 +52,11 @@ export default {
     },
     // valueの書き換え
     updateValue($event) {
-      this.$store.dispatch('categories/changeCategoryName', $event.target.value)
+      this.$store.dispatch('categories/changeCategoryName', $event.target.value);
+    },
+    // 送信ボタンを押した時に変更したvalueを保存する
+    handleSubmit() {
+      this.$store.dispatch('categories/updateCategory');
     },
   },
 };

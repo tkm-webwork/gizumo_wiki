@@ -89,6 +89,25 @@ export default {
     changeCategoryName({ commit }, categoryName) {
       commit('changeCategoryName', categoryName);
     },
+    // 変更したvalueの保存
+    updateCategory({ commit, rootGetters }) {
+      commit('toggleLoading');
+      const data = new URLSearchParams();
+      data.append('name', this.state.categories.updateCategoryName);
+      data.append('id', this.state.categories.updateCategoryId);
+      axios(rootGetters['auth/token'])({
+        method: 'PUT',
+        url: `/category/${this.state.categories.updateCategoryId}`,
+        data,
+      }).then( response => {
+        const payload = response.data.category;
+        commit('updateCategory', payload);
+        commit('toggleLoading');
+      }).catch( err => {
+        commit('failFetchCategory', { message: err.message });
+        commit('toggleLoading');
+      });
+    },
   },
   mutations: {
     clearMessage(state) {
@@ -118,12 +137,19 @@ export default {
       state.doneMessage = 'カテゴリーの追加が完了しました';
     },
     // 初期状態でカテゴリー名の取得
-    getCategoryDetail(state , payload) {
+    getCategoryDetail(state, payload) {
       state.updateCategoryName = payload.name;
+      state.updateCategoryId = payload.id;
     },
     // valueの書き換え
     changeCategoryName(state, categoryName) {
       state.updateCategoryName = categoryName;
+    },
+    // 変更したvalueの保存
+    updateCategory(state, payload) {
+      state.updateCategoryName = payload.name;
+      state.updateCategoryId = payload.id;
+      state.doneMessage = 'カテゴリーの更新が完了しました。';
     },
   },
 };

@@ -76,7 +76,7 @@ export default {
     },
     errorMessage: {
       type: String,
-      default: '',      
+      default: '',
     },
     // 初期段階のカテゴリー名を表示する値の受け取り
     updateCategoryName: {
@@ -95,7 +95,8 @@ export default {
       if (!this.access.edit) return;
       this.$emit('clearMessage');
       this.$validator.validate().then((valid) => {
-        if (valid) this.$emit('エミットするイベント名が入ります');
+        // ボタンを押した際にバリデートが走る
+        if (valid) this.$emit('handleSubmit');
       });
     },
   },
