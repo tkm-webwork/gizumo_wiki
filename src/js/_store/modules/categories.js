@@ -103,6 +103,10 @@ export default {
         commit('toggleLoading');
       });
     },
+    // 削除対象ののカテゴリーを取得
+    getDeleteCategory({ commit }, { deleteCategoryName , deleteCategoryId }) {
+      commit('getDeleteCategory' , { deleteCategoryName , deleteCategoryId });
+    },
   },
   mutations: {
     clearMessage(state) {
@@ -141,6 +145,10 @@ export default {
       state.updateCategoryName = payload.name;
       state.updateCategoryId = payload.id;
       state.doneMessage = 'カテゴリーの更新が完了しました。';
+    },
+    getDeleteCategory(state, { deleteCategoryName , deleteCategoryId }) {
+      state.deleteCategoryName = deleteCategoryName;
+      state.deleteCategoryId = deleteCategoryId;
     },
   },
 };

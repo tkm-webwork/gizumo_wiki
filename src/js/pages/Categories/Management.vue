@@ -2,6 +2,7 @@
   <div class="category-management">
     <section class="category-management-post">
       <!-- formのaddCategoryのemitによってhandleSubmitを追加 -->
+      <!-- handleSubmitからaddCategoryに変更 -->
       <app-category-post
         :category="category"
         :disabled="loading ? true : false"
@@ -10,7 +11,7 @@
         :access="access"
         @udpateValue="updateValue"
         @clearMessage="clearMessage"
-        @handleSubmit="handleSubmit"
+        @handleSubmit="addCategory"
       />
     </section>
     <section class="category-management-list">
@@ -20,6 +21,7 @@
         :delete-category-name="deleteCategoryName"
         :access="access"
         @openModal="openModal"
+        @handleClick="deleteCategory"
       />
     </section>
   </div>
@@ -75,17 +77,25 @@ export default {
     clearMessage() {
       this.$store.dispatch('categories/clearMessage');
     },
-    openModal() {
+    openModal(deleteCategoryName , deleteCategoryId) {
       this.toggleModal();
       this.$store.dispatch('categories/clearMessage');
+      this.$store.dispatch('categories/getDeleteCategory', { deleteCategoryName , deleteCategoryId });
     },
-    handleSubmit() {
+    addCategory() {
       this.$store.dispatch('categories/addCategory', this.category)
-        .then(() => {
-          this.category = '';
-          this.$store.dispatch('categories/getAllCategories');
-        });
+      .then(() => {
+        this.category = '';
+        this.$store.dispatch('categories/getAllCategories');
+      });
     },
+    deleteCategory() {
+      this.$store.dispatch('categories/deleteCategory',this.deleteCategoryId)
+      .then(() => {
+        this.$store.dispatch('categories/getAllCategories');
+      });
+      this.toggleModal();
+    }
   },
 };
 </script>
